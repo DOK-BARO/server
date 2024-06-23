@@ -17,11 +17,6 @@ spring:
         url: ${MYSQL_URL}
         username: ${MYSQL_USER}
         password: ${MYSQL_PASSWORD}
-    jpa:
-        generate-ddl: false
-        hibernate:
-            ddl-auto: validate
-        open-in-view: false
 
     security:
         allow-origins: ${CLIENT_URL}
