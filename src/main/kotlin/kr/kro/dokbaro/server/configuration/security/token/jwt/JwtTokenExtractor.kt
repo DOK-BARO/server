@@ -20,7 +20,8 @@ class JwtTokenExtractor(
 	}
 
 	private fun parseClaims(token: String): Claims =
-		Jwts.parser()
+		Jwts
+			.parser()
 			.verifyWith(key as SecretKey)
 			.build()
 			.parseSignedClaims(token)

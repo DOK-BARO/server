@@ -30,12 +30,11 @@ class SecurityConfig(
 	private val authorizationFilter: TokenBasedAuthorizationFilter,
 ) {
 	@Bean
-	fun configure(http: HttpSecurity): SecurityFilterChain {
-		return http
+	fun configure(http: HttpSecurity): SecurityFilterChain =
+		http
 			.authorizeHttpRequests {
 				it.anyRequest().permitAll()
-			}
-			.oauth2Login {
+			}.oauth2Login {
 				it.authorizationEndpoint { conf ->
 					conf.baseUri("/auth/login")
 				}
@@ -43,21 +42,17 @@ class SecurityConfig(
 				it.userInfoEndpoint { conf ->
 					conf.userService(oAuth2UserService)
 				}
-			}
-			.sessionManagement {
+			}.sessionManagement {
 				it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			}
-			.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
+			}.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
 			.logout {
 				it.logoutUrl("/logout")
 				it.logoutSuccessHandler(logoutSuccessHandler())
-			}
-			.cors { it.configurationSource(corsConfig()) }
+			}.cors { it.configurationSource(corsConfig()) }
 			.csrf { it.disable() }
 			.formLogin { it.disable() }
 			.httpBasic { it.disable() }
 			.build()
-	}
 
 	@Bean
 	fun corsConfig(): CorsConfigurationSource {

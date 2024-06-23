@@ -14,15 +14,16 @@ class JwtTokenGenerator(
 		return compact(claims)
 	}
 
-	private fun mapToClaims(claim: TokenClaims): Claims {
-		return Jwts.claims()
+	private fun mapToClaims(claim: TokenClaims): Claims =
+		Jwts
+			.claims()
 			.add("id", claim.id)
 			.add("role", claim.role)
 			.build()
-	}
 
 	private fun compact(claims: Claims): String =
-		Jwts.builder()
+		Jwts
+			.builder()
 			.claims(claims)
 			.signWith(key)
 			.compact()

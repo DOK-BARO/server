@@ -15,7 +15,7 @@ class TestcontainersConfiguration {
 		container.withDatabaseName("mydatabase")
 		container.withUsername("root")
 		container.withPassword("verysecret")
-		
+
 		return container
 	}
 }

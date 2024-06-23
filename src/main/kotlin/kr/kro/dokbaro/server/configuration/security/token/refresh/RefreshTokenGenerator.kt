@@ -5,7 +5,5 @@ import kr.kro.dokbaro.server.configuration.security.token.TokenGenerator
 import java.util.UUID
 
 class RefreshTokenGenerator : TokenGenerator {
-	override fun generate(token: TokenClaims): String {
-		return UUID.randomUUID().toString()
-	}
+	override fun generate(token: TokenClaims): String = UUID.randomUUID().toString()
 }

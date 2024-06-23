@@ -16,7 +16,8 @@ import org.springframework.stereotype.Component
 class OAuth2SuccessHandler(
 	private val findOneAccountQuery: FindOneAccountQuery,
 	private val authTokenGenerator: AuthTokenGenerator,
-) : AbstractAuthenticationTargetUrlRequestHandler(), AuthenticationSuccessHandler {
+) : AbstractAuthenticationTargetUrlRequestHandler(),
+	AuthenticationSuccessHandler {
 	override fun onAuthenticationSuccess(
 		request: HttpServletRequest,
 		response: HttpServletResponse,
