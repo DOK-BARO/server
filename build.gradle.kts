@@ -1,6 +1,9 @@
 import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 import kotlinx.kover.gradle.plugin.dsl.GroupingEntityType
+import org.jooq.meta.jaxb.ForcedType
+import org.jooq.meta.jaxb.Generate
+import org.jooq.meta.jaxb.Strategy
 
 val jooqVersion: String by rootProject
 val jjwtVersion: String by rootProject
@@ -48,6 +51,12 @@ dependencies {
 
 	// jooq
 	implementation("org.springframework.boot:spring-boot-starter-jooq")
+	jooqCodegen(project(":jooq-configuration"))
+	jooqCodegen("org.jooq:jooq:$jooqVersion")
+	jooqCodegen("org.jooq:jooq-meta:$jooqVersion")
+	jooqCodegen("org.jooq:jooq-codegen:$jooqVersion")
+	jooqCodegen("org.flywaydb:flyway-core:10.8.1")
+	jooqCodegen("org.flywaydb:flyway-mysql:10.8.1")
 
 	// kotlin
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -148,6 +157,83 @@ kover {
 					aggregationForGroup = AggregationType.COVERED_PERCENTAGE
 				}
 			}
+		}
+	}
+}
+
+kotlin {
+	compilerOptions {
+		freeCompilerArgs.addAll("-Xjsr305=strict")
+	}
+}
+
+val dbUser: String = System.getProperty("db-user") ?: "root"
+val dbPassword: String = System.getProperty("db-passwd") ?: "verysecret"
+val schema: String = System.getProperty("db-schema") ?: "mydatabase"
+
+sourceSets {
+	main {
+		kotlin {
+			srcDirs(listOf("src/main/kotlin", "src/generated"))
+		}
+	}
+}
+
+jooq {
+	version = jooqVersion
+	withContainer {
+		image {
+			name = "mysql:8.0.33"
+			envVars =
+				mapOf(
+					"MYSQL_ROOT_PASSWORD" to dbPassword,
+					"MYSQL_DATABASE" to schema,
+				)
+		}
+
+		db {
+			username = dbUser
+			password = dbPassword
+			name = schema
+			port = 3306
+			jdbc {
+				schema = "jdbc:mysql"
+				driverClassName = "com.mysql.cj.jdbc.Driver"
+			}
+		}
+	}
+}
+
+tasks {
+	generateJooqClasses {
+		schemas.set(listOf(schema))
+		outputDirectory.set(project.layout.projectDirectory.dir("src/generated"))
+		includeFlywayTable.set(false)
+
+		usingJavaConfig {
+			generate =
+				Generate()
+					.withJavaTimeTypes(true)
+					.withDeprecated(false)
+					.withDaos(true)
+					.withFluentSetters(true)
+					.withRecords(true)
+
+			withStrategy(
+				Strategy().withName("jooq.configuration.generator.JPrefixGeneratorStrategy"),
+			)
+
+			database.withForcedTypes(
+				ForcedType()
+					.withTypes("int unsigned")
+					.withUserType("java.lang.Long"),
+				ForcedType()
+					.withTypes("tinyint unsigned")
+					.withUserType("java.lang.Integer"),
+				ForcedType()
+					.withTypes("smallint unsigned")
+					.withUserType("java.lang.Integer"),
+			)
 		}
 	}
 }
