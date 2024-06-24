@@ -1,3 +1,11 @@
 package kr.kro.dokbaro.server.domain.account.model
 
-class Account
+import java.time.LocalDateTime
+
+class Account(
+	val id: String,
+	val socialId: String,
+	val provider: Provider,
+	val roles: Set<Role>,
+	val registeredAt: LocalDateTime,
+)
