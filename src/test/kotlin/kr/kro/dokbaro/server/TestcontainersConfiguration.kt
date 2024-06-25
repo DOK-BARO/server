@@ -8,11 +8,14 @@ import org.testcontainers.utility.DockerImageName
 
 @TestConfiguration(proxyBeanMethods = false)
 class TestcontainersConfiguration {
+	@Bean
+	@ServiceConnection
+	fun mysqlContainer(): MySQLContainer<*> {
+		val container = MySQLContainer(DockerImageName.parse("mysql:latest"))
+		container.withDatabaseName("mydatabase")
+		container.withUsername("root")
+		container.withPassword("verysecret")
 
-    @Bean
-    @ServiceConnection
-    fun mysqlContainer(): MySQLContainer<*> {
-        return MySQLContainer(DockerImageName.parse("mysql:latest"))
-    }
-
+		return container
+	}
 }
