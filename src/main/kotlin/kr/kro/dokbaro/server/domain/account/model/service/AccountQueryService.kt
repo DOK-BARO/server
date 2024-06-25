@@ -11,7 +11,7 @@ class AccountQueryService(
 	private val loadAccountPort: LoadAccountPort,
 ) : FindOneAccountQuery {
 	override fun getBy(socialId: String): AccountResponse {
-		val account: Account = loadAccountPort.findBy(socialId) ?: throw AccountNotFoundException()
+		val account: Account = loadAccountPort.findBy(socialId) ?: throw NotFoundAccountException()
 
 		return AccountResponse(account)
 	}
