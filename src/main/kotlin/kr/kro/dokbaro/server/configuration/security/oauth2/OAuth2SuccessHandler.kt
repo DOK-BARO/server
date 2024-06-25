@@ -23,7 +23,7 @@ class OAuth2SuccessHandler(
 		response: HttpServletResponse,
 		authentication: Authentication,
 	) {
-		val authMember = findOneAccountQuery.findBy(authentication.name)
+		val authMember = findOneAccountQuery.getBy(authentication.name)
 		val token: AuthTokens = authTokenGenerator.generate(TokenClaims(authMember.id.toString(), authMember.role))
 		response.addCookie(compactCookie("Authorization", token.accessToken))
 		response.addCookie(compactCookie("Refresh", token.refreshToken))

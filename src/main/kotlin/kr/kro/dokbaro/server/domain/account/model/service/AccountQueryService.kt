@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class AccountQueryService(
 	private val loadAccountPort: LoadAccountPort,
 ) : FindOneAccountQuery {
-	override fun findBy(socialId: String): AccountResponse {
+	override fun getBy(socialId: String): AccountResponse {
 		val account: Account = loadAccountPort.findBy(socialId) ?: throw AccountNotFoundException()
 
 		return AccountResponse(account)
