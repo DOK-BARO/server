@@ -3,4 +3,4 @@ package kr.kro.dokbaro.server.domain.account.port.output
 import kr.kro.dokbaro.server.domain.account.model.Account
 import kr.kro.dokbaro.server.template.port.SavePort
 
-interface SaveAccountPort : SavePort<Account, Unit>
+interface SaveAccountPort : SavePort<Account, Long>

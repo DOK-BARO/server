@@ -28,11 +28,12 @@ class AccountCommandRepository(
 					.where(ACCOUNT.SOCIAL_ID.eq(socialId)),
 			)
 
-	override fun save(account: Account) {
+	override fun save(account: Account): Long {
 		val accountId: Long =
 			insertAccount(account)
-
 		insertRoles(account.roles, accountId)
+
+		return accountId
 	}
 
 	private fun insertAccount(account: Account) =

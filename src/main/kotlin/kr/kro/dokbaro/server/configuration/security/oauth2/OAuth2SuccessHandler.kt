@@ -24,7 +24,7 @@ class OAuth2SuccessHandler(
 		authentication: Authentication,
 	) {
 		val authMember = findOneAccountQuery.findBy(authentication.name)
-		val token: AuthTokens = authTokenGenerator.generate(TokenClaims(authMember.id, authMember.role))
+		val token: AuthTokens = authTokenGenerator.generate(TokenClaims(authMember.id.toString(), authMember.role))
 		response.addCookie(compactCookie("Authorization", token.accessToken))
 		response.addCookie(compactCookie("Refresh", token.refreshToken))
 		val redirectUrl = request.getHeader("referer")
