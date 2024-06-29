@@ -11,7 +11,7 @@ class Account(
 	val registeredAt: LocalDateTime,
 ) {
 	companion object {
-		private val UNSAVED_ACCOUNT_ID = -100L
+		private val UNSAVED_ACCOUNT_ID = 0L
 
 		fun init(
 			socialId: String,

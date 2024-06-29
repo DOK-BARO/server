@@ -46,3 +46,9 @@ spring:
 
 jwt:
     key: asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
+login:
+    success:
+        redirect-url: http://localhost:5173/login-success
+    cookie:
+        access-token-key: Authorization
+        refresh-token-key: Refresh
