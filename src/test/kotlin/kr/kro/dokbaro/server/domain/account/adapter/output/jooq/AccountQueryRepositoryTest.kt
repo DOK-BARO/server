@@ -4,7 +4,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.shouldBe
-import kr.kro.dokbaro.server.TestcontainersConfiguration
+import kr.kro.dokbaro.server.configuration.TestcontainersConfiguration
 import kr.kro.dokbaro.server.domain.account.model.Account
 import kr.kro.dokbaro.server.domain.account.model.Provider
 import org.springframework.boot.test.context.SpringBootTest

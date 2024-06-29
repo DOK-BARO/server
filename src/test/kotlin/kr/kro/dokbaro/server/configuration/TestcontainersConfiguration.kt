@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server
+package kr.kro.dokbaro.server.configuration
 
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection

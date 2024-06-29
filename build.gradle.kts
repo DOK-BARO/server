@@ -12,6 +12,10 @@ val kotestExtensionVersion: String by rootProject
 val mokkVersion: String by rootProject
 val springMockkVersion: String by rootProject
 
+configurations {
+	create("asciidoctorExt")
+}
+
 plugins {
 	id("org.springframework.boot") version "3.3.0"
 	id("io.spring.dependency-management") version "1.1.5"
@@ -78,9 +82,12 @@ dependencies {
 
 	// test
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	// restdocs
+	"asciidoctorExt"("org.springframework.restdocs:spring-restdocs-asciidoctor")
+	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 
 	// kotest
 	testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
@@ -112,8 +119,24 @@ tasks.test {
 }
 
 tasks.asciidoctor {
+	configurations("asciidoctorExt")
+	baseDirFollowsSourceFile()
 	inputs.dir(project.extra["snippetsDir"]!!)
 	dependsOn(tasks.test)
+
+	doFirst {
+		delete(file("src/main/resources/static/docs"))
+	}
+}
+
+tasks.register<Copy>("copyDocument") {
+	dependsOn(tasks.named("asciidoctor"))
+	from(file("build/docs/asciidoc"))
+	into(file("src/main/resources/static/docs"))
+}
+
+tasks.build {
+	dependsOn(tasks.named("copyDocument"))
 }
 
 jib {
