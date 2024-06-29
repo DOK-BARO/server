@@ -9,4 +9,6 @@ endif::[]
 :sectlinks:
 = DOK BARO
 
+include::auth.adoc[]
+
 include::account.adoc[]

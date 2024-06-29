@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>DOK BARO</title>
+<title>소셜 로그인</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -435,63 +435,29 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
-<body class="book toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>DOK BARO</h1>
+<h1>소셜 로그인</h1>
 <div class="details">
 <span id="revnumber">version 3.19.5</span>
 </div>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel0">
-<li><a href="#_소셜_로그인">소셜 로그인</a>
-<ul class="sectlevel1">
-<li><a href="#_kakao">KAKAO</a>
-<ul class="sectlevel2">
-<li><a href="#_http_request">HTTP request</a></li>
-<li><a href="#_http_response">HTTP response</a></li>
-</ul>
-</li>
-<li><a href="#_google">GOOGLE</a>
-<ul class="sectlevel2">
-<li><a href="#_http_request_2">HTTP request</a></li>
-<li><a href="#_http_response_2">HTTP response</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#_account">ACCOUNT</a>
-<ul class="sectlevel1">
-<li><a href="#_회원_탈퇴">회원 탈퇴</a>
-<ul class="sectlevel2">
-<li><a href="#_http_request_3">HTTP request</a></li>
-<li><a href="#_http_response_3">HTTP response</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
 </div>
 <div id="content">
-<h1 id="_소셜_로그인" class="sect0"><a class="link" href="#_소셜_로그인">소셜 로그인</a></h1>
 <div class="sect1">
-<h2 id="_kakao"><a class="link" href="#_kakao">KAKAO</a></h2>
+<h2 id="_kakao">KAKAO</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request"><a class="link" href="#_http_request">HTTP request</a></h3>
+<h3 id="_http_request">HTTP request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /auth/login/kakao HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /auth/login/kakao HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_http_response"><a class="link" href="#_http_response">HTTP response</a></h3>
+<h3 id="_http_response">HTTP response</h3>
 <div class="listingblock">
 <div class="content">
 <pre>HTTP/1.1 302 Found
@@ -511,19 +477,19 @@ X-Frame-Options: DENY</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_google"><a class="link" href="#_google">GOOGLE</a></h2>
+<h2 id="_google">GOOGLE</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP request</a></h3>
+<h3 id="_http_request_2">HTTP request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /auth/login/google HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /auth/login/google HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_http_response_2"><a class="link" href="#_http_response_2">HTTP response</a></h3>
+<h3 id="_http_response_2">HTTP response</h3>
 <div class="listingblock">
 <div class="content">
 <pre>HTTP/1.1 200 OK
@@ -542,58 +508,12 @@ X-Frame-Options: DENY</pre>
 </div>
 </div>
 </div>
-<h1 id="_account" class="sect0"><a class="link" href="#_account">ACCOUNT</a></h1>
-<div class="sect1">
-<h2 id="_회원_탈퇴"><a class="link" href="#_회원_탈퇴">회원 탈퇴</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP request</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/cancel HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_http_response_3"><a class="link" href="#_http_response_3">HTTP response</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 501 Not Implemented
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 35
-
-{
-  "message" : "NOT IMPLEMENTED"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-06-29 23:02:37 +0900
+Last updated 2024-06-29 23:02:22 +0900
 </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
-<script>
-if (!hljs.initHighlighting.called) {
-  hljs.initHighlighting.called = true
-  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
-}
-</script>
 </body>
 </html>
