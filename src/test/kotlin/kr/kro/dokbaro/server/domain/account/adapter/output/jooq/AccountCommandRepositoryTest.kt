@@ -5,7 +5,7 @@ import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kr.kro.dokbaro.server.TestcontainersConfiguration
+import kr.kro.dokbaro.server.configuration.TestcontainersConfiguration
 import kr.kro.dokbaro.server.domain.account.model.Account
 import kr.kro.dokbaro.server.domain.account.model.Provider
 import org.jooq.Configuration
