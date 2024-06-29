@@ -143,18 +143,22 @@ kover {
 			}
 			excludes {
 				classes("**.ServerApplicationKt")
-				classes("**.**Config")
-				classes("**.**Handler")
-				classes("**.**Filter")
+				classes("org.jooq.generated.**")
+				classes("kr.kro.dokbaro.server.configuration.**")
 			}
 		}
 		verify {
 			rule {
 				disabled = true
-				groupBy = GroupingEntityType.APPLICATION
+				groupBy = GroupingEntityType.CLASS
 				bound {
-					minValue = 0
-					coverageUnits = CoverageUnit.LINE
+					minValue = 90
+					coverageUnits = CoverageUnit.INSTRUCTION
+					aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+				}
+				bound {
+					minValue = 90
+					coverageUnits = CoverageUnit.BRANCH
 					aggregationForGroup = AggregationType.COVERED_PERCENTAGE
 				}
 			}
