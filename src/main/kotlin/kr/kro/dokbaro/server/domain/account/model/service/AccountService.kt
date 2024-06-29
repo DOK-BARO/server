@@ -2,6 +2,7 @@ package kr.kro.dokbaro.server.domain.account.model.service
 
 import kr.kro.dokbaro.server.domain.account.model.Account
 import kr.kro.dokbaro.server.domain.account.model.Provider
+import kr.kro.dokbaro.server.domain.account.port.input.command.DisableAccountUseCase
 import kr.kro.dokbaro.server.domain.account.port.input.command.RegisterAccountUseCase
 import kr.kro.dokbaro.server.domain.account.port.input.command.dto.RegisterAccountCommand
 import kr.kro.dokbaro.server.domain.account.port.output.ExistAccountPort
@@ -14,7 +15,8 @@ class AccountService(
 	private val existAccountPort: ExistAccountPort,
 	private val saveAccountPort: SaveAccountPort,
 	private val clock: Clock,
-) : RegisterAccountUseCase {
+) : RegisterAccountUseCase,
+	DisableAccountUseCase {
 	override fun registerIfNew(command: RegisterAccountCommand) {
 		if (existAccountPort.notExistBy(command.socialId)) {
 			saveAccountPort.save(

@@ -1,0 +1,11 @@
+= ACCOUNT
+
+== 회원 탈퇴
+
+=== HTTP request
+
+include::{snippets}/account/cancel-account/http-request.adoc[]
+
+=== HTTP response
+
+include::{snippets}/account/cancel-account/http-response.adoc[]
