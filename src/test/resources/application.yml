@@ -31,3 +31,9 @@ spring:
                         user-name-attribute: id
 jwt:
     key: asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
+login:
+    success:
+        redirect-url: http://localhost:5173/login-success
+    cookie:
+        access-token-key: Authorization
+        refresh-token-key: Refresh
