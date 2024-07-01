@@ -11,6 +11,7 @@ val kotestVersion: String by rootProject
 val kotestExtensionVersion: String by rootProject
 val mokkVersion: String by rootProject
 val springMockkVersion: String by rootProject
+val logbackVersion: String by rootProject
 
 configurations {
 	create("asciidoctorExt")
@@ -52,6 +53,7 @@ dependencies {
 	// monitoring
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+	implementation("com.github.loki4j:loki-logback-appender:$logbackVersion")
 
 	// jooq
 	implementation("org.springframework.boot:spring-boot-starter-jooq")
