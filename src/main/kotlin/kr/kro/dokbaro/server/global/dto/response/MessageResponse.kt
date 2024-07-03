@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.template.dto.response
+package kr.kro.dokbaro.server.global.dto.response
 
 data class MessageResponse(
 	val message: String,
