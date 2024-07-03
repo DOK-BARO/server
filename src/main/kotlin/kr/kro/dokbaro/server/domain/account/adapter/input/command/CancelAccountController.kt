@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.domain.account.adapter.input.command
 
 import kr.kro.dokbaro.server.domain.account.port.input.command.DisableAccountUseCase
-import kr.kro.dokbaro.server.template.dto.response.MessageResponse
+import kr.kro.dokbaro.server.global.dto.response.MessageResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
