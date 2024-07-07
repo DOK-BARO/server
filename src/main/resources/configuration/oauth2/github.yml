@@ -7,5 +7,5 @@ spring:
                         client-id: ${GITHUB_CLIENT_ID:secretsecret}
                         client-secret: ${GITHUB_CLIENT_SECRET:secretsecret}
                         client-name: Github
-                        redirect-uri: https://{baseHost}{basePort}{basePath}/login/oauth2/code/{registrationId}
+                        redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
                         authorization-grant-type: authorization_code

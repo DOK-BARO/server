@@ -11,7 +11,7 @@ spring:
                         scope: # https://developers.kakao.com/docs/latest/ko/kakaologin/common#user-info
                             - profile_nickname
                             - profile_image
-                        redirect-uri: https://{baseHost}{basePort}{basePath}/login/oauth2/code/{registrationId}
+                        redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
                         client-name: Kakao
                 provider:
                     kakao:
