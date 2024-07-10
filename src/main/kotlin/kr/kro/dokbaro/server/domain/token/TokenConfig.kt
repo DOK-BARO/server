@@ -1,10 +1,11 @@
-package kr.kro.dokbaro.server.configuration.security.token
+package kr.kro.dokbaro.server.domain.token
 
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
-import kr.kro.dokbaro.server.configuration.security.token.jwt.JwtTokenExtractor
-import kr.kro.dokbaro.server.configuration.security.token.jwt.JwtTokenGenerator
-import kr.kro.dokbaro.server.configuration.security.token.refresh.RefreshTokenGenerator
+import kr.kro.dokbaro.server.configuration.security.TokenBasedAuthorizationFilter
+import kr.kro.dokbaro.server.domain.token.jwt.JwtTokenExtractor
+import kr.kro.dokbaro.server.domain.token.jwt.JwtTokenGenerator
+import kr.kro.dokbaro.server.domain.token.refresh.RefreshTokenGenerator
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -20,10 +21,13 @@ class TokenConfig {
 		)
 
 	@Bean
-	fun tokenBasedAuthorizationFilter(key: Key) =
-		TokenBasedAuthorizationFilter(
-			JwtTokenExtractor(key),
-		)
+	fun tokenBasedAuthorizationFilter(
+		key: Key,
+		@Value("\${login.cookie.access-token-key}") accessTokenKey: String,
+	) = TokenBasedAuthorizationFilter(
+		JwtTokenExtractor(key),
+		accessTokenKey,
+	)
 
 	@Bean
 	fun key(

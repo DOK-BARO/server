@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.configuration.security.token
+package kr.kro.dokbaro.server.domain.token
 
 class AuthTokenGenerator(
 	private val accessTokenGenerator: TokenGenerator,

@@ -1,22 +1,21 @@
-package kr.kro.dokbaro.server.configuration.security.token.jwt
+package kr.kro.dokbaro.server.domain.token.jwt
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import kr.kro.dokbaro.server.configuration.security.token.TokenClaims
-import kr.kro.dokbaro.server.configuration.security.token.TokenExtractor
+import kr.kro.dokbaro.server.domain.token.TokenClaims
+import kr.kro.dokbaro.server.domain.token.TokenExtractor
 import java.security.Key
 import javax.crypto.SecretKey
 
 class JwtTokenExtractor(
 	private val key: Key,
 ) : TokenExtractor {
-	@Suppress("UNCHECKED_CAST")
 	override fun extract(token: String): TokenClaims {
 		val claims: Claims = parseClaims(token)
-		return TokenClaims(
-			claims["id", String::class.java],
-			claims["role", ArrayList::class.java] as ArrayList<String>,
-		)
+		val attributes: Map<String, Any> =
+			claims.mapValues { it.value.javaClass }
+
+		return TokenClaims.from(attributes)
 	}
 
 	private fun parseClaims(token: String): Claims =

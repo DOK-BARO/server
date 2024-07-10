@@ -1,9 +1,9 @@
-package kr.kro.dokbaro.server.configuration.security.token.jwt
+package kr.kro.dokbaro.server.domain.token.jwt
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import kr.kro.dokbaro.server.configuration.security.token.TokenClaims
-import kr.kro.dokbaro.server.configuration.security.token.TokenGenerator
+import kr.kro.dokbaro.server.domain.token.TokenClaims
+import kr.kro.dokbaro.server.domain.token.TokenGenerator
 import java.security.Key
 
 class JwtTokenGenerator(

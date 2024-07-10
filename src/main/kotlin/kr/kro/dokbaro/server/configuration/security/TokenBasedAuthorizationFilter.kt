@@ -1,14 +1,16 @@
-package kr.kro.dokbaro.server.configuration.security.token
+package kr.kro.dokbaro.server.configuration.security
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import kr.kro.dokbaro.server.configuration.security.AuthenticationToken
+import kr.kro.dokbaro.server.domain.token.TokenClaims
+import kr.kro.dokbaro.server.domain.token.TokenExtractor
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
 
 class TokenBasedAuthorizationFilter(
 	private val tokenExtractor: TokenExtractor,
+	private val accessTokenKey: String,
 ) : OncePerRequestFilter() {
 	override fun doFilterInternal(
 		request: HttpServletRequest,
@@ -26,7 +28,7 @@ class TokenBasedAuthorizationFilter(
 
 	private fun getAccessToken(request: HttpServletRequest) =
 		request.cookies
-			?.filter { it.name == "Authorization" }
+			?.filter { it.name == accessTokenKey }
 			?.map { it.value }
 			?.firstOrNull()
 }
