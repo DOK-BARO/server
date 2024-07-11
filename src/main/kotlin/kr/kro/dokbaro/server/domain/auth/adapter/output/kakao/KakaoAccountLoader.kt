@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.domain.auth.adapter.output.kakao
 
 import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.KakaoResourceClient
+import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.provideraccount.KakaoAccount
 import kr.kro.dokbaro.server.domain.auth.model.service.oauth2.ProviderAccount
 import kr.kro.dokbaro.server.domain.auth.port.output.LoadProviderAccountPort
 import org.springframework.beans.factory.annotation.Value
@@ -15,8 +16,13 @@ class KakaoAccountLoader(
 	@Value("\${oauth2.kakao.client.secret}") clientSecret: String,
 ) : LoadProviderAccountPort {
 	override fun getAttributes(accessToken: String): ProviderAccount {
-		resourceClient.getUserProfiles(accessToken)
+		val account: KakaoAccount = resourceClient.getUserProfiles(accessToken)
 
-		TODO()
+		return ProviderAccount(
+			account.id.toString(),
+			account.kakaoAccount.name,
+			account.kakaoAccount.email,
+			account.kakaoAccount.profile.profileImageUrl,
+		)
 	}
 }
