@@ -1,5 +1,7 @@
 package kr.kro.dokbaro.server.domain.account.port.output
 
-import kr.kro.dokbaro.server.global.template.port.ExistPort
+interface ExistAccountPort {
+	fun existBy(socialId: String): Boolean
 
-interface ExistAccountPort : ExistPort<String>
+	fun notExistBy(socialId: String): Boolean = !existBy(socialId)
+}
