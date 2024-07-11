@@ -1,0 +1,16 @@
+oauth2:
+    kakao:
+        client:
+            redirect-uri: http://localhost:5173/oauth2/redirected/kakao
+            id: clientid
+            secret: clientsecret
+            scope: profile_nickname,profile_image
+        provider:
+            grant-type: authorization_code
+            authorization:
+                url: https://kauth.kakao.com
+                redirect-path: /oauth/authorize
+                token-path: /oauth/token
+            resource:
+                url: https://kapi.kakao.com
+                user-info-path: /v2/user/me
