@@ -9,7 +9,6 @@ spring:
             enabled: false
     config:
         import:
-            - classpath:/configuration/auth-response.yml
             - classpath:/configuration/datasource.yml
             - classpath:/configuration/flyway.yml
             - classpath:/configuration/jwt.yml

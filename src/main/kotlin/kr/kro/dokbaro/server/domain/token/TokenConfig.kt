@@ -23,7 +23,7 @@ class TokenConfig {
 	@Bean
 	fun tokenBasedAuthorizationFilter(
 		key: Key,
-		@Value("\${login.cookie.access-token-key}") accessTokenKey: String,
+		@Value("\${jwt.access-header-name}") accessTokenKey: String,
 	) = TokenBasedAuthorizationFilter(
 		JwtTokenExtractor(key),
 		accessTokenKey,
