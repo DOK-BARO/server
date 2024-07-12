@@ -28,7 +28,7 @@ class AccountServiceTest :
 			every { existAccountPort.notExistBy(command.socialId) } returns true
 			every { saveAccountPort.save(any()) } returns 5
 
-			accountService.registerIfNew(command)
+			accountService.register(command)
 
 			verify(exactly = 1) { saveAccountPort.save(any()) }
 		}
@@ -36,7 +36,7 @@ class AccountServiceTest :
 		"이미 있는 회원이면 등록을 진행하지 않는다" {
 			every { existAccountPort.notExistBy(command.socialId) } returns false
 
-			accountService.registerIfNew(command)
+			accountService.register(command)
 
 			verify(exactly = 0) { saveAccountPort.save(any()) }
 		}

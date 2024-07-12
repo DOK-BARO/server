@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.domain.token
+package kr.kro.dokbaro.server.domain.token.model.access.jwt
 
 data class ClaimsAttribute(
 	val name: String,

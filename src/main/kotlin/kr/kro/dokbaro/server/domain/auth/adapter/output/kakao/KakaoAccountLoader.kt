@@ -19,6 +19,7 @@ class KakaoAccountLoader(
 		val account: KakaoAccount = resourceClient.getUserProfiles(accessToken)
 
 		return ProviderAccount(
+			"kakao",
 			account.id.toString(),
 			account.kakaoAccount.name,
 			account.kakaoAccount.email,
