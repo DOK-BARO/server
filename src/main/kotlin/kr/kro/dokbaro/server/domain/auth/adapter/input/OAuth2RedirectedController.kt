@@ -2,9 +2,11 @@ package kr.kro.dokbaro.server.domain.auth.adapter.input
 
 import jakarta.servlet.http.HttpServletResponse
 import kr.kro.dokbaro.server.domain.auth.port.input.FindOAuth2RedirectUriUseCase
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -13,6 +15,7 @@ class OAuth2RedirectedController(
 	private val findOauth2RedirectUriUseCase: FindOAuth2RedirectUriUseCase,
 ) {
 	@GetMapping("/{provider}")
+	@ResponseStatus(HttpStatus.FOUND)
 	fun redirected(
 		@PathVariable provider: String,
 		response: HttpServletResponse,

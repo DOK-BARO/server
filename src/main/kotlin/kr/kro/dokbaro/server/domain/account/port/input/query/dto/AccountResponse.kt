@@ -4,7 +4,7 @@ import kr.kro.dokbaro.server.domain.account.model.Account
 
 data class AccountResponse(
 	val id: Long,
-	val role: Set<String>,
+	val role: Collection<String>,
 	val provider: String,
 ) {
 	constructor(account: Account) :
