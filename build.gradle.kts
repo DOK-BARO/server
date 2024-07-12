@@ -183,7 +183,7 @@ kover {
 		}
 		verify {
 			rule {
-				disabled = true
+				disabled = false
 				groupBy = GroupingEntityType.CLASS
 				bound {
 					minValue = 90
