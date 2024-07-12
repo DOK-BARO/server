@@ -10,12 +10,8 @@ spring:
     config:
         import:
             - classpath:/configuration/actuator.yml
-            - classpath:/configuration/auth-response.yml
             - classpath:/configuration/datasource.yml
             - classpath:/configuration/flyway.yml
             - classpath:/configuration/jwt.yml
             - classpath:/configuration/security.yml
-            - classpath:/configuration/oauth2/github.yml
-            - classpath:/configuration/oauth2/google.yml
             - classpath:/configuration/oauth2/kakao.yml
-            - classpath:/configuration/oauth2/naver.yml

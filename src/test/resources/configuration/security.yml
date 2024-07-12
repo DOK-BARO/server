@@ -1,0 +1,3 @@
+spring:
+    security:
+        allow-origins: http://localhost:5173

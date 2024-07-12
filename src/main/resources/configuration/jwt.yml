@@ -1,2 +1,4 @@
 jwt:
     key: ${JWT_KEY:asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf}
+    access-header-name: Authorization
+
