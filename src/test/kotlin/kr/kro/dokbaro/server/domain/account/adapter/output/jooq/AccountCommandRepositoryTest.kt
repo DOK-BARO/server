@@ -9,25 +9,30 @@ import kr.kro.dokbaro.server.configuration.TestcontainersConfiguration
 import kr.kro.dokbaro.server.domain.account.model.Account
 import kr.kro.dokbaro.server.domain.account.model.Provider
 import org.jooq.Configuration
+import org.jooq.DSLContext
 import org.jooq.generated.tables.daos.AccountDao
 import org.jooq.generated.tables.daos.RoleDao
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.jooq.JooqTest
 import org.springframework.context.annotation.Import
-import org.springframework.transaction.annotation.Transactional
 import java.time.Clock
 
-@SpringBootTest
+@JooqTest
 @Import(TestcontainersConfiguration::class)
-@Transactional
 class AccountCommandRepositoryTest(
-	private val accountCommandRepository: AccountCommandRepository,
+	private val dslContext: DSLContext,
 	private val configuration: Configuration,
 ) : StringSpec({
 		extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
 
+		val accountCommandRepository = AccountCommandRepository(dslContext)
+
 		val clock = Clock.systemUTC()
 		val accountDao = AccountDao(configuration)
 		val roleDao = RoleDao(configuration)
+
+		afterEach {
+			dslContext.rollback()
+		}
 
 		"저장을 수행한다" {
 
@@ -56,9 +61,10 @@ class AccountCommandRepositoryTest(
 				),
 			)
 
-			accountCommandRepository.existBy(socialId) shouldBe true
-			accountCommandRepository.notExistBy(socialId) shouldBe false
-			accountCommandRepository.existBy("qwersdaf") shouldBe false
-			accountCommandRepository.notExistBy("qwersdaf") shouldBe true
+			accountCommandRepository.existBy(socialId, Provider.KAKAO) shouldBe true
+			accountCommandRepository.notExistBy(socialId, Provider.KAKAO) shouldBe false
+			accountCommandRepository.existBy(socialId, Provider.GOOGLE) shouldBe false
+			accountCommandRepository.existBy("qwersdaf", Provider.KAKAO) shouldBe false
+			accountCommandRepository.notExistBy("qwersdaf", Provider.KAKAO) shouldBe true
 		}
 	})
