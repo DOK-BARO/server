@@ -1,15 +1,15 @@
-package kr.kro.dokbaro.server.domain.token.jwt
+package kr.kro.dokbaro.server.domain.token.model.access.jwt
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import kr.kro.dokbaro.server.domain.token.TokenClaims
-import kr.kro.dokbaro.server.domain.token.TokenGenerator
+import org.springframework.stereotype.Component
 import java.security.Key
 
-class JwtTokenGenerator(
+@Component
+class AccessTokenGenerator(
 	private val key: Key,
-) : TokenGenerator {
-	override fun generate(token: TokenClaims): String {
+) {
+	fun generate(token: TokenClaims): String {
 		val claims = mapToClaims(token)
 		return compact(claims)
 	}

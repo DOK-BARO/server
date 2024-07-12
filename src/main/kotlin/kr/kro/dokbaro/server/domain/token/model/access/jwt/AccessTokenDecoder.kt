@@ -1,16 +1,16 @@
-package kr.kro.dokbaro.server.domain.token.jwt
+package kr.kro.dokbaro.server.domain.token.model.access.jwt
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import kr.kro.dokbaro.server.domain.token.TokenClaims
-import kr.kro.dokbaro.server.domain.token.TokenExtractor
+import org.springframework.stereotype.Component
 import java.security.Key
 import javax.crypto.SecretKey
 
-class JwtTokenExtractor(
+@Component
+class AccessTokenDecoder(
 	private val key: Key,
-) : TokenExtractor {
-	override fun extract(token: String): TokenClaims {
+) {
+	fun decode(token: String): TokenClaims {
 		val claims: Claims = parseClaims(token)
 		val attributes: Map<String, Any> =
 			claims.mapValues { it.value.javaClass }
