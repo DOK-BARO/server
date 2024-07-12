@@ -28,7 +28,7 @@ class AccountQueryServiceTest :
 				)
 			every { loadAccountPort.findBy(socialId) } returns account
 
-			val result = accountQueryService.getBy(socialId)
+			val result = accountQueryService.getBySocialId(socialId)
 			
 			result.id shouldBe account.id
 			result.provider shouldBe account.provider.name
@@ -40,7 +40,7 @@ class AccountQueryServiceTest :
 			every { loadAccountPort.findBy(socialId) } returns null
 
 			shouldThrow<NotFoundAccountException> {
-				accountQueryService.getBy(socialId)
+				accountQueryService.getBySocialId(socialId)
 			}
 		}
 	})

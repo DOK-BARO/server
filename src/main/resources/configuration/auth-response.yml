@@ -1,6 +1,0 @@
-login:
-    success:
-        redirect-url: ${LOGIN_SUCCESS_REDIRECT_URL:http://localhost:5173/login-success}
-    cookie:
-        access-token-key: ${LOGIN_ACCESS_TOKEN:Authorization}
-        refresh-token-key: ${LOGIN_REFRESH_TOKEN:Refresh}

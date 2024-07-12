@@ -17,15 +17,17 @@ class AccountService(
 	private val clock: Clock,
 ) : RegisterAccountUseCase,
 	DisableAccountUseCase {
-	override fun registerIfNew(command: RegisterAccountCommand) {
-		if (existAccountPort.notExistBy(command.socialId)) {
-			saveAccountPort.save(
-				Account.init(
-					command.socialId,
-					Provider.valueOf(command.provider),
-					clock,
-				),
-			)
+	override fun register(command: RegisterAccountCommand) {
+		if (existAccountPort.existBy(command.socialId, Provider.valueOf(command.provider))) {
+			throw RuntimeException()
 		}
+
+		saveAccountPort.save(
+			Account.init(
+				command.socialId,
+				Provider.valueOf(command.provider),
+				clock,
+			),
+		)
 	}
 }
