@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.domain.account.adapter.output.jooq
 
 import kr.kro.dokbaro.server.domain.account.model.Account
+import kr.kro.dokbaro.server.domain.account.model.Provider
 import kr.kro.dokbaro.server.domain.account.model.Role
 import kr.kro.dokbaro.server.domain.account.port.output.ExistAccountPort
 import kr.kro.dokbaro.server.domain.account.port.output.SaveAccountPort
@@ -19,13 +20,17 @@ class AccountCommandRepository(
 		private val ROLE = JRole.ROLE
 	}
 
-	override fun existBy(socialId: String): Boolean =
+	override fun existBy(
+		socialId: String,
+		provider: Provider,
+	): Boolean =
 		dslContext
 			.fetchExists(
 				dslContext
 					.selectOne()
 					.from(ACCOUNT)
-					.where(ACCOUNT.SOCIAL_ID.eq(socialId)),
+					.where(ACCOUNT.SOCIAL_ID.eq(socialId))
+					.and(ACCOUNT.PROVIDER.eq(provider.name)),
 			)
 
 	override fun save(account: Account): Long {
