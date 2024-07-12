@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.domain.auth.model.service.oauth2
+package kr.kro.dokbaro.server.domain.auth.model
 
 data class ProviderAccount(
 	val id: String,

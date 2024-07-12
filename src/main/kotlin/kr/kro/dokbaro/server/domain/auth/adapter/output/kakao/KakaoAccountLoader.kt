@@ -2,7 +2,7 @@ package kr.kro.dokbaro.server.domain.auth.adapter.output.kakao
 
 import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.KakaoResourceClient
 import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.provideraccount.KakaoAccount
-import kr.kro.dokbaro.server.domain.auth.model.service.oauth2.ProviderAccount
+import kr.kro.dokbaro.server.domain.auth.model.ProviderAccount
 import kr.kro.dokbaro.server.domain.auth.port.output.LoadProviderAccountPort
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component

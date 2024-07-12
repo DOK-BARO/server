@@ -1,6 +1,6 @@
-package kr.kro.dokbaro.server.domain.auth.model.service.oauth2.provider.kakao
+package kr.kro.dokbaro.server.domain.auth.model.service.oauth2.redirected.provider
 
-import kr.kro.dokbaro.server.domain.auth.model.service.oauth2.OAuth2RedirectStrategy
+import kr.kro.dokbaro.server.domain.auth.model.service.oauth2.redirected.OAuth2RedirectStrategy
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.util.UriComponentsBuilder

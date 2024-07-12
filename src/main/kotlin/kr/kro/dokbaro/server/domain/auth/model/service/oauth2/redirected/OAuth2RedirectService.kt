@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.domain.auth.model.service.oauth2
+package kr.kro.dokbaro.server.domain.auth.model.service.oauth2.redirected
 
 import kr.kro.dokbaro.server.domain.auth.port.input.FindOAuth2RedirectUriUseCase
 import org.springframework.stereotype.Service
