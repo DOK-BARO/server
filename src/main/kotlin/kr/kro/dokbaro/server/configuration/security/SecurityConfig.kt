@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.configuration.security
 
 import jakarta.servlet.http.HttpServletResponse
+import kr.kro.dokbaro.server.domain.token.port.input.DecodeAccessTokenUseCase
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -20,7 +21,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableWebSecurity
 class SecurityConfig(
 	@Value("\${spring.security.allow-origins}") private val originPattern: List<String>,
-	private val authorizationFilter: TokenBasedAuthorizationFilter,
+	private val decodeAccessTokenUseCase: DecodeAccessTokenUseCase,
+	@Value("\${jwt.access-header-name}")private val accessTokenKey: String,
 ) {
 	@Bean
 	fun configure(http: HttpSecurity): SecurityFilterChain =
@@ -29,7 +31,7 @@ class SecurityConfig(
 				it.anyRequest().permitAll()
 			}.sessionManagement {
 				it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			}.addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
+			}.addFilterBefore(tokenBasedAuthorizationFilter(), UsernamePasswordAuthenticationFilter::class.java)
 			.logout {
 				it.logoutUrl("/logout")
 				it.logoutSuccessHandler(logoutSuccessHandler())
@@ -61,4 +63,7 @@ class SecurityConfig(
 
 	@Bean
 	fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+
+	fun tokenBasedAuthorizationFilter(): TokenBasedAuthorizationFilter =
+		TokenBasedAuthorizationFilter(decodeAccessTokenUseCase, accessTokenKey)
 }
