@@ -7,22 +7,27 @@ import io.kotest.matchers.shouldBe
 import kr.kro.dokbaro.server.configuration.TestcontainersConfiguration
 import kr.kro.dokbaro.server.domain.account.model.Account
 import kr.kro.dokbaro.server.domain.account.model.Provider
-import org.springframework.boot.test.context.SpringBootTest
+import org.jooq.DSLContext
+import org.springframework.boot.test.autoconfigure.jooq.JooqTest
 import org.springframework.context.annotation.Import
-import org.springframework.transaction.annotation.Transactional
 import java.time.Clock
 
-@SpringBootTest
+@JooqTest
 @Import(TestcontainersConfiguration::class)
-@Transactional
 class AccountQueryRepositoryTest(
-	private val accountCommandRepository: AccountCommandRepository,
-	private val accountQueryRepository: AccountQueryRepository,
+	private val dslContext: DSLContext,
 ) : StringSpec({
 		extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
 
+		val accountCommandRepository = AccountCommandRepository(dslContext)
+		val accountQueryRepository = AccountQueryRepository(dslContext, AccountMapper())
+
 		val clock = Clock.systemUTC()
 		val socialId = "adsfqwer"
+
+		afterEach {
+			dslContext.rollback()
+		}
 
 		"조회를 수행한다" {
 			val account =
