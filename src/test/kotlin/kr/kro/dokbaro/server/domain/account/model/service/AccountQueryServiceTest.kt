@@ -6,9 +6,9 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.domain.account.model.Account
-import kr.kro.dokbaro.server.domain.account.model.Provider
 import kr.kro.dokbaro.server.domain.account.model.Role
 import kr.kro.dokbaro.server.domain.account.port.output.LoadAccountPort
+import kr.kro.dokbaro.server.global.AuthProvider
 import java.time.LocalDateTime
 
 class AccountQueryServiceTest :
@@ -22,7 +22,7 @@ class AccountQueryServiceTest :
 				Account(
 					7,
 					id,
-					Provider.KAKAO,
+					AuthProvider.KAKAO,
 					setOf(Role.USER),
 					LocalDateTime.now(),
 				)

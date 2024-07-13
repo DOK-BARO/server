@@ -6,7 +6,7 @@ import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.shouldBe
 import kr.kro.dokbaro.server.configuration.TestcontainersConfiguration
 import kr.kro.dokbaro.server.domain.account.model.Account
-import kr.kro.dokbaro.server.domain.account.model.Provider
+import kr.kro.dokbaro.server.global.AuthProvider
 import org.jooq.DSLContext
 import org.springframework.boot.test.autoconfigure.jooq.JooqTest
 import org.springframework.context.annotation.Import
@@ -33,7 +33,7 @@ class AccountQueryRepositoryTest(
 			val account =
 				Account.init(
 					socialId,
-					Provider.GOOGLE,
+					AuthProvider.GOOGLE,
 					clock,
 				)
 			val savedId = accountCommandRepository.save(account)

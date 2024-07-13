@@ -4,6 +4,7 @@ import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.KakaoReso
 import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.provideraccount.KakaoAccount
 import kr.kro.dokbaro.server.domain.auth.model.ProviderAccount
 import kr.kro.dokbaro.server.domain.auth.port.output.LoadProviderAccountPort
+import kr.kro.dokbaro.server.global.AuthProvider
 import org.springframework.stereotype.Component
 
 @Component
@@ -14,7 +15,7 @@ class KakaoAccountLoader(
 		val account: KakaoAccount = resourceClient.getUserProfiles(accessToken)
 
 		return ProviderAccount(
-			"kakao",
+			AuthProvider.KAKAO,
 			account.id.toString(),
 			account.kakaoAccount.name,
 			account.kakaoAccount.email,

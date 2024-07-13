@@ -5,12 +5,6 @@ data class TokenClaims(
 	val role: Collection<String>,
 ) {
 	companion object {
-		fun attributes() =
-			listOf(
-				ClaimsAttribute("id", String::class.java),
-				ClaimsAttribute("role", ArrayList::class.java),
-			)
-
 		@Suppress("UNCHECKED_CAST")
 		fun from(attributes: Map<String, Any>): TokenClaims =
 			TokenClaims(

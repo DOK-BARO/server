@@ -24,7 +24,7 @@ class KakaoResourceTokenLoader(
 					redirectUri,
 					clientSecret,
 				)
-		println(token)
-		TODO()
+
+		return token.accessToken
 	}
 }

@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.TestcontainersConfiguration
 import kr.kro.dokbaro.server.domain.account.model.Account
-import kr.kro.dokbaro.server.domain.account.model.Provider
+import kr.kro.dokbaro.server.global.AuthProvider
 import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.generated.tables.daos.AccountDao
@@ -39,7 +39,7 @@ class AccountCommandRepositoryTest(
 			val account =
 				Account.init(
 					"abcdefg",
-					Provider.KAKAO,
+					AuthProvider.KAKAO,
 					clock,
 				)
 			val savedAccountId = accountCommandRepository.save(account)
@@ -56,15 +56,15 @@ class AccountCommandRepositoryTest(
 			accountCommandRepository.save(
 				Account.init(
 					socialId,
-					Provider.KAKAO,
+					AuthProvider.KAKAO,
 					clock,
 				),
 			)
 
-			accountCommandRepository.existBy(socialId, Provider.KAKAO) shouldBe true
-			accountCommandRepository.notExistBy(socialId, Provider.KAKAO) shouldBe false
-			accountCommandRepository.existBy(socialId, Provider.GOOGLE) shouldBe false
-			accountCommandRepository.existBy("qwersdaf", Provider.KAKAO) shouldBe false
-			accountCommandRepository.notExistBy("qwersdaf", Provider.KAKAO) shouldBe true
+			accountCommandRepository.existBy(socialId, AuthProvider.KAKAO) shouldBe true
+			accountCommandRepository.notExistBy(socialId, AuthProvider.KAKAO) shouldBe false
+			accountCommandRepository.existBy(socialId, AuthProvider.GOOGLE) shouldBe false
+			accountCommandRepository.existBy("qwersdaf", AuthProvider.KAKAO) shouldBe false
+			accountCommandRepository.notExistBy("qwersdaf", AuthProvider.KAKAO) shouldBe true
 		}
 	})
