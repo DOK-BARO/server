@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.domain.auth.adapter.input
 
-import jakarta.servlet.http.HttpServletResponse
+import kr.kro.dokbaro.server.domain.auth.adapter.input.dto.RedirectUrlResponse
 import kr.kro.dokbaro.server.domain.auth.port.input.FindOAuth2RedirectUriUseCase
 import kr.kro.dokbaro.server.global.AuthProvider
 import org.springframework.http.HttpStatus
@@ -19,10 +19,5 @@ class OAuth2RedirectedController(
 	@ResponseStatus(HttpStatus.FOUND)
 	fun redirected(
 		@PathVariable provider: AuthProvider,
-		response: HttpServletResponse,
-	) {
-		response.sendRedirect(
-			findOauth2RedirectUriUseCase.getRedirectUri(provider),
-		)
-	}
+	) = RedirectUrlResponse(findOauth2RedirectUriUseCase.getRedirectUri(provider))
 }
