@@ -47,7 +47,7 @@ abstract class RestDocsTest : StringSpec() {
 		param: MultiValueMap<String, String>? = null,
 	): ResultActions {
 		val requestBuilder =
-			post(path.endPoint, path.pathVariable)
+			post(path.endPoint, *path.pathVariable)
 				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.characterEncoding(StandardCharsets.UTF_8)
