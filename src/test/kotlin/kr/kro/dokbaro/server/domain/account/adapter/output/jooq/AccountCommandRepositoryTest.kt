@@ -7,34 +7,39 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.TestcontainersConfiguration
 import kr.kro.dokbaro.server.domain.account.model.Account
-import kr.kro.dokbaro.server.domain.account.model.Provider
+import kr.kro.dokbaro.server.global.AuthProvider
 import org.jooq.Configuration
+import org.jooq.DSLContext
 import org.jooq.generated.tables.daos.AccountDao
 import org.jooq.generated.tables.daos.RoleDao
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.jooq.JooqTest
 import org.springframework.context.annotation.Import
-import org.springframework.transaction.annotation.Transactional
 import java.time.Clock
 
-@SpringBootTest
+@JooqTest
 @Import(TestcontainersConfiguration::class)
-@Transactional
 class AccountCommandRepositoryTest(
-	private val accountCommandRepository: AccountCommandRepository,
+	private val dslContext: DSLContext,
 	private val configuration: Configuration,
 ) : StringSpec({
 		extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
 
+		val accountCommandRepository = AccountCommandRepository(dslContext)
+
 		val clock = Clock.systemUTC()
 		val accountDao = AccountDao(configuration)
 		val roleDao = RoleDao(configuration)
+
+		afterEach {
+			dslContext.rollback()
+		}
 
 		"저장을 수행한다" {
 
 			val account =
 				Account.init(
 					"abcdefg",
-					Provider.KAKAO,
+					AuthProvider.KAKAO,
 					clock,
 				)
 			val savedAccountId = accountCommandRepository.save(account)
@@ -51,14 +56,15 @@ class AccountCommandRepositoryTest(
 			accountCommandRepository.save(
 				Account.init(
 					socialId,
-					Provider.KAKAO,
+					AuthProvider.KAKAO,
 					clock,
 				),
 			)
 
-			accountCommandRepository.existBy(socialId) shouldBe true
-			accountCommandRepository.notExistBy(socialId) shouldBe false
-			accountCommandRepository.existBy("qwersdaf") shouldBe false
-			accountCommandRepository.notExistBy("qwersdaf") shouldBe true
+			accountCommandRepository.existBy(socialId, AuthProvider.KAKAO) shouldBe true
+			accountCommandRepository.notExistBy(socialId, AuthProvider.KAKAO) shouldBe false
+			accountCommandRepository.existBy(socialId, AuthProvider.GOOGLE) shouldBe false
+			accountCommandRepository.existBy("qwersdaf", AuthProvider.KAKAO) shouldBe false
+			accountCommandRepository.notExistBy("qwersdaf", AuthProvider.KAKAO) shouldBe true
 		}
 	})

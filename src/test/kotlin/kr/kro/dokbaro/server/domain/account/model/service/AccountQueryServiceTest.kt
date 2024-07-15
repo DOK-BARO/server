@@ -6,9 +6,9 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.domain.account.model.Account
-import kr.kro.dokbaro.server.domain.account.model.Provider
 import kr.kro.dokbaro.server.domain.account.model.Role
 import kr.kro.dokbaro.server.domain.account.port.output.LoadAccountPort
+import kr.kro.dokbaro.server.global.AuthProvider
 import java.time.LocalDateTime
 
 class AccountQueryServiceTest :
@@ -16,31 +16,31 @@ class AccountQueryServiceTest :
 		val loadAccountPort = mockk<LoadAccountPort>()
 		val accountQueryService = AccountQueryService(loadAccountPort)
 
-		"socialId를 통한 조회를 진행한다" {
-			val socialId = "adsf"
+		"Id를 통한 조회를 진행한다" {
+			val id = "adsf"
 			val account =
 				Account(
 					7,
-					socialId,
-					Provider.KAKAO,
+					id,
+					AuthProvider.KAKAO,
 					setOf(Role.USER),
 					LocalDateTime.now(),
 				)
-			every { loadAccountPort.findBy(socialId) } returns account
+			every { loadAccountPort.findBy(id) } returns account
 
-			val result = accountQueryService.getBySocialId(socialId)
-			
+			val result = accountQueryService.getById(id)
+
 			result.id shouldBe account.id
 			result.provider shouldBe account.provider.name
 			result.role shouldBe account.roles.map { it.name }
 		}
 
-		"socialId와 일지하는 회원이 없을 시 예외를 발생한다" {
-			val socialId = "adsf"
-			every { loadAccountPort.findBy(socialId) } returns null
+		"Id와 일지하는 회원이 없을 시 예외를 발생한다" {
+			val id = "adsf"
+			every { loadAccountPort.findBy(id) } returns null
 
 			shouldThrow<NotFoundAccountException> {
-				accountQueryService.getBySocialId(socialId)
+				accountQueryService.getById(id)
 			}
 		}
 	})

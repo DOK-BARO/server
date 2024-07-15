@@ -1,12 +1,13 @@
 package kr.kro.dokbaro.server.domain.account.model
 
+import kr.kro.dokbaro.server.global.AuthProvider
 import java.time.Clock
 import java.time.LocalDateTime
 
 class Account(
 	val id: Long,
 	val socialId: String,
-	val provider: Provider,
+	val provider: AuthProvider,
 	val roles: Set<Role>,
 	val registeredAt: LocalDateTime,
 ) {
@@ -15,7 +16,7 @@ class Account(
 
 		fun init(
 			socialId: String,
-			provider: Provider,
+			provider: AuthProvider,
 			clock: Clock,
 		): Account =
 			Account(

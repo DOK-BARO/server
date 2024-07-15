@@ -6,29 +6,34 @@ import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.shouldBe
 import kr.kro.dokbaro.server.configuration.TestcontainersConfiguration
 import kr.kro.dokbaro.server.domain.account.model.Account
-import kr.kro.dokbaro.server.domain.account.model.Provider
-import org.springframework.boot.test.context.SpringBootTest
+import kr.kro.dokbaro.server.global.AuthProvider
+import org.jooq.DSLContext
+import org.springframework.boot.test.autoconfigure.jooq.JooqTest
 import org.springframework.context.annotation.Import
-import org.springframework.transaction.annotation.Transactional
 import java.time.Clock
 
-@SpringBootTest
+@JooqTest
 @Import(TestcontainersConfiguration::class)
-@Transactional
 class AccountQueryRepositoryTest(
-	private val accountCommandRepository: AccountCommandRepository,
-	private val accountQueryRepository: AccountQueryRepository,
+	private val dslContext: DSLContext,
 ) : StringSpec({
 		extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
 
+		val accountCommandRepository = AccountCommandRepository(dslContext)
+		val accountQueryRepository = AccountQueryRepository(dslContext, AccountMapper())
+
 		val clock = Clock.systemUTC()
 		val socialId = "adsfqwer"
+
+		afterEach {
+			dslContext.rollback()
+		}
 
 		"조회를 수행한다" {
 			val account =
 				Account.init(
 					socialId,
-					Provider.GOOGLE,
+					AuthProvider.GOOGLE,
 					clock,
 				)
 			val savedId = accountCommandRepository.save(account)
