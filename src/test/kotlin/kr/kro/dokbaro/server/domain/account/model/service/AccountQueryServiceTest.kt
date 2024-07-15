@@ -29,7 +29,7 @@ class AccountQueryServiceTest :
 			every { loadAccountPort.findBy(id) } returns account
 
 			val result = accountQueryService.getById(id)
-			
+
 			result.id shouldBe account.id
 			result.provider shouldBe account.provider.name
 			result.role shouldBe account.roles.map { it.name }
