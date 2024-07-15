@@ -13,12 +13,10 @@ class ProviderAccountLoader(
 ) {
 	fun load(command: ProviderAuthorizationCommand): ProviderAccount {
 		val resourceToken: String =
-			resourceTokenPort["${command.provider}ResourceTokenLoader"]
-				?.getToken(command.token)
-				?: throw RuntimeException()
+			resourceTokenPort["${command.provider.name.lowercase()}ResourceTokenLoader"]!!
+				.getToken(command.token)
 
-		return accountPort["${command.provider}AccountLoader"]
-			?.getAttributes(resourceToken)
-			?: throw RuntimeException()
+		return accountPort["${command.provider.name.lowercase()}AccountLoader"]!!
+			.getAttributes(resourceToken)
 	}
 }

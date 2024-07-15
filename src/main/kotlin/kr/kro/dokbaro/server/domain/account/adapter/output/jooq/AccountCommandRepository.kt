@@ -1,10 +1,10 @@
 package kr.kro.dokbaro.server.domain.account.adapter.output.jooq
 
 import kr.kro.dokbaro.server.domain.account.model.Account
-import kr.kro.dokbaro.server.domain.account.model.Provider
 import kr.kro.dokbaro.server.domain.account.model.Role
 import kr.kro.dokbaro.server.domain.account.port.output.ExistAccountPort
 import kr.kro.dokbaro.server.domain.account.port.output.SaveAccountPort
+import kr.kro.dokbaro.server.global.AuthProvider
 import org.jooq.DSLContext
 import org.jooq.generated.tables.JAccount
 import org.jooq.generated.tables.JRole
@@ -22,7 +22,7 @@ class AccountCommandRepository(
 
 	override fun existBy(
 		socialId: String,
-		provider: Provider,
+		provider: AuthProvider,
 	): Boolean =
 		dslContext
 			.fetchExists(

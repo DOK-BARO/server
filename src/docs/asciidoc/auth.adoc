@@ -1,54 +1,33 @@
+= AUTH
 
-= 소셜 로그인
-
-== KAKAO
-
+== get OAUTH2 provider authorize url
 === HTTP request
 
-[source,http,options="nowrap"]
-----
-GET /auth/login/kakao HTTP/1.1
-Host: localhost:8080
-----
+include::{snippets}/auth/get-provider-authorize-url/http-request.adoc[]
 
 === HTTP response
 
-----
-HTTP/1.1 302 Found
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-----
+include::{snippets}/auth/get-provider-authorize-url/response-body.adoc[]
+include::{snippets}/auth/get-provider-authorize-url/response-fields.adoc[]
 
-== GOOGLE
-
+== OAUTH2 signup
 === HTTP request
 
-[source,http,options="nowrap"]
-----
-GET /auth/login/google HTTP/1.1
-Host: localhost:8080
-----
+include::{snippets}/auth/oauth2-signup/http-request.adoc[]
+include::{snippets}/auth/oauth2-signup/request-fields.adoc[]
 
 === HTTP response
 
-----
-HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-----
+include::{snippets}/auth/oauth2-signup/response-body.adoc[]
+include::{snippets}/auth/oauth2-signup/response-fields.adoc[]
+
+== OAUTH2 login
+=== HTTP request
+
+include::{snippets}/auth/oauth2-login/http-request.adoc[]
+include::{snippets}/auth/oauth2-login/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/auth/oauth2-login/response-body.adoc[]
+include::{snippets}/auth/oauth2-login/response-fields.adoc[]

@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.abstract
+package kr.kro.dokbaro.server.configuration.docs
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.kotest.core.spec.style.StringSpec
@@ -42,94 +42,106 @@ abstract class RestDocsTest : StringSpec() {
 	private val mapper = jacksonObjectMapper()
 
 	protected fun performPost(
-		endpoint: String,
+		path: Path,
 		body: Any? = null,
+		param: MultiValueMap<String, String>? = null,
 	): ResultActions {
 		val requestBuilder =
-			post(endpoint)
+			post(path.endPoint, *path.pathVariable)
 				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.characterEncoding(StandardCharsets.UTF_8)
 				.apply {
-					body?.let { content(generateBody(it)) }
+					body?.let { content(toBody(it)) }
+				}.apply {
+					param?.let { params(it) }
 				}
 
 		return mockMvc.perform(requestBuilder)
 	}
 
 	protected fun performPut(
-		endpoint: String,
+		path: Path,
 		body: Any? = null,
+		param: MultiValueMap<String, String>? = null,
 	): ResultActions {
 		val requestBuilder =
-			put(endpoint)
+			put(path.endPoint, *path.pathVariable)
 				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.characterEncoding(StandardCharsets.UTF_8)
 				.apply {
-					body?.let { content(generateBody(it)) }
+					body?.let { content(toBody(it)) }
+				}.apply {
+					param?.let { params(it) }
 				}
 
 		return mockMvc.perform(requestBuilder)
 	}
 
 	protected fun performPatch(
-		endpoint: String,
+		path: Path,
 		body: Any? = null,
+		param: MultiValueMap<String, String>? = null,
 	): ResultActions {
 		val requestBuilder =
-			patch(endpoint)
+			patch(path.endPoint, *path.pathVariable)
 				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.characterEncoding(StandardCharsets.UTF_8)
 				.apply {
-					body?.let { content(generateBody(it)) }
+					body?.let { content(toBody(it)) }
+				}.apply {
+					param?.let { params(it) }
 				}
 
 		return mockMvc.perform(requestBuilder)
 	}
 
 	protected fun performDelete(
-		endpoint: String,
+		path: Path,
 		body: Any? = null,
+		param: MultiValueMap<String, String>? = null,
 	): ResultActions {
 		val requestBuilder =
-			delete(endpoint)
+			delete(path.endPoint, *path.pathVariable)
 				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.characterEncoding(StandardCharsets.UTF_8)
 				.apply {
-					body?.let { content(generateBody(it)) }
+					param?.let { params(it) }
+				}.apply {
+					body?.let { content(toBody(it)) }
 				}
 
 		return mockMvc.perform(requestBuilder)
 	}
 
 	protected fun performGet(
-		endpoint: String,
-		vararg urlValue: String,
-	): ResultActions = mockMvc.perform(get(endpoint, *urlValue))
-
-	protected fun performGet(
-		endpoint: String,
-		params: MultiValueMap<String, String>,
-		vararg urlValue: String,
-	): ResultActions = mockMvc.perform(get(endpoint, *urlValue).params(params))
+		path: Path,
+		param: MultiValueMap<String, String>? = null,
+	): ResultActions =
+		mockMvc.perform(
+			get(path.endPoint, *path.pathVariable)
+				.apply {
+					param?.let { params(it) }
+				},
+		)
 
 	protected fun performFormData(
 		method: HttpMethod,
-		endpoint: String,
+		path: Path,
 		requestPartKey: String,
 	): ResultActions =
 		mockMvc.perform(
-			multipart(method, endpoint)
+			multipart(method, path.endPoint, *path.pathVariable)
 				.file(requestPartKey, ByteArray(0))
 				.with(csrf())
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.characterEncoding(StandardCharsets.UTF_8),
 		)
 
-	private fun generateBody(obj: Any) = mapper.writeValueAsString(obj)
+	private fun toBody(body: Any) = mapper.writeValueAsString(body)
 
 	protected fun print(
 		title: String,

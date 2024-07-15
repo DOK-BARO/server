@@ -13,6 +13,7 @@ val mokkVersion: String by rootProject
 val springMockkVersion: String by rootProject
 val logbackVersion: String by rootProject
 val kotlinLoggingVersion: String by rootProject
+val fixtureMonkeyVersion: String by rootProject
 
 configurations {
 	create("asciidoctorExt")
@@ -89,6 +90,7 @@ dependencies {
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter-kotlin:$fixtureMonkeyVersion")
 
 	// restdocs
 	"asciidoctorExt"("org.springframework.restdocs:spring-restdocs-asciidoctor")
@@ -179,6 +181,7 @@ kover {
 				classes("**.ServerApplicationKt")
 				classes("org.jooq.generated.**")
 				classes("kr.kro.dokbaro.server.configuration.**")
+				classes("kr.kro.dokbaro.server.global.**")
 			}
 		}
 		verify {

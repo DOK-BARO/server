@@ -22,7 +22,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 class SecurityConfig(
 	@Value("\${spring.security.allow-origins}") private val originPattern: List<String>,
 	private val decodeAccessTokenUseCase: DecodeAccessTokenUseCase,
-	@Value("\${jwt.access-header-name}")private val accessTokenKey: String,
+	@Value("\${jwt.access-header-name}") private val accessTokenKey: String,
 ) {
 	@Bean
 	fun configure(http: HttpSecurity): SecurityFilterChain =
