@@ -13,7 +13,7 @@ class AccessTokenDecoder(
 	fun decode(token: String): TokenClaims {
 		val claims: Claims = parseClaims(token)
 		val attributes: Map<String, Any> =
-			claims.mapValues { it.value.javaClass }
+			claims.mapValues { it.value }
 
 		return TokenClaims.from(attributes)
 	}
