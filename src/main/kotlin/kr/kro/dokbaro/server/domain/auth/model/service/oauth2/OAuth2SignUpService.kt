@@ -4,7 +4,7 @@ import kr.kro.dokbaro.server.domain.account.port.input.command.RegisterAccountUs
 import kr.kro.dokbaro.server.domain.account.port.input.command.dto.RegisterAccountCommand
 import kr.kro.dokbaro.server.domain.account.port.input.query.dto.AccountResponse
 import kr.kro.dokbaro.server.domain.auth.model.ProviderAccount
-import kr.kro.dokbaro.server.domain.auth.port.input.OAUth2SignUpUseCase
+import kr.kro.dokbaro.server.domain.auth.port.input.OAuth2SignUpUseCase
 import kr.kro.dokbaro.server.domain.auth.port.input.dto.ProviderAuthorizationCommand
 import kr.kro.dokbaro.server.domain.token.model.AuthToken
 import kr.kro.dokbaro.server.domain.token.model.access.jwt.TokenClaims
@@ -16,7 +16,7 @@ class OAuth2SignUpService(
 	private val providerAccountLoader: ProviderAccountLoader,
 	private val registerAccountUseCase: RegisterAccountUseCase,
 	private val generateAuthTokenUseCase: GenerateAuthTokenUseCase,
-) : OAUth2SignUpUseCase {
+) : OAuth2SignUpUseCase {
 	override fun signUp(command: ProviderAuthorizationCommand): AuthToken {
 		val providerAccount: ProviderAccount = providerAccountLoader.load(command)
 
