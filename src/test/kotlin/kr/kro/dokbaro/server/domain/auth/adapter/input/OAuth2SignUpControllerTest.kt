@@ -5,8 +5,7 @@ import io.mockk.every
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.domain.auth.adapter.input.dto.ProviderAuthorizationTokenRequest
-import kr.kro.dokbaro.server.domain.auth.port.input.OAuth2LoginUseCase
-import kr.kro.dokbaro.server.domain.auth.port.input.dto.ProviderAuthorizationCommand
+import kr.kro.dokbaro.server.domain.auth.port.input.OAuth2SignUpUseCase
 import kr.kro.dokbaro.server.domain.token.model.AuthToken
 import kr.kro.dokbaro.server.global.AuthProvider
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -16,26 +15,22 @@ import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@WebMvcTest(OAuth2LoginController::class)
-class OAuth2LoginControllerTest : RestDocsTest() {
+@WebMvcTest(OAuth2SignUpController::class)
+class OAuth2SignUpControllerTest : RestDocsTest() {
 	@MockkBean
-	lateinit var loginUseCase: OAuth2LoginUseCase
+	lateinit var oAuth2SignUpUseCase: OAuth2SignUpUseCase
 
 	init {
-		"login을 수행한다" {
-			every { loginUseCase.login(any(ProviderAuthorizationCommand::class)) } returns
-				AuthToken(
-					"jwt.access.token",
-					"uuid-refresh-token",
-				)
+		"회원가입을 수행한다" {
+			every { oAuth2SignUpUseCase.signUp(any()) } returns AuthToken("access-token", "refresh-token")
 
 			val body = ProviderAuthorizationTokenRequest("mockToken")
 
-			performPost(Path("/auth/oauth2/login/{provider}", AuthProvider.KAKAO.name), body)
+			performPost(Path("/auth/oauth2/signup/{provider}", AuthProvider.KAKAO.name), body)
 				.andExpect(status().isOk)
 				.andDo(
 					print(
-						"auth/oauth2-login",
+						"auth/oauth2-signup",
 						requestFields(
 							fieldWithPath("token")
 								.type(JsonFieldType.STRING)

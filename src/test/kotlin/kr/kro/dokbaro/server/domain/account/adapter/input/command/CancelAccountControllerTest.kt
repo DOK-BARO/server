@@ -1,8 +1,8 @@
 package kr.kro.dokbaro.server.domain.account.adapter.input.command
 
 import com.ninjasquad.springmockk.MockkBean
-import kr.kro.dokbaro.server.abstract.Path
-import kr.kro.dokbaro.server.abstract.RestDocsTest
+import kr.kro.dokbaro.server.configuration.docs.Path
+import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.domain.account.port.input.command.DisableAccountUseCase
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
