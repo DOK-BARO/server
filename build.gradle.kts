@@ -181,6 +181,7 @@ kover {
 				classes("**.ServerApplicationKt")
 				classes("org.jooq.generated.**")
 				classes("kr.kro.dokbaro.server.configuration.**")
+				classes("kr.kro.dokbaro.server.global.**")
 			}
 		}
 		verify {
