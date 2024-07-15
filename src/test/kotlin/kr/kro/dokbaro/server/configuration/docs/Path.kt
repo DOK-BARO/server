@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.abstract
+package kr.kro.dokbaro.server.configuration.docs
 
 class Path(
 	val endPoint: String,

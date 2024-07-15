@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.abstract
+package kr.kro.dokbaro.server.configuration.docs
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.kotest.core.spec.style.StringSpec
@@ -66,7 +66,7 @@ abstract class RestDocsTest : StringSpec() {
 		param: MultiValueMap<String, String>? = null,
 	): ResultActions {
 		val requestBuilder =
-			put(path.endPoint, path.pathVariable)
+			put(path.endPoint, *path.pathVariable)
 				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.characterEncoding(StandardCharsets.UTF_8)
@@ -85,7 +85,7 @@ abstract class RestDocsTest : StringSpec() {
 		param: MultiValueMap<String, String>? = null,
 	): ResultActions {
 		val requestBuilder =
-			patch(path.endPoint, path.pathVariable)
+			patch(path.endPoint, *path.pathVariable)
 				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.characterEncoding(StandardCharsets.UTF_8)
@@ -104,7 +104,7 @@ abstract class RestDocsTest : StringSpec() {
 		param: MultiValueMap<String, String>? = null,
 	): ResultActions {
 		val requestBuilder =
-			delete(path.endPoint, path.pathVariable)
+			delete(path.endPoint, *path.pathVariable)
 				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.characterEncoding(StandardCharsets.UTF_8)
@@ -122,7 +122,7 @@ abstract class RestDocsTest : StringSpec() {
 		param: MultiValueMap<String, String>? = null,
 	): ResultActions =
 		mockMvc.perform(
-			get(path.endPoint, path.pathVariable)
+			get(path.endPoint, *path.pathVariable)
 				.apply {
 					param?.let { params(it) }
 				},
@@ -134,7 +134,7 @@ abstract class RestDocsTest : StringSpec() {
 		requestPartKey: String,
 	): ResultActions =
 		mockMvc.perform(
-			multipart(method, path.endPoint, path.pathVariable)
+			multipart(method, path.endPoint, *path.pathVariable)
 				.file(requestPartKey, ByteArray(0))
 				.with(csrf())
 				.contentType(MediaType.MULTIPART_FORM_DATA)
