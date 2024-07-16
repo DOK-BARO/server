@@ -1,4 +1,5 @@
 jwt:
     key: asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
     access-header-name: Authorization
+    limit-millisecond: 90000
 
