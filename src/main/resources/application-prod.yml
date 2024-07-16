@@ -15,3 +15,5 @@ spring:
             - classpath:/configuration/jwt.yml
             - classpath:/configuration/security.yml
             - classpath:/configuration/oauth2/kakao.yml
+            - classpath:/configuration/oauth2/naver.yml
+
