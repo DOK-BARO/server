@@ -13,7 +13,7 @@ import java.util.Date
 class AccessTokenGenerator(
 	private val key: Key,
 	private val clock: Clock,
-	@Value("\${jwt.limit-millisecond}") private val expireMillisecond: Long,
+	@Value("\${jwt.limit-minute}") private val limitMinute: Long,
 ) {
 	fun generate(token: TokenClaims): String {
 		val claims = mapToClaims(token)
@@ -35,7 +35,7 @@ class AccessTokenGenerator(
 			.claims(claims)
 			.issuedAt(Date.from(now.toInstant()))
 			.signWith(key)
-			.expiration(Date.from(now.plusSeconds(expireMillisecond).toInstant()))
+			.expiration(Date.from(now.plusMinutes(limitMinute).toInstant()))
 			.compact()
 	}
 }
