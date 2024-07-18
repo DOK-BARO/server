@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.KakaoResourceClient
-import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.provideraccount.KakaoAccount
+import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.resource.KakaoAccount
 import kr.kro.dokbaro.server.domain.auth.model.ProviderAccount
 import kr.kro.dokbaro.server.fixture.FixtureBuilder
 

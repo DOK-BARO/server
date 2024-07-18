@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam
 	name = "kakaoAuthorizationClient",
 	url = "\${oauth2.kakao.provider.authorization.url}",
 )
-interface KakaoAuthorizationClient {
+fun interface KakaoAuthorizationClient {
 	@PostMapping(
 		path = ["\${oauth2.kakao.provider.authorization.token-path}"],
 		consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE],
@@ -20,5 +20,5 @@ interface KakaoAuthorizationClient {
 		@RequestParam(name = "client_id") clientId: String,
 		@RequestParam(name = "redirect_uri") redirectUri: String,
 		@RequestParam(name = "client_secret") clientSecret: String,
-	): AuthorizationTokenResponse
+	): KakaoAuthorizationTokenResponse
 }
