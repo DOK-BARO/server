@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external
+package kr.kro.dokbaro.server.domain.auth.adapter.output.naver.external
 
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.MediaType
@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 @FeignClient(
-	name = "kakaoAuthorizationClient",
-	url = "\${oauth2.kakao.provider.authorization.url}",
+	name = "naverAuthorizationClient",
+	url = "\${oauth2.naver.provider.authorization.url}",
 )
-fun interface KakaoAuthorizationClient {
+fun interface NaverAuthorizationClient {
 	@PostMapping(
-		path = ["\${oauth2.kakao.provider.authorization.token-path}"],
+		path = ["\${oauth2.naver.provider.authorization.token-path}"],
 		consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE],
 	)
 	fun getAuthorizationToken(
@@ -20,5 +20,5 @@ fun interface KakaoAuthorizationClient {
 		@RequestParam(name = "client_id") clientId: String,
 		@RequestParam(name = "redirect_uri") redirectUri: String,
 		@RequestParam(name = "client_secret") clientSecret: String,
-	): KakaoAuthorizationTokenResponse
+	): NaverAuthorizationTokenResponse
 }

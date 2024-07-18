@@ -1,0 +1,14 @@
+oauth2:
+    github:
+        client:
+            redirect-uri: ${GITHUB_AUTH_CLIENT_REDIRECT_URI:http://localhost:5173/oauth2/redirected/github}
+            id: ${GITHUB_CLIENT_ID:clientid}
+            secret: ${GITHUB_CLIENT_SECRET:clientsecret}
+        provider:
+            authorization:
+                url: https://github.com
+                redirect-path: /login/oauth/authorize
+                token-path: /login/oauth/access_token
+            resource:
+                url: https://api.github.com
+                user-info-path: /user

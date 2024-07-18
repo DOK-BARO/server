@@ -1,0 +1,11 @@
+oauth2:
+    google:
+        client:
+            redirect-uri: http://localhost:5173/oauth2/redirected/google
+            id: clientid
+            secret: clientsecret
+        provider:
+            grant-type: authorization_code
+            authorization-url: https://accounts.google.com/o/oauth2/v2/auth
+            token-url: https://oauth2.googleapis.com/token
+            resource-url: https://www.googleapis.com/oauth2/v2/userinfo

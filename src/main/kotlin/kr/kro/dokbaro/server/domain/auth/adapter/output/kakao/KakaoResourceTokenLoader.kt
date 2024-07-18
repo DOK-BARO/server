@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.domain.auth.adapter.output.kakao
 
-import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.AuthorizationTokenResponse
 import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.KakaoAuthorizationClient
+import kr.kro.dokbaro.server.domain.auth.adapter.output.kakao.external.KakaoAuthorizationTokenResponse
 import kr.kro.dokbaro.server.domain.auth.port.output.LoadProviderResourceTokenPort
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -15,7 +15,7 @@ class KakaoResourceTokenLoader(
 	@Value("\${oauth2.kakao.client.secret}") private val clientSecret: String,
 ) : LoadProviderResourceTokenPort {
 	override fun getToken(authorizationToken: String): String {
-		val token: AuthorizationTokenResponse =
+		val token: KakaoAuthorizationTokenResponse =
 			authorizationClient
 				.getAuthorizationToken(
 					authorizationToken,
@@ -25,6 +25,6 @@ class KakaoResourceTokenLoader(
 					clientSecret,
 				)
 
-		return token.accessToken
+		return "${token.tokenType} ${token.accessToken}"
 	}
 }
