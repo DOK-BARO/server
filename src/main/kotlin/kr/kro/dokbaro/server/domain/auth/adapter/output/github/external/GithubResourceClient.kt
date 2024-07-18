@@ -16,7 +16,7 @@ fun interface GithubResourceClient {
 		path = ["\${oauth2.github.provider.resource.user-info-path}"],
 		consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE],
 	)
-	fun getUseProfiles(
+	fun getUserProfiles(
 		@RequestHeader(name = HttpHeaders.AUTHORIZATION) token: String,
 	): GithubAccount
 }

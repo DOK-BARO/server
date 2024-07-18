@@ -12,7 +12,7 @@ class GithubAccountLoader(
 	private val resourceClient: GithubResourceClient,
 ) : LoadProviderAccountPort {
 	override fun getAttributes(accessToken: String): ProviderAccount {
-		val account: GithubAccount = resourceClient.getUseProfiles(accessToken)
+		val account: GithubAccount = resourceClient.getUserProfiles(accessToken)
 
 		return ProviderAccount(
 			AuthProvider.GITHUB,
