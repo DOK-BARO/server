@@ -1,0 +1,15 @@
+oauth2:
+    naver:
+        client:
+            redirect-uri: ${NAVER_AUTH_CLIENT_REDIRECT_URI:http://localhost:5173/oauth2/redirected/naver}
+            id: ${NAVER_CLIENT_ID:clientid}
+            secret: ${NAVER_CLIENT_SECRET:clientsecret}
+        provider:
+            grant-type: authorization_code
+            authorization:
+                url: https://nid.naver.com
+                redirect-path: /oauth2.0/authorize
+                token-path: /oauth2.0/token
+            resource:
+                url: https://openapi.naver.com
+                user-info-path: /v1/nid/me
