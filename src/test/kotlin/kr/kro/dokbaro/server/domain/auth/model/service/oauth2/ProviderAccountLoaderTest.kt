@@ -19,7 +19,7 @@ class ProviderAccountLoaderTest :
 			ProviderAccountLoader(
 				mapOf(
 					"${targetProvider.name.lowercase()}ResourceTokenLoader" to
-						LoadProviderResourceTokenPort {
+						LoadProviderResourceTokenPort { _, _ ->
 							"provider-resource-access-token"
 						},
 				),
@@ -37,7 +37,7 @@ class ProviderAccountLoaderTest :
 		"provider에 해당하는 account를 가져온다" {
 			val result: ProviderAccount =
 				providerAccountLoader.load(
-					ProviderAuthorizationCommand(targetProvider, "authorizeToken"),
+					ProviderAuthorizationCommand(targetProvider, "authorizeToken", "http://localhost:5173/oauth2/redirected/kakao"),
 				)
 
 			result.provider shouldBe targetProvider

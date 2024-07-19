@@ -21,7 +21,7 @@ class OAuth2AuthorizeControllerTest : RestDocsTest() {
 		"provider에 해당하는 Authorize page url을 발급받는다" {
 			every { findOauth2AuthorizeUrlUseCase.get(any(AuthProvider::class)) } returns
 				"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=adfs" +
-				"&redirect_uri=dev.dokbaro.kro.kr&scope=image,name"
+				"&redirect_uri=http://dev.dokbaro.kro.kr&scope=image,name"
 
 			performGet(Path("/auth/oauth2/authorize/{provider}", AuthProvider.KAKAO.name))
 				.andExpect(status().isOk)

@@ -20,5 +20,5 @@ class OAuth2SignUpController(
 	fun oauth2SignUp(
 		@PathVariable provider: AuthProvider,
 		@RequestBody body: ProviderAuthorizationTokenRequest,
-	): AuthToken = oAuth2SignUpUseCase.signUp(ProviderAuthorizationCommand(provider, body.token))
+	): AuthToken = oAuth2SignUpUseCase.signUp(ProviderAuthorizationCommand(provider, body.token, body.redirectUrl))
 }

@@ -24,7 +24,7 @@ class OAuth2SignUpControllerTest : RestDocsTest() {
 		"회원가입을 수행한다" {
 			every { oAuth2SignUpUseCase.signUp(any()) } returns AuthToken("access-token", "refresh-token")
 
-			val body = ProviderAuthorizationTokenRequest("mockToken")
+			val body = ProviderAuthorizationTokenRequest("mockToken", "http://localhost:5173/oauth2/redirected/kakao")
 
 			performPost(Path("/auth/oauth2/signup/{provider}", AuthProvider.KAKAO.name), body)
 				.andExpect(status().isOk)
@@ -35,6 +35,9 @@ class OAuth2SignUpControllerTest : RestDocsTest() {
 							fieldWithPath("token")
 								.type(JsonFieldType.STRING)
 								.description("provider authorization token"),
+							fieldWithPath("redirectUrl")
+								.type(JsonFieldType.STRING)
+								.description("client redirect URL"),
 						),
 						responseFields(
 							fieldWithPath("accessToken")

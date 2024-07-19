@@ -29,7 +29,7 @@ class OAuth2LoginControllerTest : RestDocsTest() {
 					"uuid-refresh-token",
 				)
 
-			val body = ProviderAuthorizationTokenRequest("mockToken")
+			val body = ProviderAuthorizationTokenRequest("mockToken", "http://localhost:5173/oauth2/redirected/kakao")
 
 			performPost(Path("/auth/oauth2/login/{provider}", AuthProvider.KAKAO.name), body)
 				.andExpect(status().isOk)
@@ -40,6 +40,9 @@ class OAuth2LoginControllerTest : RestDocsTest() {
 							fieldWithPath("token")
 								.type(JsonFieldType.STRING)
 								.description("provider authorization token"),
+							fieldWithPath("redirectUrl")
+								.type(JsonFieldType.STRING)
+								.description("client redirect URL"),
 						),
 						responseFields(
 							fieldWithPath("accessToken")
