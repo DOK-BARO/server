@@ -14,7 +14,7 @@ class ProviderAccountLoader(
 	fun load(command: ProviderAuthorizationCommand): ProviderAccount {
 		val resourceToken: String =
 			resourceTokenPort["${command.provider.name.lowercase()}ResourceTokenLoader"]!!
-				.getToken(command.token)
+				.getToken(command.token, command.redirectUrl)
 
 		return accountPort["${command.provider.name.lowercase()}AccountLoader"]!!
 			.getAttributes(resourceToken)

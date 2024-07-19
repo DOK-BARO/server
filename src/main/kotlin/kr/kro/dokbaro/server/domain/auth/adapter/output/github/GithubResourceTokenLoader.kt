@@ -10,16 +10,18 @@ import org.springframework.stereotype.Component
 class GithubResourceTokenLoader(
 	private val authorizationClient: GithubAuthorizationClient,
 	@Value("\${oauth2.github.client.id}") private val clientId: String,
-	@Value("\${oauth2.github.client.redirect-uri}") private val redirectUri: String,
 	@Value("\${oauth2.github.client.secret}") private val clientSecret: String,
 ) : LoadProviderResourceTokenPort {
-	override fun getToken(authorizationToken: String): String {
+	override fun getToken(
+		authorizationToken: String,
+		redirectUrl: String,
+	): String {
 		val token: GithubAuthorizationTokenResponse =
 			authorizationClient
 				.getAuthorizationToken(
 					authorizationToken,
 					clientId,
-					redirectUri,
+					redirectUrl,
 					clientSecret,
 				)
 

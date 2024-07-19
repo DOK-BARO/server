@@ -12,7 +12,7 @@ import kr.kro.dokbaro.server.fixture.FixtureBuilder
 class NaverResourceTokenLoaderTest :
 	StringSpec({
 		val naverAuthorizationClient = mockk<NaverAuthorizationClient>()
-		val naverResourceTokenLoader = NaverResourceTokenLoader(naverAuthorizationClient, "token", "aa", "bb", "cc")
+		val naverResourceTokenLoader = NaverResourceTokenLoader(naverAuthorizationClient, "token", "bb", "cc")
 
 		"naver의 accessToken을 발급받는다" {
 			val sample =
@@ -24,7 +24,7 @@ class NaverResourceTokenLoaderTest :
 					).sample()
 			every { naverAuthorizationClient.getAuthorizationToken(any(), any(), any(), any(), any()) } returns sample
 
-			val result: String = naverResourceTokenLoader.getToken("token")
+			val result: String = naverResourceTokenLoader.getToken("token", "http://localhost:5173/oauth2/redirected/naver")
 
 			result.isNotEmpty() shouldBe true
 		}
