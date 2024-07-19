@@ -11,17 +11,19 @@ class GoogleResourceTokenLoader(
 	private val authorizationClient: GoogleAuthorizationClient,
 	@Value("\${oauth2.google.provider.grant-type}") private val grantType: String,
 	@Value("\${oauth2.google.client.id}") private val clientId: String,
-	@Value("\${oauth2.google.client.redirect-uri}") private val redirectUri: String,
 	@Value("\${oauth2.google.client.secret}") private val clientSecret: String,
 ) : LoadProviderResourceTokenPort {
-	override fun getToken(authorizationToken: String): String {
+	override fun getToken(
+		authorizationToken: String,
+		redirectUrl: String,
+	): String {
 		val token: GoogleAuthorizationTokenResponse =
 			authorizationClient
 				.getAuthorizationToken(
 					authorizationToken,
 					grantType,
 					clientId,
-					redirectUri,
+					redirectUrl,
 					clientSecret,
 				)
 

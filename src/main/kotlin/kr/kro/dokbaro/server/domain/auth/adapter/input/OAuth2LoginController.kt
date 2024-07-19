@@ -20,5 +20,5 @@ class OAuth2LoginController(
 	fun oauth2Login(
 		@PathVariable provider: AuthProvider,
 		@RequestBody body: ProviderAuthorizationTokenRequest,
-	): AuthToken = loginUseCase.login(ProviderAuthorizationCommand(provider, body.token))
+	): AuthToken = loginUseCase.login(ProviderAuthorizationCommand(provider, body.token, body.redirectUrl))
 }

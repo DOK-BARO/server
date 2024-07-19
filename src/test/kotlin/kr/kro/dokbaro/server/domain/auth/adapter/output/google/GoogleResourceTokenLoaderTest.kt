@@ -12,7 +12,7 @@ import kr.kro.dokbaro.server.fixture.FixtureBuilder
 class GoogleResourceTokenLoaderTest :
 	StringSpec({
 		val googleAuthorizationClient = mockk<GoogleAuthorizationClient>()
-		val googleResourceTokenLoader = GoogleResourceTokenLoader(googleAuthorizationClient, "token", "aa", "bb", "cc")
+		val googleResourceTokenLoader = GoogleResourceTokenLoader(googleAuthorizationClient, "token", "bb", "cc")
 
 		"google의 accessToken을 발급받는다" {
 			val sample =
@@ -24,7 +24,7 @@ class GoogleResourceTokenLoaderTest :
 					).sample()
 			every { googleAuthorizationClient.getAuthorizationToken(any(), any(), any(), any(), any()) } returns sample
 
-			val result: String = googleResourceTokenLoader.getToken("token")
+			val result: String = googleResourceTokenLoader.getToken("token", "http://localhost:5173/oauth2/redirected/google")
 
 			result.isNotEmpty() shouldBe true
 		}

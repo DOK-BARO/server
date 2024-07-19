@@ -12,7 +12,7 @@ import kr.kro.dokbaro.server.fixture.FixtureBuilder
 class GithubResourceTokenLoaderTest :
 	StringSpec({
 		val githubAuthorizationClient = mockk<GithubAuthorizationClient>()
-		val githubResourceTokenLoader = GithubResourceTokenLoader(githubAuthorizationClient, "token", "aa", "bb")
+		val githubResourceTokenLoader = GithubResourceTokenLoader(githubAuthorizationClient, "token", "bb")
 
 		"github의 accessToken을 발급받는다" {
 			val sample =
@@ -24,7 +24,7 @@ class GithubResourceTokenLoaderTest :
 					).sample()
 			every { githubAuthorizationClient.getAuthorizationToken(any(), any(), any(), any()) } returns sample
 
-			val result: String = githubResourceTokenLoader.getToken("token")
+			val result: String = githubResourceTokenLoader.getToken("token", "http://localhost:5173/oauth2/redirected/github")
 
 			result.isNotEmpty() shouldBe true
 		}

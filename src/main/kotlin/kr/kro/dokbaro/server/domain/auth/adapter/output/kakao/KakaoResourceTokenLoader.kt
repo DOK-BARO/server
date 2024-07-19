@@ -11,17 +11,19 @@ class KakaoResourceTokenLoader(
 	private val authorizationClient: KakaoAuthorizationClient,
 	@Value("\${oauth2.kakao.provider.grant-type}") private val grantType: String,
 	@Value("\${oauth2.kakao.client.id}") private val clientId: String,
-	@Value("\${oauth2.kakao.client.redirect-uri}") private val redirectUri: String,
 	@Value("\${oauth2.kakao.client.secret}") private val clientSecret: String,
 ) : LoadProviderResourceTokenPort {
-	override fun getToken(authorizationToken: String): String {
+	override fun getToken(
+		authorizationToken: String,
+		redirectUrl: String,
+	): String {
 		val token: KakaoAuthorizationTokenResponse =
 			authorizationClient
 				.getAuthorizationToken(
 					authorizationToken,
 					grantType,
 					clientId,
-					redirectUri,
+					redirectUrl,
 					clientSecret,
 				)
 

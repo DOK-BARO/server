@@ -12,7 +12,7 @@ import kr.kro.dokbaro.server.fixture.FixtureBuilder
 class KakaoResourceTokenLoaderTest :
 	StringSpec({
 		val kakaoAuthorizationClient = mockk<KakaoAuthorizationClient>()
-		val kakaoResourceTokenLoader = KakaoResourceTokenLoader(kakaoAuthorizationClient, "token", "aa", "bb", "cc")
+		val kakaoResourceTokenLoader = KakaoResourceTokenLoader(kakaoAuthorizationClient, "token", "bb", "cc")
 
 		"kakao의 accessToken을 발급받는다" {
 			val sample =
@@ -24,7 +24,7 @@ class KakaoResourceTokenLoaderTest :
 					).sample()
 			every { kakaoAuthorizationClient.getAuthorizationToken(any(), any(), any(), any(), any()) } returns sample
 
-			val result: String = kakaoResourceTokenLoader.getToken("token")
+			val result: String = kakaoResourceTokenLoader.getToken("token", "http://localhost:5173/oauth2/redirected/kakao")
 
 			result.isNotEmpty() shouldBe true
 		}
