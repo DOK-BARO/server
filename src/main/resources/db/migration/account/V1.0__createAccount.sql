@@ -7,4 +7,4 @@ create table account
 );
 
 create index account_social_id_index
-	on account (social_id);
+	on account (social_id, provider);
