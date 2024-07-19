@@ -209,9 +209,9 @@ kotlin {
 	}
 }
 
-val dbUser: String = System.getProperty("db-user") ?: "root"
-val dbPassword: String = System.getProperty("db-passwd") ?: "verysecret"
-val schema: String = System.getProperty("db-schema") ?: "mydatabase"
+val dbUser: String = System.getProperty("spring.datasource.username") ?: "root"
+val dbPassword: String = System.getProperty("spring.datasource.password") ?: "verysecret"
+val schema: String = getDBSchema(System.getProperty("spring.datasource.url"))
 
 sourceSets {
 	main {
@@ -278,4 +278,15 @@ tasks {
 			)
 		}
 	}
+}
+
+fun getDBSchema(url: String?): String {
+	val regex = Regex("""jdbc:mysql://[^/]+/([^?]+)""")
+	return url?.let {
+		regex
+			.find(it)
+			?.groups
+			?.get(1)
+			?.value
+	} ?: "mydatabase"
 }
