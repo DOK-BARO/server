@@ -4,6 +4,7 @@ oauth2:
             redirect-uri: ${GOOGLE_AUTH_CLIENT_REDIRECT_URI:http://localhost:5173/oauth2/redirected/google}
             id: ${GOOGLE_CLIENT_ID:clientid}
             secret: ${GOOGLE_CLIENT_SECRET:clientsecret}
+            scope: profile,email
         provider:
             grant-type: authorization_code
             authorization-url: https://accounts.google.com/o/oauth2/v2/auth
