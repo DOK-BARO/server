@@ -211,7 +211,7 @@ kotlin {
 
 val dbUser = "root"
 val dbPassword = "verysecret"
-val schema = "mydatabase"
+val schema = getDbSchema()
 
 sourceSets {
 	main {
@@ -281,4 +281,16 @@ tasks {
 			)
 		}
 	}
+}
+
+fun getDbSchema(): String {
+	val regex = Regex("""jdbc:mysql://[^/]+/([^?]+)""")
+
+	return System.getenv("MYSQL_URL")?.let {
+		regex
+			.find(it)
+			?.groups
+			?.get(1)
+			?.value
+	} ?: "mydatabase"
 }
