@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 
 class GoogleAuthorizeStrategyTest :
 	StringSpec({
-		val googleAuthorizeStrategy = GoogleAuthorizeStrategy("", "", "")
+		val googleAuthorizeStrategy = GoogleAuthorizeStrategy("", "", "", "")
 		"url을 생성한다" {
 			googleAuthorizeStrategy.getUri().isNotEmpty() shouldBe true
 		}
