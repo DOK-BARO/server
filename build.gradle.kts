@@ -211,7 +211,7 @@ kotlin {
 
 val dbUser = "root"
 val dbPassword = "verysecret"
-val schema = getDbSchema()
+val schema = project.findProperty("mysql.schema") as String? ?: "mydatabase"
 
 sourceSets {
 	main {
@@ -260,9 +260,6 @@ tasks {
 					.withDaos(true)
 					.withFluentSetters(true)
 					.withRecords(true)
-					.withEmptySchemas(true)
-					.withDefaultSchema(false)
-					.withGlobalSchemaReferences(false)
 
 			withStrategy(
 				Strategy().withName("jooq.configuration.generator.JPrefixGeneratorStrategy"),
@@ -281,16 +278,4 @@ tasks {
 			)
 		}
 	}
-}
-
-fun getDbSchema(): String {
-	val regex = Regex("""jdbc:mysql://[^/]+/([^?]+)""")
-
-	return System.getenv("MYSQL_URL")?.let {
-		regex
-			.find(it)
-			?.groups
-			?.get(1)
-			?.value
-	} ?: "mydatabase"
 }
