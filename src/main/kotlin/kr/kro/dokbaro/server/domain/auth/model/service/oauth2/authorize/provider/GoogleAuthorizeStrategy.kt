@@ -9,6 +9,7 @@ import org.springframework.web.util.UriComponentsBuilder
 class GoogleAuthorizeStrategy(
 	@Value("\${oauth2.google.provider.authorization-url}") private val authorizationUrl: String,
 	@Value("\${oauth2.google.client.redirect-uri}") private val clientRedirectUri: String,
+	@Value("\${oauth2.google.provider.resource-url}") private val scope: String,
 	@Value("\${oauth2.google.client.id}") private val clientId: String,
 ) : OAuth2AuthorizeStrategy {
 	override fun getUri(): String =
@@ -17,5 +18,6 @@ class GoogleAuthorizeStrategy(
 			.queryParam("response_type", "code")
 			.queryParam("client_id", clientId)
 			.queryParam("redirect_uri", clientRedirectUri)
+			.queryParam("scope", scope)
 			.toUriString()
 }
