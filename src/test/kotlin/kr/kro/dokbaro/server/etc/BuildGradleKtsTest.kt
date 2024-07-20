@@ -7,13 +7,18 @@ class BuildGradleKtsTest :
 	StringSpec({
 
 		"datasource url에서 schema를 추출한다" {
-			// 맨 마지막 슬래시와 파라미터(?) 사이의 schema 값만 추출
 			val url = "jdbc:mysql://mysql/bewineddev?serverTimezone=Asia/Seoul"
 			val regex = Regex("""jdbc:mysql://[^/]+/([^?]+)""")
 
-			val matchResult = regex.find(url)
-			val databaseName = matchResult?.groups?.get(1)?.value
+			val result =
+				url?.let {
+					regex
+						.find(it)
+						?.groups
+						?.get(1)
+						?.value
+				} ?: "mydatabase"
 
-			databaseName shouldBe "bewineddev"
+			result shouldBe "bewineddev"
 		}
 	})
