@@ -13,6 +13,7 @@ fun interface GithubAuthorizationClient {
 	@PostMapping(
 		path = ["\${oauth2.github.provider.authorization.token-path}"],
 		consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE],
+		headers = ["Accept=application/json"],
 	)
 	fun getAuthorizationToken(
 		@RequestParam(name = "code") code: String,
