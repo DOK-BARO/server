@@ -16,7 +16,7 @@ class GoogleAccountLoader(
 
 		return ProviderAccount(
 			AuthProvider.GOOGLE,
-			account.sub,
+			account.id,
 			account.name,
 			account.email,
 			account.picture,
