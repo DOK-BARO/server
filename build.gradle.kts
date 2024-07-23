@@ -49,6 +49,7 @@ extra["springCloudVersion"] = "2023.0.2"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-aop")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
