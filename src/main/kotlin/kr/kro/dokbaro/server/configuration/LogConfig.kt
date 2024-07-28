@@ -13,7 +13,12 @@ private val log = KotlinLogging.logger { }
 @Aspect
 @Configuration
 class LogConfig {
-	@Around("execution(* kr.kro.dokbaro.server.domain..*(..))")
+	@Around(
+		"""
+		execution(* kr.kro.dokbaro.server.domain..*(..)) &&
+			 !execution(* kr.kro.dokbaro.server.domain..adapter.input..*(..))
+		""",
+	)
 	fun debugLog(joinPoint: ProceedingJoinPoint): Any? {
 		log.debug { "===> ${toRequestFormat(joinPoint)}" }
 		val result = joinPoint.proceed()
@@ -22,7 +27,7 @@ class LogConfig {
 		return result
 	}
 
-	@Around("execution(* kr.kro.dokbaro.server.domain..*(..))")
+	@Around("execution(* kr.kro.dokbaro.server.domain..adapter.input..*(..))")
 	fun infoLog(joinPoint: ProceedingJoinPoint): Any? {
 		log.info { "===> ${toRequestFormat(joinPoint)}" }
 		val result = joinPoint.proceed()
@@ -31,12 +36,12 @@ class LogConfig {
 		return result
 	}
 
-	@AfterThrowing("execution(* kr.kro.dokbaro.server..*(..))", throwing = "ex")
+	@AfterThrowing("execution(* kr.kro.dokbaro.server.domain..*(..))", throwing = "ex")
 	fun clientErrorLog(
 		joinPoint: JoinPoint,
 		ex: Exception,
 	) {
-		log.error { "===X===> ${toRequestFormat(joinPoint)} --error-- ${ex.message}" }
+		log.error { "<===X=== ${toRequestFormat(joinPoint)} --error-- ${ex.message}" }
 	}
 
 	private fun toRequestFormat(joinPoint: JoinPoint) =
