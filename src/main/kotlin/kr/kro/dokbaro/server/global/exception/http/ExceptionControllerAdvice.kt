@@ -27,7 +27,7 @@ class ExceptionControllerAdvice {
 
 	@ExceptionHandler(UnauthorizedException::class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	fun unauthorized(e: BadRequestException) = ErrorResponse(HttpStatus.UNAUTHORIZED.value(), e.message)
+	fun unauthorized(e: UnauthorizedException) = ErrorResponse(HttpStatus.UNAUTHORIZED.value(), e.message)
 
 	@ExceptionHandler(InternalServerException::class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -41,8 +41,4 @@ class ExceptionControllerAdvice {
 	@ExceptionHandler(RuntimeException::class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	fun runtimeException(e: RuntimeException) = ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.message)
-
-	@ExceptionHandler(Exception::class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	fun exception(e: Exception) = ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.message)
 }
