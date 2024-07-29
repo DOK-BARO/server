@@ -35,8 +35,7 @@ class SecurityConfig(
 			.logout {
 				it.logoutUrl("/logout")
 				it.logoutSuccessHandler(logoutSuccessHandler())
-			}.cors { it.configurationSource(corsConfig()) }
-			.csrf { it.disable() }
+			}.csrf { it.disable() }
 			.formLogin { it.disable() }
 			.httpBasic { it.disable() }
 			.build()
