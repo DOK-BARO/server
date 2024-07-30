@@ -26,7 +26,7 @@ class OAuth2LoginServiceTest :
 			every { providerAccountLoader.load(any()) } returns FixtureBuilder.give<ProviderAccount>().sample()
 			every { accountFinder.getById(any()) } returns
 				AccountResponse(FixtureBuilder.give<Account>().sample())
-			every { generateAuthTokenUseCase.generate(any()) } returns FixtureBuilder.give<AuthToken>().sample()
+			every { generateAuthTokenUseCase.generate(any()) } returns AuthToken("aaa", "rrr")
 
 			val command =
 				ProviderAuthorizationCommand(AuthProvider.GOOGLE, "token", "http://localhost:5173/oauth2/redirected/kakao")

@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.domain.auth.adapter.output.naver.external
 
+import kr.kro.dokbaro.server.global.exception.FeignClientErrorDecoder
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam
 @FeignClient(
 	name = "naverAuthorizationClient",
 	url = "\${oauth2.naver.provider.authorization.url}",
+	configuration = [FeignClientErrorDecoder::class],
 )
 fun interface NaverAuthorizationClient {
 	@PostMapping(

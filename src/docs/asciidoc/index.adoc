@@ -7,7 +7,9 @@ endif::[]
 :toc: left
 :toclevels: 4
 :sectlinks:
-= DOK BARO
+= DOKBARO
+
+include::health-check.adoc[]
 
 include::auth.adoc[]
 
