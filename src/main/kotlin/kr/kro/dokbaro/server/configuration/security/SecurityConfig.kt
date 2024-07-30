@@ -35,18 +35,18 @@ class SecurityConfig(
 			.logout {
 				it.logoutUrl("/logout")
 				it.logoutSuccessHandler(logoutSuccessHandler())
-			}.csrf { it.disable() }
+			}.cors { it.configurationSource(corsConfig()) }
+			.csrf { it.disable() }
 			.formLogin { it.disable() }
 			.httpBasic { it.disable() }
 			.build()
 
-	@Bean
 	fun corsConfig(): CorsConfigurationSource {
 		val corsConfiguration = CorsConfiguration()
 
 		corsConfiguration.allowedOrigins = originPattern
 		corsConfiguration.addAllowedHeader("*")
-		corsConfiguration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
+		corsConfiguration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS")
 		corsConfiguration.allowCredentials = true
 
 		val source = UrlBasedCorsConfigurationSource()
