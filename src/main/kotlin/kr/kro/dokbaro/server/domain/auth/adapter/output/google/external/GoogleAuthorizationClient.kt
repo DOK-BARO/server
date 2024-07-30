@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.domain.auth.adapter.output.google.external
 
+import kr.kro.dokbaro.server.global.exception.FeignClientErrorDecoder
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam
 @FeignClient(
 	name = "googleAuthorizationClient",
 	url = "\${oauth2.google.provider.token-url}",
+	configuration = [FeignClientErrorDecoder::class],
 )
 fun interface GoogleAuthorizationClient {
 	@PostMapping(consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
