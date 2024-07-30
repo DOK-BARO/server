@@ -1,0 +1,21 @@
+= HEALTH-CHECK
+
+== GET
+
+=== HTTP request
+
+include::{snippets}/health-check/get/http-request.adoc[]
+
+=== HTTP response
+
+include::{snippets}/health-check/get/http-response.adoc[]
+
+== POST
+
+=== HTTP request
+
+include::{snippets}/health-check/post/http-request.adoc[]
+
+=== HTTP response
+
+include::{snippets}/health-check/post/http-response.adoc[]
