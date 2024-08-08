@@ -183,6 +183,8 @@ kover {
 				classes("org.jooq.generated.**")
 				classes("kr.kro.dokbaro.server.configuration.**")
 				classes("kr.kro.dokbaro.server.global.**")
+				classes("kr.kro.dokbaro.server.log.**")
+				classes("kr.kro.dokbaro.server.core.security.**")
 			}
 		}
 		verify {
