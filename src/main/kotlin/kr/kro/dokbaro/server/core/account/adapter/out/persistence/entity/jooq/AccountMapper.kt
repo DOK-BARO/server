@@ -1,8 +1,8 @@
 package kr.kro.dokbaro.server.core.account.adapter.out.persistence.entity.jooq
 
+import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.account.domain.Account
 import kr.kro.dokbaro.server.core.account.domain.Role
-import kr.kro.dokbaro.server.global.AuthProvider
 import org.jooq.Result
 import org.jooq.generated.tables.records.AccountRecord
 import org.jooq.generated.tables.records.RoleRecord

@@ -1,10 +1,10 @@
 package kr.kro.dokbaro.server.core.auth.adapter.input.web
 
+import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.auth.adapter.input.web.dto.ProviderAuthorizationTokenRequest
 import kr.kro.dokbaro.server.core.auth.application.port.input.OAuth2SignUpUseCase
-import kr.kro.dokbaro.server.core.auth.application.port.input.dto.ProviderAuthorizationCommand
+import kr.kro.dokbaro.server.core.auth.application.port.input.dto.LoadProviderAccountCommand
 import kr.kro.dokbaro.server.core.token.domain.AuthToken
-import kr.kro.dokbaro.server.global.AuthProvider
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,5 +20,5 @@ class OAuth2SignUpController(
 	fun oauth2SignUp(
 		@PathVariable provider: AuthProvider,
 		@RequestBody body: ProviderAuthorizationTokenRequest,
-	): AuthToken = oAuth2SignUpUseCase.signUp(ProviderAuthorizationCommand(provider, body.token, body.redirectUrl))
+	): AuthToken = oAuth2SignUpUseCase.signUp(LoadProviderAccountCommand(provider, body.token, body.redirectUrl))
 }

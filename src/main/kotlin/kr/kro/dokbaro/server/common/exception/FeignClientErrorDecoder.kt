@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.global.exception
+package kr.kro.dokbaro.server.common.exception
 
 import feign.Response
 import feign.codec.ErrorDecoder

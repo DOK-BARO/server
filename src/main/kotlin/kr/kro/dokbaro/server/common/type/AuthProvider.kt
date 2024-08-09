@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.global
+package kr.kro.dokbaro.server.common.type
 
 enum class AuthProvider {
 	GOOGLE,

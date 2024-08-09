@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.global.exception.http
+package kr.kro.dokbaro.server.common.exception.http
 
 data class ErrorResponse(
 	val status: Int,

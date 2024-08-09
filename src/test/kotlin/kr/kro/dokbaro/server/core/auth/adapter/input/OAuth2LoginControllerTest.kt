@@ -2,14 +2,14 @@ package kr.kro.dokbaro.server.core.auth.adapter.input
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.auth.adapter.input.web.OAuth2LoginController
 import kr.kro.dokbaro.server.core.auth.adapter.input.web.dto.ProviderAuthorizationTokenRequest
 import kr.kro.dokbaro.server.core.auth.application.port.input.OAuth2LoginUseCase
-import kr.kro.dokbaro.server.core.auth.application.port.input.dto.ProviderAuthorizationCommand
+import kr.kro.dokbaro.server.core.auth.application.port.input.dto.LoadProviderAccountCommand
 import kr.kro.dokbaro.server.core.token.domain.AuthToken
-import kr.kro.dokbaro.server.global.AuthProvider
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -24,7 +24,7 @@ class OAuth2LoginControllerTest : RestDocsTest() {
 
 	init {
 		"login을 수행한다" {
-			every { loginUseCase.login(any(ProviderAuthorizationCommand::class)) } returns
+			every { loginUseCase.login(any(LoadProviderAccountCommand::class)) } returns
 				AuthToken(
 					"jwt.access.token",
 					"uuid-refresh-token",

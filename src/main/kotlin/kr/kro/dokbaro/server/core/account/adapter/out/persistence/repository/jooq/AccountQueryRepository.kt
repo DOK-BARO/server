@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.account.adapter.out.persistence.repository.jooq
 
+import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.account.adapter.out.persistence.entity.jooq.AccountMapper
 import kr.kro.dokbaro.server.core.account.application.port.output.LoadAccountPort
 import kr.kro.dokbaro.server.core.account.domain.Account

@@ -1,11 +1,11 @@
-package kr.kro.dokbaro.server.global.exception.http
+package kr.kro.dokbaro.server.common.exception.http
 
-import kr.kro.dokbaro.server.global.exception.http.status4xx.BadRequestException
-import kr.kro.dokbaro.server.global.exception.http.status4xx.ForbiddenException
-import kr.kro.dokbaro.server.global.exception.http.status4xx.NotFoundException
-import kr.kro.dokbaro.server.global.exception.http.status4xx.UnauthorizedException
-import kr.kro.dokbaro.server.global.exception.http.status5xx.InternalServerException
-import kr.kro.dokbaro.server.global.exception.http.status5xx.NotImplementedException
+import kr.kro.dokbaro.server.common.exception.http.status4xx.BadRequestException
+import kr.kro.dokbaro.server.common.exception.http.status4xx.ForbiddenException
+import kr.kro.dokbaro.server.common.exception.http.status4xx.NotFoundException
+import kr.kro.dokbaro.server.common.exception.http.status4xx.UnauthorizedException
+import kr.kro.dokbaro.server.common.exception.http.status5xx.InternalServerException
+import kr.kro.dokbaro.server.common.exception.http.status5xx.NotImplementedException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice

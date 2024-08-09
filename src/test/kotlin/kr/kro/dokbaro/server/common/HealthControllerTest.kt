@@ -1,7 +1,8 @@
-package kr.kro.dokbaro.server.global
+package kr.kro.dokbaro.server.common
 
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
+import kr.kro.dokbaro.server.core.HealthController
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 

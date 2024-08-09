@@ -6,10 +6,10 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.account.application.port.input.command.dto.RegisterAccountCommand
 import kr.kro.dokbaro.server.core.account.application.port.output.ExistAccountPort
 import kr.kro.dokbaro.server.core.account.application.port.output.SaveAccountPort
-import kr.kro.dokbaro.server.global.AuthProvider
 import java.time.Clock
 
 class AccountServiceTest :

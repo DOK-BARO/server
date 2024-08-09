@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.auth.adapter.out.web.naver
 
+import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.auth.adapter.out.web.naver.external.NaverResourceClient
 import kr.kro.dokbaro.server.core.auth.adapter.out.web.naver.external.resource.NaverAccount
 import kr.kro.dokbaro.server.core.auth.application.port.out.LoadProviderAccountPort

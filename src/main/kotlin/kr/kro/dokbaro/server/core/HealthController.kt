@@ -1,6 +1,6 @@
-package kr.kro.dokbaro.server.global
+package kr.kro.dokbaro.server.core
 
-import kr.kro.dokbaro.server.global.dto.response.MessageResponse
+import kr.kro.dokbaro.server.common.dto.response.MessageResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping

@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.core.auth.adapter.out.web.kakao.external
 
+import kr.kro.dokbaro.server.common.exception.FeignClientErrorDecoder
 import kr.kro.dokbaro.server.core.auth.adapter.out.web.kakao.external.resource.KakaoAccount
-import kr.kro.dokbaro.server.global.exception.FeignClientErrorDecoder
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType

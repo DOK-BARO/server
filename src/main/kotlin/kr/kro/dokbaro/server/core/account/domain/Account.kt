@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.account.domain
 
-import kr.kro.dokbaro.server.global.AuthProvider
+import kr.kro.dokbaro.server.common.type.AuthProvider
 import java.time.Clock
 import java.time.LocalDateTime
 

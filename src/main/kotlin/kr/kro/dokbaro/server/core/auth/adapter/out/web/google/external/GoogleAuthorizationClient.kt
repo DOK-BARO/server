@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.auth.adapter.out.web.google.external
 
-import kr.kro.dokbaro.server.global.exception.FeignClientErrorDecoder
+import kr.kro.dokbaro.server.common.exception.FeignClientErrorDecoder
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping

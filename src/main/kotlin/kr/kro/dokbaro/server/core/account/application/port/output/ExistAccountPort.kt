@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.account.application.port.output
 
-import kr.kro.dokbaro.server.global.AuthProvider
+import kr.kro.dokbaro.server.common.type.AuthProvider
 
 interface ExistAccountPort {
 	fun existBy(

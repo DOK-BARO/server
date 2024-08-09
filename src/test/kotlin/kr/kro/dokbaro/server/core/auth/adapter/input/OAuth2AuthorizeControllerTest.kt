@@ -2,11 +2,11 @@ package kr.kro.dokbaro.server.core.auth.adapter.input
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.auth.adapter.input.web.OAuth2AuthorizeUrlController
 import kr.kro.dokbaro.server.core.auth.application.port.input.FindOAuth2AuthorizeUrlUseCase
-import kr.kro.dokbaro.server.global.AuthProvider
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
