@@ -2,7 +2,6 @@ package kr.kro.dokbaro.server.core.account.adapter.out.persistence.repository.jo
 
 import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.account.adapter.out.persistence.entity.jooq.AccountMapper
-import kr.kro.dokbaro.server.core.account.application.port.output.LoadAccountPort
 import kr.kro.dokbaro.server.core.account.domain.Account
 import org.jooq.DSLContext
 import org.jooq.Result
@@ -16,13 +15,13 @@ import org.springframework.stereotype.Repository
 class AccountQueryRepository(
 	private val dslContext: DSLContext,
 	private val accountMapper: AccountMapper,
-) : LoadAccountPort {
+) {
 	companion object {
 		private val ACCOUNT = JAccount.ACCOUNT
 		private val ROLE = JRole.ROLE
 	}
 
-	override fun findBy(socialId: String): Account? {
+	fun findBy(socialId: String): Account? {
 		val record: Map<AccountRecord, Result<RoleRecord>> =
 			dslContext
 				.select()
@@ -34,4 +33,17 @@ class AccountQueryRepository(
 
 		return accountMapper.mapTo(record)
 	}
+
+	fun existBy(
+		socialId: String,
+		provider: AuthProvider,
+	): Boolean =
+		dslContext
+			.fetchExists(
+				dslContext
+					.selectOne()
+					.from(ACCOUNT)
+					.where(ACCOUNT.SOCIAL_ID.eq(socialId))
+					.and(ACCOUNT.PROVIDER.eq(provider.name)),
+			)
 }

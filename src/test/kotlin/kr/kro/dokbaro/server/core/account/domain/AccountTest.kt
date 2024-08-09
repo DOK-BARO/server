@@ -3,7 +3,7 @@ package kr.kro.dokbaro.server.core.account.domain
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kr.kro.dokbaro.server.global.AuthProvider
+import kr.kro.dokbaro.server.common.type.AuthProvider
 import java.time.Clock
 
 class AccountTest :
