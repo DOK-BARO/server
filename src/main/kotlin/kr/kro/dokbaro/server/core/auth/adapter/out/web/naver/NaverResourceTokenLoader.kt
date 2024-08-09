@@ -1,8 +1,8 @@
 package kr.kro.dokbaro.server.core.auth.adapter.out.web.naver
 
+import kr.kro.dokbaro.server.core.auth.adapter.out.web.ProviderResourceTokenLoader
 import kr.kro.dokbaro.server.core.auth.adapter.out.web.naver.external.NaverAuthorizationClient
 import kr.kro.dokbaro.server.core.auth.adapter.out.web.naver.external.NaverAuthorizationTokenResponse
-import kr.kro.dokbaro.server.core.auth.application.port.out.LoadProviderResourceTokenPort
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
@@ -12,8 +12,8 @@ class NaverResourceTokenLoader(
 	@Value("\${oauth2.naver.provider.grant-type}") private val grantType: String,
 	@Value("\${oauth2.naver.client.id}") private val clientId: String,
 	@Value("\${oauth2.naver.client.secret}") private val clientSecret: String,
-) : LoadProviderResourceTokenPort {
-	override fun getToken(
+) : ProviderResourceTokenLoader {
+	override fun get(
 		authorizationToken: String,
 		redirectUrl: String,
 	): String {

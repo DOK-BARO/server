@@ -1,8 +1,8 @@
 package kr.kro.dokbaro.server.core.auth.adapter.out.web.kakao
 
+import kr.kro.dokbaro.server.core.auth.adapter.out.web.ProviderResourceTokenLoader
 import kr.kro.dokbaro.server.core.auth.adapter.out.web.kakao.external.KakaoAuthorizationClient
 import kr.kro.dokbaro.server.core.auth.adapter.out.web.kakao.external.KakaoAuthorizationTokenResponse
-import kr.kro.dokbaro.server.core.auth.application.port.out.LoadProviderResourceTokenPort
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
@@ -12,8 +12,8 @@ class KakaoResourceTokenLoader(
 	@Value("\${oauth2.kakao.provider.grant-type}") private val grantType: String,
 	@Value("\${oauth2.kakao.client.id}") private val clientId: String,
 	@Value("\${oauth2.kakao.client.secret}") private val clientSecret: String,
-) : LoadProviderResourceTokenPort {
-	override fun getToken(
+) : ProviderResourceTokenLoader {
+	override fun get(
 		authorizationToken: String,
 		redirectUrl: String,
 	): String {
