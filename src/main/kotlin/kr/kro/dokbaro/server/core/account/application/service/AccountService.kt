@@ -3,9 +3,10 @@ package kr.kro.dokbaro.server.core.account.application.service
 import kr.kro.dokbaro.server.core.account.application.port.input.command.DisableAccountUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.command.RegisterAccountUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.command.dto.RegisterAccountCommand
-import kr.kro.dokbaro.server.core.account.application.port.input.query.dto.AccountResponse
+import kr.kro.dokbaro.server.core.account.application.port.input.query.dto.AccountResult
 import kr.kro.dokbaro.server.core.account.application.port.output.ExistAccountPort
 import kr.kro.dokbaro.server.core.account.application.port.output.SaveAccountPort
+import kr.kro.dokbaro.server.core.account.application.service.exception.AlreadyExistAccountException
 import kr.kro.dokbaro.server.core.account.domain.Account
 import org.springframework.stereotype.Service
 import java.time.Clock
@@ -17,7 +18,7 @@ class AccountService(
 	private val clock: Clock,
 ) : RegisterAccountUseCase,
 	DisableAccountUseCase {
-	override fun register(command: RegisterAccountCommand): AccountResponse {
+	override fun register(command: RegisterAccountCommand): AccountResult {
 		if (existAccountPort.existBy(command.socialId, command.provider)) {
 			throw AlreadyExistAccountException(command.socialId, command.provider)
 		}
@@ -31,7 +32,7 @@ class AccountService(
 
 		val savedId: Long = saveAccountPort.save(account)
 
-		return AccountResponse(
+		return AccountResult(
 			savedId,
 			account.roles.map { it.name },
 			account.provider.name,

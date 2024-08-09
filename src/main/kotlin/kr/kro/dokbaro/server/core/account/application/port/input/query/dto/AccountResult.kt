@@ -2,7 +2,7 @@ package kr.kro.dokbaro.server.core.account.application.port.input.query.dto
 
 import kr.kro.dokbaro.server.core.account.domain.Account
 
-data class AccountResponse(
+data class AccountResult(
 	val id: Long,
 	val role: Collection<String>,
 	val provider: String,
