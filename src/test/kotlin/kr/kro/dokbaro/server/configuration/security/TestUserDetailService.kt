@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.configuration.security
 
-import kr.kro.dokbaro.server.domain.account.model.Role
+import kr.kro.dokbaro.server.core.account.domain.Role
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
