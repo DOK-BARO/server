@@ -6,7 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.account.application.port.input.command.RegisterAccountUseCase
-import kr.kro.dokbaro.server.core.account.application.port.input.query.dto.AccountResult
+import kr.kro.dokbaro.server.core.account.application.port.input.dto.AccountResult
 import kr.kro.dokbaro.server.core.account.domain.Account
 import kr.kro.dokbaro.server.core.auth.application.port.input.dto.LoadProviderAccountCommand
 import kr.kro.dokbaro.server.core.auth.application.service.oauth2.authorize.OAuth2AccountLoader

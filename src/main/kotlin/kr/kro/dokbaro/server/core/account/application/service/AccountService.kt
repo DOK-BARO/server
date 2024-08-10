@@ -2,8 +2,8 @@ package kr.kro.dokbaro.server.core.account.application.service
 
 import kr.kro.dokbaro.server.core.account.application.port.input.command.DisableAccountUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.command.RegisterAccountUseCase
-import kr.kro.dokbaro.server.core.account.application.port.input.command.dto.RegisterAccountCommand
-import kr.kro.dokbaro.server.core.account.application.port.input.query.dto.AccountResult
+import kr.kro.dokbaro.server.core.account.application.port.input.dto.AccountResult
+import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterAccountCommand
 import kr.kro.dokbaro.server.core.account.application.port.output.ExistAccountPort
 import kr.kro.dokbaro.server.core.account.application.port.output.SaveAccountPort
 import kr.kro.dokbaro.server.core.account.application.service.exception.AlreadyExistAccountException
