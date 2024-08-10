@@ -1,5 +1,6 @@
 jwt:
     key: asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
     access-header-name: Authorization
+    refresh-header-name: Refresh
     limit-minute: 90000
 

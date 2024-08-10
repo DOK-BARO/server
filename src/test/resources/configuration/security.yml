@@ -1,3 +1,4 @@
 spring:
     security:
         allow-origins: http://localhost:5173
+        server-domain: ${SERVER_DOMAIN:localhost}

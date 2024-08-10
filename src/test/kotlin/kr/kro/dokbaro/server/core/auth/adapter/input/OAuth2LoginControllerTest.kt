@@ -5,12 +5,15 @@ import io.mockk.every
 import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
+import kr.kro.dokbaro.server.core.auth.adapter.input.web.JwtResponseGenerator
 import kr.kro.dokbaro.server.core.auth.adapter.input.web.OAuth2LoginController
 import kr.kro.dokbaro.server.core.auth.adapter.input.web.dto.ProviderAuthorizationTokenRequest
 import kr.kro.dokbaro.server.core.auth.application.port.input.OAuth2LoginUseCase
 import kr.kro.dokbaro.server.core.auth.application.port.input.dto.LoadProviderAccountCommand
 import kr.kro.dokbaro.server.core.token.domain.AuthToken
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.http.HttpHeaders
+import org.springframework.http.ResponseEntity
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
@@ -22,6 +25,9 @@ class OAuth2LoginControllerTest : RestDocsTest() {
 	@MockkBean
 	lateinit var loginUseCase: OAuth2LoginUseCase
 
+	@MockkBean
+	lateinit var jwtResponseGenerator: JwtResponseGenerator
+
 	init {
 		"login을 수행한다" {
 			every { loginUseCase.login(any(LoadProviderAccountCommand::class)) } returns
@@ -29,6 +35,11 @@ class OAuth2LoginControllerTest : RestDocsTest() {
 					"jwt.access.token",
 					"uuid-refresh-token",
 				)
+			every { jwtResponseGenerator.getResponseBuilder(any(), any()) } returns
+				ResponseEntity
+					.ok()
+					.header(HttpHeaders.SET_COOKIE, "Authorization=access-token;")
+					.header(HttpHeaders.SET_COOKIE, "Refresh=refresh-token;")
 
 			val body = ProviderAuthorizationTokenRequest("mockToken", "http://localhost:5173/oauth2/redirected/kakao")
 
@@ -46,12 +57,9 @@ class OAuth2LoginControllerTest : RestDocsTest() {
 								.description("client redirect URL"),
 						),
 						responseFields(
-							fieldWithPath("accessToken")
+							fieldWithPath("message")
 								.type(JsonFieldType.STRING)
-								.description("accessToken (JWT)"),
-							fieldWithPath("refreshToken")
-								.type(JsonFieldType.STRING)
-								.description("refresh token (UUID)"),
+								.description("message"),
 						),
 					),
 				)
