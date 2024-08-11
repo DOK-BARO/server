@@ -4,6 +4,7 @@
 === HTTP request
 
 include::{snippets}/auth/get-provider-authorize-url/http-request.adoc[]
+include::{snippets}/auth/get-provider-authorize-url/query-parameters.adoc[]
 
 === HTTP response
 
