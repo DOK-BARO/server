@@ -1,7 +1,6 @@
 oauth2:
     github:
         client:
-            redirect-uri: http://localhost:5173/oauth2/redirected/github
             id: clientid
             secret: clientsecret
         provider:

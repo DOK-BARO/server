@@ -1,7 +1,6 @@
 oauth2:
     google:
         client:
-            redirect-uri: http://localhost:5173/oauth2/redirected/google
             id: clientid
             secret: clientsecret
             scope: profile,email

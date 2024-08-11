@@ -8,16 +8,15 @@ import org.springframework.web.util.UriComponentsBuilder
 @Component
 class GoogleAuthorizeServerUrlLoader(
 	@Value("\${oauth2.google.provider.authorization-url}") private val authorizationUrl: String,
-	@Value("\${oauth2.google.client.redirect-uri}") private val clientRedirectUri: String,
 	@Value("\${oauth2.google.client.scope}") private val scope: String,
 	@Value("\${oauth2.google.client.id}") private val clientId: String,
 ) : OAuth2AuthorizeServerUrlLoader {
-	override fun get(): String =
+	override fun getUrl(redirectUrl: String): String =
 		UriComponentsBuilder
 			.fromUriString(authorizationUrl)
 			.queryParam("response_type", "code")
 			.queryParam("client_id", clientId)
-			.queryParam("redirect_uri", clientRedirectUri)
+			.queryParam("redirect_uri", redirectUrl)
 			.queryParam("scope", scope)
 			.toUriString()
 }

@@ -1,7 +1,6 @@
 oauth2:
     kakao:
         client:
-            redirect-uri: http://localhost:5173/oauth2/redirected/kakao
             id: clientid
             secret: clientsecret
             scope: profile_nickname,profile_image

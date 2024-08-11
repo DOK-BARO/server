@@ -9,5 +9,8 @@ import org.springframework.stereotype.Service
 class LoadOAuth2AuthorizeUrlService(
 	private val loadUrlPort: LoadProviderAuthorizationServerUrlPort,
 ) : FindOAuth2AuthorizeUrlUseCase {
-	override fun get(provider: AuthProvider): String = loadUrlPort.getUrl(provider)
+	override fun getUrl(
+		provider: AuthProvider,
+		redirectUrl: String,
+	): String = loadUrlPort.getUrl(provider, redirectUrl)
 }

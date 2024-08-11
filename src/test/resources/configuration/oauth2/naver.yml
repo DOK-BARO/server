@@ -1,7 +1,6 @@
 oauth2:
     naver:
         client:
-            redirect-uri: http://localhost:5173/oauth2/redirected/naver
             id: clientid
             secret: clientsecret
         provider:
