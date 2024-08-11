@@ -16,8 +16,8 @@ class LoadOAuth2AuthorizeUrlServiceTest :
 			LoadOAuth2AuthorizeUrlService(loadUrlPort)
 
 		"provider에 해당하는 authorize url을 반환한다" {
-			every { loadUrlPort.getUrl(any()) } returns "https://localhost:8080/api/bash"
+			every { loadUrlPort.getUrl(any(), any()) } returns "https://localhost:8080/api/bash"
 
-			loadOAuth2AuthorizeUrlService.get(targetProvider).isNotEmpty() shouldBe true
+			loadOAuth2AuthorizeUrlService.getUrl(targetProvider, "https://localhost:5173").isNotEmpty() shouldBe true
 		}
 	})

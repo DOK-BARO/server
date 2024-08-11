@@ -8,6 +8,8 @@ import kr.kro.dokbaro.server.core.auth.application.port.out.LoadProviderAuthoriz
 class AuthPropertiesAdapter(
 	private val urlLoaders: Map<String, OAuth2AuthorizeServerUrlLoader>,
 ) : LoadProviderAuthorizationServerUrlPort {
-	override fun getUrl(provider: AuthProvider): String =
-		urlLoaders["${provider.name.lowercase()}AuthorizeServerUrlLoader"]!!.get()
+	override fun getUrl(
+		provider: AuthProvider,
+		redirectUrl: String,
+	): String = urlLoaders["${provider.name.lowercase()}AuthorizeServerUrlLoader"]!!.getUrl(redirectUrl)
 }
