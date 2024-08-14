@@ -15,28 +15,24 @@ class AuthPropertiesAdapterTest :
 				"githubAuthorizeServerUrlLoader" to
 					GithubAuthorizeServerUrlLoader(
 						"authorizationUrl",
-						"path",
 						"clientUrl",
 						"id",
 					),
 				"googleAuthorizeServerUrlLoader" to
 					GoogleAuthorizeServerUrlLoader(
 						"authorizationUrl",
-						"path",
 						"clientUrl",
 						"id",
 					),
 				"naverAuthorizeServerUrlLoader" to
 					NaverAuthorizeServerUrlLoader(
 						"authorizationUrl",
-						"path",
 						"clientUrl",
 						"id",
 					),
 				"kakaoAuthorizeServerUrlLoader" to
 					KakaoAuthorizeServerUrlLoader(
 						"authorizationUrl",
-						"path",
 						"clientUrl",
 						"id",
 						"scope",
@@ -47,7 +43,7 @@ class AuthPropertiesAdapterTest :
 
 		"url 반환을 수행한다" {
 			AuthProvider.entries.forEach {
-				adapter.getUrl(it).isNotEmpty() shouldBe true
+				adapter.getUrl(it, "localhost:5173").isNotEmpty() shouldBe true
 			}
 		}
 	})

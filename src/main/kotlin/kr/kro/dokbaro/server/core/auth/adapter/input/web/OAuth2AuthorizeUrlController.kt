@@ -6,6 +6,7 @@ import kr.kro.dokbaro.server.core.auth.application.port.input.FindOAuth2Authoriz
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -16,5 +17,6 @@ class OAuth2AuthorizeUrlController(
 	@GetMapping("/{provider}")
 	fun getAuthorizeUrl(
 		@PathVariable provider: AuthProvider,
-	) = AuthorizeUrlResponse(findOauth2AuthorizeUrlUseCase.get(provider))
+		@RequestParam redirectUrl: String,
+	) = AuthorizeUrlResponse(findOauth2AuthorizeUrlUseCase.getUrl(provider, redirectUrl))
 }

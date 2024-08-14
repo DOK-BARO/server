@@ -9,8 +9,10 @@ endif::[]
 :sectlinks:
 = DOKBARO
 
-include::health-check.adoc[]
+include::account.adoc[]
 
 include::auth.adoc[]
 
-include::account.adoc[]
+include::book.adoc[]
+
+include::health-check.adoc[]

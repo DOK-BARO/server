@@ -21,11 +21,11 @@ class AccountQueryServiceTest :
 			val id = "adsf"
 			val account =
 				Account(
-					7,
 					id,
 					AuthProvider.KAKAO,
 					setOf(Role.USER),
 					LocalDateTime.now(),
+					7,
 				)
 			every { loadAccountPort.findBy(id) } returns account
 

@@ -1,7 +1,6 @@
 oauth2:
     naver:
         client:
-            redirect-uri: ${NAVER_AUTH_CLIENT_REDIRECT_URI:http://localhost:5173/oauth2/redirected/naver}
             id: ${NAVER_CLIENT_ID:clientid}
             secret: ${NAVER_CLIENT_SECRET:clientsecret}
         provider:

@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.core.auth.application.service.oauth2
 
+import kr.kro.dokbaro.server.core.account.application.port.input.dto.AccountResult
 import kr.kro.dokbaro.server.core.account.application.port.input.query.FindAccountUseCase
-import kr.kro.dokbaro.server.core.account.application.port.input.query.dto.AccountResult
 import kr.kro.dokbaro.server.core.auth.application.port.input.OAuth2LoginUseCase
 import kr.kro.dokbaro.server.core.auth.application.port.input.dto.LoadProviderAccountCommand
 import kr.kro.dokbaro.server.core.auth.application.service.oauth2.authorize.OAuth2AccountLoader
