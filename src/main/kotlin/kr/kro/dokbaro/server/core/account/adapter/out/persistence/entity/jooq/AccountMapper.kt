@@ -14,11 +14,11 @@ class AccountMapper {
 		record
 			.map {
 				Account(
-					it.key.id,
 					it.key.socialId,
 					AuthProvider.valueOf(it.key.provider),
 					it.value.map { Role.valueOf(it.name) }.toSet(),
 					it.key.createdAt,
+					it.key.id,
 				)
 			}.firstOrNull()
 }

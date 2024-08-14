@@ -1,6 +1,7 @@
 = AUTH
 
 == get OAUTH2 provider authorize url
+
 === HTTP request
 
 include::{snippets}/auth/get-provider-authorize-url/http-request.adoc[]
@@ -12,6 +13,7 @@ include::{snippets}/auth/get-provider-authorize-url/http-response.adoc[]
 include::{snippets}/auth/get-provider-authorize-url/response-fields.adoc[]
 
 == OAUTH2 signup
+
 === HTTP request
 
 include::{snippets}/auth/oauth2-signup/http-request.adoc[]
@@ -23,6 +25,7 @@ include::{snippets}/auth/oauth2-signup/http-response.adoc[]
 include::{snippets}/auth/oauth2-signup/response-fields.adoc[]
 
 == OAUTH2 login
+
 === HTTP request
 
 include::{snippets}/auth/oauth2-login/http-request.adoc[]

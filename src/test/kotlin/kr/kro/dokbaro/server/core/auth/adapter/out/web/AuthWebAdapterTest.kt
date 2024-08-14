@@ -47,9 +47,27 @@ class AuthWebAdapterTest :
 		val resourceTokenLoaders: Map<String, ProviderResourceTokenLoader> =
 			mapOf(
 				"githubResourceTokenLoader" to GithubResourceTokenLoader(githubAuthorizationClient, "grant", "cid"),
-				"googleResourceTokenLoader" to GoogleResourceTokenLoader(googleAuthorizationClient, "grant", "cid", "csecret"),
-				"naverResourceTokenLoader" to NaverResourceTokenLoader(naverAuthorizationClient, "grant", "cid", "csecret"),
-				"kakaoResourceTokenLoader" to KakaoResourceTokenLoader(kakaoAuthorizationClient, "grant", "cid", "csecret"),
+				"googleResourceTokenLoader" to
+					GoogleResourceTokenLoader(
+						googleAuthorizationClient,
+						"grant",
+						"cid",
+						"csecret",
+					),
+				"naverResourceTokenLoader" to
+					NaverResourceTokenLoader(
+						naverAuthorizationClient,
+						"grant",
+						"cid",
+						"csecret",
+					),
+				"kakaoResourceTokenLoader" to
+					KakaoResourceTokenLoader(
+						kakaoAuthorizationClient,
+						"grant",
+						"cid",
+						"csecret",
+					),
 			)
 
 		val accountLoaders: Map<String, ProviderAccountLoader> =
