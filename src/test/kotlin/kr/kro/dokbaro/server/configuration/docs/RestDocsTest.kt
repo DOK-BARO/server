@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delet
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import java.nio.charset.StandardCharsets
 
@@ -119,12 +120,12 @@ abstract class RestDocsTest : StringSpec() {
 
 	protected fun performGet(
 		path: Path,
-		param: MultiValueMap<String, String>? = null,
+		param: Map<String, String>? = null,
 	): ResultActions =
 		mockMvc.perform(
 			get(path.endPoint, *path.pathVariable)
 				.apply {
-					param?.let { params(it) }
+					param?.let { params(LinkedMultiValueMap(it.mapValues { listOf(it.value) })) }
 				},
 		)
 

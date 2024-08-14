@@ -1,7 +1,6 @@
 oauth2:
     github:
         client:
-            redirect-uri: ${GITHUB_AUTH_CLIENT_REDIRECT_URI:http://localhost:5173/oauth2/redirected/github}
             id: ${GITHUB_CLIENT_ID:clientid}
             secret: ${GITHUB_CLIENT_SECRET:clientsecret}
         provider:
