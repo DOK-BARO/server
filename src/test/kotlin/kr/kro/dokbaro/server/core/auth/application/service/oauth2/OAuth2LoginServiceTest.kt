@@ -30,7 +30,11 @@ class OAuth2LoginServiceTest :
 			every { generateAuthTokenUseCase.generate(any()) } returns AuthToken("aaa", "rrr")
 
 			val command =
-				LoadProviderAccountCommand(AuthProvider.GOOGLE, "token", "http://localhost:5173/oauth2/redirected/kakao")
+				LoadProviderAccountCommand(
+					AuthProvider.GOOGLE,
+					"token",
+					"http://localhost:5173/oauth2/redirected/kakao",
+				)
 
 			val result = oAuth2LoginService.login(command)
 

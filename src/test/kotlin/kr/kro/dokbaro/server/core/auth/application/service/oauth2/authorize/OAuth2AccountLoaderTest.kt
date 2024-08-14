@@ -35,7 +35,11 @@ class OAuth2AccountLoaderTest :
 
 			val result: ProviderAccount =
 				accountLoader.get(
-					LoadProviderAccountCommand(targetProvider, "authorizeToken", "http://localhost:5173/oauth2/redirected/kakao"),
+					LoadProviderAccountCommand(
+						targetProvider,
+						"authorizeToken",
+						"http://localhost:5173/oauth2/redirected/kakao",
+					),
 				)
 
 			result.provider shouldBe targetProvider

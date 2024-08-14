@@ -31,7 +31,11 @@ class OAuth2SignUpServiceTest :
 			every { generateAuthTokenUseCase.generate(any()) } returns FixtureBuilder.give<AuthToken>().sample()
 
 			val command =
-				LoadProviderAccountCommand(AuthProvider.GOOGLE, "token", "http://localhost:5173/oauth2/redirected/kakao")
+				LoadProviderAccountCommand(
+					AuthProvider.GOOGLE,
+					"token",
+					"http://localhost:5173/oauth2/redirected/kakao",
+				)
 			val result = oAuth2SignUpService.signUp(command)
 
 			result.accessToken.isNotBlank() shouldBe true

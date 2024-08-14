@@ -1,0 +1,14 @@
+= BOOK
+
+== 책 목록 조회
+
+=== HTTP request
+include::{snippets}/book/find-book-collection/http-request.adoc[]
+include::{snippets}/book/find-book-collection/query-parameters.adoc[]
+
+
+=== HTTP response
+include::{snippets}/book/find-book-collection/http-response.adoc[]
+include::{snippets}/book/find-book-collection/response-fields.adoc[]
+
+
