@@ -477,14 +477,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_http_response_4">HTTP response</a></li>
 </ul>
 </li>
+<li><a href="#_oauth2_login_for_localhost">OAUTH2 login (for localhost)</a>
+<ul class="sectlevel2">
+<li><a href="#_http_request_5">HTTP request</a></li>
+<li><a href="#_http_response_5">HTTP response</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_book">BOOK</a>
 <ul class="sectlevel1">
 <li><a href="#_책_목록_조회">책 목록 조회</a>
 <ul class="sectlevel2">
-<li><a href="#_http_request_5">HTTP request</a></li>
-<li><a href="#_http_response_5">HTTP response</a></li>
+<li><a href="#_http_request_6">HTTP request</a></li>
+<li><a href="#_http_response_6">HTTP response</a></li>
 </ul>
 </li>
 </ul>
@@ -493,14 +499,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_get">GET</a>
 <ul class="sectlevel2">
-<li><a href="#_http_request_6">HTTP request</a></li>
-<li><a href="#_http_response_6">HTTP response</a></li>
+<li><a href="#_http_request_7">HTTP request</a></li>
+<li><a href="#_http_response_7">HTTP response</a></li>
 </ul>
 </li>
 <li><a href="#_post">POST</a>
 <ul class="sectlevel2">
-<li><a href="#_http_request_7">HTTP request</a></li>
-<li><a href="#_http_response_7">HTTP response</a></li>
+<li><a href="#_http_request_8">HTTP request</a></li>
+<li><a href="#_http_response_8">HTTP response</a></li>
 </ul>
 </li>
 </ul>
@@ -632,7 +638,7 @@ Content-Length: 145
 <h3 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/signup/KAKAO?_csrf=KTEpRDa3DQMHK8JHLrh8VPEpfOt6SPhFpqtttv969ZtFolXXGFNPdw_RbGAqSfRyS5VIZ8MZUYlNf85ow5wL08tMlqMnlzSx HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/signup/KAKAO?_csrf=Y3ezcmyYom5YLSn9PVl89npIN-7dmXeenzA4_Tq2_NEvYiapVhWFQl_7l191TBHPX3RIlEN9Goy5qkGzrgBbxFuHyOMfUBfL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 94
 Host: localhost:8080
@@ -725,7 +731,7 @@ Content-Length: 47
 <h3 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/KAKAO?_csrf=-Aw9eXPBfwl5bje9XuI_kvM4AutyEFhOUKty5ost7iIDS9M2zzQKSkfxTj1UCFbbbs8L9pBdL4oTcW1jZ8hB1bhI3RoxebFT HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/KAKAO?_csrf=ZLzv1Ar6QVoqyRn1tww2jo6yxqba7U5JbXQd4NWzy3MSxWIhAoXZt2yfdGoH8CuRhCEC7b-B68e-3nhkX0Mk1efQ8ktw_VcV HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 94
 Host: localhost:8080
@@ -811,12 +817,105 @@ Content-Length: 46
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_oauth2_login_for_localhost"><a class="link" href="#_oauth2_login_for_localhost">OAUTH2 login (for localhost)</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/localhost/KAKAO?_csrf=Zp1Gxm9WfJDGjBQDoMVmAzkf3mUTf1K64eLxI0Dah_RSa5YtBKUg9V4wSqHr7yY6xuhSZVh981wqSGSXhdDDEHjq5sUwCqAd HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 94
+Host: localhost:8080
+
+{
+  "token" : "mockToken",
+  "redirectUrl" : "http://localhost:5173/oauth2/redirected/kakao"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">provider authorization token</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>redirectUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">client redirect URL</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_http_response_5"><a class="link" href="#_http_response_5">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: Authorization=jwt.access.token; Path=/; Domain=localhost; Max-Age=43200000; Expires=Sat, 27 Dec 2025 05:17:53 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: Refresh=uuid-refresh-token; Path=/; Domain=localhost; Max-Age=43200000; Expires=Sat, 27 Dec 2025 05:17:53 GMT; Secure; HttpOnly; SameSite=None
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 46
+
+{
+  "message" : "Login Success / set cookie"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 <h1 id="_book" class="sect0"><a class="link" href="#_book">BOOK</a></h1>
 <div class="sect1">
 <h2 id="_책_목록_조회"><a class="link" href="#_책_목록_조회">책 목록 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP request</a></h3>
+<h3 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /books?title=%EC%9D%B4%ED%8E%99%ED%8B%B0%EB%B8%8C+%EC%9E%90%EB%B0%94&amp;authorName=%EA%B9%80%EC%9A%B0%EA%B7%BC&amp;description=%EC%B1%85+%EC%84%A4%EB%AA%85&amp;category=4&amp;lastId=10&amp;limit=10 HTTP/1.1
@@ -863,7 +962,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_http_response_5"><a class="link" href="#_http_response_5">HTTP response</a></h3>
+<h3 id="_http_response_6"><a class="link" href="#_http_response_6">HTTP response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -998,48 +1097,10 @@ Content-Length: 786
 <h2 id="_get"><a class="link" href="#_get">GET</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP request</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /health-check HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_http_response_6"><a class="link" href="#_http_response_6">HTTP response</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 22
-
-{
-  "message" : "OK"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_post"><a class="link" href="#_post">POST</a></h2>
-<div class="sectionbody">
-<div class="sect2">
 <h3 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /health-check HTTP/1.1
-Content-Type: application/json;charset=UTF-8
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /health-check HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1069,11 +1130,49 @@ Content-Length: 22
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_post"><a class="link" href="#_post">POST</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_8"><a class="link" href="#_http_request_8">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /health-check HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_8"><a class="link" href="#_http_response_8">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 22
+
+{
+  "message" : "OK"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-08-14 12:34:31 +0900
+Last updated 2024-08-14 13:52:58 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
