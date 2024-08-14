@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.book.adapter.out.persistence
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
+import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
@@ -226,5 +227,53 @@ class BookPersistenceAdapterTest(
 			adapter.getAll(LoadBookCollectionCondition(categoryId = 2), pagingOption).count() shouldBe 3
 		}
 
-		"페이징을 수행한다"
+		"페이징을 수행한다" {
+			bookDao.insert(
+				listOf(
+					org.jooq.generated.tables.pojos
+						.Book(1, "isbn", "이펙티브자바", "출판사", LocalDate.now(), 4000, "".toByteArray(), "image"),
+					org.jooq.generated.tables.pojos
+						.Book(2, "isbn2", "이펙티자버", "출판사", LocalDate.now(), 4000, "".toByteArray(), "image"),
+					org.jooq.generated.tables.pojos
+						.Book(3, "isbn3", "베리이펙티브자바", "출판사", LocalDate.now(), 4000, "".toByteArray(), "image"),
+					org.jooq.generated.tables.pojos
+						.Book(4, "isbn4", "베리이펙티브", "출판사", LocalDate.now(), 4000, "".toByteArray(), "image"),
+					org.jooq.generated.tables.pojos
+						.Book(5, "isbn5", "가나다라마", "출판사", LocalDate.now(), 4000, "".toByteArray(), "image"),
+					org.jooq.generated.tables.pojos
+						.Book(6, "isbn6", "가나다라마", "출판사", LocalDate.now(), 4000, "".toByteArray(), "image"),
+				),
+			)
+			bookAuthorDao.insert(
+				listOf(
+					BookAuthor(1, 1, "a"),
+					BookAuthor(2, 2, "a"),
+					BookAuthor(3, 3, "a"),
+					BookAuthor(4, 4, "a"),
+					BookAuthor(5, 5, "a"),
+					BookAuthor(6, 6, "a"),
+				),
+			)
+
+			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
+			bookCategoryGroupDao.insert(
+				listOf(
+					BookCategoryGroup(1, 1, 1),
+					BookCategoryGroup(2, 2, 1),
+					BookCategoryGroup(3, 2, 2),
+					BookCategoryGroup(4, 3, 25),
+					BookCategoryGroup(5, 4, 2),
+					BookCategoryGroup(6, 5, 2),
+					BookCategoryGroup(7, 6, 2),
+				),
+			)
+
+			adapter.getAll(LoadBookCollectionCondition(), BookCollectionPagingOption(null, 1)).count() shouldBe 1
+			adapter.getAll(LoadBookCollectionCondition(), BookCollectionPagingOption(null, 2)).count() shouldBe 2
+			adapter.getAll(LoadBookCollectionCondition(), BookCollectionPagingOption(3, 2)).count() shouldBe 2
+			adapter.getAll(LoadBookCollectionCondition(), BookCollectionPagingOption(3, 100)).count() shouldBe 3
+			adapter
+				.getAll(LoadBookCollectionCondition(), BookCollectionPagingOption(3, 100))
+				.map { it.id } shouldContainAll listOf(4L, 5L, 6L)
+		}
 	})
