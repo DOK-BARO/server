@@ -29,8 +29,8 @@ class BookServiceTest :
 						"이책 진짜 좋아요",
 						"image.png",
 						listOf(
-							BookCategory(3, "IT"),
-							BookCategory(5, "개발방법론"),
+							BookCategory(3, "IT", listOf()),
+							BookCategory(5, "개발방법론", listOf()),
 						),
 						listOf(
 							BookAuthor("마틴 파울러"),
@@ -47,7 +47,7 @@ class BookServiceTest :
 						"이책 진짜 진짜 좋아요",
 						"image.png",
 						listOf(
-							BookCategory(3, "IT"),
+							BookCategory(3, "IT", listOf()),
 						),
 						listOf(
 							BookAuthor("박현준"),
@@ -55,7 +55,7 @@ class BookServiceTest :
 						1,
 					),
 				)
-			every { loadBookCollectionPort.getAll(any(), any()) } returns fixtures
+			every { loadBookCollectionPort.getAllBook(any(), any()) } returns fixtures
 
 			val result = bookService.findBy(FindAllBookCommand(null, null, null, null, null, 5))
 

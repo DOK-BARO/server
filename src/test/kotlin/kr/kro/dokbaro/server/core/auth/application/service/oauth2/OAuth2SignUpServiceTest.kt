@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.auth.application.service.oauth2
 
+import com.navercorp.fixturemonkey.kotlin.setExp
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -25,10 +26,20 @@ class OAuth2SignUpServiceTest :
 			OAuth2SignUpService(accountLoader, registerAccountUseCase, generateAuthTokenUseCase)
 
 		"회원가입을 수행한다" {
-			every { accountLoader.get(any()) } returns FixtureBuilder.give<ProviderAccount>().sample()
+			every { accountLoader.get(any()) } returns
+				FixtureBuilder
+					.give<ProviderAccount>()
+					.setExp(ProviderAccount::provider, AuthProvider.KAKAO)
+					.setExp(ProviderAccount::id, "accountId")
+					.sample()
 			every { registerAccountUseCase.register(any()) } returns
 				AccountResult(FixtureBuilder.give<Account>().sample())
-			every { generateAuthTokenUseCase.generate(any()) } returns FixtureBuilder.give<AuthToken>().sample()
+			every { generateAuthTokenUseCase.generate(any()) } returns
+				FixtureBuilder
+					.give<AuthToken>()
+					.setExp(AuthToken::accessToken, "accessToken")
+					.setExp(AuthToken::refreshToken, "refreshToken")
+					.sample()
 
 			val command =
 				LoadProviderAccountCommand(

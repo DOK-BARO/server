@@ -31,6 +31,7 @@ class OAuth2AccountLoaderTest :
 				FixtureBuilder
 					.give<ProviderAccount>()
 					.setExp(ProviderAccount::provider, targetProvider)
+					.setExp(ProviderAccount::id, "accountId")
 					.sample()
 
 			val result: ProviderAccount =

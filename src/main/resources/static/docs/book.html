@@ -509,9 +509,10 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 786
+Content-Length: 729
 
 [ {
+  "id" : 1,
   "isbn" : "1234567891234",
   "title" : "점프투자바",
   "publisher" : "위키북스",
@@ -526,13 +527,9 @@ Content-Length: 786
     "id" : 5,
     "name" : "개발방법론"
   } ],
-  "authors" : [ {
-    "name" : "마틴 파울러"
-  }, {
-    "name" : "조영호"
-  } ],
-  "id" : 1
+  "authors" : [ "마틴 파울러", "조영호" ]
 }, {
+  "id" : 1,
   "isbn" : "9865467891239",
   "title" : "title",
   "publisher" : "개발은 이렇게 해라",
@@ -544,10 +541,7 @@ Content-Length: 786
     "id" : 3,
     "name" : "IT"
   } ],
-  "authors" : [ {
-    "name" : "박현준"
-  } ],
-  "id" : 1
+  "authors" : [ "박현준" ]
 } ]</code></pre>
 </div>
 </div>
@@ -611,8 +605,8 @@ Content-Length: 786
 <td class="tableblock halign-left valign-top"><p class="tableblock">카테고리 이름</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].authors[].name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].authors</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">저자명</p></td>
 </tr>
 <tr>
@@ -625,11 +619,119 @@ Content-Length: 786
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_책_카테고리_조회">책 카테고리 조회</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_2">HTTP request</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-categories?targetId=1 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>targetId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기준 ID (optional)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_http_response_2">HTTP response</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 412
+
+{
+  "id" : 1,
+  "name" : "IT",
+  "details" : [ {
+    "id" : 2,
+    "name" : "운영체제",
+    "details" : [ {
+      "id" : 5,
+      "name" : "우분투",
+      "details" : [ ]
+    }, {
+      "id" : 5,
+      "name" : "유닉스",
+      "details" : [ ]
+    } ]
+  }, {
+    "id" : 3,
+    "name" : "네트워크",
+    "details" : [ ]
+  }, {
+    "id" : 4,
+    "name" : "개발 방법론",
+    "details" : [ ]
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>details</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">세부 항목들</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-08-14 13:52:58 +0900
+Last updated 2024-08-17 14:09:08 +0900
 </div>
 </div>
 </body>
