@@ -5,8 +5,10 @@ import kr.kro.dokbaro.server.core.book.domain.BookAuthor
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
 import org.jooq.Record
 import org.jooq.Result
+import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookAuthor
 import org.jooq.generated.tables.JBookCategory
+import org.jooq.generated.tables.JBookCategoryGroup
 import org.jooq.generated.tables.records.BookCategoryRecord
 import org.jooq.generated.tables.records.BookRecord
 import org.springframework.stereotype.Component
@@ -14,31 +16,19 @@ import org.springframework.stereotype.Component
 @Component
 class BookMapper {
 	companion object {
+		private val BOOK = JBook.BOOK
 		private val BOOK_AUTHOR = JBookAuthor.BOOK_AUTHOR
 		private val BOOK_CATEGORY = JBookCategory.BOOK_CATEGORY
+		private val BOOK_CATEGORY_GROUP = JBookCategoryGroup.BOOK_CATEGORY_GROUP
 	}
 
-	fun mapToCollection(record: Map<BookRecord, Result<Record>>): Collection<Book> =
-		record.map {
-			Book(
-				it.key.isbn,
-				it.key.title,
-				it.key.publisher,
-				it.key.publishedAt,
-				it.key.price,
-				it.key.description.toString(Charsets.UTF_8),
-				it.key.imageUrl,
-				it.value.map { v -> BookCategory(v.getValue(BOOK_CATEGORY.ID), v.getValue(BOOK_CATEGORY.KOREAN_NAME), listOf()) },
-				it.value.map { v -> BookAuthor(v.getValue(BOOK_AUTHOR.NAME)) },
-				it.key.id,
-			)
-		}
+	fun mapToBookCollection(record: Map<BookRecord, Result<Record>>): Collection<Book> = mapRecordMapToBook(record)
 
 	fun mapToCategory(
 		record: Collection<BookCategoryRecord>,
 		headId: Long,
 	): BookCategory {
-		val categoryMap: MutableMap<Long, MutableSet<Long>> =
+		val categoryMap: Map<Long, MutableSet<Long>> =
 			record
 				.map { it.id }
 				.associateWith { mutableSetOf<Long>() }
@@ -70,4 +60,22 @@ class BookMapper {
 				.map { generateCategoryWithDetails(categoryMap, recordMap, it) },
 		)
 	}
+
+	fun mapToBook(record: Map<BookRecord, Result<Record>>): Book? = mapRecordMapToBook(record).firstOrNull()
+
+	private fun mapRecordMapToBook(record: Map<BookRecord, Result<Record>>) =
+		record.map {
+			Book(
+				it.key.isbn,
+				it.key.title,
+				it.key.publisher,
+				it.key.publishedAt,
+				it.key.price,
+				it.key.description.toString(Charsets.UTF_8),
+				it.key.imageUrl,
+				it.value.map { v -> BookCategory(v.getValue(BOOK_CATEGORY.ID), v.getValue(BOOK_CATEGORY.KOREAN_NAME)) }.toSet(),
+				it.value.map { v -> BookAuthor(v.getValue(BOOK_AUTHOR.NAME)) },
+				it.key.id,
+			)
+		}
 }
