@@ -8,7 +8,7 @@ enum class BookCategoryFixture(
 	val korean: String,
 	val code: String,
 ) {
-	ROOT(1, null, "컴퓨터/IT", "33"),
+	ROOT(1, null, "ROOT", "3"),
 	IT(2, ROOT, "컴퓨터/IT", "33"),
 	OS(3, IT, "운영체제", "3307"),
 	WINDOWS(4, OS, "윈도우", "330701"),

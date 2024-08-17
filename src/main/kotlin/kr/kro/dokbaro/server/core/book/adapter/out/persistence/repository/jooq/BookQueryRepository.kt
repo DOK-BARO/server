@@ -53,7 +53,7 @@ class BookQueryRepository(
 				.limit(pagingOption.limit)
 				.fetchGroups(BOOK)
 
-		return bookMapper.mapToCollection(record)
+		return bookMapper.mapToBookCollection(record)
 	}
 
 	private fun buildCondition(condition: LoadBookCollectionCondition): Condition {
@@ -101,5 +101,22 @@ class BookQueryRepository(
 				.fetchInto(BOOK_CATEGORY)
 
 		return bookMapper.mapToCategory(result, id)
+	}
+
+	fun findById(id: Long): Book? {
+		val record: Map<BookRecord, Result<Record>> =
+			dslContext
+				.select()
+				.from(BOOK)
+				.join(BOOK_AUTHOR)
+				.on(BOOK.ID.eq(BOOK_AUTHOR.BOOK_ID))
+				.join(BOOK_CATEGORY_GROUP)
+				.on(BOOK.ID.eq(BOOK_CATEGORY_GROUP.BOOK_ID))
+				.join(BOOK_CATEGORY)
+				.on(BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID.eq(BOOK_CATEGORY.ID))
+				.where(BOOK.ID.eq(id))
+				.fetchGroups(BOOK)
+
+		return bookMapper.mapToBook(record)
 	}
 }

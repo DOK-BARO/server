@@ -10,7 +10,7 @@ data class Book(
 	val price: Int,
 	val description: String?,
 	val imageUrl: String?,
-	val categories: List<BookCategory>,
+	val categories: Set<BookCategory>,
 	val authors: List<BookAuthor>,
 	val id: Long = UNSAVED_BOOK_ID,
 ) {

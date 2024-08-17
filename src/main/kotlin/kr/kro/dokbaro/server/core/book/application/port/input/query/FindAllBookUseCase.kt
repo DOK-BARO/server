@@ -4,5 +4,5 @@ import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCom
 import kr.kro.dokbaro.server.core.book.domain.Book
 
 fun interface FindAllBookUseCase {
-	fun findBy(command: FindAllBookCommand): Collection<Book>
+	fun findAllBy(command: FindAllBookCommand): Collection<Book>
 }

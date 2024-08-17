@@ -5,6 +5,7 @@ import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainAll
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
@@ -44,6 +45,7 @@ class BookPersistenceAdapterTest(
 		val adapter = BookPersistenceAdapter(queryRepository)
 
 		val pagingOption = BookCollectionPagingOption(null, 100)
+
 		afterEach {
 			dslContext.rollback()
 		}
@@ -357,5 +359,31 @@ class BookPersistenceAdapterTest(
 				.find { it.id == 212L }!!
 				.details
 				.size shouldBe 2
+		}
+
+		"ID를 통한 책 조회를 수행한다" {
+			val targetId = 1L
+			bookDao.insert(
+				org.jooq.generated.tables.pojos
+					.Book(targetId, "isbn", "이펙티브자바", "출판사", LocalDate.now(), 4000, "".toByteArray(), "image"),
+			)
+			bookAuthorDao.insert(
+				listOf(
+					BookAuthor(1, targetId, "aaa"),
+					BookAuthor(2, targetId, "abb"),
+				),
+			)
+			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
+			bookCategoryGroupDao.insert(
+				listOf(
+					BookCategoryGroup(1, targetId, 1),
+					BookCategoryGroup(2, targetId, 2),
+				),
+			)
+
+			val target = adapter.getBook(targetId)!!
+
+			adapter.getBook(99).shouldBeNull()
+			target.id shouldBe targetId
 		}
 	})

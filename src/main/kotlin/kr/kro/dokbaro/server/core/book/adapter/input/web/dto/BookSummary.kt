@@ -3,14 +3,12 @@ package kr.kro.dokbaro.server.core.book.adapter.input.web.dto
 import kr.kro.dokbaro.server.core.book.domain.Book
 import java.time.LocalDate
 
-data class BookResponse(
+data class BookSummary(
 	val id: Long,
 	val isbn: String,
 	val title: String,
 	val publisher: String,
 	val publishedAt: LocalDate,
-	val price: Int,
-	val description: String?,
 	val imageUrl: String?,
 	val categories: List<BookCategoryResponse>,
 	val authors: List<String>,
@@ -23,8 +21,6 @@ data class BookResponse(
 		book.title,
 		book.publisher,
 		book.publishedAt,
-		book.price,
-		book.description,
 		book.imageUrl,
 		book.categories
 			.map {
