@@ -11,6 +11,18 @@ include::{snippets}/book/find-book-collection/query-parameters.adoc[]
 include::{snippets}/book/find-book-collection/http-response.adoc[]
 include::{snippets}/book/find-book-collection/response-fields.adoc[]
 
+== 책 상세 조회
+
+=== HTTP request
+include::{snippets}/book/find-book/http-request.adoc[]
+include::{snippets}/book/find-book/path-parameters.adoc[]
+
+
+=== HTTP response
+include::{snippets}/book/find-book/http-response.adoc[]
+include::{snippets}/book/find-book/response-fields.adoc[]
+
+
 == 책 카테고리 조회
 
 === HTTP request
