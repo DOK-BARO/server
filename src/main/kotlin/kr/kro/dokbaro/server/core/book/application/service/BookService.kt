@@ -13,7 +13,7 @@ class BookService(
 	private val loadBookCollectionPort: LoadBookCollectionPort,
 ) : FindAllBookUseCase {
 	override fun findBy(command: FindAllBookCommand): Collection<Book> =
-		loadBookCollectionPort.getAll(
+		loadBookCollectionPort.getAllBook(
 			LoadBookCollectionCondition(
 				command.title,
 				command.authorName,
