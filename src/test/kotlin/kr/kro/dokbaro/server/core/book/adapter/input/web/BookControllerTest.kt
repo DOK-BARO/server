@@ -35,8 +35,8 @@ class BookControllerTest : RestDocsTest() {
 						"이책 진짜 좋아요",
 						"image.png",
 						listOf(
-							BookCategory(3, "IT"),
-							BookCategory(5, "개발방법론"),
+							BookCategory(3, "IT", listOf()),
+							BookCategory(5, "개발방법론", listOf()),
 						),
 						listOf(
 							BookAuthor("마틴 파울러"),
@@ -53,7 +53,7 @@ class BookControllerTest : RestDocsTest() {
 						"이책 진짜 진짜 좋아요",
 						"image.png",
 						listOf(
-							BookCategory(3, "IT"),
+							BookCategory(3, "IT", listOf()),
 						),
 						listOf(
 							BookAuthor("박현준"),
@@ -94,7 +94,7 @@ class BookControllerTest : RestDocsTest() {
 							fieldWithPath("[].imageUrl").type(JsonFieldType.STRING).description("image url"),
 							fieldWithPath("[].categories[].id").type(JsonFieldType.NUMBER).description("카테고리 id"),
 							fieldWithPath("[].categories[].name").type(JsonFieldType.STRING).description("카테고리 이름"),
-							fieldWithPath("[].authors[].name").type(JsonFieldType.STRING).description("저자명"),
+							fieldWithPath("[].authors").type(JsonFieldType.ARRAY).description("저자명"),
 							fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("id"),
 						),
 					),

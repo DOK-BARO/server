@@ -2,17 +2,22 @@ package kr.kro.dokbaro.server.core.book.adapter.out.persistence
 
 import kr.kro.dokbaro.server.common.annotation.PersistenceAdapter
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookQueryRepository
+import kr.kro.dokbaro.server.core.book.application.port.out.LoadBookCategoryPort
 import kr.kro.dokbaro.server.core.book.application.port.out.LoadBookCollectionPort
 import kr.kro.dokbaro.server.core.book.application.port.out.dto.BookCollectionPagingOption
 import kr.kro.dokbaro.server.core.book.application.port.out.dto.LoadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.domain.Book
+import kr.kro.dokbaro.server.core.book.domain.BookCategory
 
 @PersistenceAdapter
 class BookPersistenceAdapter(
 	private val queryRepository: BookQueryRepository,
-) : LoadBookCollectionPort {
-	override fun getAll(
+) : LoadBookCollectionPort,
+	LoadBookCategoryPort {
+	override fun getAllBook(
 		condition: LoadBookCollectionCondition,
 		pagingOption: BookCollectionPagingOption,
-	): Collection<Book> = queryRepository.findAllBy(condition, pagingOption)
+	): Collection<Book> = queryRepository.findAllBookBy(condition, pagingOption)
+
+	override fun getBookCategory(id: Long): BookCategory = queryRepository.findAllCategoryBy(id)
 }

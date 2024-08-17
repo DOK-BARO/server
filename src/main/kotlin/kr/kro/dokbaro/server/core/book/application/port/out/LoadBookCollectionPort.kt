@@ -5,7 +5,7 @@ import kr.kro.dokbaro.server.core.book.application.port.out.dto.LoadBookCollecti
 import kr.kro.dokbaro.server.core.book.domain.Book
 
 fun interface LoadBookCollectionPort {
-	fun getAll(
+	fun getAllBook(
 		condition: LoadBookCollectionCondition,
 		pagingOption: BookCollectionPagingOption,
 	): Collection<Book>
