@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.book.adapter.input.web
 
+import kr.kro.dokbaro.server.core.book.adapter.input.web.dto.BookResponse
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
 import kr.kro.dokbaro.server.core.book.application.port.input.query.FindAllBookUseCase
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,5 +21,8 @@ class BookController(
 		@RequestParam category: Long?,
 		@RequestParam lastId: Long?,
 		@RequestParam limit: Long,
-	) = findAllBookUseCase.findBy(FindAllBookCommand(title, authorName, description, category, lastId, limit))
+	): Collection<BookResponse> =
+		findAllBookUseCase
+			.findBy(FindAllBookCommand(title, authorName, description, category, lastId, limit))
+			.map { BookResponse(it) }
 }
