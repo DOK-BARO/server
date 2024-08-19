@@ -67,7 +67,7 @@ class BookPersistenceAdapterTest(
 					pagingOption,
 				)
 
-			result.forEach { println(it) }
+			result.size shouldBe BookFixture.entries.size
 		}
 
 		"이름을 통한 검색을 수행한다" {
@@ -385,5 +385,7 @@ class BookPersistenceAdapterTest(
 
 			adapter.getBook(99).shouldBeNull()
 			target.id shouldBe targetId
+			target.categories.size shouldBe 2
+			target.authors.size shouldBe 2
 		}
 	})

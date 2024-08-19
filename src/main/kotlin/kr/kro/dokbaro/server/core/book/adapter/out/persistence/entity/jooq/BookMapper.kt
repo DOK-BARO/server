@@ -73,8 +73,12 @@ class BookMapper {
 				it.key.price,
 				it.key.description.toString(Charsets.UTF_8),
 				it.key.imageUrl,
-				it.value.map { v -> BookCategory(v.getValue(BOOK_CATEGORY.ID), v.getValue(BOOK_CATEGORY.KOREAN_NAME)) }.toSet(),
-				it.value.map { v -> BookAuthor(v.getValue(BOOK_AUTHOR.NAME)) },
+				it.value
+					.map { v ->
+						BookCategory(v.getValue(BOOK_CATEGORY.ID), v.getValue(BOOK_CATEGORY.KOREAN_NAME))
+					}.distinct()
+					.toSet(),
+				it.value.map { v -> BookAuthor(v.getValue(BOOK_AUTHOR.NAME)) }.distinct(),
 				it.key.id,
 			)
 		}
