@@ -25,7 +25,7 @@ class BookService(
 				command.category,
 			),
 			BookCollectionPagingOption(
-				command.lastId,
+				(command.page - 1) * command.limit,
 				command.limit,
 			),
 		)

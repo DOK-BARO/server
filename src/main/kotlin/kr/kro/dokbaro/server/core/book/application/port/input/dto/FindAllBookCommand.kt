@@ -5,6 +5,6 @@ data class FindAllBookCommand(
 	val authorName: String?,
 	val description: String?,
 	val category: Long?,
-	val lastId: Long?,
+	val page: Long,
 	val limit: Long,
 )
