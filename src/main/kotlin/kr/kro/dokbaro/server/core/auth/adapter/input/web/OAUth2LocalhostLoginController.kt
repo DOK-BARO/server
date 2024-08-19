@@ -53,7 +53,7 @@ class OAUth2LocalhostLoginController(
 		ResponseCookie
 			.from(name, value)
 			.sameSite("None")
-			.domain("localhost.com")
+			.domain(".localhost.com")
 			.maxAge(Duration.ofDays(500))
 			.path("/")
 			.secure(true)
