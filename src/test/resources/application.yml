@@ -15,3 +15,10 @@ spring:
             - classpath:/configuration/oauth2/github.yml
     profiles:
         active: test
+
+logging:
+    level:
+        org:
+            jooq:
+                tools:
+                    LoggerListener: DEBUG
