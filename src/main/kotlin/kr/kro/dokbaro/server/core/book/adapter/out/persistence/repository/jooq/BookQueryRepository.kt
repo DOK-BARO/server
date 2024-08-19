@@ -9,6 +9,7 @@ import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.jooq.Result
+import org.jooq.Table
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookAuthor
 import org.jooq.generated.tables.JBookCategory
@@ -18,7 +19,9 @@ import org.jooq.generated.tables.records.BookRecord
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.field
 import org.jooq.impl.DSL.name
+import org.jooq.impl.DSL.select
 import org.jooq.impl.DSL.table
+import org.jooq.impl.DSL.`val`
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -37,20 +40,27 @@ class BookQueryRepository(
 		condition: LoadBookCollectionCondition,
 		pagingOption: BookCollectionPagingOption,
 	): Collection<Book> {
+		val bookTable = "book"
+
+		val books: Table<Record> =
+			select()
+				.from(BOOK)
+				.where(buildCondition(condition))
+				.orderBy(BOOK.ID)
+				.limit(pagingOption.limit)
+				.offset(pagingOption.offset)
+				.asTable(bookTable)
+
 		val record: Map<BookRecord, Result<Record>> =
 			dslContext
 				.select()
-				.from(BOOK)
+				.from(books)
 				.join(BOOK_AUTHOR)
-				.on(BOOK.ID.eq(BOOK_AUTHOR.BOOK_ID))
+				.on(books.field(BOOK.ID)!!.eq(BOOK_AUTHOR.BOOK_ID))
 				.join(BOOK_CATEGORY_GROUP)
-				.on(BOOK.ID.eq(BOOK_CATEGORY_GROUP.BOOK_ID))
+				.on(books.field(BOOK.ID)!!.eq(BOOK_CATEGORY_GROUP.BOOK_ID))
 				.join(BOOK_CATEGORY)
 				.on(BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID.eq(BOOK_CATEGORY.ID))
-				.where(buildCondition(condition))
-				.orderBy(BOOK.ID)
-				.seek(pagingOption.lastId ?: 0)
-				.limit(pagingOption.limit)
 				.fetchGroups(BOOK)
 
 		return bookMapper.mapToBookCollection(record)
@@ -64,7 +74,14 @@ class BookQueryRepository(
 		}
 
 		condition.authorName?.let {
-			result = result.and(BOOK_AUTHOR.NAME.likeIgnoreCase("%$it%"))
+			result =
+				result.and(
+					`val`(it).`in`(
+						select(BOOK_AUTHOR.NAME).from(BOOK_AUTHOR).where(
+							BOOK_AUTHOR.BOOK_ID.eq(BOOK.ID),
+						),
+					),
+				)
 		}
 
 		condition.description?.let {
@@ -72,7 +89,14 @@ class BookQueryRepository(
 		}
 
 		condition.categoryId?.let {
-			result = result.and(BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID.eq(it))
+			result =
+				result.and(
+					`val`(it).`in`(
+						select(BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID).from(BOOK_CATEGORY_GROUP).where(
+							BOOK_CATEGORY_GROUP.BOOK_ID.eq(BOOK.ID),
+						),
+					),
+				)
 		}
 		return result
 	}
