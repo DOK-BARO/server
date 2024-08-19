@@ -56,7 +56,7 @@ class OAUth2LocalhostLoginController(
 			.domain(".localhost.com")
 			.maxAge(Duration.ofDays(500))
 			.path("/")
-			.secure(false)
+			.secure(true)
 			.httpOnly(true)
 			.build()
 			.toString()
