@@ -73,7 +73,7 @@ class BookControllerTest : RestDocsTest() {
 					"authorName" to "김우근",
 					"description" to "책 설명",
 					"category" to "4",
-					"lastId" to "10",
+					"page" to "3",
 					"limit" to "10",
 				)
 			performGet(Path("/books"), param)
@@ -86,7 +86,7 @@ class BookControllerTest : RestDocsTest() {
 							parameterWithName("authorName").description("저자 명 (optional)").optional(),
 							parameterWithName("description").description("책 설명 (optional)").optional(),
 							parameterWithName("category").description("카테고리 ID (optional)").optional(),
-							parameterWithName("lastId").description("마지막 검색한 책 ID (optional)").optional(),
+							parameterWithName("page").description("page 번호. 1부터 시작. (default : 1)").optional(),
 							parameterWithName("limit").description("노출 개수"),
 						),
 						responseFields(

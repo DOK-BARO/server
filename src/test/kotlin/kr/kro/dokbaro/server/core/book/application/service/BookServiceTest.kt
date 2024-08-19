@@ -60,7 +60,7 @@ class BookServiceTest :
 				)
 			every { loadBookCollectionPort.getAllBook(any(), any()) } returns fixtures
 
-			val result = bookService.findAllBy(FindAllBookCommand(null, null, null, null, null, 5))
+			val result = bookService.findAllBy(FindAllBookCommand(null, null, null, null, 0, 5))
 
 			result.size shouldBe fixtures.size
 		}
