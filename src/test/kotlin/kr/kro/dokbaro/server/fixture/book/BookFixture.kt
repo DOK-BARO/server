@@ -2,6 +2,7 @@ package kr.kro.dokbaro.server.fixture.book
 
 import org.jooq.generated.tables.pojos.Book
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 enum class BookFixture(
 	val id: Long,
@@ -145,5 +146,18 @@ enum class BookFixture(
 	),
 	;
 
-	fun toJooqBook() = Book(id, isbn, title, publisher, publicationDate, price, description, imageUrl)
+	fun toJooqBook() =
+		Book(
+			id,
+			isbn,
+			title,
+			publisher,
+			publicationDate,
+			price,
+			description,
+			imageUrl,
+			LocalDateTime.now(),
+			LocalDateTime.now(),
+			1,
+		)
 }
