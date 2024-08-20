@@ -24,10 +24,10 @@ class BookController(
 		@RequestParam description: String?,
 		@RequestParam category: Long?,
 		@RequestParam(defaultValue = "1") page: Long,
-		@RequestParam limit: Long,
+		@RequestParam size: Long,
 	): Collection<BookSummary> =
 		findAllBookUseCase
-			.findAllBy(FindAllBookCommand(title, authorName, description, category, page, limit))
+			.findAllBy(FindAllBookCommand(title, authorName, description, category, page, size))
 			.map { BookSummary(it) }
 
 	@GetMapping("/{id}")

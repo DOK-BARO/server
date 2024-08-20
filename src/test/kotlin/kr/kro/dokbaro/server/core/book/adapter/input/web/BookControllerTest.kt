@@ -74,7 +74,7 @@ class BookControllerTest : RestDocsTest() {
 					"description" to "책 설명",
 					"category" to "4",
 					"page" to "3",
-					"limit" to "10",
+					"size" to "10",
 				)
 			performGet(Path("/books"), param)
 				.andExpect(status().isOk)
@@ -87,7 +87,7 @@ class BookControllerTest : RestDocsTest() {
 							parameterWithName("description").description("책 설명 (optional)").optional(),
 							parameterWithName("category").description("카테고리 ID (optional)").optional(),
 							parameterWithName("page").description("page 번호. 1부터 시작. (default : 1)").optional(),
-							parameterWithName("limit").description("노출 개수"),
+							parameterWithName("size").description("노출 개수"),
 						),
 						responseFields(
 							fieldWithPath("[].isbn").type(JsonFieldType.STRING).description("isbn"),

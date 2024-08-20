@@ -6,5 +6,5 @@ data class FindAllBookCommand(
 	val description: String?,
 	val category: Long?,
 	val page: Long,
-	val limit: Long,
+	val size: Long,
 )

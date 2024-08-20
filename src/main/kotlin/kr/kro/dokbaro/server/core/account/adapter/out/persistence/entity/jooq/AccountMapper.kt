@@ -5,12 +5,12 @@ import kr.kro.dokbaro.server.core.account.domain.Account
 import kr.kro.dokbaro.server.core.account.domain.Role
 import org.jooq.Result
 import org.jooq.generated.tables.records.AccountRecord
-import org.jooq.generated.tables.records.RoleRecord
+import org.jooq.generated.tables.records.AccountRoleRecord
 import org.springframework.stereotype.Component
 
 @Component
 class AccountMapper {
-	fun mapTo(record: Map<AccountRecord, Result<RoleRecord>>): Account? =
+	fun mapTo(record: Map<AccountRecord, Result<AccountRoleRecord>>): Account? =
 		record
 			.map {
 				Account(

@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.fixture.book
 
 import org.jooq.generated.tables.pojos.BookCategoryGroup
+import java.time.LocalDateTime
 
 enum class BookCategoryGroupFixture(
 	private val bookId: Long,
@@ -26,5 +27,6 @@ enum class BookCategoryGroupFixture(
 	R(13, 63),
 	;
 
-	fun toJooqBookCategoryGroup() = BookCategoryGroup(ordinal.toLong() + 1, bookId, categoryId)
+	fun toJooqBookCategoryGroup() =
+		BookCategoryGroup(ordinal.toLong() + 1, bookId, categoryId, LocalDateTime.now(), LocalDateTime.now(), 1)
 }

@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.fixture.book
 
 import org.jooq.generated.tables.pojos.BookAuthor
+import java.time.LocalDateTime
 
 enum class BookAuthorFixture(
 	val id: Long,
@@ -74,5 +75,5 @@ enum class BookAuthorFixture(
 	),
 	;
 
-	fun toJooqBookAuthor() = BookAuthor(id, bookId, authorName)
+	fun toJooqBookAuthor() = BookAuthor(id, bookId, authorName, LocalDateTime.now(), LocalDateTime.now(), 1)
 }
