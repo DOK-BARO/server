@@ -6,9 +6,9 @@ import kr.kro.dokbaro.server.core.account.domain.Account
 import org.jooq.DSLContext
 import org.jooq.Result
 import org.jooq.generated.tables.JAccount
-import org.jooq.generated.tables.JRole
+import org.jooq.generated.tables.JAccountRole
 import org.jooq.generated.tables.records.AccountRecord
-import org.jooq.generated.tables.records.RoleRecord
+import org.jooq.generated.tables.records.AccountRoleRecord
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -18,18 +18,18 @@ class AccountQueryRepository(
 ) {
 	companion object {
 		private val ACCOUNT = JAccount.ACCOUNT
-		private val ROLE = JRole.ROLE
+		private val ACCOUNT_ROLE = JAccountRole.ACCOUNT_ROLE
 	}
 
 	fun findBy(socialId: String): Account? {
-		val record: Map<AccountRecord, Result<RoleRecord>> =
+		val record: Map<AccountRecord, Result<AccountRoleRecord>> =
 			dslContext
 				.select()
 				.from(ACCOUNT)
-				.join(ROLE)
-				.on(ROLE.ACCOUNT_ID.eq(ACCOUNT.ID))
+				.join(ACCOUNT_ROLE)
+				.on(ACCOUNT_ROLE.ACCOUNT_ID.eq(ACCOUNT.ID))
 				.where(ACCOUNT.SOCIAL_ID.eq(socialId))
-				.fetchGroups(ACCOUNT, ROLE)
+				.fetchGroups(ACCOUNT, ACCOUNT_ROLE)
 
 		return accountMapper.mapTo(record)
 	}
