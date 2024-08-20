@@ -75,5 +75,5 @@ enum class BookAuthorFixture(
 	),
 	;
 
-	fun toJooqBookAuthor() = BookAuthor(id, bookId, authorName, LocalDateTime.now(), LocalDateTime.now(), 1)
+	fun toJooqBookAuthor() = BookAuthor(id, bookId, authorName, LocalDateTime.now(), LocalDateTime.now(), false)
 }

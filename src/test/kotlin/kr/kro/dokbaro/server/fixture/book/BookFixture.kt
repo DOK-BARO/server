@@ -158,6 +158,6 @@ enum class BookFixture(
 			imageUrl,
 			LocalDateTime.now(),
 			LocalDateTime.now(),
-			1,
+			false,
 		)
 }

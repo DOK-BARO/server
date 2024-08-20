@@ -278,6 +278,9 @@ tasks {
 				ForcedType()
 					.withTypes("smallint unsigned")
 					.withUserType("java.lang.Integer"),
+				ForcedType()
+					.withIncludeTypes("TINYINT\\(1\\)")
+					.withUserType("java.lang.Boolean"),
 			)
 		}
 	}
