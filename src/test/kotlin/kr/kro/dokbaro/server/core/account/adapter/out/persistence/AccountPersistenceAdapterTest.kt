@@ -14,7 +14,7 @@ import kr.kro.dokbaro.server.core.account.domain.Account
 import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.generated.tables.daos.AccountDao
-import org.jooq.generated.tables.daos.RoleDao
+import org.jooq.generated.tables.daos.AccountRoleDao
 import java.time.Clock
 
 @PersistenceAdapterTest
@@ -31,7 +31,7 @@ class AccountPersistenceAdapterTest(
 
 		val clock = Clock.systemUTC()
 		val accountDao = AccountDao(configuration)
-		val roleDao = RoleDao(configuration)
+		val accountRoleDao = AccountRoleDao(configuration)
 		val socialId = "adsfqwer"
 
 		afterEach {
@@ -48,7 +48,7 @@ class AccountPersistenceAdapterTest(
 			val savedAccountId = adapter.save(account)
 
 			val accountResult = accountDao.findById(savedAccountId)
-			val roles = roleDao.findAll().filter { it.accountId.equals(savedAccountId) }
+			val roles = accountRoleDao.findAll().filter { it.accountId.equals(savedAccountId) }
 
 			accountResult shouldNotBe null
 			roles.size shouldBe account.roles.size
