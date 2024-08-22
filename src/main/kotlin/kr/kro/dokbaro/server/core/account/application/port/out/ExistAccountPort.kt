@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.core.account.application.port.output
+package kr.kro.dokbaro.server.core.account.application.port.out
 
 import kr.kro.dokbaro.server.common.type.AuthProvider
 

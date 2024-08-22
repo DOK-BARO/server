@@ -5,4 +5,5 @@ import kr.kro.dokbaro.server.common.type.AuthProvider
 data class RegisterAccountCommand(
 	val socialId: String,
 	val provider: AuthProvider,
+	val memberId: Long,
 )
