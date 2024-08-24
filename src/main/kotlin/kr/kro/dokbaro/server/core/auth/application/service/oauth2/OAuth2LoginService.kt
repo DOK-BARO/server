@@ -20,7 +20,7 @@ class OAuth2LoginService(
 	override fun login(command: LoadProviderAccountCommand): AuthToken {
 		val providerAccount: ProviderAccount = accountLoader.get(command)
 		val account: AccountResult = findCertificationAccountUseCase.getById(providerAccount.id)
-		TODO()
+	
 		return generateAuthTokenUseCase.generate(TokenClaims(account.id.toString(), account.role))
 	}
 }
