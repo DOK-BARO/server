@@ -6,7 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.AccountResult
-import kr.kro.dokbaro.server.core.account.application.port.input.query.FindAccountUseCase
+import kr.kro.dokbaro.server.core.account.application.port.input.query.FindCertificationAccountUseCase
 import kr.kro.dokbaro.server.core.account.domain.Account
 import kr.kro.dokbaro.server.core.auth.application.port.input.dto.LoadProviderAccountCommand
 import kr.kro.dokbaro.server.core.auth.application.service.oauth2.authorize.OAuth2AccountLoader
@@ -18,14 +18,14 @@ import kr.kro.dokbaro.server.fixture.FixtureBuilder
 class OAuth2LoginServiceTest :
 	StringSpec({
 		val accountLoader = mockk<OAuth2AccountLoader>()
-		val findAccountUseCase = mockk<FindAccountUseCase>()
+		val findCertificationAccountUseCase = mockk<FindCertificationAccountUseCase>()
 		val generateAuthTokenUseCase = mockk<GenerateAuthTokenUseCase>()
 
-		val oAuth2LoginService = OAuth2LoginService(accountLoader, findAccountUseCase, generateAuthTokenUseCase)
+		val oAuth2LoginService = OAuth2LoginService(accountLoader, findCertificationAccountUseCase, generateAuthTokenUseCase)
 
 		"login을 수행한다" {
 			every { accountLoader.get(any()) } returns FixtureBuilder.give<ProviderAccount>().sample()
-			every { findAccountUseCase.getById(any()) } returns
+			every { findCertificationAccountUseCase.getById(any()) } returns
 				AccountResult(FixtureBuilder.give<Account>().sample())
 			every { generateAuthTokenUseCase.generate(any()) } returns AuthToken("aaa", "rrr")
 

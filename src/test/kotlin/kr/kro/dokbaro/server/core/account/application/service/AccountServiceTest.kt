@@ -8,8 +8,8 @@ import io.mockk.mockk
 import io.mockk.verify
 import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterAccountCommand
-import kr.kro.dokbaro.server.core.account.application.port.output.ExistAccountPort
-import kr.kro.dokbaro.server.core.account.application.port.output.SaveAccountPort
+import kr.kro.dokbaro.server.core.account.application.port.out.ExistAccountPort
+import kr.kro.dokbaro.server.core.account.application.port.out.SaveAccountPort
 import java.time.Clock
 
 class AccountServiceTest :

@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.core.auth.application.service.oauth2
 
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.AccountResult
-import kr.kro.dokbaro.server.core.account.application.port.input.query.FindAccountUseCase
+import kr.kro.dokbaro.server.core.account.application.port.input.query.FindCertificationAccountUseCase
 import kr.kro.dokbaro.server.core.auth.application.port.input.OAuth2LoginUseCase
 import kr.kro.dokbaro.server.core.auth.application.port.input.dto.LoadProviderAccountCommand
 import kr.kro.dokbaro.server.core.auth.application.service.oauth2.authorize.OAuth2AccountLoader
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service
 @Service
 class OAuth2LoginService(
 	private val accountLoader: OAuth2AccountLoader,
-	private val findAccountUseCase: FindAccountUseCase,
+	private val findCertificationAccountUseCase: FindCertificationAccountUseCase,
 	private val generateAuthTokenUseCase: GenerateAuthTokenUseCase,
 ) : OAuth2LoginUseCase {
 	override fun login(command: LoadProviderAccountCommand): AuthToken {
 		val providerAccount: ProviderAccount = accountLoader.get(command)
-		val account: AccountResult = findAccountUseCase.getById(providerAccount.id)
-
+		val account: AccountResult = findCertificationAccountUseCase.getById(providerAccount.id)
+		TODO()
 		return generateAuthTokenUseCase.generate(TokenClaims(account.id.toString(), account.role))
 	}
 }

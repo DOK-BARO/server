@@ -6,7 +6,6 @@ import kr.kro.dokbaro.server.core.account.domain.Account
 import org.jooq.DSLContext
 import org.jooq.Result
 import org.jooq.generated.tables.JAccount
-import org.jooq.generated.tables.JAccountRole
 import org.jooq.generated.tables.records.AccountRecord
 import org.jooq.generated.tables.records.AccountRoleRecord
 import org.springframework.stereotype.Repository
@@ -18,7 +17,6 @@ class AccountQueryRepository(
 ) {
 	companion object {
 		private val ACCOUNT = JAccount.ACCOUNT
-		private val ACCOUNT_ROLE = JAccountRole.ACCOUNT_ROLE
 	}
 
 	fun findBy(socialId: String): Account? {

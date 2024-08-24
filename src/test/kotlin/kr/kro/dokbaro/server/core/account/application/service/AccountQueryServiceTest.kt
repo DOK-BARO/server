@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.common.type.AuthProvider
-import kr.kro.dokbaro.server.core.account.application.port.output.LoadAccountPort
+import kr.kro.dokbaro.server.core.account.application.port.out.LoadAccountPort
 import kr.kro.dokbaro.server.core.account.application.service.exception.NotFoundAccountException
 import kr.kro.dokbaro.server.core.account.domain.Account
 import kr.kro.dokbaro.server.core.account.domain.Role
@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 class AccountQueryServiceTest :
 	StringSpec({
 		val loadAccountPort = mockk<LoadAccountPort>()
-		val accountQueryService = FindAccountQueryService(loadAccountPort)
+		val accountQueryService = AccountQueryService(loadAccountPort)
 
 		"Id를 통한 조회를 진행한다" {
 			val id = "adsf"
