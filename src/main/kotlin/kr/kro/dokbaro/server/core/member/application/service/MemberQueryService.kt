@@ -8,9 +8,8 @@ import java.util.UUID
 
 @Service
 class MemberQueryService(
-	loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
+	private val loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
 ) : FindCertificatedMemberUseCase {
-	override fun getByCertificationId(certificationId: UUID): Member {
-		TODO("Not yet implemented")
-	}
+	override fun getByCertificationId(certificationId: UUID): Member =
+		loadMemberByCertificationIdPort.findByCertificationId(certificationId) ?: throw RuntimeException()
 }

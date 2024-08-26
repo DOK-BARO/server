@@ -73,4 +73,18 @@ class MemberRepository(
 
 		return memberMapper.mapTo(record)
 	}
+
+	fun update(member: Member) {
+		dslContext
+			.update(MEMBER)
+			.set(MEMBER.NICKNAME, member.nickname)
+			.set(MEMBER.EMAIL, member.email.address)
+			.set(MEMBER.EMAIL_VERIFY, member.email.verified)
+			.set(MEMBER.PROFILE_IMAGE_URL, member.profileImage)
+			.where(MEMBER.ID.eq(member.id))
+			.execute()
+
+		dslContext.deleteFrom(MEMBER_ROLE).where(MEMBER.ID.eq(member.id))
+		insertRoles(member.roles, member.id)
+	}
 }

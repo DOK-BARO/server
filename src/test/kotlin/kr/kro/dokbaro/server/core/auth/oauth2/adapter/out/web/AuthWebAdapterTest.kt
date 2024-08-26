@@ -1,5 +1,7 @@
 package kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web
 
+import com.navercorp.fixturemonkey.kotlin.setExp
+import com.navercorp.fixturemonkey.kotlin.setNotNullExp
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -24,12 +26,14 @@ import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.Kak
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.KakaoAuthorizationTokenResponse
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.KakaoResourceClient
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.resource.KakaoAccount
+import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.resource.KakaoAccountAttribute
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.NaverAccountLoader
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.NaverResourceTokenLoader
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.external.NaverAuthorizationClient
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.external.NaverAuthorizationTokenResponse
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.external.NaverResourceClient
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.external.resource.NaverAccount
+import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.external.resource.NaverUserProfile
 import kr.kro.dokbaro.server.fixture.FixtureBuilder
 
 class AuthWebAdapterTest :
@@ -102,19 +106,37 @@ class AuthWebAdapterTest :
 				every { githubResourceClient.getUserProfiles(any()) } returns
 					FixtureBuilder
 						.give<GithubAccount>()
+						.setNotNullExp(GithubAccount::name)
+						.setNotNullExp(GithubAccount::email)
 						.sample()
 				every { googleResourceClient.getUserProfiles(any()) } returns
 					FixtureBuilder
 						.give<GoogleAccount>()
+						.setNotNullExp(GoogleAccount::name)
+						.setNotNullExp(GoogleAccount::email)
 						.sample()
 				every { naverResourceClient.getUserProfiles(any()) } returns
 					FixtureBuilder
 						.give<NaverAccount>()
-						.sample()
+						.setExp(
+							NaverAccount::response,
+							FixtureBuilder
+								.give<NaverUserProfile>()
+								.setNotNullExp(NaverUserProfile::name)
+								.setNotNullExp(NaverUserProfile::email)
+								.sample(),
+						).sample()
 				every { kakaoResourceClient.getUserProfiles(any()) } returns
 					FixtureBuilder
 						.give<KakaoAccount>()
-						.sample()
+						.setExp(
+							KakaoAccount::kakaoAccount,
+							FixtureBuilder
+								.give<KakaoAccountAttribute>()
+								.setNotNullExp(KakaoAccountAttribute::name)
+								.setNotNullExp(KakaoAccountAttribute::email)
+								.sample(),
+						).sample()
 
 				val account = adapter.getProviderAccount(it, "token")
 
