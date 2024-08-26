@@ -11,7 +11,7 @@ import kr.kro.dokbaro.server.core.auth.oauth2.domain.OAuth2Account
 import kr.kro.dokbaro.server.core.auth.oauth2.domain.OAuth2CertificatedAccount
 
 @PersistenceAdapter
-class OAuth2CertificatedAccountPersistenceAdapter(
+class OAuth2AccountPersistenceAdapter(
 	private val repository: OAuth2AccountRepository,
 	private val queryRepository: OAuth2AccountQueryRepository,
 ) : ExistOAuth2AccountPort,

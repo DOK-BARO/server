@@ -2,6 +2,8 @@ package kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web
 
 import com.navercorp.fixturemonkey.kotlin.setExp
 import com.navercorp.fixturemonkey.kotlin.setNotNullExp
+import com.navercorp.fixturemonkey.kotlin.setNullExp
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -142,6 +144,92 @@ class AuthWebAdapterTest :
 
 				account shouldNotBe null
 				account.id shouldNotBe null
+			}
+		}
+
+		"provider가 닉네임을 제공하지 않으면 예외를 반환한다" {
+			AuthProvider.entries.forEach {
+				every { githubResourceClient.getUserProfiles(any()) } returns
+					FixtureBuilder
+						.give<GithubAccount>()
+						.setNullExp(GithubAccount::name)
+						.setNotNullExp(GithubAccount::email)
+						.sample()
+				every { googleResourceClient.getUserProfiles(any()) } returns
+					FixtureBuilder
+						.give<GoogleAccount>()
+						.setNullExp(GoogleAccount::name)
+						.setNotNullExp(GoogleAccount::email)
+						.sample()
+				every { naverResourceClient.getUserProfiles(any()) } returns
+					FixtureBuilder
+						.give<NaverAccount>()
+						.setExp(
+							NaverAccount::response,
+							FixtureBuilder
+								.give<NaverUserProfile>()
+								.setNullExp(NaverUserProfile::name)
+								.setNotNullExp(NaverUserProfile::email)
+								.sample(),
+						).sample()
+				every { kakaoResourceClient.getUserProfiles(any()) } returns
+					FixtureBuilder
+						.give<KakaoAccount>()
+						.setExp(
+							KakaoAccount::kakaoAccount,
+							FixtureBuilder
+								.give<KakaoAccountAttribute>()
+								.setNullExp(KakaoAccountAttribute::name)
+								.setNotNullExp(KakaoAccountAttribute::email)
+								.sample(),
+						).sample()
+
+				shouldThrow<NickNameNotExistException> {
+					adapter.getProviderAccount(it, "token")
+				}
+			}
+		}
+
+		"provider가 email을 제공하지 않으면 예외를 반환한다" {
+			AuthProvider.entries.forEach {
+				every { githubResourceClient.getUserProfiles(any()) } returns
+					FixtureBuilder
+						.give<GithubAccount>()
+						.setNotNullExp(GithubAccount::name)
+						.setNullExp(GithubAccount::email)
+						.sample()
+				every { googleResourceClient.getUserProfiles(any()) } returns
+					FixtureBuilder
+						.give<GoogleAccount>()
+						.setNotNullExp(GoogleAccount::name)
+						.setNullExp(GoogleAccount::email)
+						.sample()
+				every { naverResourceClient.getUserProfiles(any()) } returns
+					FixtureBuilder
+						.give<NaverAccount>()
+						.setExp(
+							NaverAccount::response,
+							FixtureBuilder
+								.give<NaverUserProfile>()
+								.setNotNullExp(NaverUserProfile::name)
+								.setNullExp(NaverUserProfile::email)
+								.sample(),
+						).sample()
+				every { kakaoResourceClient.getUserProfiles(any()) } returns
+					FixtureBuilder
+						.give<KakaoAccount>()
+						.setExp(
+							KakaoAccount::kakaoAccount,
+							FixtureBuilder
+								.give<KakaoAccountAttribute>()
+								.setNotNullExp(KakaoAccountAttribute::name)
+								.setNullExp(KakaoAccountAttribute::email)
+								.sample(),
+						).sample()
+
+				shouldThrow<EmailNotExistException> {
+					adapter.getProviderAccount(it, "token")
+				}
 			}
 		}
 	})
