@@ -3,9 +3,8 @@ package kr.kro.dokbaro.server.core.member.domain
 import java.util.UUID
 
 data class Member(
-	val name: String?,
-	val nickname: String?,
-	val emails: Emails?,
+	val nickname: String,
+	var email: Email,
 	val profileImage: String?,
 	val certificationId: UUID,
 	val roles: Set<Role> = setOf(Role.GUEST),
@@ -13,5 +12,9 @@ data class Member(
 ) {
 	companion object {
 		private const val UNSAVED_MEMBER_ID = 0L
+	}
+
+	fun checkEmail() {
+		email = email.verify()
 	}
 }
