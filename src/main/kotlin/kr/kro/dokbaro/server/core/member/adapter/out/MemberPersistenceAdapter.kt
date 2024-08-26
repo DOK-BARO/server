@@ -14,9 +14,7 @@ class MemberPersistenceAdapter(
 	private val memberQueryRepository: MemberQueryRepository,
 ) : SaveMemberPort,
 	LoadMemberByCertificationIdPort {
-	override fun save(member: Member) {
-		memberRepository.save(member)
-	}
+	override fun save(member: Member): Member = memberRepository.save(member)
 
 	override fun findByCertificationId(certificationId: UUID): Member? =
 		memberQueryRepository.findByCertificationId(certificationId)

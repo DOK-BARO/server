@@ -1,44 +1,47 @@
 package kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq
 
 import kr.kro.dokbaro.server.common.util.UUIDUtils
-import kr.kro.dokbaro.server.core.member.domain.Emails
+import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.core.member.domain.Role
 import org.jooq.DSLContext
+import org.jooq.Record
+import org.jooq.Result
 import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JMemberEmail
 import org.jooq.generated.tables.JMemberRole
+import org.jooq.generated.tables.records.MemberRecord
 import org.springframework.stereotype.Repository
 
 @Repository
 class MemberRepository(
 	private val dslContext: DSLContext,
+	private val memberMapper: MemberMapper,
 ) {
 	companion object {
 		private val MEMBER = JMember.MEMBER
 		private val MEMBER_ROLE = JMemberRole.MEMBER_ROLE
-		private val MEMBER_EMAIL = JMemberEmail.MEMBER_EMAIL
 	}
 
-	fun save(member: Member) {
+	fun save(member: Member): Member {
 		val memberId: Long =
 			dslContext
 				.insertInto(
 					MEMBER,
-					MEMBER.NAME,
-					MEMBER.NICKNAME,
 					MEMBER.CERTIFICATION_ID,
+					MEMBER.NICKNAME,
+					MEMBER.EMAIL,
+					MEMBER.PROFILE_IMAGE_URL,
 				).values(
-					member.name,
-					member.nickname,
 					UUIDUtils.uuidToByteArray(member.certificationId),
+					member.nickname,
+					member.email.address,
+					member.profileImage,
 				).returningResult(MEMBER.ID)
 				.fetchOneInto(Long::class.java)!!
 
 		insertRoles(member.roles, memberId)
-		member.emails?.let {
-			insertEmails(it, memberId)
-		}
+
+		return findById(memberId)!!
 	}
 
 	private fun insertRoles(
@@ -58,34 +61,16 @@ class MemberRepository(
 		}
 	}
 
-	private fun insertEmails(
-		emails: Emails,
-		memberId: Long,
-	) {
-		dslContext
-			.insertInto(
-				MEMBER_EMAIL,
-				MEMBER_EMAIL.MEMBER_ID,
-				MEMBER_EMAIL.ADDRESS,
-				MEMBER_EMAIL.MAIN,
-			).values(
-				memberId,
-				emails.mainEmail.value,
-				true,
-			).execute()
-
-		emails.subEmail.forEach {
+	private fun findById(id: Long): Member? {
+		val record: Map<MemberRecord, Result<Record>> =
 			dslContext
-				.insertInto(
-					MEMBER_EMAIL,
-					MEMBER_EMAIL.MEMBER_ID,
-					MEMBER_EMAIL.ADDRESS,
-					MEMBER_EMAIL.MAIN,
-				).values(
-					memberId,
-					it.value,
-					false,
-				).execute()
-		}
+				.select()
+				.from(MEMBER)
+				.join(MEMBER_ROLE)
+				.on(MEMBER_ROLE.ID.eq(MEMBER.ID))
+				.where(MEMBER.ID.eq(id))
+				.fetchGroups(MEMBER)
+
+		return memberMapper.mapTo(record)
 	}
 }
