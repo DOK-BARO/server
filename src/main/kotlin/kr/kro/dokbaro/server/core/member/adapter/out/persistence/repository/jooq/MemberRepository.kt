@@ -33,7 +33,7 @@ class MemberRepository(
 					MEMBER.PROFILE_IMAGE_URL,
 				).values(
 					UUIDUtils.uuidToByteArray(member.certificationId),
-					member.nickname,
+					member.nickName,
 					member.email.address,
 					member.profileImage,
 				).returningResult(MEMBER.ID)
@@ -67,7 +67,7 @@ class MemberRepository(
 				.select()
 				.from(MEMBER)
 				.join(MEMBER_ROLE)
-				.on(MEMBER_ROLE.ID.eq(MEMBER.ID))
+				.on(MEMBER_ROLE.MEMBER_ID.eq(MEMBER.ID))
 				.where(MEMBER.ID.eq(id))
 				.fetchGroups(MEMBER)
 
@@ -77,14 +77,18 @@ class MemberRepository(
 	fun update(member: Member) {
 		dslContext
 			.update(MEMBER)
-			.set(MEMBER.NICKNAME, member.nickname)
+			.set(MEMBER.NICKNAME, member.nickName)
 			.set(MEMBER.EMAIL, member.email.address)
 			.set(MEMBER.EMAIL_VERIFY, member.email.verified)
 			.set(MEMBER.PROFILE_IMAGE_URL, member.profileImage)
 			.where(MEMBER.ID.eq(member.id))
 			.execute()
 
-		dslContext.deleteFrom(MEMBER_ROLE).where(MEMBER.ID.eq(member.id))
+		dslContext
+			.deleteFrom(MEMBER_ROLE)
+			.where(MEMBER_ROLE.MEMBER_ID.eq(member.id))
+			.execute()
+
 		insertRoles(member.roles, member.id)
 	}
 }

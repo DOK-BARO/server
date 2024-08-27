@@ -3,7 +3,7 @@ package kr.kro.dokbaro.server.core.member.domain
 import java.util.UUID
 
 data class Member(
-	val nickname: String,
+	val nickName: String,
 	var email: Email,
 	val profileImage: String?,
 	val certificationId: UUID,

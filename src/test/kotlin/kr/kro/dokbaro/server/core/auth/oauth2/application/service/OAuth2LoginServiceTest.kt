@@ -25,7 +25,10 @@ class OAuth2LoginServiceTest :
 			OAuth2LoginService(providerAccountLoader, loadOAuth2CertificatedAccountPort, generateAuthTokenUseCase)
 
 		"login을 수행한다" {
-			every { providerAccountLoader.getAccount(any()) } returns FixtureBuilder.give<OAuth2ProviderAccount>().sample()
+			every { providerAccountLoader.getAccount(any()) } returns
+				FixtureBuilder
+					.give<OAuth2ProviderAccount>()
+					.sample()
 			every { loadOAuth2CertificatedAccountPort.findBy(any(), any()) } returns
 				FixtureBuilder.give<OAuth2CertificatedAccount>().sample()
 			every { generateAuthTokenUseCase.generate(any()) } returns AuthToken("aaa", "rrr")
@@ -45,7 +48,10 @@ class OAuth2LoginServiceTest :
 
 		"만약 존재하는 인증 계정이 없으면 예외를 반환한다" {
 
-			every { providerAccountLoader.getAccount(any()) } returns FixtureBuilder.give<OAuth2ProviderAccount>().sample()
+			every { providerAccountLoader.getAccount(any()) } returns
+				FixtureBuilder
+					.give<OAuth2ProviderAccount>()
+					.sample()
 			every { loadOAuth2CertificatedAccountPort.findBy(any(), any()) } returns null
 			every { generateAuthTokenUseCase.generate(any()) } returns AuthToken("aaa", "rrr")
 

@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.member.adapter.out
 import kr.kro.dokbaro.server.common.annotation.PersistenceAdapter
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberQueryRepository
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
+import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
 import kr.kro.dokbaro.server.core.member.application.port.out.SaveMemberPort
 import kr.kro.dokbaro.server.core.member.application.port.out.UpdateMemberPort
@@ -15,7 +16,8 @@ class MemberPersistenceAdapter(
 	private val memberQueryRepository: MemberQueryRepository,
 ) : SaveMemberPort,
 	LoadMemberByCertificationIdPort,
-	UpdateMemberPort {
+	UpdateMemberPort,
+	ExistMemberByEmailPort {
 	override fun save(member: Member): Member = memberRepository.save(member)
 
 	override fun update(member: Member) {
@@ -24,4 +26,6 @@ class MemberPersistenceAdapter(
 
 	override fun findByCertificationId(certificationId: UUID): Member? =
 		memberQueryRepository.findByCertificationId(certificationId)
+
+	override fun existByEmail(email: String): Boolean = memberQueryRepository.existByEmail(email)
 }
