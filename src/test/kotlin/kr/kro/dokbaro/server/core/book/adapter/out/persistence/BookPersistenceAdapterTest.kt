@@ -86,7 +86,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -100,7 +100,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -114,7 +114,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -128,7 +128,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -142,28 +142,28 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 				),
 			)
 			bookAuthorDao.insert(
 				listOf(
-					BookAuthor(1, 1, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(2, 2, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(3, 3, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(4, 4, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(5, 5, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookAuthor(1, 1, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(2, 2, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(3, 3, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(4, 4, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(5, 5, "a", LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
 			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
-					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(2, 2, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(3, 3, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(4, 4, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(5, 5, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(2, 2, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(3, 3, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(4, 4, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(5, 5, 1, LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
@@ -187,7 +187,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -201,7 +201,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -215,7 +215,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -229,7 +229,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -243,29 +243,29 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 				),
 			)
 			bookAuthorDao.insert(
 				listOf(
-					BookAuthor(1, 1, "조영호", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(2, 2, "김우근", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(3, 3, "박현준", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(4, 3, "김우근", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(5, 4, "김우근", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(6, 5, "가나다", LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookAuthor(1, 1, "조영호", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(2, 2, "김우근", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(3, 3, "박현준", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(4, 3, "김우근", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(5, 4, "김우근", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(6, 5, "가나다", LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
 			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
-					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(2, 2, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(3, 3, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(4, 4, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(5, 5, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(2, 2, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(3, 3, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(4, 4, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(5, 5, 1, LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 			adapter.getAllBook(LoadBookCollectionCondition(authorName = "김우근"), pagingOption).count() shouldBe 3
@@ -288,7 +288,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -302,7 +302,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -316,7 +316,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -330,7 +330,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -344,28 +344,28 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 				),
 			)
 			bookAuthorDao.insert(
 				listOf(
-					BookAuthor(1, 1, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(2, 2, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(3, 3, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(4, 4, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(5, 5, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookAuthor(1, 1, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(2, 2, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(3, 3, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(4, 4, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(5, 5, "a", LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
 			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
-					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(2, 2, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(3, 3, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(4, 4, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(5, 5, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(2, 2, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(3, 3, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(4, 4, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(5, 5, 1, LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
@@ -387,7 +387,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -401,7 +401,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -415,7 +415,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -429,7 +429,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -443,29 +443,29 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 				),
 			)
 			bookAuthorDao.insert(
 				listOf(
-					BookAuthor(1, 1, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(2, 2, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(3, 3, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(4, 4, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(5, 5, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookAuthor(1, 1, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(2, 2, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(3, 3, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(4, 4, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(5, 5, "a", LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
 			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
-					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(2, 2, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(3, 2, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(4, 3, 25, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(5, 4, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(6, 5, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(2, 2, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(3, 2, 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(4, 3, 25, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(5, 4, 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(6, 5, 2, LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
@@ -487,7 +487,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -501,7 +501,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -515,7 +515,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -529,7 +529,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -543,7 +543,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -557,7 +557,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -571,7 +571,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -585,7 +585,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -599,7 +599,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -613,7 +613,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -627,7 +627,7 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 					org.jooq.generated.tables.pojos
 						.Book(
@@ -641,44 +641,44 @@ class BookPersistenceAdapterTest(
 							"image",
 							LocalDateTime.now(),
 							LocalDateTime.now(),
-							1,
+							false,
 						),
 				),
 			)
 			bookAuthorDao.insert(
 				listOf(
-					BookAuthor(1, 1, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(2, 2, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(3, 3, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(4, 4, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(5, 5, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(6, 6, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(7, 7, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(8, 8, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(9, 9, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(10, 10, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(11, 11, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(12, 12, "a", LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookAuthor(1, 1, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(2, 2, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(3, 3, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(4, 4, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(5, 5, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(6, 6, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(7, 7, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(8, 8, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(9, 9, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(10, 10, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(11, 11, "a", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(12, 12, "a", LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
 			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
-					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(2, 2, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(3, 2, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(4, 3, 25, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(5, 4, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(6, 5, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(7, 6, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(8, 7, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(9, 8, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(10, 9, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(11, 10, 25, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(12, 11, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(13, 12, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(14, 12, 8, LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(2, 2, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(3, 2, 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(4, 3, 25, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(5, 4, 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(6, 5, 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(7, 6, 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(8, 7, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(9, 8, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(10, 9, 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(11, 10, 25, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(12, 11, 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(13, 12, 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(14, 12, 8, LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
@@ -695,17 +695,17 @@ class BookPersistenceAdapterTest(
 		"카테고리 목록을 조회한다" {
 			bookCategoryDao.insert(
 				listOf(
-					BookCategory(1, "", "ROOT", null, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(2, "", "IT", 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(21, "", "IT-1", 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(211, "", "IT-1-1", 21, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(212, "", "IT-1-2", 21, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(2121, "", "IT-1-2-1", 212, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(2122, "", "IT-1-2-2", 212, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(213, "", "IT-1-2", 21, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(22, "", "IT-2", 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(23, "", "IT-2", 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(24, "", "IT-3", 2, LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookCategory(1, "", "ROOT", null, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(2, "", "IT", 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(21, "", "IT-1", 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(211, "", "IT-1-1", 21, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(212, "", "IT-1-2", 21, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(2121, "", "IT-1-2-1", 212, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(2122, "", "IT-1-2-2", 212, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(213, "", "IT-1-2", 21, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(22, "", "IT-2", 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(23, "", "IT-2", 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(24, "", "IT-3", 2, LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
@@ -732,17 +732,17 @@ class BookPersistenceAdapterTest(
 		"category id가 1일 때 전체 목록을 가져온다" {
 			bookCategoryDao.insert(
 				listOf(
-					BookCategory(1, "", "ROOT", null, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(2, "", "IT", 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(21, "", "IT-1", 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(211, "", "IT-1-1", 21, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(212, "", "IT-1-2", 21, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(2121, "", "IT-1-2-1", 212, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(2122, "", "IT-1-2-2", 212, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(213, "", "IT-1-2", 21, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(22, "", "IT-2", 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(23, "", "IT-2", 2, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategory(24, "", "IT-3", 2, LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookCategory(1, "", "ROOT", null, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(2, "", "IT", 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(21, "", "IT-1", 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(211, "", "IT-1-1", 21, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(212, "", "IT-1-2", 21, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(2121, "", "IT-1-2-1", 212, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(2122, "", "IT-1-2-2", 212, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(213, "", "IT-1-2", 21, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(22, "", "IT-2", 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(23, "", "IT-2", 2, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategory(24, "", "IT-3", 2, LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 
@@ -787,20 +787,20 @@ class BookPersistenceAdapterTest(
 						"image",
 						LocalDateTime.now(),
 						LocalDateTime.now(),
-						1,
+						false,
 					),
 			)
 			bookAuthorDao.insert(
 				listOf(
-					BookAuthor(1, targetId, "aaa", LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookAuthor(2, targetId, "abb", LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookAuthor(1, targetId, "aaa", LocalDateTime.now(), LocalDateTime.now(), false),
+					BookAuthor(2, targetId, "abb", LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
-					BookCategoryGroup(1, targetId, 1, LocalDateTime.now(), LocalDateTime.now(), 1),
-					BookCategoryGroup(2, targetId, 2, LocalDateTime.now(), LocalDateTime.now(), 1),
+					BookCategoryGroup(1, targetId, 1, LocalDateTime.now(), LocalDateTime.now(), false),
+					BookCategoryGroup(2, targetId, 2, LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
 

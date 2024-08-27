@@ -28,5 +28,5 @@ enum class BookCategoryGroupFixture(
 	;
 
 	fun toJooqBookCategoryGroup() =
-		BookCategoryGroup(ordinal.toLong() + 1, bookId, categoryId, LocalDateTime.now(), LocalDateTime.now(), 1)
+		BookCategoryGroup(ordinal.toLong() + 1, bookId, categoryId, LocalDateTime.now(), LocalDateTime.now(), false)
 }

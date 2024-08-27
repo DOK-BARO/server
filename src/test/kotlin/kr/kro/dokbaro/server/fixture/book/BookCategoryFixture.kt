@@ -75,5 +75,5 @@ enum class BookCategoryFixture(
 	MOBILE_GAME_2(64, MOBILE, "모바일게임", "331607"),
 	;
 
-	fun toJooqBookCategory() = BookCategory(id, name, korean, parent?.id, LocalDateTime.now(), LocalDateTime.now(), 1)
+	fun toJooqBookCategory() = BookCategory(id, name, korean, parent?.id, LocalDateTime.now(), LocalDateTime.now(), false)
 }

@@ -33,7 +33,7 @@ class BookMapper {
 				.map { it.id }
 				.associateWith { mutableSetOf<Long>() }
 				.toMutableMap()
-		
+
 		val recordMap: Map<Long, BookCategoryRecord> =
 			record
 				.associateBy { it.id }
@@ -52,7 +52,7 @@ class BookMapper {
 		headId: Long,
 	): BookCategory {
 		val targetRecord: BookCategoryRecord = recordMap[headId]!!
-		
+
 		return BookCategory(
 			targetRecord.id,
 			targetRecord.koreanName,
