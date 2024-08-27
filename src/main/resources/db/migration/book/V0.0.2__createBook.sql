@@ -18,6 +18,7 @@ CREATE TABLE book
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
+
 CREATE TABLE book_author
 (
 	id         bigint      NOT NULL AUTO_INCREMENT,
@@ -33,6 +34,7 @@ CREATE TABLE book_author
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
 
 CREATE TABLE book_category
 (
@@ -50,6 +52,7 @@ CREATE TABLE book_category
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
 
 CREATE TABLE book_category_group
 (

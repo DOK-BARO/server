@@ -110,15 +110,28 @@ class BookQueryRepository(
 				.withRecursive(hierarchyTableName)
 				.`as`(
 					dslContext
-						.select(BOOK_CATEGORY.ID, BOOK_CATEGORY.ENGLISH_NAME, BOOK_CATEGORY.KOREAN_NAME, BOOK_CATEGORY.PARENT_ID)
-						.from(BOOK_CATEGORY)
+						.select(
+							BOOK_CATEGORY.ID,
+							BOOK_CATEGORY.ENGLISH_NAME,
+							BOOK_CATEGORY.KOREAN_NAME,
+							BOOK_CATEGORY.PARENT_ID,
+						).from(BOOK_CATEGORY)
 						.where(BOOK_CATEGORY.ID.eq(id))
 						.unionAll(
 							dslContext
-								.select(BOOK_CATEGORY.ID, BOOK_CATEGORY.ENGLISH_NAME, BOOK_CATEGORY.KOREAN_NAME, BOOK_CATEGORY.PARENT_ID)
-								.from(BOOK_CATEGORY)
+								.select(
+									BOOK_CATEGORY.ID,
+									BOOK_CATEGORY.ENGLISH_NAME,
+									BOOK_CATEGORY.KOREAN_NAME,
+									BOOK_CATEGORY.PARENT_ID,
+								).from(BOOK_CATEGORY)
 								.join(table(name(hierarchyTableName)).`as`(hierarchyTableAlias))
-								.on(field(name(hierarchyTableAlias, "id"), Long::class.java).eq(BOOK_CATEGORY.PARENT_ID)),
+								.on(
+									field(
+										name(hierarchyTableAlias, "id"),
+										Long::class.java,
+									).eq(BOOK_CATEGORY.PARENT_ID),
+								),
 						),
 				).select()
 				.from(name(hierarchyTableName))
