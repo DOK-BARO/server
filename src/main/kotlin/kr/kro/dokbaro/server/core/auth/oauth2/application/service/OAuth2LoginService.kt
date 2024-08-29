@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.auth.oauth2.application.service
 
+import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.LoadProviderAccountCommand
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.OAuth2ProviderAccount
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.input.OAuth2LoginUseCase
@@ -23,6 +24,6 @@ class OAuth2LoginService(
 			loadOAuth2CertificatedAccountPort.findBy(providerAccount.id, providerAccount.provider)
 				?: throw NotFoundAccountException()
 
-		return generateAuthTokenUseCase.generate(TokenClaims(account.certificationId.toString(), account.role))
+		return generateAuthTokenUseCase.generate(TokenClaims(UUIDUtils.uuidToString(account.certificationId), account.role))
 	}
 }
