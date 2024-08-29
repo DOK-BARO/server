@@ -1,0 +1,13 @@
+= MEMBER
+
+== OAUTH2 signup
+
+=== HTTP request
+
+include::{snippets}/member/modify-login-user/http-request.adoc[]
+include::{snippets}/member/modify-login-user/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/member/modify-login-user/http-response.adoc[]
+
