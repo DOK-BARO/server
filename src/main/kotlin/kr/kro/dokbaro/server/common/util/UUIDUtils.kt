@@ -17,4 +17,8 @@ object UUIDUtils {
 		val leastSigBits = byteBuffer.long
 		return UUID(mostSigBits, leastSigBits)
 	}
+
+	fun uuidToString(uuid: UUID): String = uuid.toString()
+
+	fun stringToUUID(string: String): UUID = UUID.fromString(string)
 }

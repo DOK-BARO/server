@@ -9,4 +9,8 @@ class UpdateMemberPortMock(
 	override fun update(member: Member) {
 		storage = member
 	}
+
+	fun clear() {
+		storage = null
+	}
 }

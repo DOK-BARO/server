@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 class TestUserDetailService : UserDetailsService {
 	override fun loadUserByUsername(username: String): UserDetails =
 		User(
-			"username",
+			"550e8400-e29b-41d4-a716-446655440000",
 			"password",
 			Role.entries.map { SimpleGrantedAuthority(it.name) }.toList(),
 		)

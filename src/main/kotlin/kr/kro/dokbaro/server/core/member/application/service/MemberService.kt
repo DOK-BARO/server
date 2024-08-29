@@ -1,7 +1,9 @@
 package kr.kro.dokbaro.server.core.member.application.service
 
 import kr.kro.dokbaro.server.core.member.application.port.input.command.CheckMemberEmailUseCase
+import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
+import kr.kro.dokbaro.server.core.member.application.port.input.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.RegisterMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
@@ -19,7 +21,8 @@ class MemberService(
 	private val existMemberEmailPort: ExistMemberByEmailPort,
 	private val loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
 ) : RegisterMemberUseCase,
-	CheckMemberEmailUseCase {
+	CheckMemberEmailUseCase,
+	ModifyMemberUseCase {
 	override fun register(command: RegisterMemberCommand): Member {
 		val certificationId = UUID.randomUUID()
 
@@ -42,6 +45,20 @@ class MemberService(
 			loadMemberByCertificationIdPort.findByCertificationId(certificationId) ?: throw NotFoundMemberException()
 
 		member.checkEmail()
+		updateMemberPort.update(member)
+	}
+
+	override fun modify(command: ModifyMemberCommand) {
+		val member: Member =
+			loadMemberByCertificationIdPort.findByCertificationId(command.certificationId)
+				?: throw NotFoundMemberException()
+
+		member.modify(
+			nickName = command.nickName,
+			email = command.email?.let { Email(it) },
+			profileImage = command.profileImage,
+		)
+
 		updateMemberPort.update(member)
 	}
 }
