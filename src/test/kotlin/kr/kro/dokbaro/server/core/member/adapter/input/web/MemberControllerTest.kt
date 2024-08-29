@@ -6,19 +6,28 @@ import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberRequest
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
+import kr.kro.dokbaro.server.core.member.domain.Email
+import kr.kro.dokbaro.server.core.member.domain.Member
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
+import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.util.UUID
+import kotlin.random.Random
 
 @WebMvcTest(MemberController::class)
 class MemberControllerTest : RestDocsTest() {
 	@MockkBean
 	lateinit var modifyMemberUseCase: ModifyMemberUseCase
 
+	@MockkBean
+	lateinit var findCertificatedMemberUseCase: FindCertificatedMemberUseCase
+
 	init {
-		"member 수정을 수행한다" {
+		"login한 member 정보를 수정을 수행한다" {
 			every { modifyMemberUseCase.modify(any()) } returns Unit
 
 			val request =
@@ -43,8 +52,50 @@ class MemberControllerTest : RestDocsTest() {
 								.description("email: 변경 시 메일 재인증 필요 (optional)"),
 							fieldWithPath("profileImage")
 								.type(JsonFieldType.STRING)
-								.description("프로필 사진 (optional)")
+								.description("프로필 사진 URL (optional)")
 								.optional(),
+						),
+					),
+				)
+		}
+
+		"login한 member 정보를 가져온다" {
+			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns
+				Member(
+					nickName = "nickname",
+					email = Email("dasf"),
+					profileImage = "image.png",
+					certificationId = UUID.randomUUID(),
+					id = Random.nextLong(),
+				)
+
+			performGet(Path("/members/login-user"))
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"member/get-login-user",
+						responseFields(
+							fieldWithPath("nickName")
+								.type(JsonFieldType.STRING)
+								.description("닉네임"),
+							fieldWithPath("email.address")
+								.type(JsonFieldType.STRING)
+								.description("이메일 주소"),
+							fieldWithPath("email.verified")
+								.type(JsonFieldType.BOOLEAN)
+								.description("이메일 인증 여부"),
+							fieldWithPath("profileImage")
+								.type(JsonFieldType.STRING)
+								.description("프로필 사진 URL"),
+							fieldWithPath("certificationId")
+								.type(JsonFieldType.STRING)
+								.description("인증용 Id"),
+							fieldWithPath("roles")
+								.type(JsonFieldType.ARRAY)
+								.description("권한"),
+							fieldWithPath("id")
+								.type(JsonFieldType.NUMBER)
+								.description("seq ID"),
 						),
 					),
 				)

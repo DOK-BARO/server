@@ -120,12 +120,12 @@ abstract class RestDocsTest : StringSpec() {
 
 	protected fun performGet(
 		path: Path,
-		param: Map<String, String>? = null,
+		param: Map<String, String> = mapOf(),
 	): ResultActions =
 		mockMvc.perform(
 			get(path.endPoint, *path.pathVariable)
 				.apply {
-					param?.let { params(LinkedMultiValueMap(it.mapValues { listOf(it.value) })) }
+					params(LinkedMultiValueMap(param.mapValues { listOf(it.value) }))
 				},
 		)
 

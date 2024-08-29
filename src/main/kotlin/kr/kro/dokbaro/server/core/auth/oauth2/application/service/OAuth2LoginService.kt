@@ -24,6 +24,11 @@ class OAuth2LoginService(
 			loadOAuth2CertificatedAccountPort.findBy(providerAccount.id, providerAccount.provider)
 				?: throw NotFoundAccountException()
 
-		return generateAuthTokenUseCase.generate(TokenClaims(UUIDUtils.uuidToString(account.certificationId), account.role))
+		return generateAuthTokenUseCase.generate(
+			TokenClaims(
+				UUIDUtils.uuidToString(account.certificationId),
+				account.role,
+			),
+		)
 	}
 }

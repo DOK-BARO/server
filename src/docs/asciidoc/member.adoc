@@ -1,6 +1,6 @@
 = MEMBER
 
-== OAUTH2 signup
+== modify login member
 
 === HTTP request
 
@@ -11,3 +11,9 @@ include::{snippets}/member/modify-login-user/request-fields.adoc[]
 
 include::{snippets}/member/modify-login-user/http-response.adoc[]
 
+== get login member
+
+=== HTTP response
+
+include::{snippets}/member/get-login-user/http-response.adoc[]
+include::{snippets}/member/get-login-user/response-fields.adoc[]
