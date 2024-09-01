@@ -12,6 +12,10 @@ class EmailAuthentication(
 	}
 
 	fun use() {
+		if (!authenticated) {
+			throw UnauthenticatedEmailException(address)
+		}
+
 		used = true
 	}
 
