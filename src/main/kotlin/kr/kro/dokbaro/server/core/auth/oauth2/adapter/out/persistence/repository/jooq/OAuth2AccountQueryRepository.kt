@@ -57,20 +57,10 @@ class OAuth2AccountQueryRepository(
 	): Boolean =
 		dslContext
 			.fetchExists(
-				dslContext
-					.selectOne()
-					.from(
-						ACCOUNT,
-					).where(
-						ACCOUNT.SOCIAL_ID
-							.eq(
-								socialId,
-							),
-					).and(
-						ACCOUNT.PROVIDER
-							.eq(
-								provider.name,
-							),
-					),
+				ACCOUNT.where(
+					ACCOUNT.SOCIAL_ID
+						.eq(socialId)
+						.and(ACCOUNT.PROVIDER.eq(provider.name)),
+				),
 			)
 }
