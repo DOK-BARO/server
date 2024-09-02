@@ -5,10 +5,8 @@ import kr.kro.dokbaro.server.core.book.domain.BookAuthor
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
 import org.jooq.Record
 import org.jooq.Result
-import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookAuthor
 import org.jooq.generated.tables.JBookCategory
-import org.jooq.generated.tables.JBookCategoryGroup
 import org.jooq.generated.tables.records.BookCategoryRecord
 import org.jooq.generated.tables.records.BookRecord
 import org.springframework.stereotype.Component
@@ -16,10 +14,8 @@ import org.springframework.stereotype.Component
 @Component
 class BookMapper {
 	companion object {
-		private val BOOK = JBook.BOOK
 		private val BOOK_AUTHOR = JBookAuthor.BOOK_AUTHOR
 		private val BOOK_CATEGORY = JBookCategory.BOOK_CATEGORY
-		private val BOOK_CATEGORY_GROUP = JBookCategoryGroup.BOOK_CATEGORY_GROUP
 	}
 
 	fun mapToBookCollection(record: Map<BookRecord, Result<Record>>): Collection<Book> = mapRecordMapToBook(record)

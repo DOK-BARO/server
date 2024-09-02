@@ -21,7 +21,7 @@ class MemberMapper {
 			.map { record ->
 				Member(
 					record.key.nickname,
-					Email(record.key.email, record.key.emailVerify),
+					Email(record.key.email),
 					record.key.profileImageUrl,
 					UUIDUtils.byteArrayToUUID(record.key.certificationId),
 					record.value.map { Role.valueOf(it.getValue(MEMBER_ROLE.NAME)) }.toSet(),

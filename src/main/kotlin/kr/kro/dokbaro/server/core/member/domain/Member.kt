@@ -14,10 +14,6 @@ data class Member(
 		private const val UNSAVED_MEMBER_ID = 0L
 	}
 
-	fun checkEmail() {
-		email = email.verify()
-	}
-
 	fun modify(
 		nickName: String?,
 		email: Email?,

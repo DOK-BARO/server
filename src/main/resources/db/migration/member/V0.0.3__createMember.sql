@@ -4,7 +4,6 @@ CREATE TABLE member
 	certification_id  binary(16)  NOT NULL,
 	nickname          varchar(31) NOT NULL,
 	email             varchar(31) NOT NULL,
-	email_verify      tinyint(1)  NOT NULL DEFAULT '0',
 	profile_image_url varchar(255)         DEFAULT NULL,
 	created_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

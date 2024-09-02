@@ -79,7 +79,6 @@ class MemberRepository(
 			.update(MEMBER)
 			.set(MEMBER.NICKNAME, member.nickName)
 			.set(MEMBER.EMAIL, member.email.address)
-			.set(MEMBER.EMAIL_VERIFY, member.email.verified)
 			.set(MEMBER.PROFILE_IMAGE_URL, member.profileImage)
 			.where(MEMBER.ID.eq(member.id))
 			.execute()

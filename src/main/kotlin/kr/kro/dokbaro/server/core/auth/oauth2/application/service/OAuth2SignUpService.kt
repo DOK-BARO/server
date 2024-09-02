@@ -26,6 +26,10 @@ class OAuth2SignUpService(
 	override fun signUp(command: LoadProviderAccountCommand): AuthToken {
 		val providerAccount: OAuth2ProviderAccount = accountLoader.getAccount(command)
 
+		if (existOAuth2AccountPort.existBy(providerAccount.id, providerAccount.provider)) {
+			throw AlreadyExistAccountException(providerAccount.id, providerAccount.provider)
+		}
+
 		val member: Member =
 			registerMemberUseCase.register(
 				RegisterMemberCommand(
@@ -34,9 +38,6 @@ class OAuth2SignUpService(
 					providerAccount.profileImage,
 				),
 			)
-		if (existOAuth2AccountPort.existBy(providerAccount.id, providerAccount.provider)) {
-			throw AlreadyExistAccountException(providerAccount.id, providerAccount.provider)
-		}
 
 		saveOAuth2AccountPort.save(
 			OAuth2Account(

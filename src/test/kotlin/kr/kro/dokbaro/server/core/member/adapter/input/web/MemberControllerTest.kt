@@ -6,9 +6,9 @@ import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberRequest
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
+import kr.kro.dokbaro.server.core.member.application.port.input.dto.MemberResponse
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
-import kr.kro.dokbaro.server.core.member.domain.Email
-import kr.kro.dokbaro.server.core.member.domain.Member
+import kr.kro.dokbaro.server.core.member.domain.Role
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -61,11 +61,12 @@ class MemberControllerTest : RestDocsTest() {
 
 		"login한 member 정보를 가져온다" {
 			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns
-				Member(
+				MemberResponse(
 					nickName = "nickname",
-					email = Email("dasf"),
+					email = "asdf@gmail.com",
 					profileImage = "image.png",
 					certificationId = UUID.randomUUID(),
+					roles = setOf(Role.GUEST),
 					id = Random.nextLong(),
 				)
 
@@ -78,12 +79,9 @@ class MemberControllerTest : RestDocsTest() {
 							fieldWithPath("nickName")
 								.type(JsonFieldType.STRING)
 								.description("닉네임"),
-							fieldWithPath("email.address")
+							fieldWithPath("email")
 								.type(JsonFieldType.STRING)
 								.description("이메일 주소"),
-							fieldWithPath("email.verified")
-								.type(JsonFieldType.BOOLEAN)
-								.description("이메일 인증 여부"),
 							fieldWithPath("profileImage")
 								.type(JsonFieldType.STRING)
 								.description("프로필 사진 URL"),

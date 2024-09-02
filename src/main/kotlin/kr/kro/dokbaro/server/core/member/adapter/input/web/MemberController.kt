@@ -3,9 +3,9 @@ package kr.kro.dokbaro.server.core.member.adapter.input.web
 import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberRequest
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
+import kr.kro.dokbaro.server.core.member.application.port.input.dto.MemberResponse
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
-import kr.kro.dokbaro.server.core.member.domain.Member
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
@@ -38,6 +38,6 @@ class MemberController(
 	}
 
 	@GetMapping("/login-user")
-	fun getLoginUser(auth: Authentication): Member =
+	fun getLoginUser(auth: Authentication): MemberResponse =
 		findCertificatedMemberUseCase.getByCertificationId(UUIDUtils.stringToUUID(auth.name))
 }

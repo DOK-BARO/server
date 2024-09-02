@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>이메일 인증</title>
+	<style>
+		@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+		body {
+			font-family: "Pretendard Variable", Pretendard, -apple-system,
+			BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+			"Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+			"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+			padding: 0;
+			margin: 0;
+		}
+		.email-verification-container {
+			background-color: #fff;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			height: 100vh;
+			padding: 0 7%;
+		}
+		.logo {
+			display: flex;
+			gap: 18px;
+			align-items: center;
+		}
+
+		.logo h1 {
+			font-size: 40px;
+			font-weight: 700;
+		}
+
+		main {
+			margin-top: 100px;
+			color: #000;
+		}
+
+		.instruction {
+			font-size: 32px;
+			line-height: 1.5;
+		}
+
+		.code {
+			margin-top: 76px;
+			font-size: 48px;
+		}
+
+		.line {
+			margin-top: 100px;
+			height: 7px;
+			width: 100%;
+			background-color: #9747ff;
+		}
+
+		footer p {
+			margin-top: 33px;
+			font-size: 24px;
+			color: #8e8e8e;
+		}
+	</style>
+</head>
+<body>
+<div class="email-verification-container">
+	<header>
+		<div class="logo">
+			<img src="./dokbaro_logo.png" alt="DOKBARO 로고" width="72" />
+			<h1>DOKBARO</h1>
+		</div>
+	</header>
+	<main>
+		<p class="instruction">
+			<span th:text="${email}"></span>님 안녕하세요.
+			<br />
+			회원가입을 위해 인증코드를 가입 페이지에 입력해 주세요.
+		</p>
+		<p class="code" th:text="${code}"></p>
+	</main>
+	<footer>
+		<div class="line"></div>
+		<p>본 메일은 DOKBARO 서비스에 대한 광고가 아닙니다.</p>
+	</footer>
+</div>
+</body>
+</html>

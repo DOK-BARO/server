@@ -1,0 +1,16 @@
+spring:
+    mail:
+        host: smtp.gmail.com # 1
+        port: 587 # 2
+        username: ${SMTP_USERNAME:smtpUsername} # 3
+        password: ${SMTP_PASSWORD:smtpPassword} # 4
+        properties:
+            mail:
+                smtp:
+                    auth: true # 5
+                    timeout: 5000 # 6
+                    starttls:
+                        enable: true # 7
+
+mail-authentication:
+    title: ${MAIL_AUTHENTICATION_TITLE:DOKBARO 회원가입 코드}

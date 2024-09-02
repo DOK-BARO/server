@@ -1,0 +1,143 @@
+package kr.kro.dokbaro.server.core.emailauthentication.application.service
+
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.mockk.clearMocks
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.dto.MatchResponse
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.FindEmailAuthenticationPort
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SaveEmailAuthenticationPort
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendEmailAuthenticationCodePort
+import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
+
+class EmailAuthenticationServiceTest :
+	StringSpec({
+		val saveEmailAuthenticationPort = mockk<SaveEmailAuthenticationPort>()
+		val findEmailAuthenticationPort = mockk<FindEmailAuthenticationPort>()
+		val updateEmailAuthenticationPort = UpdateEmailAuthenticationPortMock()
+		val emailCodeGenerator = CodeGeneratorStub()
+		val sendEmailAuthenticationCodePort = mockk<SendEmailAuthenticationCodePort>()
+
+		val emailAuthenticationService =
+			EmailAuthenticationService(
+				saveEmailAuthenticationPort,
+				findEmailAuthenticationPort,
+				updateEmailAuthenticationPort,
+				emailCodeGenerator,
+				sendEmailAuthenticationCodePort,
+			)
+
+		afterEach {
+			clearMocks(
+				saveEmailAuthenticationPort,
+				findEmailAuthenticationPort,
+				sendEmailAuthenticationCodePort,
+			)
+
+			updateEmailAuthenticationPort.clear()
+		}
+
+		"생성을 수행한다" {
+			every { saveEmailAuthenticationPort.save(any()) } returns 1
+			every { sendEmailAuthenticationCodePort.sendEmail(any(), any()) } returns Unit
+
+			val email = "www@example.org"
+			emailAuthenticationService.create(email)
+
+			verify { sendEmailAuthenticationCodePort.sendEmail(email, any()) }
+		}
+
+		"인증 코드를 검증 시 일치하면 인증 여부 상태를 변경하고 true를 반환한다" {
+			val email = "www@example.org"
+			val code = "ABCDEF"
+			every { findEmailAuthenticationPort.findBy(any()) } returns
+				EmailAuthentication(
+					address = email,
+					code = code,
+					authenticated = false,
+					used = false,
+					id = 1,
+				)
+
+			val response: MatchResponse = emailAuthenticationService.match(email, code)
+
+			response.result shouldBe true
+			updateEmailAuthenticationPort.storage?.authenticated shouldBe true
+		}
+
+		"인증 코드를 검증 시 일치하지 않으면 상태를 변경하지 않고 false를 반환한다" {
+			val email = "www@example.org"
+			val code = "ABCDEF"
+			every { findEmailAuthenticationPort.findBy(any()) } returns
+				EmailAuthentication(
+					address = email,
+					code = code,
+					authenticated = false,
+					used = false,
+					id = 1,
+				)
+
+			val response: MatchResponse = emailAuthenticationService.match(email, "OTHER3")
+
+			response.result shouldBe false
+			updateEmailAuthenticationPort.storage shouldBe null
+		}
+
+		"인증코드 검증/재생성/사용 시 이메일 인증 데이터가 없다면 예외를 반환한다" {
+			every { findEmailAuthenticationPort.findBy(any()) } returns null
+
+			val email = "www@example.com"
+
+			shouldThrow<NotFoundEmailAuthenticationException> {
+				emailAuthenticationService.match(email, "ASBSDF")
+			}
+
+			shouldThrow<NotFoundEmailAuthenticationException> {
+				emailAuthenticationService.recreate(email)
+			}
+
+			shouldThrow<NotFoundEmailAuthenticationException> {
+				emailAuthenticationService.useEmail(email)
+			}
+		}
+
+		"인증 코드 재생성을 진행한다" {
+			val email = "www@example.org"
+			val beforeCode = "BEFORE"
+			every { findEmailAuthenticationPort.findBy(any()) } returns
+				EmailAuthentication(
+					address = email,
+					code = beforeCode,
+					authenticated = false,
+					used = false,
+					id = 1,
+				)
+			every { sendEmailAuthenticationCodePort.sendEmail(any(), any()) } returns Unit
+
+			emailAuthenticationService.recreate(email)
+
+			updateEmailAuthenticationPort.storage?.code shouldNotBe beforeCode
+			verify { sendEmailAuthenticationCodePort.sendEmail(email, any()) }
+		}
+
+		"이메일 사용을 수행한다" {
+			val email = "www@example.org"
+			val beforeCode = "BEFORE"
+			every { findEmailAuthenticationPort.findBy(any()) } returns
+				EmailAuthentication(
+					address = email,
+					code = beforeCode,
+					authenticated = true,
+					used = false,
+					id = 1,
+				)
+
+			emailAuthenticationService.useEmail(email)
+
+			updateEmailAuthenticationPort.storage?.used shouldBe true
+		}
+	})
