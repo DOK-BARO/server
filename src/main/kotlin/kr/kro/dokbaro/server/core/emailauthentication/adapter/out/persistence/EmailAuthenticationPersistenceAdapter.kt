@@ -24,9 +24,8 @@ class EmailAuthenticationPersistenceAdapter(
 	override fun findBy(condition: SearchEmailAuthenticationCondition): EmailAuthentication? =
 		emailAuthenticationJooqQueryRepository.findBy(condition)
 
-	override fun save(emailAuthentication: EmailAuthentication) {
+	override fun save(emailAuthentication: EmailAuthentication): Long =
 		emailAuthenticationJooqRepository.save(emailAuthentication)
-	}
 
 	override fun update(emailAuthentication: EmailAuthentication) {
 		emailAuthenticationJooqRepository.update(emailAuthentication)

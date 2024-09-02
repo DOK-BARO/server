@@ -13,7 +13,7 @@ class EmailAuthenticationJooqRepository(
 		private val EMAIL_AUTHENTICATION = JEmailAuthentication.EMAIL_AUTHENTICATION
 	}
 
-	fun save(emailAuthentication: EmailAuthentication) {
+	fun save(emailAuthentication: EmailAuthentication): Long =
 		dslContext
 			.insertInto(
 				EMAIL_AUTHENTICATION,
@@ -26,8 +26,8 @@ class EmailAuthenticationJooqRepository(
 				emailAuthentication.code,
 				emailAuthentication.authenticated,
 				emailAuthentication.used,
-			).execute()
-	}
+			).returningResult(EMAIL_AUTHENTICATION.ID)
+			.fetchOneInto(Long::class.java)!!
 
 	fun update(emailAuthentication: EmailAuthentication) {
 		dslContext
