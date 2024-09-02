@@ -190,6 +190,7 @@ kover {
 				classes("kr.kro.dokbaro.server.common.**")
 				classes("kr.kro.dokbaro.server.log.**")
 				classes("kr.kro.dokbaro.server.core.security.**")
+				classes("kr.kro.dokbaro.server.core.emailauthentication.adapter.out.web.SMTPEmailCodeSender")
 			}
 		}
 		verify {
