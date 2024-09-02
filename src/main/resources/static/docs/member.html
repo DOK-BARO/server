@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_http_request">HTTP request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /members/login-user?_csrf=qZOtSGIlnBvEqQVhV8nztGMIlqOGARdIbxz-NFWMBnmtsksqmarMK1URpC_pzTFVMuTH1QEwu8GwMCRlVyrHATPpNBuYgX4T HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /members/login-user?_csrf=V0Ix-Vh3lpwf3bD8GJG-N1hSoFPMUVmPSdAp-yd5QmBojbwSYCNVzzxE96syvIKeebyKVjowjTGpY2mie7NImkRKcVNYv44i HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 92
 Host: localhost:8080
@@ -532,18 +532,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 245
+Content-Length: 208
 
 {
   "nickName" : "nickname",
-  "email" : {
-    "address" : "dasf",
-    "verified" : false
-  },
+  "email" : "asdf@gmail.com",
   "profileImage" : "image.png",
-  "certificationId" : "7c1a98b3-100b-407b-b1d0-3c54bbd1b7c1",
+  "certificationId" : "981a208c-016c-4f9a-b432-f88c277863a3",
   "roles" : [ "GUEST" ],
-  "id" : -7425323454610454551
+  "id" : 1912700583800802936
 }</code></pre>
 </div>
 </div>
@@ -567,14 +564,9 @@ Content-Length: 245
 <td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email.address</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일 주소</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email.verified</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이메일 인증 여부</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImage</code></p></td>
@@ -605,7 +597,7 @@ Content-Length: 245
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-08-29 12:42:17 +0900
+Last updated 2024-08-29 16:08:23 +0900
 </div>
 </div>
 </body>
