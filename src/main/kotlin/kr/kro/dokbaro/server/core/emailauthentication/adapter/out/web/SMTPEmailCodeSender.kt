@@ -13,7 +13,7 @@ import org.thymeleaf.context.Context
 class SMTPEmailCodeSender(
 	private val javaMailSender: JavaMailSender,
 	private val templateEngine: TemplateEngine,
-	@Value("\${mail-authentication.title}")private val title: String,
+	@Value("\${mail-authentication.title}") private val title: String,
 ) : SendEmailAuthenticationCodePort {
 	override fun sendEmail(
 		email: String,
@@ -24,13 +24,17 @@ class SMTPEmailCodeSender(
 		val mimeMessageHelper = MimeMessageHelper(mimeMessage, false, "UTF-8")
 		mimeMessageHelper.setTo(email)
 		mimeMessageHelper.setSubject(title)
-		mimeMessageHelper.setText(toTemplate(code), true) // 메일 본문 내용, HTML 여부
+		mimeMessageHelper.setText(toTemplate(email, code), true) // 메일 본문 내용, HTML 여부
 
 		javaMailSender.send(mimeMessage)
 	}
 
-	fun toTemplate(code: String): String {
+	fun toTemplate(
+		email: String,
+		code: String,
+	): String {
 		val context = Context()
+		context.setVariable("email", email)
 		context.setVariable("code", code)
 
 		return templateEngine.process("verifyEmail", context)

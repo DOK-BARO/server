@@ -5,6 +5,7 @@ import kr.kro.dokbaro.server.core.emailauthentication.adapter.input.web.dto.Matc
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.CreateEmailAuthenticationUseCase
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.MatchCodeUseCase
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.RecreateEmailAuthenticationUseCase
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.dto.MatchResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -31,9 +32,7 @@ class EmailAuthenticationController(
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	fun matchCode(
 		@RequestBody matchEmailCodeRequest: MatchEmailCodeRequest,
-	) {
-		matchCodeUseCase.match(matchEmailCodeRequest.email, matchEmailCodeRequest.code)
-	}
+	): MatchResponse = matchCodeUseCase.match(matchEmailCodeRequest.email, matchEmailCodeRequest.code)
 
 	@PostMapping("/recreate")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
