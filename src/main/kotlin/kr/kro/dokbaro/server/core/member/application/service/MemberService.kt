@@ -1,6 +1,5 @@
 package kr.kro.dokbaro.server.core.member.application.service
 
-import kr.kro.dokbaro.server.core.member.application.port.input.command.CheckMemberEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.ModifyMemberCommand
@@ -21,7 +20,6 @@ class MemberService(
 	private val existMemberEmailPort: ExistMemberByEmailPort,
 	private val loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
 ) : RegisterMemberUseCase,
-	CheckMemberEmailUseCase,
 	ModifyMemberUseCase {
 	override fun register(command: RegisterMemberCommand): Member {
 		val certificationId = UUID.randomUUID()
@@ -38,14 +36,6 @@ class MemberService(
 				certificationId,
 			),
 		)
-	}
-
-	override fun checkMail(certificationId: UUID) {
-		val member: Member =
-			loadMemberByCertificationIdPort.findByCertificationId(certificationId) ?: throw NotFoundMemberException()
-
-		member.checkEmail()
-		updateMemberPort.update(member)
 	}
 
 	override fun modify(command: ModifyMemberCommand) {

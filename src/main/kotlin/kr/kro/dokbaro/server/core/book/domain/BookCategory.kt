@@ -6,6 +6,6 @@ data class BookCategory(
 	val details: Collection<BookCategory> = setOf(),
 ) {
 	companion object {
-		val ROOT_ID = 1L
+		const val ROOT_ID = 1L
 	}
 }

@@ -67,31 +67,6 @@ class MemberServiceTest :
 			}
 		}
 
-		"메일 검증을 수행한다" {
-			val targetUUID = UUID.randomUUID()
-
-			every { loadMemberByCertificationIdPort.findByCertificationId(targetUUID) } returns
-				Member(
-					nickName = "nickname",
-					email = Email("dasf"),
-					profileImage = "image.png",
-					certificationId = targetUUID,
-					id = Random.nextLong(),
-				)
-
-			memberService.checkMail(targetUUID)
-
-			updateMemberPort.storage!!.email.verified shouldBe true
-		}
-
-		"메일 검증 시 certificationId를 통한 member가 없으면 예외를 반환한다" {
-			every { loadMemberByCertificationIdPort.findByCertificationId(any()) } returns null
-
-			shouldThrow<NotFoundMemberException> {
-				memberService.checkMail(UUID.randomUUID())
-			}
-		}
-
 		"수정을 수행한다" {
 			val targetUUID = UUID.randomUUID()
 			val resentEmail = Email("dasf@kkk.com")

@@ -1,16 +1,24 @@
 package kr.kro.dokbaro.server.core.member.domain
 
+import io.kotest.assertions.throwables.shouldNotThrow
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.shouldBe
 
 class EmailTest :
 	StringSpec({
 
-		"이메일 검증을 수행하면 검증 여부가 true로 변경한다" {
-			val email = Email("qqq@asdf.com")
-			val verifyEmail = email.verify()
+		"이메일 형식이 정상적이면 객체를 정상적으로 생성한다" {
+			shouldNotThrow<InvalidEmailFormatException> {
+				Email("aaa@example.com")
+			}
+		}
 
-			email.verified shouldBe false
-			verifyEmail.verified shouldBe true
+		"이메일 형식이 맞지 않으면 에러를 반환한다" {
+			listOf("aaa", "@asdf.com", "dasf@")
+				.forEach {
+					shouldThrow<InvalidEmailFormatException> {
+						Email(it)
+					}
+				}
 		}
 	})
