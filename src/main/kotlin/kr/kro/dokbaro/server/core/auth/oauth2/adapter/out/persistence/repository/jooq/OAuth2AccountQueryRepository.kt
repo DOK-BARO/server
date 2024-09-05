@@ -24,7 +24,7 @@ class OAuth2AccountQueryRepository(
 	}
 
 	fun findBy(
-		certificationId: String,
+		socialId: String,
 		provider: AuthProvider,
 	): OAuth2CertificatedAccount? {
 		val record: Map<MemberRecord, Result<MemberRoleRecord>> =
@@ -35,13 +35,13 @@ class OAuth2AccountQueryRepository(
 				).join(MEMBER)
 				.on(
 					MEMBER.ID.eq(
-						ACCOUNT.ID,
+						ACCOUNT.MEMBER_ID,
 					),
 				).join(MEMBER_ROLE)
 				.on(MEMBER_ROLE.MEMBER_ID.eq(MEMBER.ID))
 				.where(
 					ACCOUNT.SOCIAL_ID
-						.eq(certificationId)
+						.eq(socialId)
 						.and(ACCOUNT.PROVIDER.eq(provider.name)),
 				).fetchGroups(
 					MEMBER,
