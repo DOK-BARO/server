@@ -47,10 +47,6 @@ class BookPersistenceAdapterTest(
 
 		val pagingOption = BookCollectionPagingOption(0, 100)
 
-		afterEach {
-			dslContext.rollback()
-		}
-
 		"목록 조회를 수행한다" {
 			bookDao.insert(BookFixture.entries.map { it.toJooqBook() })
 			bookAuthorDao.insert(BookAuthorFixture.entries.map { it.toJooqBookAuthor() })

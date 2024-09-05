@@ -33,9 +33,6 @@ class MemberPersistenceAdapterTest(
 
 		val memberDao = MemberDao(configuration)
 
-		afterEach {
-			dslContext.rollback()
-		}
 		val uuid = UUID.randomUUID()
 		val email = "hello@gmail.com"
 		val member =
