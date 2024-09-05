@@ -92,9 +92,11 @@ class BookQueryRepository(
 			result =
 				result.and(
 					`val`(it).`in`(
-						select(BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID).from(BOOK_CATEGORY_GROUP).where(
-							BOOK_CATEGORY_GROUP.BOOK_ID.eq(BOOK.ID),
-						),
+						select(BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID)
+							.from(BOOK_CATEGORY_GROUP)
+							.where(
+								BOOK_CATEGORY_GROUP.BOOK_ID.eq(BOOK.ID),
+							),
 					),
 				)
 		}
