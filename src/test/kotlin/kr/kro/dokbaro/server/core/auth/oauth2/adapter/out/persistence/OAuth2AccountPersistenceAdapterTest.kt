@@ -7,6 +7,7 @@ import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.common.type.AuthProvider
+import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.persistence.entity.jooq.OAuth2AccountMapper
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.persistence.repository.jooq.OAuth2AccountQueryRepository
@@ -19,7 +20,6 @@ import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import org.jooq.Configuration
 import org.jooq.DSLContext
-import java.util.UUID
 
 @PersistenceAdapterTest
 class OAuth2AccountPersistenceAdapterTest(
@@ -39,21 +39,17 @@ class OAuth2AccountPersistenceAdapterTest(
 				nickName = "nickname",
 				email = Email("email@asdf.com"),
 				profileImage = "image.png",
-				certificationId = UUID.randomUUID(),
+				certificationId = UUIDUtils.stringToUUID("2b946c7f-abd1-4aef-a440-5d7670e4db75"),
 			)
-
-		afterEach {
-			dslContext.rollback()
-		}
 
 		"저장을 수행한다" {
 			val member = memberRepository.save(memberSample)
-			val account = OAuth2Account("aaa", AuthProvider.KAKAO, member.id)
+			val account = OAuth2Account("aaaaa", AuthProvider.KAKAO, member.id)
 			adapter.save(account) shouldNotBe null
 		}
 
 		"socialId와 provider를 통한 조회를 수행한다" {
-			val targetSocialId = "aaa"
+			val targetSocialId = "aaaaaa"
 			val targetProvider = AuthProvider.KAKAO
 
 			val member = memberRepository.save(memberSample)
