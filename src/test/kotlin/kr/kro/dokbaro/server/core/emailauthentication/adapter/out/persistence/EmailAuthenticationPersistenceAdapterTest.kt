@@ -30,10 +30,6 @@ class EmailAuthenticationPersistenceAdapterTest(
 
 		val emailAuthenticationDao = EmailAuthenticationDao(configuration)
 
-		afterEach {
-			dslContext.rollback()
-		}
-
 		"저장을 수행한다" {
 			val emailAuthentication =
 				EmailAuthentication(
