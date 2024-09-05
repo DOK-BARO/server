@@ -1,0 +1,29 @@
+package kr.kro.dokbaro.server.core.auth.email.adapter.input.web
+
+import kr.kro.dokbaro.server.common.dto.response.MessageResponse
+import kr.kro.dokbaro.server.core.auth.email.application.port.input.EmailLoginUseCase
+import kr.kro.dokbaro.server.core.auth.email.application.port.input.dto.EmailLoginCommand
+import kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web.JwtResponseGenerator
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+@RequestMapping("/auth/email/login")
+class EmailLoginController(
+	private val emailLoginUseCase: EmailLoginUseCase,
+	private val jwtResponseGenerator: JwtResponseGenerator,
+) {
+	@PostMapping
+	fun login(
+		@RequestBody body: EmailLoginCommand,
+	): ResponseEntity<MessageResponse> {
+		val (accessToken: String, refreshToken: String) = emailLoginUseCase.login(body)
+
+		return jwtResponseGenerator
+			.getResponseBuilder(accessToken, refreshToken)
+			.body(MessageResponse("Login Success / set cookie"))
+	}
+}

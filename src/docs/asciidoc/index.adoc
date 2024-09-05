@@ -13,6 +13,8 @@ include::auth.adoc[]
 
 include::book.adoc[]
 
+include::email-authentication.adoc[]
+
 include::health-check.adoc[]
 
 include::member.adoc[]
