@@ -18,3 +18,4 @@ spring:
             - classpath:/configuration/oauth2/google.yml
             - classpath:/configuration/oauth2/github.yml
             - classpath:/configuration/smtp.yml
+            - classpath:/configuration/local-storage.yml
