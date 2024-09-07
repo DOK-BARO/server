@@ -8,11 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.context.annotation.Import
-import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
+import org.springframework.mock.web.MockMultipartFile
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
@@ -22,10 +27,6 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import java.nio.charset.StandardCharsets
@@ -129,14 +130,16 @@ abstract class RestDocsTest : StringSpec() {
 				},
 		)
 
-	protected fun performFormData(
-		method: HttpMethod,
+	protected fun performWithMultipart(
 		path: Path,
-		requestPartKey: String,
+		param: Map<String, String> = mapOf(),
+		fileName: String = "file",
 	): ResultActions =
 		mockMvc.perform(
-			multipart(method, path.endPoint, *path.pathVariable)
-				.file(requestPartKey, ByteArray(0))
+			multipart(path.endPoint, *path.pathVariable)
+				.apply {
+					params(LinkedMultiValueMap(param.mapValues { listOf(it.value) }))
+				}.file(MockMultipartFile(fileName, byteArrayOf()))
 				.with(csrf())
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.characterEncoding(StandardCharsets.UTF_8),
@@ -147,7 +150,7 @@ abstract class RestDocsTest : StringSpec() {
 	protected fun print(
 		title: String,
 		vararg snippets: Snippet,
-	) = document(title, getDocumentRequest(), getDocumentResponse(), *snippets)
+	): RestDocumentationResultHandler = document(title, getDocumentRequest(), getDocumentResponse(), *snippets)
 
 	private fun getDocumentRequest() = preprocessRequest(prettyPrint())
 
