@@ -17,4 +17,6 @@ include::email-authentication.adoc[]
 
 include::health-check.adoc[]
 
+include::image.adoc[]
+
 include::member.adoc[]

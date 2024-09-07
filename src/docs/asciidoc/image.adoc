@@ -1,0 +1,16 @@
+= IMAGE
+
+== upload image
+
+=== HTTP request
+
+include::{snippets}/image/upload/http-request.adoc[]
+
+==== imageTarget 목록
+* MEMBER_PROFILE : 맴버 프로필
+* STUDY_GROUP_PROFILE : study group 프로필
+
+=== HTTP response
+
+include::{snippets}/image/upload/http-response.adoc[]
+include::{snippets}/image/upload/response-fields.adoc[]
