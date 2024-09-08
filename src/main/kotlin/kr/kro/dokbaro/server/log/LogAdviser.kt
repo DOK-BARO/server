@@ -45,7 +45,7 @@ class LogAdviser {
 	}
 
 	private fun toRequestFormat(joinPoint: JoinPoint) =
-		"${toMethodFormat(joinPoint)} ( ${joinPoint.args.map { it.toString() }} )"
+		"${toMethodFormat(joinPoint)} ( ${joinPoint.args.map { it?.toString() }} )"
 
 	private fun toResultFormat(
 		joinPoint: JoinPoint,
