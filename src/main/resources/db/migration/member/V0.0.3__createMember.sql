@@ -2,7 +2,7 @@ CREATE TABLE member
 (
 	id                bigint      NOT NULL AUTO_INCREMENT,
 	certification_id  binary(16)  NOT NULL,
-	nickname          varchar(31) NOT NULL,
+	nickname          varchar(63) NOT NULL,
 	email             varchar(31) NOT NULL,
 	profile_image_url varchar(255)         DEFAULT NULL,
 	created_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,

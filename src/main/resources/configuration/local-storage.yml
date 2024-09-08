@@ -1,0 +1,5 @@
+local:
+    image:
+        storage:
+            host-url: ${LOCAL_IMAGE_STORAGE_HOST_URL:localhost:8080/api/images}
+            location-path: ${LOCAL_IMAGE_STORAGE_PATH:/Users/parkhyeonjun/dev/dokbaro/images}

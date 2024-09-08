@@ -541,17 +541,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
+<li><a href="#_image">IMAGE</a>
+<ul class="sectlevel1">
+<li><a href="#_upload_image">upload image</a>
+<ul class="sectlevel2">
+<li><a href="#_http_request_14">HTTP request</a>
+<ul class="sectlevel3">
+<li><a href="#_imagetarget_목록">imageTarget 목록</a></li>
+</ul>
+</li>
+<li><a href="#_http_response_14">HTTP response</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#_member">MEMBER</a>
 <ul class="sectlevel1">
 <li><a href="#_modify_login_member">modify login member</a>
 <ul class="sectlevel2">
-<li><a href="#_http_request_14">HTTP request</a></li>
-<li><a href="#_http_response_14">HTTP response</a></li>
+<li><a href="#_http_request_15">HTTP request</a></li>
+<li><a href="#_http_response_15">HTTP response</a></li>
 </ul>
 </li>
 <li><a href="#_get_login_member">get login member</a>
 <ul class="sectlevel2">
-<li><a href="#_http_response_15">HTTP response</a></li>
+<li><a href="#_http_request_16">HTTP request</a></li>
+<li><a href="#_http_response_16">HTTP response</a></li>
 </ul>
 </li>
 </ul>
@@ -644,7 +659,7 @@ Content-Length: 145
 <h3 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/signup/KAKAO?_csrf=ggCM4muLWaStWtf993cHa7HvFBD2dZ27-GKSJmy0-yJn3ZR04WG41V_ubZGAO-7MlFozDonbOXHHF_yWzlTzFV6MzkdS7aEQ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/signup/KAKAO?_csrf=loih6RT_okMfV9kw5-lkxFdmRlP-6EZ4SqhaNrDTaqh6K6hMpe2S3CzKlCAyZO8F1sRQ9GYEazLJ0SJVeM1uUIDhDp0fHpt4 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 94
 Host: localhost:8080
@@ -737,7 +752,7 @@ Content-Length: 47
 <h3 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/KAKAO?_csrf=z8zpdqwckhgnA2YNuFIGYGYBBs6jATFMwRUp5QL6OnowD0qyq_7eRZ94qnoKMVBr2X8yAl4wK_eSMgJh8iMb3TfOW0kFaiuA HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/KAKAO?_csrf=BSDyPLtCadv6akmGNTX2KWRMhbDeU4z5WZFefPYmEIzF1eVSNUSUBYhwCO_XDi-zARjCS1x0qIjvMu7UbKY7TMNCdOin7NMw HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 94
 Host: localhost:8080
@@ -830,7 +845,7 @@ Content-Length: 46
 <h3 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/KAKAO?_csrf=z8zpdqwckhgnA2YNuFIGYGYBBs6jATFMwRUp5QL6OnowD0qyq_7eRZ94qnoKMVBr2X8yAl4wK_eSMgJh8iMb3TfOW0kFaiuA HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/KAKAO?_csrf=BSDyPLtCadv6akmGNTX2KWRMhbDeU4z5WZFefPYmEIzF1eVSNUSUBYhwCO_XDi-zARjCS1x0qIjvMu7UbKY7TMNCdOin7NMw HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 94
 Host: localhost:8080
@@ -923,7 +938,7 @@ Content-Length: 46
 <h3 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/email/login?_csrf=EYzCK6yAM1Cxj3LlLPj0UOG44IxN1j23CI6BgyeyjU0x8z28Jb2hHZrmUmKcuUvQT9XAY9OAze0u71maOrznt0SCuXQCwlve HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/email/login?_csrf=6KHE2yvqECmKMiFluG_tdCAcl3Flf2qjz02-Ql5iUpAsnui40Mf3uhzbJkynVBJQ2kLZQRYqukhTTVKOrn6IJz9bMPVO_4mB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 58
 Host: localhost:8080
@@ -1429,7 +1444,7 @@ Content-Length: 412
 <h3 id="_http_request_9"><a class="link" href="#_http_request_9">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=JRSvlHR-PlLOfwEBtnovGnq7Sciz4katU8wq5DNPiVeHhEHUFiOZrRZKCWDjGjJnjlcbKEuKZKnW1iWAav0e1FJ-72G_tHDg HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=2VbieyaAN5T67aQ8q65nXqpAypjYynt0aI4vmfY-yc7e5FOf72fUSxLhVvXXiZUKzoNTP5p05_nq_U5ZC79MrpAMr_u71Tb9 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
 Host: localhost:8080
@@ -1487,7 +1502,7 @@ X-Frame-Options: DENY</code></pre>
 <h3 id="_http_request_10"><a class="link" href="#_http_request_10">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=Qcmp8Tb0F0ZTRnw27z9iOeI-8H0yvsNUlCuoV6mdFhUNCvj_I6jKklLFcnB-I0hVjBJWCdQK3RxU3_B5pUnKZJ_5IyM5bM3M HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=pyKasLgOBZcXqV7I3E-Jv6UOP5ICg8VZGWaTYH2SNJCvZpJ9kxCtiYg4PfQ6kTz56GK9jZJvEqs1sfB0IVbwVUT3BqaZBaBI HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
 Host: localhost:8080
@@ -1578,7 +1593,7 @@ Content-Length: 21
 <h3 id="_http_request_11"><a class="link" href="#_http_request_11">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=5A28ytFzdY4iOrP1PlkRZVK119Igb5_Yr2zEiN07I7spKu2d0T2JqOISQ70PCYaWW3QlXGDW-rATXqf1nlmn6eleRosZSIj7 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=7oim00PJOjFAzygAqn80XxB45pvFsGipxWv5NE_snaFJg-1s2erAt3HwDgJtqUw5n1IAPCRBy6OmhgqEpwiYDSzUq8V4stVZ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
 Host: localhost:8080
@@ -1705,15 +1720,94 @@ Content-Length: 22
 </div>
 </div>
 </div>
-<h1 id="_member" class="sect0"><a class="link" href="#_member">MEMBER</a></h1>
+<h1 id="_image" class="sect0"><a class="link" href="#_image">IMAGE</a></h1>
 <div class="sect1">
-<h2 id="_modify_login_member"><a class="link" href="#_modify_login_member">modify login member</a></h2>
+<h2 id="_upload_image"><a class="link" href="#_upload_image">upload image</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http_request_14"><a class="link" href="#_http_request_14">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=ciUw1WsxXOhPjETDSF5pl33ZdPx1okIX9VJQcf3LqBOvgMZhFBwJ4w8FP9litXH3fHNdp02_WZ1BkXo6wTM0RM_7kHXL5KcA HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /images/MEMBER_PROFILE HTTP/1.1
+Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Host: localhost:8080
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
+Content-Disposition: form-data; name=file
+
+
+--6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm--</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_imagetarget_목록"><a class="link" href="#_imagetarget_목록">imageTarget 목록</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>MEMBER_PROFILE : 맴버 프로필</p>
+</li>
+<li>
+<p>STUDY_GROUP_PROFILE : study group 프로필</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_14"><a class="link" href="#_http_response_14">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 64
+
+{
+  "url" : "https://dev.dokbaro.kro.kr/images/images/dev.png"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>url</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">저장된 이미지의 경로</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<h1 id="_member" class="sect0"><a class="link" href="#_member">MEMBER</a></h1>
+<div class="sect1">
+<h2 id="_modify_login_member"><a class="link" href="#_modify_login_member">modify login member</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_15"><a class="link" href="#_http_request_15">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=JdmfIcCilt54_ePAVyqYW1PAMsb8fLenBA3C_g14RIZo8KQlEOyuQPGS9OxVztbzZAesY2PyH_-ZGNOKYDT0nDVOdLcMwJYc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 92
 Host: localhost:8080
@@ -1758,7 +1852,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect2">
-<h3 id="_http_response_14"><a class="link" href="#_http_response_14">HTTP response</a></h3>
+<h3 id="_http_response_15"><a class="link" href="#_http_response_15">HTTP response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -1780,7 +1874,16 @@ X-Frame-Options: DENY</code></pre>
 <h2 id="_get_login_member"><a class="link" href="#_get_login_member">get login member</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_response_15"><a class="link" href="#_http_response_15">HTTP response</a></h3>
+<h3 id="_http_request_16"><a class="link" href="#_http_request_16">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /members/login-user HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_16"><a class="link" href="#_http_response_16">HTTP response</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -1800,9 +1903,9 @@ Content-Length: 208
   "nickName" : "nickname",
   "email" : "asdf@gmail.com",
   "profileImage" : "image.png",
-  "certificationId" : "f70e5d40-2101-4fff-a634-08a2d47aead9",
+  "certificationId" : "2f8c92fa-ef75-4c0e-8489-1e8dc57cffed",
   "roles" : [ "GUEST" ],
-  "id" : -394549247854207030
+  "id" : -165892927778705588
 }</code></pre>
 </div>
 </div>
@@ -1859,7 +1962,7 @@ Content-Length: 208
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-09-04 14:38:54 +0900
+Last updated 2024-09-08 00:41:30 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
