@@ -12,4 +12,6 @@ data class AuthenticationToken(
 	override fun getCredentials(): Any? = null
 
 	override fun getPrincipal(): Any = userId
+
+	override fun isAuthenticated(): Boolean = true
 }

@@ -75,7 +75,7 @@ class EmailAuthenticationService(
 			findEmailAuthenticationPort.findBy(
 				SearchEmailAuthenticationCondition(
 					address = email,
-					authenticated = false,
+					authenticated = true,
 					used = false,
 				),
 			) ?: throw NotFoundEmailAuthenticationException(email)
