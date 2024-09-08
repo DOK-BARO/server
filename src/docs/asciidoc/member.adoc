@@ -13,6 +13,9 @@ include::{snippets}/member/modify-login-user/http-response.adoc[]
 
 == get login member
 
+=== HTTP request
+include::{snippets}/member/get-login-user/http-request.adoc[]
+
 === HTTP response
 
 include::{snippets}/member/get-login-user/http-response.adoc[]
