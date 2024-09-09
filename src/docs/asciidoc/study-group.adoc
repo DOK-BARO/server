@@ -1,0 +1,13 @@
+= STUDY-GROUP
+
+== 스터디 그룹 생성
+
+=== HTTP request
+
+include::{snippets}/study-group/create/http-request.adoc[]
+include::{snippets}/study-group/create/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/study-group/create/http-response.adoc[]
+include::{snippets}/study-group/create/response-fields.adoc[]
