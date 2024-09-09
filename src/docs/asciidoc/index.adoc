@@ -20,3 +20,5 @@ include::health-check.adoc[]
 include::image.adoc[]
 
 include::member.adoc[]
+
+include::study-group.adoc[]
