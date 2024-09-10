@@ -8,8 +8,8 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.entity.jooq.EmailAuthenticationMapper
-import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.repository.jooq.EmailAuthenticationJooqQueryRepository
-import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.repository.jooq.EmailAuthenticationJooqRepository
+import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.repository.jooq.EmailAuthenticationQueryRepository
+import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.repository.jooq.EmailAuthenticationRepository
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.dto.SearchEmailAuthenticationCondition
 import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
 import org.jooq.Configuration
@@ -23,8 +23,8 @@ class EmailAuthenticationPersistenceAdapterTest(
 ) : StringSpec({
 		extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
 
-		val repository = EmailAuthenticationJooqRepository(dslContext)
-		val queryRepository = EmailAuthenticationJooqQueryRepository(dslContext, EmailAuthenticationMapper())
+		val repository = EmailAuthenticationRepository(dslContext)
+		val queryRepository = EmailAuthenticationQueryRepository(dslContext, EmailAuthenticationMapper())
 		val adapter =
 			EmailAuthenticationPersistenceAdapter(repository, queryRepository)
 

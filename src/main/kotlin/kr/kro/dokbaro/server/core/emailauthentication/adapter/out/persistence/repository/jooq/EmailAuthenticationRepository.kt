@@ -6,7 +6,7 @@ import org.jooq.generated.tables.JEmailAuthentication
 import org.springframework.stereotype.Repository
 
 @Repository
-class EmailAuthenticationJooqRepository(
+class EmailAuthenticationRepository(
 	private val dslContext: DSLContext,
 ) {
 	companion object {

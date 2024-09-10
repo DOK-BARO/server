@@ -7,7 +7,7 @@ import org.jooq.generated.tables.JStudyGroupMember
 import org.springframework.stereotype.Repository
 
 @Repository
-class StudyGroupJooqRepository(
+class StudyGroupRepository(
 	private val dslContext: DSLContext,
 ) {
 	companion object {

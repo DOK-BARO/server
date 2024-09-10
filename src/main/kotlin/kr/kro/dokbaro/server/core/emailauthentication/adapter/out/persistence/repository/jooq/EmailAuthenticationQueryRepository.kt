@@ -11,7 +11,7 @@ import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
 
 @Repository
-class EmailAuthenticationJooqQueryRepository(
+class EmailAuthenticationQueryRepository(
 	private val dslContext: DSLContext,
 	private val emailAuthenticationMapper: EmailAuthenticationMapper,
 ) {
