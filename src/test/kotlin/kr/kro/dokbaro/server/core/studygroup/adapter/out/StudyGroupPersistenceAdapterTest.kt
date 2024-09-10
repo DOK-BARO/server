@@ -10,7 +10,7 @@ import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.Mem
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
-import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupJooqRepository
+import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import org.jooq.Configuration
 import org.jooq.DSLContext
@@ -30,7 +30,7 @@ class StudyGroupPersistenceAdapterTest(
 		val studyGroupDao = StudyGroupDao(configuration)
 		val studyGroupMemberDao = StudyGroupMemberDao(configuration)
 
-		val repository = StudyGroupJooqRepository(dslContext)
+		val repository = StudyGroupRepository(dslContext)
 		val adapter = StudyGroupPersistenceAdapter(repository)
 
 		"study group 저장을 수행한다." {
