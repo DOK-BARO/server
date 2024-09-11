@@ -13,7 +13,7 @@ class EmailAuthenticationRepository(
 		private val EMAIL_AUTHENTICATION = JEmailAuthentication.EMAIL_AUTHENTICATION
 	}
 
-	fun save(emailAuthentication: EmailAuthentication): Long =
+	fun insert(emailAuthentication: EmailAuthentication): Long =
 		dslContext
 			.insertInto(
 				EMAIL_AUTHENTICATION,

@@ -35,7 +35,7 @@ class StudyGroupPersistenceAdapterTest(
 
 		"study group 저장을 수행한다." {
 			val savedMember =
-				memberRepository.save(
+				memberRepository.insert(
 					Member(
 						"nick",
 						Email("www@gmail.com"),

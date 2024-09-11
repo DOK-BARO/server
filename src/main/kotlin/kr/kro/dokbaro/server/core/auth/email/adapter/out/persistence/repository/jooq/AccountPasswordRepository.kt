@@ -13,7 +13,7 @@ class AccountPasswordRepository(
 		private val ACCOUNT_PASSWORD = JAccountPassword.ACCOUNT_PASSWORD
 	}
 
-	fun save(accountPassword: AccountPassword): Long =
+	fun insert(accountPassword: AccountPassword): Long =
 		dslContext
 			.insertInto(
 				ACCOUNT_PASSWORD,

@@ -17,5 +17,5 @@ class EmailAccountPersistenceAdapter(
 	override fun findByEmail(email: String): EmailCertificatedAccount? =
 		emailCertificatedAccountQueryRepository.findByEmail(email)
 
-	override fun insert(accountPassword: AccountPassword): Long = accountPasswordRepository.save(accountPassword)
+	override fun insert(accountPassword: AccountPassword): Long = accountPasswordRepository.insert(accountPassword)
 }

@@ -13,7 +13,7 @@ class BookQuizRepository(
 		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
 	}
 
-	fun save(bookQuiz: BookQuiz): Long =
+	fun insert(bookQuiz: BookQuiz): Long =
 		dslContext
 			.insertInto(
 				BOOK_QUIZ,

@@ -22,7 +22,7 @@ class OAuth2AccountPersistenceAdapter(
 		provider: AuthProvider,
 	): Boolean = queryRepository.existBy(socialId, provider)
 
-	override fun insert(oAuth2Account: OAuth2Account): Long = repository.save(oAuth2Account)
+	override fun insert(oAuth2Account: OAuth2Account): Long = repository.insert(oAuth2Account)
 
 	override fun findBy(
 		socialId: String,

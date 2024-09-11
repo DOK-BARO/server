@@ -15,7 +15,7 @@ class StudyGroupRepository(
 		private val STUDY_GROUP_MEMBER = JStudyGroupMember.STUDY_GROUP_MEMBER
 	}
 
-	fun save(studyGroup: StudyGroup): Long {
+	fun insert(studyGroup: StudyGroup): Long {
 		val studyGroupId: Long =
 			dslContext
 				.insertInto(

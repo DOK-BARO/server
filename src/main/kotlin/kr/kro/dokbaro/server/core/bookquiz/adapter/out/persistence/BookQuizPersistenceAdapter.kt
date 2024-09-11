@@ -9,5 +9,5 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 class BookQuizPersistenceAdapter(
 	private val bookQuizRepository: BookQuizRepository,
 ) : InsertBookQuizPort {
-	override fun insert(bookQuiz: BookQuiz): Long = bookQuizRepository.save(bookQuiz)
+	override fun insert(bookQuiz: BookQuiz): Long = bookQuizRepository.insert(bookQuiz)
 }
