@@ -2,9 +2,9 @@ package kr.kro.dokbaro.server.core.book.adapter.input.web
 
 import kr.kro.dokbaro.server.core.book.adapter.input.web.dto.BookResponse
 import kr.kro.dokbaro.server.core.book.adapter.input.web.dto.BookSummary
+import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
+import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
-import kr.kro.dokbaro.server.core.book.application.port.input.query.FindAllBookUseCase
-import kr.kro.dokbaro.server.core.book.application.port.input.query.FindOneBookUseCase
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping

@@ -1,8 +1,8 @@
 package kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq
 
+import kr.kro.dokbaro.server.common.dto.page.PagingOption
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
-import kr.kro.dokbaro.server.core.book.application.port.out.dto.BookCollectionPagingOption
-import kr.kro.dokbaro.server.core.book.application.port.out.dto.LoadBookCollectionCondition
+import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.domain.Book
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
 import org.jooq.Condition
@@ -37,8 +37,8 @@ class BookQueryRepository(
 	}
 
 	fun findAllBookBy(
-		condition: LoadBookCollectionCondition,
-		pagingOption: BookCollectionPagingOption,
+		condition: ReadBookCollectionCondition,
+		pagingOption: PagingOption,
 	): Collection<Book> {
 		val bookTable = "book"
 
@@ -66,7 +66,7 @@ class BookQueryRepository(
 		return bookMapper.mapToBookCollection(record)
 	}
 
-	private fun buildCondition(condition: LoadBookCollectionCondition): Condition {
+	private fun buildCondition(condition: ReadBookCollectionCondition): Condition {
 		var result: Condition = DSL.noCondition()
 
 		condition.title?.let {

@@ -4,7 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
-import kr.kro.dokbaro.server.core.book.application.port.input.query.FindAllBookCategoryUseCase
+import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookCategoryUseCase
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType

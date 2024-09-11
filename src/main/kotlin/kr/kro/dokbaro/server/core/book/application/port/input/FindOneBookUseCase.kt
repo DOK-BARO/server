@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.core.book.application.port.input.query
+package kr.kro.dokbaro.server.core.book.application.port.input
 
 import kr.kro.dokbaro.server.core.book.domain.Book
 
