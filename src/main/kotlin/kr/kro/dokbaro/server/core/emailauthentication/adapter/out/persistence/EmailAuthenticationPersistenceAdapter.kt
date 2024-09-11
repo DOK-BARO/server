@@ -25,7 +25,7 @@ class EmailAuthenticationPersistenceAdapter(
 		emailAuthenticationQueryRepository.findBy(condition)
 
 	override fun insert(emailAuthentication: EmailAuthentication): Long =
-		emailAuthenticationRepository.save(emailAuthentication)
+		emailAuthenticationRepository.insert(emailAuthentication)
 
 	override fun update(emailAuthentication: EmailAuthentication) {
 		emailAuthenticationRepository.update(emailAuthentication)

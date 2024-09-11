@@ -13,7 +13,7 @@ class OAuth2AccountRepository(
 		private val ACCOUNT = JOauth2Account.OAUTH2_ACCOUNT
 	}
 
-	fun save(oAuth2Account: OAuth2Account): Long =
+	fun insert(oAuth2Account: OAuth2Account): Long =
 		dslContext
 			.insertInto(
 				ACCOUNT,

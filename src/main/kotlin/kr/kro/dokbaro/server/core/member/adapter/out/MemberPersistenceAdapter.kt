@@ -18,7 +18,7 @@ class MemberPersistenceAdapter(
 	LoadMemberByCertificationIdPort,
 	UpdateMemberPort,
 	ExistMemberByEmailPort {
-	override fun insert(member: Member): Member = memberRepository.save(member)
+	override fun insert(member: Member): Member = memberRepository.insert(member)
 
 	override fun update(member: Member) {
 		memberRepository.update(member)

@@ -22,7 +22,7 @@ class MemberRepository(
 		private val MEMBER_ROLE = JMemberRole.MEMBER_ROLE
 	}
 
-	fun save(member: Member): Member {
+	fun insert(member: Member): Member {
 		val memberId: Long =
 			dslContext
 				.insertInto(

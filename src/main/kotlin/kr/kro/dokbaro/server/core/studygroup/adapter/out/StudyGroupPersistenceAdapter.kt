@@ -9,5 +9,5 @@ import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 class StudyGroupPersistenceAdapter(
 	private val studyGroupRepository: StudyGroupRepository,
 ) : InsertStudyGroupPort {
-	override fun insert(studyGroup: StudyGroup): Long = studyGroupRepository.save(studyGroup)
+	override fun insert(studyGroup: StudyGroup): Long = studyGroupRepository.insert(studyGroup)
 }
