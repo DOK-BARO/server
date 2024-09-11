@@ -4,8 +4,8 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
-import kr.kro.dokbaro.server.core.book.application.port.input.query.FindAllBookUseCase
-import kr.kro.dokbaro.server.core.book.application.port.input.query.FindOneBookUseCase
+import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
+import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
 import kr.kro.dokbaro.server.core.book.domain.Book
 import kr.kro.dokbaro.server.core.book.domain.BookAuthor
 import kr.kro.dokbaro.server.core.book.domain.BookCategory

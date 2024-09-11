@@ -7,11 +7,11 @@ import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import kr.kro.dokbaro.server.common.dto.page.PagingOption
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookQueryRepository
-import kr.kro.dokbaro.server.core.book.application.port.out.dto.BookCollectionPagingOption
-import kr.kro.dokbaro.server.core.book.application.port.out.dto.LoadBookCollectionCondition
+import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.domain.Book
 import kr.kro.dokbaro.server.fixture.book.BookAuthorFixture
 import kr.kro.dokbaro.server.fixture.book.BookCategoryFixture
@@ -45,7 +45,7 @@ class BookPersistenceAdapterTest(
 		val queryRepository = BookQueryRepository(dslContext, mapper)
 		val adapter = BookPersistenceAdapter(queryRepository)
 
-		val pagingOption = BookCollectionPagingOption(0, 100)
+		val pagingOption = PagingOption(0, 100)
 
 		"목록 조회를 수행한다" {
 			bookDao.insert(BookFixture.entries.map { it.toJooqBook() })
@@ -55,7 +55,7 @@ class BookPersistenceAdapterTest(
 
 			val result: Collection<Book> =
 				adapter.getAllBook(
-					LoadBookCollectionCondition(
+					ReadBookCollectionCondition(
 						title = null,
 						authorName = null,
 						description = null,
@@ -163,9 +163,9 @@ class BookPersistenceAdapterTest(
 				),
 			)
 
-			adapter.getAllBook(LoadBookCollectionCondition(title = "이펙티브"), pagingOption).count() shouldBe 3
-			adapter.getAllBook(LoadBookCollectionCondition(title = "베리"), pagingOption).count() shouldBe 2
-			adapter.getAllBook(LoadBookCollectionCondition(title = "나다"), pagingOption).count() shouldBe 1
+			adapter.getAllBook(ReadBookCollectionCondition(title = "이펙티브"), pagingOption).count() shouldBe 3
+			adapter.getAllBook(ReadBookCollectionCondition(title = "베리"), pagingOption).count() shouldBe 2
+			adapter.getAllBook(ReadBookCollectionCondition(title = "나다"), pagingOption).count() shouldBe 1
 		}
 
 		"저자를 통한 검색을 수행한다" {
@@ -264,9 +264,9 @@ class BookPersistenceAdapterTest(
 					BookCategoryGroup(5, 5, 1, LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
-			adapter.getAllBook(LoadBookCollectionCondition(authorName = "김우근"), pagingOption).count() shouldBe 3
-			adapter.getAllBook(LoadBookCollectionCondition(authorName = "박현준"), pagingOption).count() shouldBe 1
-			adapter.getAllBook(LoadBookCollectionCondition(authorName = "조영호"), pagingOption).count() shouldBe 1
+			adapter.getAllBook(ReadBookCollectionCondition(authorName = "김우근"), pagingOption).count() shouldBe 3
+			adapter.getAllBook(ReadBookCollectionCondition(authorName = "박현준"), pagingOption).count() shouldBe 1
+			adapter.getAllBook(ReadBookCollectionCondition(authorName = "조영호"), pagingOption).count() shouldBe 1
 		}
 
 		"책 설명을 통한 검색을 수행한다" {
@@ -365,7 +365,7 @@ class BookPersistenceAdapterTest(
 				),
 			)
 
-			adapter.getAllBook(LoadBookCollectionCondition(description = "좋은"), pagingOption).count() shouldBe 3
+			adapter.getAllBook(ReadBookCollectionCondition(description = "좋은"), pagingOption).count() shouldBe 3
 		}
 
 		"카테고리를 통한 검색을 수행한다" {
@@ -465,7 +465,7 @@ class BookPersistenceAdapterTest(
 				),
 			)
 
-			adapter.getAllBook(LoadBookCollectionCondition(categoryId = 2), pagingOption).count() shouldBe 3
+			adapter.getAllBook(ReadBookCollectionCondition(categoryId = 2), pagingOption).count() shouldBe 3
 		}
 
 		"페이징을 수행한다" {
@@ -678,13 +678,13 @@ class BookPersistenceAdapterTest(
 				),
 			)
 
-			adapter.getAllBook(LoadBookCollectionCondition(), BookCollectionPagingOption(0, 1)).count() shouldBe 1
-			adapter.getAllBook(LoadBookCollectionCondition(), BookCollectionPagingOption(0, 2)).count() shouldBe 2
-			adapter.getAllBook(LoadBookCollectionCondition(), BookCollectionPagingOption(10, 10)).forEach { println(it) }
-			adapter.getAllBook(LoadBookCollectionCondition(), BookCollectionPagingOption(10, 10)).count() shouldBe 2
-			adapter.getAllBook(LoadBookCollectionCondition(), BookCollectionPagingOption(0, 100)).count() shouldBe 12
+			adapter.getAllBook(ReadBookCollectionCondition(), PagingOption(0, 1)).count() shouldBe 1
+			adapter.getAllBook(ReadBookCollectionCondition(), PagingOption(0, 2)).count() shouldBe 2
+			adapter.getAllBook(ReadBookCollectionCondition(), PagingOption(10, 10)).forEach { println(it) }
+			adapter.getAllBook(ReadBookCollectionCondition(), PagingOption(10, 10)).count() shouldBe 2
+			adapter.getAllBook(ReadBookCollectionCondition(), PagingOption(0, 100)).count() shouldBe 12
 			adapter
-				.getAllBook(LoadBookCollectionCondition(), BookCollectionPagingOption(3, 100))
+				.getAllBook(ReadBookCollectionCondition(), PagingOption(3, 100))
 				.map { it.id } shouldContainAll listOf(4L, 5L, 6L)
 		}
 

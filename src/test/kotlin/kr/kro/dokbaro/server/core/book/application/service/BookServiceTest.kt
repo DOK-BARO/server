@@ -6,8 +6,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
-import kr.kro.dokbaro.server.core.book.application.port.out.LoadBookCollectionPort
 import kr.kro.dokbaro.server.core.book.application.port.out.LoadBookPort
+import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookCollectionPort
 import kr.kro.dokbaro.server.core.book.domain.Book
 import kr.kro.dokbaro.server.core.book.domain.BookAuthor
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
@@ -15,10 +15,10 @@ import java.time.LocalDate
 
 class BookServiceTest :
 	StringSpec({
-		val loadBookCollectionPort = mockk<LoadBookCollectionPort>()
+		val readBookCollectionPort = mockk<ReadBookCollectionPort>()
 		val loadBookPort = mockk<LoadBookPort>()
 
-		val bookService = BookService(loadBookCollectionPort, loadBookPort)
+		val bookService = BookService(readBookCollectionPort, loadBookPort)
 
 		"책 목록 조회를 수행한다" {
 			val fixtures =
@@ -58,7 +58,7 @@ class BookServiceTest :
 						1,
 					),
 				)
-			every { loadBookCollectionPort.getAllBook(any(), any()) } returns fixtures
+			every { readBookCollectionPort.getAllBook(any(), any()) } returns fixtures
 
 			val result = bookService.findAllBy(FindAllBookCommand(null, null, null, null, 0, 5))
 

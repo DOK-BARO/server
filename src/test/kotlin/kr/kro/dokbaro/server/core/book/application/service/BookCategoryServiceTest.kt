@@ -4,14 +4,14 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import kr.kro.dokbaro.server.core.book.application.port.out.LoadBookCategoryPort
+import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookCategoryPort
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
 
 class BookCategoryServiceTest :
 	StringSpec({
-		val loadBookCategoryPort = mockk<LoadBookCategoryPort>()
+		val readBookCategoryPort = mockk<ReadBookCategoryPort>()
 
-		val bookCategoryService = BookCategoryService(loadBookCategoryPort)
+		val bookCategoryService = BookCategoryService(readBookCategoryPort)
 
 		val example =
 			BookCategory(
@@ -32,13 +32,13 @@ class BookCategoryServiceTest :
 			)
 
 		"카테고리를 찾는다" {
-			every { loadBookCategoryPort.getBookCategory(any()) } returns example
+			every { readBookCategoryPort.getBookCategory(any()) } returns example
 
 			bookCategoryService.findAllCategory(1) shouldBe example
 		}
 
 		"만약 id값이 명시되지 않으면 ROOT ID를 기준으로 탐색한다" {
-			every { loadBookCategoryPort.getBookCategory(BookCategory.ROOT_ID) } returns example
+			every { readBookCategoryPort.getBookCategory(BookCategory.ROOT_ID) } returns example
 
 			bookCategoryService.findAllCategory(null) shouldBe example
 		}
