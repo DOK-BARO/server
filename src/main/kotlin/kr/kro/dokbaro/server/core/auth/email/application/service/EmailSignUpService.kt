@@ -2,7 +2,7 @@ package kr.kro.dokbaro.server.core.auth.email.application.service
 
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.EmailSignUpUseCase
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.dto.EmailSignUpCommand
-import kr.kro.dokbaro.server.core.auth.email.application.port.out.SaveEmailAccountPort
+import kr.kro.dokbaro.server.core.auth.email.application.port.out.InsertEmailAccountPort
 import kr.kro.dokbaro.server.core.auth.email.domain.AccountPassword
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
@@ -19,7 +19,7 @@ class EmailSignUpService(
 	private val registerMemberUseCase: RegisterMemberUseCase,
 	private val useAuthenticatedEmailUseCase: UseAuthenticatedEmailUseCase,
 	private val passwordEncoder: PasswordEncoder,
-	private val saveEmailAccountPort: SaveEmailAccountPort,
+	private val insertEmailAccountPort: InsertEmailAccountPort,
 	private val generateAuthTokenUseCase: GenerateAuthTokenUseCase,
 ) : EmailSignUpUseCase {
 	override fun signUp(command: EmailSignUpCommand): AuthToken {
@@ -34,7 +34,7 @@ class EmailSignUpService(
 				),
 			)
 
-		saveEmailAccountPort.save(
+		insertEmailAccountPort.insert(
 			AccountPassword(
 				passwordEncoder.encode(command.password),
 				savedMember.id,

@@ -44,7 +44,7 @@ class MemberPersistenceAdapterTest(
 			)
 
 		"저장을 수행한다" {
-			val savedMember = adapter.save(member)
+			val savedMember = adapter.insert(member)
 
 			savedMember.id shouldNotBe null
 			savedMember.roles.shouldNotBeEmpty()
@@ -55,7 +55,7 @@ class MemberPersistenceAdapterTest(
 		}
 
 		"업데이트를 수행한다" {
-			val savedMember = adapter.save(member)
+			val savedMember = adapter.insert(member)
 			val targetMember =
 				Member(
 					nickName = "newNickName",
@@ -74,7 +74,7 @@ class MemberPersistenceAdapterTest(
 		}
 
 		"certificationId를 통한 조회를 수행한다" {
-			val savedMember = adapter.save(member)
+			val savedMember = adapter.insert(member)
 
 			val result: Member = adapter.findByCertificationId(savedMember.certificationId)!!
 
@@ -82,7 +82,7 @@ class MemberPersistenceAdapterTest(
 		}
 
 		"email 등록 여부를 확인한다" {
-			val savedMember = adapter.save(member)
+			val savedMember = adapter.insert(member)
 
 			adapter.existByEmail(savedMember.email.address) shouldBe true
 			adapter.existByEmail("aaaa@koko.com") shouldBe false

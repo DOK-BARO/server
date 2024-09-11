@@ -37,7 +37,7 @@ class EmailAuthenticationPersistenceAdapterTest(
 					"ADSFGH",
 				)
 
-			val id = adapter.save(emailAuthentication)
+			val id = adapter.insert(emailAuthentication)
 
 			emailAuthenticationDao.findAll().shouldNotBeEmpty()
 			id shouldNotBe null
@@ -50,7 +50,7 @@ class EmailAuthenticationPersistenceAdapterTest(
 					"ADSFGH",
 				)
 
-			val id = adapter.save(emailAuthentication)
+			val id = adapter.insert(emailAuthentication)
 
 			val newCode = "HELLO9"
 			val newEmailAuthentication =
@@ -78,7 +78,7 @@ class EmailAuthenticationPersistenceAdapterTest(
 					used = false,
 				)
 
-			adapter.save(emailAuthentication)
+			adapter.insert(emailAuthentication)
 
 			adapter.findBy(
 				SearchEmailAuthenticationCondition(),
@@ -126,7 +126,7 @@ class EmailAuthenticationPersistenceAdapterTest(
 					used = false,
 				)
 
-			adapter.save(emailAuthentication)
+			adapter.insert(emailAuthentication)
 
 			adapter.existBy(
 				SearchEmailAuthenticationCondition(),

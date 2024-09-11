@@ -10,7 +10,7 @@ import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.LoadProviderAccountCommand
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.OAuth2ProviderAccount
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.out.ExistOAuth2AccountPort
-import kr.kro.dokbaro.server.core.auth.oauth2.application.port.out.SaveOAuth2AccountPort
+import kr.kro.dokbaro.server.core.auth.oauth2.application.port.out.InsertOAuth2AccountPort
 import kr.kro.dokbaro.server.core.auth.oauth2.application.service.exception.AlreadyExistAccountException
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
 import kr.kro.dokbaro.server.core.member.domain.Email
@@ -24,7 +24,7 @@ class OAuth2SignUpServiceTest :
 		val accountLoader = mockk<OAuth2ProviderAccountLoader>()
 		val registerMemberUseCase = mockk<RegisterMemberUseCase>()
 		val existOAuth2AccountPort = mockk<ExistOAuth2AccountPort>()
-		val saveOAuth2AccountPort = mockk<SaveOAuth2AccountPort>()
+		val insertOAuth2AccountPort = mockk<InsertOAuth2AccountPort>()
 		val generateAuthTokenUseCase = mockk<GenerateAuthTokenUseCase>()
 
 		val oAuth2SignUpService =
@@ -32,7 +32,7 @@ class OAuth2SignUpServiceTest :
 				accountLoader,
 				registerMemberUseCase,
 				existOAuth2AccountPort,
-				saveOAuth2AccountPort,
+				insertOAuth2AccountPort,
 				generateAuthTokenUseCase,
 			)
 
@@ -60,7 +60,7 @@ class OAuth2SignUpServiceTest :
 					.setExp(Member::email, Email("hello@example.com"))
 					.sample()
 			every { existOAuth2AccountPort.existBy(any(), any()) } returns false
-			every { saveOAuth2AccountPort.save(any()) } returns 5
+			every { insertOAuth2AccountPort.insert(any()) } returns 5
 			val command =
 				LoadProviderAccountCommand(
 					AuthProvider.GOOGLE,

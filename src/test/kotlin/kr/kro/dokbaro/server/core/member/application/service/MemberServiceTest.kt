@@ -8,8 +8,8 @@ import io.mockk.mockk
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.RegisterMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
+import kr.kro.dokbaro.server.core.member.application.port.out.InsertMemberPort
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
-import kr.kro.dokbaro.server.core.member.application.port.out.SaveMemberPort
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.fixture.FixtureBuilder
@@ -18,13 +18,13 @@ import kotlin.random.Random
 
 class MemberServiceTest :
 	StringSpec({
-		val saveMemberPort = mockk<SaveMemberPort>()
+		val insertMemberPort = mockk<InsertMemberPort>()
 		val updateMemberPort = UpdateMemberPortMock()
 		val existMemberEmailPort = mockk<ExistMemberByEmailPort>()
 		val loadMemberByCertificationIdPort = mockk<LoadMemberByCertificationIdPort>()
 
 		val memberService =
-			MemberService(saveMemberPort, updateMemberPort, existMemberEmailPort, loadMemberByCertificationIdPort)
+			MemberService(insertMemberPort, updateMemberPort, existMemberEmailPort, loadMemberByCertificationIdPort)
 
 		afterEach {
 			updateMemberPort.clear()
@@ -47,7 +47,7 @@ class MemberServiceTest :
 					id = Random.nextLong(),
 				)
 
-			every { saveMemberPort.save(any()) } returns member
+			every { insertMemberPort.insert(any()) } returns member
 			every { existMemberEmailPort.existByEmail(command.email) } returns false
 
 			memberService.register(command) shouldBe member
