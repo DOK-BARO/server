@@ -25,7 +25,7 @@ import org.jooq.impl.DSL.`val`
 import org.springframework.stereotype.Repository
 
 @Repository
-class BookQueryRepository(
+class BookRepository(
 	private val dslContext: DSLContext,
 	private val bookMapper: BookMapper,
 ) {
@@ -157,5 +157,51 @@ class BookQueryRepository(
 				.fetchGroups(BOOK)
 
 		return bookMapper.mapToBook(record)
+	}
+
+	fun insert(book: Book): Long {
+		val savedId: Long =
+			dslContext
+				.insertInto(
+					BOOK,
+					BOOK.ISBN,
+					BOOK.TITLE,
+					BOOK.PUBLISHER,
+					BOOK.PUBLISHED_AT,
+					BOOK.DESCRIPTION,
+					BOOK.IMAGE_URL,
+				).values(
+					book.isbn,
+					book.title,
+					book.publisher,
+					book.publishedAt,
+					book.description?.toByteArray(),
+					book.imageUrl,
+				).returningResult(BOOK.ID)
+				.fetchOneInto(Long::class.java)!!
+
+		book.authors.forEach {
+			dslContext
+				.insertInto(
+					BOOK_AUTHOR,
+					BOOK_AUTHOR.BOOK_ID,
+					BOOK_AUTHOR.NAME,
+				).values(
+					savedId,
+					it.name,
+				).execute()
+		}
+
+		book.categories.forEach {
+			dslContext
+				.insertInto(
+					BOOK_CATEGORY_GROUP,
+					BOOK_CATEGORY_GROUP.BOOK_ID,
+					BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID,
+				).values(savedId, it.id)
+				.execute()
+		}
+
+		return savedId
 	}
 }

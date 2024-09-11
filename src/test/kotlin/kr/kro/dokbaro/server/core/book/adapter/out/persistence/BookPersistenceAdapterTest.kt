@@ -10,7 +10,7 @@ import io.kotest.matchers.shouldBe
 import kr.kro.dokbaro.server.common.dto.page.PagingOption
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
-import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookQueryRepository
+import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
 import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.domain.Book
 import kr.kro.dokbaro.server.fixture.book.BookAuthorFixture
@@ -42,7 +42,7 @@ class BookPersistenceAdapterTest(
 		val bookCategoryGroupDao = BookCategoryGroupDao(configuration)
 
 		val mapper = BookMapper()
-		val queryRepository = BookQueryRepository(dslContext, mapper)
+		val queryRepository = BookRepository(dslContext, mapper)
 		val adapter = BookPersistenceAdapter(queryRepository)
 
 		val pagingOption = PagingOption(0, 100)
