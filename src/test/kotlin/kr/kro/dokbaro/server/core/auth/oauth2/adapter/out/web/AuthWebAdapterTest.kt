@@ -29,6 +29,7 @@ import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.Kak
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.KakaoResourceClient
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.resource.KakaoAccount
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.resource.KakaoAccountAttribute
+import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.resource.KakaoAttributeProfile
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.NaverAccountLoader
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.NaverResourceTokenLoader
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.external.NaverAuthorizationClient
@@ -135,7 +136,13 @@ class AuthWebAdapterTest :
 							KakaoAccount::kakaoAccount,
 							FixtureBuilder
 								.give<KakaoAccountAttribute>()
-								.setNotNullExp(KakaoAccountAttribute::name)
+								.setExp(
+									KakaoAccountAttribute::profile,
+									FixtureBuilder
+										.give<KakaoAttributeProfile>()
+										.setNotNullExp(KakaoAttributeProfile::nickname)
+										.sample(),
+								).setNotNullExp(KakaoAccountAttribute::name)
 								.setNotNullExp(KakaoAccountAttribute::email)
 								.sample(),
 						).sample()
