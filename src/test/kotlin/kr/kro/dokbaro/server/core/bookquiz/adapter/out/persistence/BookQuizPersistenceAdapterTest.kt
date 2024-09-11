@@ -26,7 +26,7 @@ class BookQuizPersistenceAdapterTest(
 
 		val adapter = BookQuizPersistenceAdapter(bookQuizRepository)
 
-		adapter.save(
+		adapter.insert(
 			BookQuiz(
 				title = "title",
 				description = "description",

@@ -51,7 +51,7 @@ class StudyGroupPersistenceAdapterTest(
 					savedMember.id,
 				)
 
-			val id = adapter.save(studyGroup)
+			val id = adapter.insert(studyGroup)
 
 			id shouldNotBe null
 			studyGroupDao.findById(id) shouldNotBe null

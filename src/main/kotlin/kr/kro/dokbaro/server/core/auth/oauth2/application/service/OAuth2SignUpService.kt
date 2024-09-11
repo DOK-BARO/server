@@ -4,7 +4,7 @@ import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.LoadProviderA
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.OAuth2ProviderAccount
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.input.OAuth2SignUpUseCase
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.out.ExistOAuth2AccountPort
-import kr.kro.dokbaro.server.core.auth.oauth2.application.port.out.SaveOAuth2AccountPort
+import kr.kro.dokbaro.server.core.auth.oauth2.application.port.out.InsertOAuth2AccountPort
 import kr.kro.dokbaro.server.core.auth.oauth2.application.service.exception.AlreadyExistAccountException
 import kr.kro.dokbaro.server.core.auth.oauth2.domain.OAuth2Account
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
@@ -20,7 +20,7 @@ class OAuth2SignUpService(
 	private val accountLoader: OAuth2ProviderAccountLoader,
 	private val registerMemberUseCase: RegisterMemberUseCase,
 	private val existOAuth2AccountPort: ExistOAuth2AccountPort,
-	private val saveOAuth2AccountPort: SaveOAuth2AccountPort,
+	private val insertOAuth2AccountPort: InsertOAuth2AccountPort,
 	private val generateAuthTokenUseCase: GenerateAuthTokenUseCase,
 ) : OAuth2SignUpUseCase {
 	override fun signUp(command: LoadProviderAccountCommand): AuthToken {
@@ -39,7 +39,7 @@ class OAuth2SignUpService(
 				),
 			)
 
-		saveOAuth2AccountPort.save(
+		insertOAuth2AccountPort.insert(
 			OAuth2Account(
 				providerAccount.id,
 				providerAccount.provider,

@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.dto.EmailSignUpCommand
-import kr.kro.dokbaro.server.core.auth.email.application.port.out.SaveEmailAccountPort
+import kr.kro.dokbaro.server.core.auth.email.application.port.out.InsertEmailAccountPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
 import kr.kro.dokbaro.server.core.member.domain.Email
@@ -21,7 +21,7 @@ class EmailSignUpServiceTest :
 		val registerMemberUseCase = mockk<RegisterMemberUseCase>()
 		val useAuthenticatedEmailUseCase = mockk<UseAuthenticatedEmailUseCase>()
 		val passwordEncoder = NoOpPasswordEncoder.getInstance()
-		val saveEmailAccountPort = mockk<SaveEmailAccountPort>()
+		val insertEmailAccountPort = mockk<InsertEmailAccountPort>()
 		val generateAuthTokenUseCase = mockk<GenerateAuthTokenUseCase>()
 
 		val emailSignUpService =
@@ -29,7 +29,7 @@ class EmailSignUpServiceTest :
 				registerMemberUseCase,
 				useAuthenticatedEmailUseCase,
 				passwordEncoder,
-				saveEmailAccountPort,
+				insertEmailAccountPort,
 				generateAuthTokenUseCase,
 			)
 
@@ -47,7 +47,7 @@ class EmailSignUpServiceTest :
 					role,
 					4,
 				)
-			every { saveEmailAccountPort.save(any()) } returns 1L
+			every { insertEmailAccountPort.insert(any()) } returns 1L
 			val authToken = AuthToken("access", "refresh")
 			every { generateAuthTokenUseCase.generate(any()) } returns authToken
 

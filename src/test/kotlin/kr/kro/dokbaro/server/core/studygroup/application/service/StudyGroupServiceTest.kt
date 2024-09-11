@@ -8,15 +8,15 @@ import kr.kro.dokbaro.server.core.member.application.port.input.dto.MemberRespon
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.member.domain.Role
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
-import kr.kro.dokbaro.server.core.studygroup.application.port.out.SaveStudyGroupPort
+import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
 import java.util.UUID
 
 class StudyGroupServiceTest :
 	StringSpec({
-		val saveStudyGroupPort = mockk<SaveStudyGroupPort>()
+		val insertStudyGroupPort = mockk<InsertStudyGroupPort>()
 		val findCertificatedMemberUseCase = mockk<FindCertificatedMemberUseCase>()
 
-		val studyGroupService = StudyGroupService(saveStudyGroupPort, findCertificatedMemberUseCase)
+		val studyGroupService = StudyGroupService(insertStudyGroupPort, findCertificatedMemberUseCase)
 		"study group을 생성한다" {
 			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns
 				MemberResponse(
@@ -28,7 +28,7 @@ class StudyGroupServiceTest :
 					id = 1,
 				)
 
-			every { saveStudyGroupPort.save(any()) } returns 1
+			every { insertStudyGroupPort.insert(any()) } returns 1
 
 			val command =
 				CreateStudyGroupCommand(

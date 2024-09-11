@@ -45,7 +45,7 @@ class OAuth2AccountPersistenceAdapterTest(
 		"저장을 수행한다" {
 			val member = memberRepository.save(memberSample)
 			val account = OAuth2Account("aaaaa", AuthProvider.KAKAO, member.id)
-			adapter.save(account) shouldNotBe null
+			adapter.insert(account) shouldNotBe null
 		}
 
 		"socialId와 provider를 통한 조회를 수행한다" {
@@ -53,7 +53,7 @@ class OAuth2AccountPersistenceAdapterTest(
 			val targetProvider = AuthProvider.KAKAO
 
 			val member = memberRepository.save(memberSample)
-			adapter.save(OAuth2Account(targetSocialId, targetProvider, member.id))
+			adapter.insert(OAuth2Account(targetSocialId, targetProvider, member.id))
 
 			val result: OAuth2CertificatedAccount = adapter.findBy(targetSocialId, targetProvider)!!
 
@@ -66,7 +66,7 @@ class OAuth2AccountPersistenceAdapterTest(
 			val targetProvider = AuthProvider.KAKAO
 
 			val member = memberRepository.save(memberSample)
-			adapter.save(OAuth2Account(targetSocialId, targetProvider, member.id))
+			adapter.insert(OAuth2Account(targetSocialId, targetProvider, member.id))
 
 			adapter.existBy(targetSocialId, targetProvider) shouldBe true
 			adapter.existBy("bbbb", targetProvider) shouldBe false
