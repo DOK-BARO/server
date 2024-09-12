@@ -6,6 +6,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
+import kr.kro.dokbaro.server.core.book.application.port.out.InsertBookPort
+import kr.kro.dokbaro.server.core.book.application.port.out.LoadBookCategoryPort
 import kr.kro.dokbaro.server.core.book.application.port.out.LoadBookPort
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookCollectionPort
 import kr.kro.dokbaro.server.core.book.domain.Book
@@ -17,8 +19,10 @@ class BookServiceTest :
 	StringSpec({
 		val readBookCollectionPort = mockk<ReadBookCollectionPort>()
 		val loadBookPort = mockk<LoadBookPort>()
+		val insertBookPort = mockk<InsertBookPort>()
+		val loadBookCategoryPort = mockk<LoadBookCategoryPort>()
 
-		val bookService = BookService(readBookCollectionPort, loadBookPort)
+		val bookService = BookService(readBookCollectionPort, loadBookPort, insertBookPort, loadBookCategoryPort)
 
 		"책 목록 조회를 수행한다" {
 			val fixtures =

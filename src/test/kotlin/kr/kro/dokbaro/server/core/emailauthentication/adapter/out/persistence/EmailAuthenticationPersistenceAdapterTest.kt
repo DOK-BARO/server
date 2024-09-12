@@ -12,6 +12,7 @@ import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.re
 import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.repository.jooq.EmailAuthenticationRepository
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.dto.SearchEmailAuthenticationCondition
 import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
+import kr.kro.dokbaro.server.fixture.domain.emailAuthenticationFixture
 import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.generated.tables.daos.EmailAuthenticationDao
@@ -31,11 +32,7 @@ class EmailAuthenticationPersistenceAdapterTest(
 		val emailAuthenticationDao = EmailAuthenticationDao(configuration)
 
 		"저장을 수행한다" {
-			val emailAuthentication =
-				EmailAuthentication(
-					"www@example.com",
-					"ADSFGH",
-				)
+			val emailAuthentication = emailAuthenticationFixture()
 
 			val id = adapter.insert(emailAuthentication)
 
@@ -44,21 +41,17 @@ class EmailAuthenticationPersistenceAdapterTest(
 		}
 
 		"수정을 수행한다" {
+			val email = "hello@gmail.com"
 			val emailAuthentication =
-				EmailAuthentication(
-					"www@example.com",
-					"ADSFGH",
+				emailAuthenticationFixture(
+					address = email,
 				)
 
 			val id = adapter.insert(emailAuthentication)
 
 			val newCode = "HELLO9"
 			val newEmailAuthentication =
-				EmailAuthentication(
-					address = "www@example.com",
-					code = newCode,
-					id = id,
-				)
+				emailAuthenticationFixture(address = email, code = newCode, id = id)
 
 			adapter.update(newEmailAuthentication)
 

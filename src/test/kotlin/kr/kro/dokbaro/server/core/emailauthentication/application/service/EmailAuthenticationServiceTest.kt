@@ -12,7 +12,7 @@ import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.dto
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.InsertEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.LoadEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendEmailAuthenticationCodePort
-import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
+import kr.kro.dokbaro.server.fixture.domain.emailAuthenticationFixture
 
 class EmailAuthenticationServiceTest :
 	StringSpec({
@@ -55,12 +55,9 @@ class EmailAuthenticationServiceTest :
 			val email = "www@example.org"
 			val code = "ABCDEF"
 			every { loadEmailAuthenticationPort.findBy(any()) } returns
-				EmailAuthentication(
+				emailAuthenticationFixture(
 					address = email,
 					code = code,
-					authenticated = false,
-					used = false,
-					id = 1,
 				)
 
 			val response: MatchResponse = emailAuthenticationService.match(email, code)
@@ -73,12 +70,9 @@ class EmailAuthenticationServiceTest :
 			val email = "www@example.org"
 			val code = "ABCDEF"
 			every { loadEmailAuthenticationPort.findBy(any()) } returns
-				EmailAuthentication(
+				emailAuthenticationFixture(
 					address = email,
 					code = code,
-					authenticated = false,
-					used = false,
-					id = 1,
 				)
 
 			val response: MatchResponse = emailAuthenticationService.match(email, "OTHER3")
@@ -109,12 +103,9 @@ class EmailAuthenticationServiceTest :
 			val email = "www@example.org"
 			val beforeCode = "BEFORE"
 			every { loadEmailAuthenticationPort.findBy(any()) } returns
-				EmailAuthentication(
+				emailAuthenticationFixture(
 					address = email,
 					code = beforeCode,
-					authenticated = false,
-					used = false,
-					id = 1,
 				)
 			every { sendEmailAuthenticationCodePort.sendEmail(any(), any()) } returns Unit
 
@@ -126,14 +117,10 @@ class EmailAuthenticationServiceTest :
 
 		"이메일 사용을 수행한다" {
 			val email = "www@example.org"
-			val beforeCode = "BEFORE"
 			every { loadEmailAuthenticationPort.findBy(any()) } returns
-				EmailAuthentication(
+				emailAuthenticationFixture(
 					address = email,
-					code = beforeCode,
 					authenticated = true,
-					used = false,
-					id = 1,
 				)
 
 			emailAuthenticationService.useEmail(email)

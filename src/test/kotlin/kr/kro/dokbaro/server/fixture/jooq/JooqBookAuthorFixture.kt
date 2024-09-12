@@ -1,9 +1,9 @@
-package kr.kro.dokbaro.server.fixture.book
+package kr.kro.dokbaro.server.fixture.jooq
 
 import org.jooq.generated.tables.pojos.BookAuthor
 import java.time.LocalDateTime
 
-enum class BookAuthorFixture(
+enum class JooqBookAuthorFixture(
 	val id: Long,
 	val bookId: Long,
 	val authorName: String,

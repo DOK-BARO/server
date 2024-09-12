@@ -7,7 +7,7 @@ import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web.dto.ProviderAuthorizationTokenRequest
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.input.OAuth2SignUpUseCase
-import kr.kro.dokbaro.server.core.token.domain.AuthToken
+import kr.kro.dokbaro.server.fixture.domain.authTokenFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
@@ -27,7 +27,7 @@ class OAuth2SignUpControllerTest : RestDocsTest() {
 
 	init {
 		"회원가입을 수행한다" {
-			every { oAuth2SignUpUseCase.signUp(any()) } returns AuthToken("access-token", "refresh-token")
+			every { oAuth2SignUpUseCase.signUp(any()) } returns authTokenFixture()
 			every { jwtResponseGenerator.getResponseBuilder(any(), any()) } returns
 				ResponseEntity
 					.ok()

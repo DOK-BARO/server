@@ -7,7 +7,7 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.EmailSignUpUseCase
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.dto.EmailSignUpCommand
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web.JwtResponseGenerator
-import kr.kro.dokbaro.server.core.token.domain.AuthToken
+import kr.kro.dokbaro.server.fixture.domain.authTokenFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
@@ -27,7 +27,7 @@ class EmailSignUpControllerTest : RestDocsTest() {
 
 	init {
 		"회원가입을 수행한다" {
-			every { emailSignUpUseCase.signUp(any()) } returns AuthToken("access-token", "refresh-token")
+			every { emailSignUpUseCase.signUp(any()) } returns authTokenFixture()
 			every { jwtResponseGenerator.getResponseBuilder(any(), any()) } returns
 				ResponseEntity
 					.ok()

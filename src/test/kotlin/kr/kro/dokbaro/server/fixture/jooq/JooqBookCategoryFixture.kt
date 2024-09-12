@@ -1,11 +1,11 @@
-package kr.kro.dokbaro.server.fixture.book
+package kr.kro.dokbaro.server.fixture.jooq
 
 import org.jooq.generated.tables.pojos.BookCategory
 import java.time.LocalDateTime
 
-enum class BookCategoryFixture(
+enum class JooqBookCategoryFixture(
 	val id: Long,
-	val parent: BookCategoryFixture?,
+	val parent: JooqBookCategoryFixture?,
 	val korean: String,
 	val code: String,
 ) {

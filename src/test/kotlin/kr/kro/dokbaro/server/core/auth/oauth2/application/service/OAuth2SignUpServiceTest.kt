@@ -1,6 +1,5 @@
 package kr.kro.dokbaro.server.core.auth.oauth2.application.service
 
-import com.navercorp.fixturemonkey.kotlin.setExp
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -8,16 +7,14 @@ import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.LoadProviderAccountCommand
-import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.OAuth2ProviderAccount
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.out.ExistOAuth2AccountPort
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.out.InsertOAuth2AccountPort
 import kr.kro.dokbaro.server.core.auth.oauth2.application.service.exception.AlreadyExistAccountException
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
-import kr.kro.dokbaro.server.core.member.domain.Email
-import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.core.token.application.port.input.GenerateAuthTokenUseCase
-import kr.kro.dokbaro.server.core.token.domain.AuthToken
-import kr.kro.dokbaro.server.fixture.FixtureBuilder
+import kr.kro.dokbaro.server.fixture.domain.authTokenFixture
+import kr.kro.dokbaro.server.fixture.domain.memberFixture
+import kr.kro.dokbaro.server.fixture.domain.oAuth2ProviderAccountFixture
 
 class OAuth2SignUpServiceTest :
 	StringSpec({
@@ -37,28 +34,11 @@ class OAuth2SignUpServiceTest :
 			)
 
 		"회원가입을 수행한다" {
-			every { accountLoader.getAccount(any()) } returns
-				FixtureBuilder
-					.give<OAuth2ProviderAccount>()
-					.setExp(OAuth2ProviderAccount::provider, AuthProvider.KAKAO)
-					.setExp(OAuth2ProviderAccount::id, "accountId")
-					.setExp(OAuth2ProviderAccount::name, "name")
-					.setExp(OAuth2ProviderAccount::email, "aaa@example.com")
-					.setExp(OAuth2ProviderAccount::profileImage, "profile.png")
-					.sample()
+			every { accountLoader.getAccount(any()) } returns oAuth2ProviderAccountFixture()
 
-			every { generateAuthTokenUseCase.generate(any()) } returns
-				FixtureBuilder
-					.give<AuthToken>()
-					.setExp(AuthToken::accessToken, "accessToken")
-					.setExp(AuthToken::refreshToken, "refreshToken")
-					.sample()
+			every { generateAuthTokenUseCase.generate(any()) } returns authTokenFixture()
 
-			every { registerMemberUseCase.register(any()) } returns
-				FixtureBuilder
-					.give<Member>()
-					.setExp(Member::email, Email("hello@example.com"))
-					.sample()
+			every { registerMemberUseCase.register(any()) } returns memberFixture()
 			every { existOAuth2AccountPort.existBy(any(), any()) } returns false
 			every { insertOAuth2AccountPort.insert(any()) } returns 5
 			val command =
@@ -74,21 +54,9 @@ class OAuth2SignUpServiceTest :
 		}
 
 		"만약 기존에 존재하는 회원이면 예외를 반환한다" {
-			every { accountLoader.getAccount(any()) } returns
-				FixtureBuilder
-					.give<OAuth2ProviderAccount>()
-					.setExp(OAuth2ProviderAccount::provider, AuthProvider.KAKAO)
-					.setExp(OAuth2ProviderAccount::id, "accountId")
-					.setExp(OAuth2ProviderAccount::name, "name")
-					.setExp(OAuth2ProviderAccount::email, "aaa@example.com")
-					.setExp(OAuth2ProviderAccount::profileImage, "profile.png")
-					.sample()
+			every { accountLoader.getAccount(any()) } returns oAuth2ProviderAccountFixture()
 
-			every { registerMemberUseCase.register(any()) } returns
-				FixtureBuilder
-					.give<Member>()
-					.setExp(Member::email, Email("aaa@example.com"))
-					.sample()
+			every { registerMemberUseCase.register(any()) } returns memberFixture()
 			every { existOAuth2AccountPort.existBy(any(), any()) } returns true
 
 			val command =

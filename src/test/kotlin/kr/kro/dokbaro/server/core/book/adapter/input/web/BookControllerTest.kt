@@ -4,6 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
+import kr.kro.dokbaro.server.core.book.application.port.input.CreateBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
 import kr.kro.dokbaro.server.core.book.domain.Book
@@ -26,6 +27,9 @@ class BookControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var findOneBookUseCase: FindOneBookUseCase
+
+	@MockkBean
+	lateinit var createBookUseCase: CreateBookUseCase
 
 	init {
 		"책 전체 조회를 수행한다" {

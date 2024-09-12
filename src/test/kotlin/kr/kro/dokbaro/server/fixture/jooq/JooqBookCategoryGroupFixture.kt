@@ -1,9 +1,9 @@
-package kr.kro.dokbaro.server.fixture.book
+package kr.kro.dokbaro.server.fixture.jooq
 
 import org.jooq.generated.tables.pojos.BookCategoryGroup
 import java.time.LocalDateTime
 
-enum class BookCategoryGroupFixture(
+enum class JooqBookCategoryGroupFixture(
 	private val bookId: Long,
 	private val categoryId: Long,
 ) {
