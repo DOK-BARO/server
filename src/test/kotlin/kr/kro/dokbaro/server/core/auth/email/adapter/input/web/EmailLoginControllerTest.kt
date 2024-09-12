@@ -7,7 +7,7 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.EmailLoginUseCase
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.dto.EmailLoginCommand
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web.JwtResponseGenerator
-import kr.kro.dokbaro.server.core.token.domain.AuthToken
+import kr.kro.dokbaro.server.fixture.domain.authTokenFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
@@ -27,11 +27,7 @@ class EmailLoginControllerTest : RestDocsTest() {
 
 	init {
 		"login을 수행한다" {
-			every { emailLoginUseCase.login(any()) } returns
-				AuthToken(
-					"jwt.access.token",
-					"uuid-refresh-token",
-				)
+			every { emailLoginUseCase.login(any()) } returns authTokenFixture()
 			every { jwtResponseGenerator.getResponseBuilder(any(), any()) } returns
 				ResponseEntity
 					.ok()

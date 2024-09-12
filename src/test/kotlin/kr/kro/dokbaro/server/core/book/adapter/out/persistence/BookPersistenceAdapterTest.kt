@@ -13,10 +13,10 @@ import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookM
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
 import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.domain.Book
-import kr.kro.dokbaro.server.fixture.book.BookAuthorFixture
-import kr.kro.dokbaro.server.fixture.book.BookCategoryFixture
-import kr.kro.dokbaro.server.fixture.book.BookCategoryGroupFixture
-import kr.kro.dokbaro.server.fixture.book.BookFixture
+import kr.kro.dokbaro.server.fixture.jooq.JooqBookAuthorFixture
+import kr.kro.dokbaro.server.fixture.jooq.JooqBookCategoryFixture
+import kr.kro.dokbaro.server.fixture.jooq.JooqBookCategoryGroupFixture
+import kr.kro.dokbaro.server.fixture.jooq.JooqBookFixture
 import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.generated.tables.daos.BookAuthorDao
@@ -48,10 +48,10 @@ class BookPersistenceAdapterTest(
 		val pagingOption = PagingOption(0, 100)
 
 		"목록 조회를 수행한다" {
-			bookDao.insert(BookFixture.entries.map { it.toJooqBook() })
-			bookAuthorDao.insert(BookAuthorFixture.entries.map { it.toJooqBookAuthor() })
-			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
-			bookCategoryGroupDao.insert(BookCategoryGroupFixture.entries.map { it.toJooqBookCategoryGroup() })
+			bookDao.insert(JooqBookFixture.entries.map { it.toJooqBook() })
+			bookAuthorDao.insert(JooqBookAuthorFixture.entries.map { it.toJooqBookAuthor() })
+			bookCategoryDao.insert(JooqBookCategoryFixture.entries.map { it.toJooqBookCategory() })
+			bookCategoryGroupDao.insert(JooqBookCategoryGroupFixture.entries.map { it.toJooqBookCategoryGroup() })
 
 			val result: Collection<Book> =
 				adapter.getAllBook(
@@ -64,7 +64,7 @@ class BookPersistenceAdapterTest(
 					pagingOption,
 				)
 
-			result.size shouldBe BookFixture.entries.size
+			result.size shouldBe JooqBookFixture.entries.size
 		}
 
 		"이름을 통한 검색을 수행한다" {
@@ -152,7 +152,7 @@ class BookPersistenceAdapterTest(
 				),
 			)
 
-			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
+			bookCategoryDao.insert(JooqBookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
 					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), false),
@@ -254,7 +254,7 @@ class BookPersistenceAdapterTest(
 				),
 			)
 
-			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
+			bookCategoryDao.insert(JooqBookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
 					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), false),
@@ -354,7 +354,7 @@ class BookPersistenceAdapterTest(
 				),
 			)
 
-			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
+			bookCategoryDao.insert(JooqBookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
 					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), false),
@@ -453,7 +453,7 @@ class BookPersistenceAdapterTest(
 				),
 			)
 
-			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
+			bookCategoryDao.insert(JooqBookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
 					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), false),
@@ -658,7 +658,7 @@ class BookPersistenceAdapterTest(
 				),
 			)
 
-			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
+			bookCategoryDao.insert(JooqBookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
 					BookCategoryGroup(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), false),
@@ -792,7 +792,7 @@ class BookPersistenceAdapterTest(
 					BookAuthor(2, targetId, "abb", LocalDateTime.now(), LocalDateTime.now(), false),
 				),
 			)
-			bookCategoryDao.insert(BookCategoryFixture.entries.map { it.toJooqBookCategory() })
+			bookCategoryDao.insert(JooqBookCategoryFixture.entries.map { it.toJooqBookCategory() })
 			bookCategoryGroupDao.insert(
 				listOf(
 					BookCategoryGroup(1, targetId, 1, LocalDateTime.now(), LocalDateTime.now(), false),

@@ -7,6 +7,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.common.type.AuthProvider
@@ -86,6 +87,19 @@ class AuthWebAdapterTest :
 			)
 
 		val adapter = AuthWebAdapter(resourceTokenLoaders, accountLoaders)
+
+		afterEach {
+			clearMocks(
+				githubAuthorizationClient,
+				googleAuthorizationClient,
+				naverAuthorizationClient,
+				kakaoAuthorizationClient,
+				githubResourceClient,
+				googleResourceClient,
+				naverResourceClient,
+				kakaoResourceClient,
+			)
+		}
 
 		"acccess token을 발급받는다" {
 			every { githubAuthorizationClient.getAuthorizationToken(any(), any(), any(), any()) } returns
@@ -186,8 +200,13 @@ class AuthWebAdapterTest :
 							KakaoAccount::kakaoAccount,
 							FixtureBuilder
 								.give<KakaoAccountAttribute>()
-								.setNullExp(KakaoAccountAttribute::name)
-								.setNotNullExp(KakaoAccountAttribute::email)
+								.setExp(
+									KakaoAccountAttribute::profile,
+									FixtureBuilder
+										.give<KakaoAttributeProfile>()
+										.setNullExp(KakaoAttributeProfile::nickname)
+										.sample(),
+								).setNotNullExp(KakaoAccountAttribute::email)
 								.sample(),
 						).sample()
 

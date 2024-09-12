@@ -7,11 +7,10 @@ import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.dto.EmailLoginCommand
 import kr.kro.dokbaro.server.core.auth.email.application.port.out.LoadEmailCertificatedAccountPort
-import kr.kro.dokbaro.server.core.auth.email.domain.EmailCertificatedAccount
 import kr.kro.dokbaro.server.core.token.application.port.input.GenerateAuthTokenUseCase
-import kr.kro.dokbaro.server.core.token.domain.AuthToken
+import kr.kro.dokbaro.server.fixture.domain.authTokenFixture
+import kr.kro.dokbaro.server.fixture.domain.emailCertificatedAccountFixture
 import org.springframework.security.crypto.password.PasswordEncoder
-import java.util.UUID
 
 class EmailLoginServiceTest :
 	StringSpec({
@@ -22,10 +21,9 @@ class EmailLoginServiceTest :
 		val emailLoginService = EmailLoginService(loadEmailCertificatedAccountPort, generateAuthTokenUseCase, passwordEncoder)
 
 		"email을 통한 로그인을 수행한다" {
-			every { loadEmailCertificatedAccountPort.findByEmail(any()) } returns
-				EmailCertificatedAccount("password", UUID.randomUUID(), setOf("ADMIN"))
+			every { loadEmailCertificatedAccountPort.findByEmail(any()) } returns emailCertificatedAccountFixture()
 			every { passwordEncoder.matches(any(), any()) } returns true
-			val authToken = AuthToken("access", "refresh")
+			val authToken = authTokenFixture()
 
 			every { generateAuthTokenUseCase.generate(any()) } returns authToken
 
@@ -51,8 +49,7 @@ class EmailLoginServiceTest :
 		}
 
 		"비밀번호가 일치하지 않으면 예외를 반환한다" {
-			every { loadEmailCertificatedAccountPort.findByEmail(any()) } returns
-				EmailCertificatedAccount("password", UUID.randomUUID(), setOf("ADMIN"))
+			every { loadEmailCertificatedAccountPort.findByEmail(any()) } returns emailCertificatedAccountFixture()
 			every { passwordEncoder.matches(any(), any()) } returns false
 
 			shouldThrow<PasswordNotMatchException> {

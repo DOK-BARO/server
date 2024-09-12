@@ -8,7 +8,7 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web.dto.ProviderAuthorizationTokenRequest
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.LoadProviderAccountCommand
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.input.OAuth2LoginUseCase
-import kr.kro.dokbaro.server.core.token.domain.AuthToken
+import kr.kro.dokbaro.server.fixture.domain.authTokenFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
@@ -28,11 +28,7 @@ class OAuth2LoginControllerTest : RestDocsTest() {
 
 	init {
 		"login을 수행한다" {
-			every { loginUseCase.login(any(LoadProviderAccountCommand::class)) } returns
-				AuthToken(
-					"jwt.access.token",
-					"uuid-refresh-token",
-				)
+			every { loginUseCase.login(any(LoadProviderAccountCommand::class)) } returns authTokenFixture()
 			every { jwtResponseGenerator.getResponseBuilder(any(), any()) } returns
 				ResponseEntity
 					.ok()
