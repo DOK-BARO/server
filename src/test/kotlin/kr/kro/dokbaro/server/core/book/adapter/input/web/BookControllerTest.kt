@@ -7,18 +7,18 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.book.application.port.input.CreateBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
-import kr.kro.dokbaro.server.core.book.domain.Book
-import kr.kro.dokbaro.server.core.book.domain.BookAuthor
-import kr.kro.dokbaro.server.core.book.domain.BookCategory
+import kr.kro.dokbaro.server.core.book.query.BookCategorySingle
+import kr.kro.dokbaro.server.core.book.query.BookDetail
+import kr.kro.dokbaro.server.core.book.query.BookSummary
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
+import org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.time.LocalDate
 
 @WebMvcTest(BookController::class)
 class BookControllerTest : RestDocsTest() {
@@ -35,39 +35,25 @@ class BookControllerTest : RestDocsTest() {
 		"책 전체 조회를 수행한다" {
 			every { findAllBookUseCase.findAllBy(any()) } returns
 				listOf(
-					Book(
-						"1234567891234",
+					BookSummary(
+						1,
 						"점프투자바",
 						"위키북스",
-						LocalDate.of(2024, 12, 11),
-						10000,
-						"이책 진짜 좋아요",
 						"image.png",
-						setOf(
-							BookCategory(3, "IT", listOf()),
-							BookCategory(5, "개발방법론", listOf()),
-						),
 						listOf(
-							BookAuthor("마틴 파울러"),
-							BookAuthor("조영호"),
+							"마틴 파울러",
+							"조영호",
 						),
-						1,
 					),
-					Book(
-						"9865467891239",
-						"title",
-						"개발은 이렇게 해라",
-						LocalDate.of(2024, 12, 11),
-						10000,
-						"이책 진짜 진짜 좋아요",
-						"image.png",
-						setOf(
-							BookCategory(3, "IT", listOf()),
-						),
-						listOf(
-							BookAuthor("박현준"),
-						),
+					BookSummary(
 						1,
+						"개발은진짜이렇게해요",
+						"위키북스",
+						"image.png",
+						listOf(
+							"마틴 파울러",
+							"조영호",
+						),
 					),
 				)
 
@@ -94,39 +80,41 @@ class BookControllerTest : RestDocsTest() {
 							parameterWithName("size").description("노출 개수"),
 						),
 						responseFields(
-							fieldWithPath("[].isbn").type(JsonFieldType.STRING).description("isbn"),
+							fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("id"),
 							fieldWithPath("[].title").type(JsonFieldType.STRING).description("책 제목"),
 							fieldWithPath("[].publisher").type(JsonFieldType.STRING).description("출판사"),
-							fieldWithPath("[].publishedAt").type(JsonFieldType.STRING).description("출판일"),
 							fieldWithPath("[].imageUrl").type(JsonFieldType.STRING).description("image url"),
-							fieldWithPath("[].categories[].id").type(JsonFieldType.NUMBER).description("카테고리 id"),
-							fieldWithPath("[].categories[].name").type(JsonFieldType.STRING).description("카테고리 이름"),
 							fieldWithPath("[].authors").type(JsonFieldType.ARRAY).description("저자명"),
-							fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("id"),
 						),
 					),
 				)
 		}
 
 		"ID를 통한 책 조회를 수행한다" {
-			every { findOneBookUseCase.findById(any()) } returns
-				Book(
+			every { findOneBookUseCase.getBy(any()) } returns
+				BookDetail(
+					1,
 					"1234567891234",
 					"점프투자바",
 					"위키북스",
-					LocalDate.of(2024, 12, 11),
-					10000,
 					"이책 진짜 좋아요",
 					"image.png",
-					setOf(
-						BookCategory(3, "IT", listOf()),
-						BookCategory(5, "개발방법론", listOf()),
+					listOf(
+						BookCategorySingle(
+							7,
+							"TCP",
+							BookCategorySingle(
+								4,
+								"네트워크",
+								BookCategorySingle(2, "IT", null),
+							),
+						),
+						BookCategorySingle(5, "개발방법론", BookCategorySingle(2, "IT", null)),
 					),
 					listOf(
-						BookAuthor("마틴 파울러"),
-						BookAuthor("조영호"),
+						"마틴 파울러",
+						"조영호",
 					),
-					1,
 				)
 
 			performGet(Path("/books/{id}", "1"))
@@ -139,12 +127,11 @@ class BookControllerTest : RestDocsTest() {
 							fieldWithPath("isbn").type(JsonFieldType.STRING).description("isbn"),
 							fieldWithPath("title").type(JsonFieldType.STRING).description("책 제목"),
 							fieldWithPath("publisher").type(JsonFieldType.STRING).description("출판사"),
-							fieldWithPath("publishedAt").type(JsonFieldType.STRING).description("출판일"),
-							fieldWithPath("price").type(JsonFieldType.NUMBER).description("가격"),
 							fieldWithPath("description").type(JsonFieldType.STRING).description("책 설명"),
 							fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("image url"),
 							fieldWithPath("categories[].id").type(JsonFieldType.NUMBER).description("카테고리 id"),
 							fieldWithPath("categories[].name").type(JsonFieldType.STRING).description("카테고리 이름"),
+							subsectionWithPath("categories[].parent").type(JsonFieldType.OBJECT).description("상위 카테고리"),
 							fieldWithPath("authors").type(JsonFieldType.ARRAY).description("저자명"),
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("id"),
 						),

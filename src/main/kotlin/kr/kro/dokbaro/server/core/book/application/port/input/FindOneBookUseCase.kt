@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.core.book.application.port.input
 
-import kr.kro.dokbaro.server.core.book.domain.Book
+import kr.kro.dokbaro.server.core.book.query.BookDetail
 
 fun interface FindOneBookUseCase {
-	fun findById(id: Long): Book
+	fun getBy(id: Long): BookDetail
 }
