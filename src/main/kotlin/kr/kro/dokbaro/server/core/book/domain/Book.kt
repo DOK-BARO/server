@@ -12,9 +12,5 @@ data class Book(
 	val imageUrl: String?,
 	val categories: Set<BookCategory>,
 	val authors: List<BookAuthor>,
-	val id: Long = UNSAVED_BOOK_ID,
-) {
-	companion object {
-		private const val UNSAVED_BOOK_ID = 0L
-	}
-}
+	val id: Long = Constants.UNSAVED_ID,
+)

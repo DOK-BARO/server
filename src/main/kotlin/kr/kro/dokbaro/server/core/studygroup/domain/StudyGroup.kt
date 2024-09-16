@@ -1,16 +1,14 @@
 package kr.kro.dokbaro.server.core.studygroup.domain
 
+import kr.kro.dokbaro.server.common.constant.Constants
+
 class StudyGroup(
 	val name: String,
 	val introduction: String,
 	val profileImageUrl: String,
 	val studyMembers: MutableSet<StudyMember> = mutableSetOf(),
-	val id: Long = UNSAVED_STUDY_GROUP_ID,
+	val id: Long = Constants.UNSAVED_ID,
 ) {
-	companion object {
-		private const val UNSAVED_STUDY_GROUP_ID = 1L
-	}
-
 	constructor(
 		name: String,
 		introduction: String,

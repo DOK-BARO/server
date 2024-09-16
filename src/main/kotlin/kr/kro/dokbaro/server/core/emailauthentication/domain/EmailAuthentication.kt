@@ -1,16 +1,14 @@
 package kr.kro.dokbaro.server.core.emailauthentication.domain
 
+import kr.kro.dokbaro.server.common.constant.Constants
+
 class EmailAuthentication(
 	val address: String,
 	var code: String,
 	var authenticated: Boolean = false,
 	var used: Boolean = false,
-	val id: Long = UNSAVED_EMAIL_AUTHENTICATION_ID,
+	val id: Long = Constants.UNSAVED_ID,
 ) {
-	companion object {
-		private const val UNSAVED_EMAIL_AUTHENTICATION_ID = 0L
-	}
-
 	fun use() {
 		if (!authenticated) {
 			throw UnauthenticatedEmailException(address)
