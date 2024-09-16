@@ -1,6 +1,8 @@
 package kr.kro.dokbaro.server.configuration.docs
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringExtension
 import kr.kro.dokbaro.server.configuration.security.TestSecurityConfig
@@ -41,7 +43,6 @@ abstract class RestDocsTest : StringSpec() {
 
 	@Autowired
 	private lateinit var mockMvc: MockMvc
-	private val mapper = jacksonObjectMapper()
 
 	protected fun performPost(
 		path: Path,
@@ -145,7 +146,15 @@ abstract class RestDocsTest : StringSpec() {
 				.characterEncoding(StandardCharsets.UTF_8),
 		)
 
-	private fun toBody(body: Any) = mapper.writeValueAsString(body)
+	private fun toBody(body: Any) = objectMapper().writeValueAsString(body)
+
+	private fun objectMapper(): ObjectMapper {
+		val objectMapper = ObjectMapper()
+		objectMapper.registerModule(JavaTimeModule())
+		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+
+		return objectMapper
+	}
 
 	protected fun print(
 		title: String,
