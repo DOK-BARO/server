@@ -7,6 +7,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.common.type.AuthProvider
@@ -29,6 +30,7 @@ import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.Kak
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.KakaoResourceClient
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.resource.KakaoAccount
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.resource.KakaoAccountAttribute
+import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.kakao.external.resource.KakaoAttributeProfile
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.NaverAccountLoader
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.NaverResourceTokenLoader
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.out.web.naver.external.NaverAuthorizationClient
@@ -86,6 +88,19 @@ class AuthWebAdapterTest :
 
 		val adapter = AuthWebAdapter(resourceTokenLoaders, accountLoaders)
 
+		afterEach {
+			clearMocks(
+				githubAuthorizationClient,
+				googleAuthorizationClient,
+				naverAuthorizationClient,
+				kakaoAuthorizationClient,
+				githubResourceClient,
+				googleResourceClient,
+				naverResourceClient,
+				kakaoResourceClient,
+			)
+		}
+
 		"acccess token을 발급받는다" {
 			every { githubAuthorizationClient.getAuthorizationToken(any(), any(), any(), any()) } returns
 				GithubAuthorizationTokenResponse("token", "scope", "type")
@@ -135,7 +150,13 @@ class AuthWebAdapterTest :
 							KakaoAccount::kakaoAccount,
 							FixtureBuilder
 								.give<KakaoAccountAttribute>()
-								.setNotNullExp(KakaoAccountAttribute::name)
+								.setExp(
+									KakaoAccountAttribute::profile,
+									FixtureBuilder
+										.give<KakaoAttributeProfile>()
+										.setNotNullExp(KakaoAttributeProfile::nickname)
+										.sample(),
+								).setNotNullExp(KakaoAccountAttribute::name)
 								.setNotNullExp(KakaoAccountAttribute::email)
 								.sample(),
 						).sample()
@@ -179,8 +200,13 @@ class AuthWebAdapterTest :
 							KakaoAccount::kakaoAccount,
 							FixtureBuilder
 								.give<KakaoAccountAttribute>()
-								.setNullExp(KakaoAccountAttribute::name)
-								.setNotNullExp(KakaoAccountAttribute::email)
+								.setExp(
+									KakaoAccountAttribute::profile,
+									FixtureBuilder
+										.give<KakaoAttributeProfile>()
+										.setNullExp(KakaoAttributeProfile::nickname)
+										.sample(),
+								).setNotNullExp(KakaoAccountAttribute::email)
 								.sample(),
 						).sample()
 

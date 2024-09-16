@@ -5,8 +5,8 @@ import kr.kro.dokbaro.server.core.member.application.port.input.command.Register
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.RegisterMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
+import kr.kro.dokbaro.server.core.member.application.port.out.InsertMemberPort
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
-import kr.kro.dokbaro.server.core.member.application.port.out.SaveMemberPort
 import kr.kro.dokbaro.server.core.member.application.port.out.UpdateMemberPort
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
@@ -15,7 +15,7 @@ import java.util.UUID
 
 @Service
 class MemberService(
-	private val saveMemberPort: SaveMemberPort,
+	private val insertMemberPort: InsertMemberPort,
 	private val updateMemberPort: UpdateMemberPort,
 	private val existMemberEmailPort: ExistMemberByEmailPort,
 	private val loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
@@ -28,7 +28,7 @@ class MemberService(
 			throw AlreadyRegisteredEmailException(command.email)
 		}
 
-		return saveMemberPort.save(
+		return insertMemberPort.insert(
 			Member(
 				command.nickName,
 				Email(command.email),

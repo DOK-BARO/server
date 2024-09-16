@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.core.book.adapter.input.web
 
-import kr.kro.dokbaro.server.core.book.application.port.input.query.FindAllBookCategoryUseCase
-import kr.kro.dokbaro.server.core.book.domain.BookCategory
+import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookCategoryUseCase
+import kr.kro.dokbaro.server.core.book.query.BookCategoryTree
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -15,5 +15,5 @@ class BookCategoryController(
 	@GetMapping
 	fun getCategories(
 		@RequestParam(required = false) targetId: Long?,
-	): BookCategory = findAllBookCategoryUseCase.findAllCategory(targetId)
+	): BookCategoryTree = findAllBookCategoryUseCase.getTree(targetId)
 }

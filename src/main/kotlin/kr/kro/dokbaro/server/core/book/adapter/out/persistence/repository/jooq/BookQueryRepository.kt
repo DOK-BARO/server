@@ -1,10 +1,11 @@
 package kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq
 
+import kr.kro.dokbaro.server.common.dto.page.PagingOption
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
-import kr.kro.dokbaro.server.core.book.application.port.out.dto.BookCollectionPagingOption
-import kr.kro.dokbaro.server.core.book.application.port.out.dto.LoadBookCollectionCondition
-import kr.kro.dokbaro.server.core.book.domain.Book
-import kr.kro.dokbaro.server.core.book.domain.BookCategory
+import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
+import kr.kro.dokbaro.server.core.book.query.BookCategoryTree
+import kr.kro.dokbaro.server.core.book.query.BookDetail
+import kr.kro.dokbaro.server.core.book.query.BookSummary
 import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.Record
@@ -15,7 +16,6 @@ import org.jooq.generated.tables.JBookAuthor
 import org.jooq.generated.tables.JBookCategory
 import org.jooq.generated.tables.JBookCategoryGroup
 import org.jooq.generated.tables.records.BookCategoryRecord
-import org.jooq.generated.tables.records.BookRecord
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.field
 import org.jooq.impl.DSL.name
@@ -37,36 +37,43 @@ class BookQueryRepository(
 	}
 
 	fun findAllBookBy(
-		condition: LoadBookCollectionCondition,
-		pagingOption: BookCollectionPagingOption,
-	): Collection<Book> {
+		condition: ReadBookCollectionCondition,
+		pagingOption: PagingOption,
+	): Collection<BookSummary> {
 		val bookTable = "book"
 
-		val books: Table<Record> =
-			select()
-				.from(BOOK)
+		val books: Table<out Record> =
+			select(
+				BOOK.ID,
+				BOOK.TITLE,
+				BOOK.PUBLISHER,
+				BOOK.IMAGE_URL,
+			).from(BOOK)
 				.where(buildCondition(condition))
 				.orderBy(BOOK.ID)
 				.limit(pagingOption.limit)
 				.offset(pagingOption.offset)
 				.asTable(bookTable)
 
-		val record: Map<BookRecord, Result<Record>> =
+		val record: Map<Long, Result<out Record>> =
 			dslContext
-				.select()
-				.from(books)
+				.select(
+					BOOK.ID,
+					BOOK.TITLE,
+					BOOK.PUBLISHER,
+					BOOK.IMAGE_URL,
+					BOOK_AUTHOR.NAME,
+				).from(books)
 				.join(BOOK_AUTHOR)
 				.on(books.field(BOOK.ID)!!.eq(BOOK_AUTHOR.BOOK_ID))
 				.join(BOOK_CATEGORY_GROUP)
 				.on(books.field(BOOK.ID)!!.eq(BOOK_CATEGORY_GROUP.BOOK_ID))
-				.join(BOOK_CATEGORY)
-				.on(BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID.eq(BOOK_CATEGORY.ID))
-				.fetchGroups(BOOK)
+				.fetchGroups(BOOK.ID)
 
-		return bookMapper.mapToBookCollection(record)
+		return bookMapper.toSummaryCollection(record)
 	}
 
-	private fun buildCondition(condition: LoadBookCollectionCondition): Condition {
+	private fun buildCondition(condition: ReadBookCollectionCondition): Condition {
 		var result: Condition = DSL.noCondition()
 
 		condition.title?.let {
@@ -103,13 +110,13 @@ class BookQueryRepository(
 		return result
 	}
 
-	fun findAllCategoryBy(id: Long): BookCategory {
-		val hierarchyTableName = "CategoryHierarchy"
+	fun findAllCategoryBy(id: Long): BookCategoryTree {
+		val hierarchyTable = "CategoryHierarchy"
 		val hierarchyTableAlias = "ch"
 
 		val result: Collection<BookCategoryRecord> =
 			dslContext
-				.withRecursive(hierarchyTableName)
+				.withRecursive(hierarchyTable)
 				.`as`(
 					dslContext
 						.select(
@@ -127,7 +134,7 @@ class BookQueryRepository(
 									BOOK_CATEGORY.KOREAN_NAME,
 									BOOK_CATEGORY.PARENT_ID,
 								).from(BOOK_CATEGORY)
-								.join(table(name(hierarchyTableName)).`as`(hierarchyTableAlias))
+								.join(table(name(hierarchyTable)).`as`(hierarchyTableAlias))
 								.on(
 									field(
 										name(hierarchyTableAlias, "id"),
@@ -136,17 +143,24 @@ class BookQueryRepository(
 								),
 						),
 				).select()
-				.from(name(hierarchyTableName))
+				.from(name(hierarchyTable))
 				.fetchInto(BOOK_CATEGORY)
 
-		return bookMapper.mapToCategory(result, id)
+		return bookMapper.toCategoryTree(result, id)
 	}
 
-	fun findById(id: Long): Book? {
-		val record: Map<BookRecord, Result<Record>> =
+	fun findById(id: Long): BookDetail? {
+		val bookRecord: Map<Long, Result<out Record>> =
 			dslContext
-				.select()
-				.from(BOOK)
+				.select(
+					BOOK.ID,
+					BOOK.ISBN,
+					BOOK.TITLE,
+					BOOK.PUBLISHER,
+					BOOK.DESCRIPTION,
+					BOOK.IMAGE_URL,
+					BOOK_AUTHOR.NAME,
+				).from(BOOK)
 				.join(BOOK_AUTHOR)
 				.on(BOOK.ID.eq(BOOK_AUTHOR.BOOK_ID))
 				.join(BOOK_CATEGORY_GROUP)
@@ -154,8 +168,46 @@ class BookQueryRepository(
 				.join(BOOK_CATEGORY)
 				.on(BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID.eq(BOOK_CATEGORY.ID))
 				.where(BOOK.ID.eq(id))
-				.fetchGroups(BOOK)
+				.fetchGroups(BOOK.ID)
 
-		return bookMapper.mapToBook(record)
+		val categoriesRecord: Result<BookCategoryRecord> = findCategoriesOfBook(id)
+
+		return bookMapper.toBookDetail(bookRecord, categoriesRecord)
+	}
+
+	private fun findCategoriesOfBook(bookId: Long): Result<BookCategoryRecord> {
+		val hierarchyTable = "CategoryHierarchy"
+		val hierarchyTableAlias = "ch"
+
+		return dslContext
+			.withRecursive(hierarchyTable)
+			.`as`(
+				dslContext
+					.select(
+						BOOK_CATEGORY.ID,
+						BOOK_CATEGORY.KOREAN_NAME,
+						BOOK_CATEGORY.PARENT_ID,
+					).from(BOOK_CATEGORY)
+					.join(BOOK_CATEGORY_GROUP)
+					.on(BOOK_CATEGORY_GROUP.ID.eq(BOOK_CATEGORY.ID))
+					.where(BOOK_CATEGORY_GROUP.BOOK_ID.eq(bookId))
+					.unionAll(
+						dslContext
+							.select(
+								BOOK_CATEGORY.ID,
+								BOOK_CATEGORY.KOREAN_NAME,
+								BOOK_CATEGORY.PARENT_ID,
+							).from(BOOK_CATEGORY)
+							.join(table(name(hierarchyTable)).`as`(hierarchyTableAlias))
+							.on(
+								field(
+									name(hierarchyTableAlias, "id"),
+									Long::class.java,
+								).eq(BOOK_CATEGORY.ID),
+							),
+					),
+			).select()
+			.from(name(hierarchyTable))
+			.fetchInto(BOOK_CATEGORY)
 	}
 }

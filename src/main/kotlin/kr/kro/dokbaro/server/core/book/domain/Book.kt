@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.book.domain
 
+import kr.kro.dokbaro.server.common.constant.Constants
 import java.time.LocalDate
 
 data class Book(
@@ -10,11 +11,7 @@ data class Book(
 	val price: Int,
 	val description: String?,
 	val imageUrl: String?,
-	val categories: Set<BookCategory>,
-	val authors: List<BookAuthor>,
-	val id: Long = UNSAVED_BOOK_ID,
-) {
-	companion object {
-		private const val UNSAVED_BOOK_ID = 0L
-	}
-}
+	val categories: Set<Long>,
+	val authors: Collection<BookAuthor>,
+	val id: Long = Constants.UNSAVED_ID,
+)

@@ -9,23 +9,23 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.dto.MatchResponse
-import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.FindEmailAuthenticationPort
-import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SaveEmailAuthenticationPort
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.InsertEmailAuthenticationPort
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.LoadEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendEmailAuthenticationCodePort
-import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
+import kr.kro.dokbaro.server.fixture.domain.emailAuthenticationFixture
 
 class EmailAuthenticationServiceTest :
 	StringSpec({
-		val saveEmailAuthenticationPort = mockk<SaveEmailAuthenticationPort>()
-		val findEmailAuthenticationPort = mockk<FindEmailAuthenticationPort>()
+		val insertEmailAuthenticationPort = mockk<InsertEmailAuthenticationPort>()
+		val loadEmailAuthenticationPort = mockk<LoadEmailAuthenticationPort>()
 		val updateEmailAuthenticationPort = UpdateEmailAuthenticationPortMock()
 		val emailCodeGenerator = CodeGeneratorStub()
 		val sendEmailAuthenticationCodePort = mockk<SendEmailAuthenticationCodePort>()
 
 		val emailAuthenticationService =
 			EmailAuthenticationService(
-				saveEmailAuthenticationPort,
-				findEmailAuthenticationPort,
+				insertEmailAuthenticationPort,
+				loadEmailAuthenticationPort,
 				updateEmailAuthenticationPort,
 				emailCodeGenerator,
 				sendEmailAuthenticationCodePort,
@@ -33,8 +33,8 @@ class EmailAuthenticationServiceTest :
 
 		afterEach {
 			clearMocks(
-				saveEmailAuthenticationPort,
-				findEmailAuthenticationPort,
+				insertEmailAuthenticationPort,
+				loadEmailAuthenticationPort,
 				sendEmailAuthenticationCodePort,
 			)
 
@@ -42,7 +42,7 @@ class EmailAuthenticationServiceTest :
 		}
 
 		"생성을 수행한다" {
-			every { saveEmailAuthenticationPort.save(any()) } returns 1
+			every { insertEmailAuthenticationPort.insert(any()) } returns 1
 			every { sendEmailAuthenticationCodePort.sendEmail(any(), any()) } returns Unit
 
 			val email = "www@example.org"
@@ -54,13 +54,10 @@ class EmailAuthenticationServiceTest :
 		"인증 코드를 검증 시 일치하면 인증 여부 상태를 변경하고 true를 반환한다" {
 			val email = "www@example.org"
 			val code = "ABCDEF"
-			every { findEmailAuthenticationPort.findBy(any()) } returns
-				EmailAuthentication(
+			every { loadEmailAuthenticationPort.findBy(any()) } returns
+				emailAuthenticationFixture(
 					address = email,
 					code = code,
-					authenticated = false,
-					used = false,
-					id = 1,
 				)
 
 			val response: MatchResponse = emailAuthenticationService.match(email, code)
@@ -72,13 +69,10 @@ class EmailAuthenticationServiceTest :
 		"인증 코드를 검증 시 일치하지 않으면 상태를 변경하지 않고 false를 반환한다" {
 			val email = "www@example.org"
 			val code = "ABCDEF"
-			every { findEmailAuthenticationPort.findBy(any()) } returns
-				EmailAuthentication(
+			every { loadEmailAuthenticationPort.findBy(any()) } returns
+				emailAuthenticationFixture(
 					address = email,
 					code = code,
-					authenticated = false,
-					used = false,
-					id = 1,
 				)
 
 			val response: MatchResponse = emailAuthenticationService.match(email, "OTHER3")
@@ -88,7 +82,7 @@ class EmailAuthenticationServiceTest :
 		}
 
 		"인증코드 검증/재생성/사용 시 이메일 인증 데이터가 없다면 예외를 반환한다" {
-			every { findEmailAuthenticationPort.findBy(any()) } returns null
+			every { loadEmailAuthenticationPort.findBy(any()) } returns null
 
 			val email = "www@example.com"
 
@@ -108,13 +102,10 @@ class EmailAuthenticationServiceTest :
 		"인증 코드 재생성을 진행한다" {
 			val email = "www@example.org"
 			val beforeCode = "BEFORE"
-			every { findEmailAuthenticationPort.findBy(any()) } returns
-				EmailAuthentication(
+			every { loadEmailAuthenticationPort.findBy(any()) } returns
+				emailAuthenticationFixture(
 					address = email,
 					code = beforeCode,
-					authenticated = false,
-					used = false,
-					id = 1,
 				)
 			every { sendEmailAuthenticationCodePort.sendEmail(any(), any()) } returns Unit
 
@@ -126,14 +117,10 @@ class EmailAuthenticationServiceTest :
 
 		"이메일 사용을 수행한다" {
 			val email = "www@example.org"
-			val beforeCode = "BEFORE"
-			every { findEmailAuthenticationPort.findBy(any()) } returns
-				EmailAuthentication(
+			every { loadEmailAuthenticationPort.findBy(any()) } returns
+				emailAuthenticationFixture(
 					address = email,
-					code = beforeCode,
 					authenticated = true,
-					used = false,
-					id = 1,
 				)
 
 			emailAuthenticationService.useEmail(email)

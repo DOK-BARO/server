@@ -5,8 +5,8 @@ import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.Mat
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.RecreateEmailAuthenticationUseCase
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.dto.MatchResponse
-import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.FindEmailAuthenticationPort
-import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SaveEmailAuthenticationPort
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.InsertEmailAuthenticationPort
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.LoadEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendEmailAuthenticationCodePort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.UpdateEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.dto.SearchEmailAuthenticationCondition
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class EmailAuthenticationService(
-	private val saveEmailAuthenticationPort: SaveEmailAuthenticationPort,
-	private val findEmailAuthenticationPort: FindEmailAuthenticationPort,
+	private val insertEmailAuthenticationPort: InsertEmailAuthenticationPort,
+	private val loadEmailAuthenticationPort: LoadEmailAuthenticationPort,
 	private val updateEmailAuthenticationPort: UpdateEmailAuthenticationPort,
 	private val emailCodeGenerator: EmailCodeGenerator,
 	private val sendEmailAuthenticationCodePort: SendEmailAuthenticationCodePort,
@@ -27,7 +27,7 @@ class EmailAuthenticationService(
 	override fun create(email: String) {
 		val code: String = emailCodeGenerator.generate()
 
-		saveEmailAuthenticationPort.save(EmailAuthentication(email, code))
+		insertEmailAuthenticationPort.insert(EmailAuthentication(email, code))
 		sendEmailAuthenticationCodePort.sendEmail(email, code)
 	}
 
@@ -36,7 +36,7 @@ class EmailAuthenticationService(
 		code: String,
 	): MatchResponse {
 		val emailAuthentication: EmailAuthentication =
-			findEmailAuthenticationPort.findBy(
+			loadEmailAuthenticationPort.findBy(
 				SearchEmailAuthenticationCondition(
 					address = email,
 					authenticated = false,
@@ -55,7 +55,7 @@ class EmailAuthenticationService(
 
 	override fun recreate(email: String) {
 		val emailAuthentication: EmailAuthentication =
-			findEmailAuthenticationPort.findBy(
+			loadEmailAuthenticationPort.findBy(
 				SearchEmailAuthenticationCondition(
 					address = email,
 					authenticated = false,
@@ -72,7 +72,7 @@ class EmailAuthenticationService(
 
 	override fun useEmail(email: String) {
 		val emailAuthentication: EmailAuthentication =
-			findEmailAuthenticationPort.findBy(
+			loadEmailAuthenticationPort.findBy(
 				SearchEmailAuthenticationCondition(
 					address = email,
 					authenticated = true,

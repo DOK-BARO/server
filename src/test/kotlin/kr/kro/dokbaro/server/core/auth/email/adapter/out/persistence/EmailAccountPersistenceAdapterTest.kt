@@ -5,7 +5,6 @@ import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.auth.email.adapter.out.persistence.entity.jooq.EmailAccountMapper
 import kr.kro.dokbaro.server.core.auth.email.adapter.out.persistence.repository.jooq.AccountPasswordRepository
@@ -13,8 +12,8 @@ import kr.kro.dokbaro.server.core.auth.email.adapter.out.persistence.repository.
 import kr.kro.dokbaro.server.core.auth.email.domain.AccountPassword
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
-import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
+import kr.kro.dokbaro.server.fixture.domain.memberFixture
 import org.jooq.Configuration
 import org.jooq.DSLContext
 
@@ -32,25 +31,19 @@ class EmailAccountPersistenceAdapterTest(
 
 		val memberRepository = MemberRepository(dslContext, MemberMapper())
 
-		val member =
-			Member(
-				"nick",
-				Email("www4@example.com"),
-				"profile.png",
-				UUIDUtils.stringToUUID("2b946c7f-abd1-4aef-a440-5d7670e4db45"),
-			)
+		val member = memberFixture()
 
 		"저장을 수행한다" {
-			val savedMember: Member = memberRepository.save(member)
-			val savedId = adapter.save(AccountPassword("password", savedMember.id))
+			val savedMember: Member = memberRepository.insert(member)
+			val savedId = adapter.insert(AccountPassword("password", savedMember.id))
 
 			savedId shouldNotBe null
 		}
 
 		"email을 통한 조회를 수행한다" {
-			val savedMember: Member = memberRepository.save(member)
+			val savedMember: Member = memberRepository.insert(member)
 			val password = "password"
-			adapter.save(AccountPassword(password, savedMember.id))
+			adapter.insert(AccountPassword(password, savedMember.id))
 
 			val result = adapter.findByEmail(savedMember.email.address)
 			result shouldNotBe null

@@ -8,10 +8,11 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.entity.jooq.EmailAuthenticationMapper
-import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.repository.jooq.EmailAuthenticationJooqQueryRepository
-import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.repository.jooq.EmailAuthenticationJooqRepository
+import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.repository.jooq.EmailAuthenticationQueryRepository
+import kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.repository.jooq.EmailAuthenticationRepository
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.dto.SearchEmailAuthenticationCondition
 import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
+import kr.kro.dokbaro.server.fixture.domain.emailAuthenticationFixture
 import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.generated.tables.daos.EmailAuthenticationDao
@@ -23,42 +24,34 @@ class EmailAuthenticationPersistenceAdapterTest(
 ) : StringSpec({
 		extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
 
-		val repository = EmailAuthenticationJooqRepository(dslContext)
-		val queryRepository = EmailAuthenticationJooqQueryRepository(dslContext, EmailAuthenticationMapper())
+		val repository = EmailAuthenticationRepository(dslContext)
+		val queryRepository = EmailAuthenticationQueryRepository(dslContext, EmailAuthenticationMapper())
 		val adapter =
 			EmailAuthenticationPersistenceAdapter(repository, queryRepository)
 
 		val emailAuthenticationDao = EmailAuthenticationDao(configuration)
 
 		"저장을 수행한다" {
-			val emailAuthentication =
-				EmailAuthentication(
-					"www@example.com",
-					"ADSFGH",
-				)
+			val emailAuthentication = emailAuthenticationFixture()
 
-			val id = adapter.save(emailAuthentication)
+			val id = adapter.insert(emailAuthentication)
 
 			emailAuthenticationDao.findAll().shouldNotBeEmpty()
 			id shouldNotBe null
 		}
 
 		"수정을 수행한다" {
+			val email = "hello@gmail.com"
 			val emailAuthentication =
-				EmailAuthentication(
-					"www@example.com",
-					"ADSFGH",
+				emailAuthenticationFixture(
+					address = email,
 				)
 
-			val id = adapter.save(emailAuthentication)
+			val id = adapter.insert(emailAuthentication)
 
 			val newCode = "HELLO9"
 			val newEmailAuthentication =
-				EmailAuthentication(
-					address = "www@example.com",
-					code = newCode,
-					id = id,
-				)
+				emailAuthenticationFixture(address = email, code = newCode, id = id)
 
 			adapter.update(newEmailAuthentication)
 
@@ -78,7 +71,7 @@ class EmailAuthenticationPersistenceAdapterTest(
 					used = false,
 				)
 
-			adapter.save(emailAuthentication)
+			adapter.insert(emailAuthentication)
 
 			adapter.findBy(
 				SearchEmailAuthenticationCondition(),
@@ -126,7 +119,7 @@ class EmailAuthenticationPersistenceAdapterTest(
 					used = false,
 				)
 
-			adapter.save(emailAuthentication)
+			adapter.insert(emailAuthentication)
 
 			adapter.existBy(
 				SearchEmailAuthenticationCondition(),

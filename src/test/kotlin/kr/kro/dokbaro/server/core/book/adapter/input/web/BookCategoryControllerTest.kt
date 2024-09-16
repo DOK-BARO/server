@@ -4,8 +4,8 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
-import kr.kro.dokbaro.server.core.book.application.port.input.query.FindAllBookCategoryUseCase
-import kr.kro.dokbaro.server.core.book.domain.BookCategory
+import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookCategoryUseCase
+import kr.kro.dokbaro.server.core.book.query.BookCategoryTree
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -22,21 +22,21 @@ class BookCategoryControllerTest : RestDocsTest() {
 
 	init {
 		"책 카테고리 조회를 수행한다" {
-			every { fineAllBookCategoryUseCase.findAllCategory(any()) } returns
-				BookCategory(
+			every { fineAllBookCategoryUseCase.getTree(any()) } returns
+				BookCategoryTree(
 					1,
 					"IT",
 					setOf(
-						BookCategory(
+						BookCategoryTree(
 							2,
 							"운영체제",
 							setOf(
-								BookCategory(5, "우분투"),
-								BookCategory(5, "유닉스"),
+								BookCategoryTree(5, "우분투", null),
+								BookCategoryTree(5, "유닉스", null),
 							),
 						),
-						BookCategory(3, "네트워크"),
-						BookCategory(4, "개발 방법론"),
+						BookCategoryTree(3, "네트워크", null),
+						BookCategoryTree(4, "개발 방법론", null),
 					),
 				)
 

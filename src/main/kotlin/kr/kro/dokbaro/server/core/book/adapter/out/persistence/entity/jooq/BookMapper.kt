@@ -1,29 +1,39 @@
 package kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq
 
-import kr.kro.dokbaro.server.core.book.domain.Book
-import kr.kro.dokbaro.server.core.book.domain.BookAuthor
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
+import kr.kro.dokbaro.server.core.book.query.BookCategorySingle
+import kr.kro.dokbaro.server.core.book.query.BookCategoryTree
+import kr.kro.dokbaro.server.core.book.query.BookDetail
+import kr.kro.dokbaro.server.core.book.query.BookSummary
 import org.jooq.Record
 import org.jooq.Result
+import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookAuthor
-import org.jooq.generated.tables.JBookCategory
 import org.jooq.generated.tables.records.BookCategoryRecord
-import org.jooq.generated.tables.records.BookRecord
 import org.springframework.stereotype.Component
 
 @Component
 class BookMapper {
 	companion object {
+		private val BOOK = JBook.BOOK
 		private val BOOK_AUTHOR = JBookAuthor.BOOK_AUTHOR
-		private val BOOK_CATEGORY = JBookCategory.BOOK_CATEGORY
 	}
 
-	fun mapToBookCollection(record: Map<BookRecord, Result<Record>>): Collection<Book> = mapRecordMapToBook(record)
+	fun toSummaryCollection(record: Map<Long, Result<out Record>>): Collection<BookSummary> =
+		record.map {
+			BookSummary(
+				it.key,
+				it.value.getValues(BOOK.TITLE).first(),
+				it.value.getValues(BOOK.PUBLISHER).first(),
+				it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
+				it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
+			)
+		}
 
-	fun mapToCategory(
+	fun toCategoryTree(
 		record: Collection<BookCategoryRecord>,
 		headId: Long,
-	): BookCategory {
+	): BookCategoryTree {
 		val categoryMap: Map<Long, MutableSet<Long>> =
 			record
 				.map { it.id }
@@ -46,10 +56,10 @@ class BookMapper {
 		categoryMap: Map<Long, Set<Long>>,
 		recordMap: Map<Long, BookCategoryRecord>,
 		headId: Long,
-	): BookCategory {
+	): BookCategoryTree {
 		val targetRecord: BookCategoryRecord = recordMap[headId]!!
 
-		return BookCategory(
+		return BookCategoryTree(
 			targetRecord.id,
 			targetRecord.koreanName,
 			categoryMap[headId]!!
@@ -57,25 +67,65 @@ class BookMapper {
 		)
 	}
 
-	fun mapToBook(record: Map<BookRecord, Result<Record>>): Book? = mapRecordMapToBook(record).firstOrNull()
+	fun toBookDetail(
+		bookRecord: Map<Long, Result<out Record>>,
+		categoriesRecord: Result<BookCategoryRecord>,
+	): BookDetail? =
+		bookRecord
+			.map {
+				BookDetail(
+					it.key,
+					it.value.getValues(BOOK.ISBN).first(),
+					it.value.getValues(BOOK.TITLE).first(),
+					it.value.getValues(BOOK.PUBLISHER).first(),
+					it.value
+						.getValues(BOOK.DESCRIPTION)
+						.first()
+						.toString(Charsets.UTF_8),
+					it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
+					toBookCategorySingles(categoriesRecord),
+					it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
+				)
+			}.firstOrNull()
 
-	private fun mapRecordMapToBook(record: Map<BookRecord, Result<Record>>) =
-		record.map {
-			Book(
-				it.key.isbn,
-				it.key.title,
-				it.key.publisher,
-				it.key.publishedAt,
-				it.key.price,
-				it.key.description.toString(Charsets.UTF_8),
-				it.key.imageUrl,
-				it.value
-					.map { v ->
-						BookCategory(v.getValue(BOOK_CATEGORY.ID), v.getValue(BOOK_CATEGORY.KOREAN_NAME))
-					}.distinct()
-					.toSet(),
-				it.value.map { v -> BookAuthor(v.getValue(BOOK_AUTHOR.NAME)) }.distinct(),
-				it.key.id,
-			)
+	private fun toBookCategorySingles(categoriesRecord: Result<BookCategoryRecord>): Collection<BookCategorySingle> {
+		val visited: MutableSet<Long> = mutableSetOf()
+		val result = mutableListOf<BookCategorySingle>()
+
+		categoriesRecord.forEach {
+			if (!visited.contains(it.id)) {
+				result.add(
+					toBookCategorySingleParents(
+						categoriesRecord,
+						it.id,
+						visited,
+					)!!,
+				)
+			}
 		}
+
+		return result
+	}
+
+	private fun toBookCategorySingleParents(
+		categoriesRecord: Result<BookCategoryRecord>,
+		id: Long,
+		visited: MutableSet<Long>,
+	): BookCategorySingle? {
+		if (id == BookCategory.ROOT_ID) {
+			return null
+		}
+
+		visited.add(id)
+		val target = categoriesRecord.find { it.id == id }!!
+		return BookCategorySingle(
+			target.id,
+			target.koreanName,
+			toBookCategorySingleParents(
+				categoriesRecord,
+				target.parentId,
+				visited,
+			),
+		)
+	}
 }

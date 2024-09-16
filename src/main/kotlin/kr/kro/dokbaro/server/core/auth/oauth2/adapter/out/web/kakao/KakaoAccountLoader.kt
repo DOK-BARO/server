@@ -19,7 +19,7 @@ class KakaoAccountLoader(
 		return OAuth2ProviderAccount(
 			AuthProvider.KAKAO,
 			account.id.toString(),
-			account.kakaoAccount.name ?: throw NickNameNotExistException(),
+			account.kakaoAccount.profile.nickname ?: throw NickNameNotExistException(),
 			account.kakaoAccount.email ?: throw EmailNotExistException(),
 			account.kakaoAccount.profile.profileImageUrl,
 		)
