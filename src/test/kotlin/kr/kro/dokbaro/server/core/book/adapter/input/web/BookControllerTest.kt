@@ -7,18 +7,21 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.book.application.port.input.CreateBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
+import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookCommand
 import kr.kro.dokbaro.server.core.book.query.BookCategorySingle
 import kr.kro.dokbaro.server.core.book.query.BookDetail
 import kr.kro.dokbaro.server.core.book.query.BookSummary
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.time.LocalDate
 
 @WebMvcTest(BookController::class)
 class BookControllerTest : RestDocsTest() {
@@ -134,6 +137,61 @@ class BookControllerTest : RestDocsTest() {
 							subsectionWithPath("categories[].parent").type(JsonFieldType.OBJECT).description("상위 카테고리"),
 							fieldWithPath("authors").type(JsonFieldType.ARRAY).description("저자명"),
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("id"),
+						),
+					),
+				)
+		}
+
+		"책 생성을 수행한다" {
+			every { createBookUseCase.create(any()) } returns 1
+
+			val body =
+				CreateBookCommand(
+					isbn = "9783161484100",
+					title = "Effective Kotlin",
+					publisher = "TechBooks",
+					publishedAt = LocalDate.now(),
+					price = 45000,
+					description = "A comprehensive guide to writing high-quality Kotlin code.",
+					imageUrl = "https://example.com/images/effective-kotlin.jpg",
+					categories = setOf(1L, 2L, 3L),
+					authors = listOf("Marcin Moskala", "Igor Wojda"),
+				)
+
+			performPost(Path("/books"), body)
+				.andExpect(status().isCreated)
+				.andDo(
+					print(
+						"book/create-book",
+						requestFields(
+							fieldWithPath("isbn")
+								.type(JsonFieldType.STRING)
+								.description("isbn"),
+							fieldWithPath("title").type(JsonFieldType.STRING).description("책 제목"),
+							fieldWithPath("publisher").type(JsonFieldType.STRING).description("출판사"),
+							fieldWithPath("publishedAt")
+								.type(JsonFieldType.STRING)
+								.description("출판일 (YYYY-MM-DD)"),
+							fieldWithPath("price")
+								.type(JsonFieldType.NUMBER)
+								.description("가격"),
+							fieldWithPath("description")
+								.type(JsonFieldType.STRING)
+								.optional()
+								.description("책 설명 (optional)"),
+							fieldWithPath("imageUrl")
+								.type(JsonFieldType.STRING)
+								.optional()
+								.description("책 이미지 URL (optional)"),
+							fieldWithPath("categories")
+								.type(JsonFieldType.ARRAY)
+								.description("책 category id 들"),
+							fieldWithPath("authors")
+								.type(JsonFieldType.ARRAY)
+								.description("저자"),
+						),
+						responseFields(
+							fieldWithPath("id").type(JsonFieldType.NUMBER).description("저장된 책의 id"),
 						),
 					),
 				)

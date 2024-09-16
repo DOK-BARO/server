@@ -8,12 +8,14 @@ import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookComm
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
 import kr.kro.dokbaro.server.core.book.query.BookDetail
 import kr.kro.dokbaro.server.core.book.query.BookSummary
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -24,6 +26,7 @@ class BookController(
 	private val findOneBookUseCase: FindOneBookUseCase,
 ) {
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	fun create(
 		@RequestBody body: CreateBookCommand,
 	): IdResponse<Long> = IdResponse(createBookUseCase.create(body))
