@@ -1,13 +1,13 @@
 package kr.kro.dokbaro.server.core.book.adapter.input.web
 
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
-import kr.kro.dokbaro.server.core.book.adapter.input.web.dto.BookResponse
-import kr.kro.dokbaro.server.core.book.adapter.input.web.dto.BookSummary
 import kr.kro.dokbaro.server.core.book.application.port.input.CreateBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookCommand
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
+import kr.kro.dokbaro.server.core.book.query.BookDetail
+import kr.kro.dokbaro.server.core.book.query.BookSummary
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -39,10 +39,9 @@ class BookController(
 	): Collection<BookSummary> =
 		findAllBookUseCase
 			.findAllBy(FindAllBookCommand(title, authorName, description, category, page, size))
-			.map { BookSummary(it) }
 
 	@GetMapping("/{id}")
 	fun findOne(
 		@PathVariable id: Long,
-	): BookResponse = BookResponse(findOneBookUseCase.findById(id))
+	): BookDetail = findOneBookUseCase.getBy(id)
 }

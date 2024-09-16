@@ -1,11 +1,9 @@
 package kr.kro.dokbaro.server.core.auth.email.domain
 
+import kr.kro.dokbaro.server.common.constant.Constants
+
 data class AccountPassword(
 	val password: String,
 	val memberId: Long,
-	val id: Long = UNSAVED_ACCOUNT_PASSWORD_ID,
-) {
-	companion object {
-		private const val UNSAVED_ACCOUNT_PASSWORD_ID = 0L
-	}
-}
+	val id: Long = Constants.UNSAVED_ID,
+)

@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.member.domain
 
+import kr.kro.dokbaro.server.common.constant.Constants
 import java.util.UUID
 
 data class Member(
@@ -8,12 +9,8 @@ data class Member(
 	var profileImage: String?,
 	val certificationId: UUID,
 	val roles: Set<Role> = setOf(Role.GUEST),
-	val id: Long = UNSAVED_MEMBER_ID,
+	val id: Long = Constants.UNSAVED_ID,
 ) {
-	companion object {
-		private const val UNSAVED_MEMBER_ID = 0L
-	}
-
 	fun modify(
 		nickName: String?,
 		email: Email?,
