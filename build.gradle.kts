@@ -192,6 +192,7 @@ kover {
 				classes("kr.kro.dokbaro.server.core.security.**")
 				classes("kr.kro.dokbaro.server.core.emailauthentication.adapter.out.web.SMTPEmailCodeSender")
 				classes("kr.kro.dokbaro.server.core.image.**")
+				classes("kr.kro.dokbaro.server.core.**.adapter.out.persistence.entity.**.*Mapper")
 			}
 		}
 		verify {
