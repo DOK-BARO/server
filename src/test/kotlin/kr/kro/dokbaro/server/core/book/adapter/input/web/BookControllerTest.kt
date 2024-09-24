@@ -8,9 +8,8 @@ import kr.kro.dokbaro.server.core.book.application.port.input.CreateBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookCommand
-import kr.kro.dokbaro.server.core.book.query.BookCategorySingle
-import kr.kro.dokbaro.server.core.book.query.BookDetail
-import kr.kro.dokbaro.server.core.book.query.BookSummary
+import kr.kro.dokbaro.server.fixture.domain.bookDetailFixture
+import kr.kro.dokbaro.server.fixture.domain.bookSummaryFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -38,26 +37,8 @@ class BookControllerTest : RestDocsTest() {
 		"책 전체 조회를 수행한다" {
 			every { findAllBookUseCase.findAllBy(any()) } returns
 				listOf(
-					BookSummary(
-						1,
-						"점프투자바",
-						"위키북스",
-						"image.png",
-						listOf(
-							"마틴 파울러",
-							"조영호",
-						),
-					),
-					BookSummary(
-						1,
-						"개발은진짜이렇게해요",
-						"위키북스",
-						"image.png",
-						listOf(
-							"마틴 파울러",
-							"조영호",
-						),
-					),
+					bookSummaryFixture(),
+					bookSummaryFixture(title = "제목"),
 				)
 
 			val param =
@@ -94,31 +75,7 @@ class BookControllerTest : RestDocsTest() {
 		}
 
 		"ID를 통한 책 조회를 수행한다" {
-			every { findOneBookUseCase.getBy(any()) } returns
-				BookDetail(
-					1,
-					"1234567891234",
-					"점프투자바",
-					"위키북스",
-					"이책 진짜 좋아요",
-					"image.png",
-					listOf(
-						BookCategorySingle(
-							7,
-							"TCP",
-							BookCategorySingle(
-								4,
-								"네트워크",
-								BookCategorySingle(2, "IT", null),
-							),
-						),
-						BookCategorySingle(5, "개발방법론", BookCategorySingle(2, "IT", null)),
-					),
-					listOf(
-						"마틴 파울러",
-						"조영호",
-					),
-				)
+			every { findOneBookUseCase.getBy(any()) } returns bookDetailFixture()
 
 			performGet(Path("/books/{id}", "1"))
 				.andExpect(status().isOk)
