@@ -80,8 +80,8 @@ class BookMapper {
 					it.value.getValues(BOOK.PUBLISHER).first(),
 					it.value
 						.getValues(BOOK.DESCRIPTION)
-						.first()
-						.toString(Charsets.UTF_8),
+						.firstOrNull()
+						?.toString(Charsets.UTF_8),
 					it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
 					toBookCategorySingles(categoriesRecord),
 					it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
@@ -94,13 +94,11 @@ class BookMapper {
 
 		categoriesRecord.forEach {
 			if (!visited.contains(it.id)) {
-				result.add(
-					toBookCategorySingleParents(
-						categoriesRecord,
-						it.id,
-						visited,
-					)!!,
-				)
+				toBookCategorySingleParents(
+					categoriesRecord,
+					it.id,
+					visited,
+				)?.let { c -> result.add(c) }
 			}
 		}
 
@@ -117,7 +115,8 @@ class BookMapper {
 		}
 
 		visited.add(id)
-		val target = categoriesRecord.find { it.id == id }!!
+		val target = categoriesRecord.first { it.id == id }
+
 		return BookCategorySingle(
 			target.id,
 			target.koreanName,

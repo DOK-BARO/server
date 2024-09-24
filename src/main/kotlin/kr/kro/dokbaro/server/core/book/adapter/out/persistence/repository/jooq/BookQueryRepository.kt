@@ -189,7 +189,7 @@ class BookQueryRepository(
 						BOOK_CATEGORY.PARENT_ID,
 					).from(BOOK_CATEGORY)
 					.join(BOOK_CATEGORY_GROUP)
-					.on(BOOK_CATEGORY_GROUP.ID.eq(BOOK_CATEGORY.ID))
+					.on(BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID.eq(BOOK_CATEGORY.ID))
 					.where(BOOK_CATEGORY_GROUP.BOOK_ID.eq(bookId))
 					.unionAll(
 						dslContext
@@ -201,7 +201,7 @@ class BookQueryRepository(
 							.join(table(name(hierarchyTable)).`as`(hierarchyTableAlias))
 							.on(
 								field(
-									name(hierarchyTableAlias, "id"),
+									name(hierarchyTableAlias, "parent_id"),
 									Long::class.java,
 								).eq(BOOK_CATEGORY.ID),
 							),

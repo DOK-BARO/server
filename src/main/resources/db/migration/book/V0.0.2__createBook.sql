@@ -49,10 +49,10 @@ CREATE TABLE book_category
 	KEY book_category_book_category_id_fk (parent_id),
 	CONSTRAINT book_category_book_category_id_fk FOREIGN KEY (parent_id) REFERENCES book_category (id) ON DELETE SET NULL
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
+INSERT INTO book_category(id, english_name, korean_name) VALUES (1, 'ROOT', 'ROOT');
 
 CREATE TABLE book_category_group
 (

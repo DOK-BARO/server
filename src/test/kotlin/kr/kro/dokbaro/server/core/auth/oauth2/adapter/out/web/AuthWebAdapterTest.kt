@@ -248,8 +248,13 @@ class AuthWebAdapterTest :
 							KakaoAccount::kakaoAccount,
 							FixtureBuilder
 								.give<KakaoAccountAttribute>()
-								.setNotNullExp(KakaoAccountAttribute::name)
-								.setNullExp(KakaoAccountAttribute::email)
+								.setExp(
+									KakaoAccountAttribute::profile,
+									FixtureBuilder
+										.give<KakaoAttributeProfile>()
+										.setNotNullExp(KakaoAttributeProfile::nickname)
+										.sample(),
+								).setNullExp(KakaoAccountAttribute::email)
 								.sample(),
 						).sample()
 
