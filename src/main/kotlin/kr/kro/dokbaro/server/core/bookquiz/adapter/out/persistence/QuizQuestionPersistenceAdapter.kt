@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.core.bookquiz.adapter.out
+package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence
 
 import kr.kro.dokbaro.server.common.annotation.PersistenceAdapter
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.QuizQuestionRepository
