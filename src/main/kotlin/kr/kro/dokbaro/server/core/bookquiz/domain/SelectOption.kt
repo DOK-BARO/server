@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.bookquiz.domain
 
-data class AnswerOption(
+data class SelectOption(
 	val content: String,
-	val id: AnswerOptionId,
+	val id: AnswerOptionId = AnswerOptionId(),
 )

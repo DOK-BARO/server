@@ -20,7 +20,7 @@ class BookQuizService(
 				title = command.title,
 				description = command.description,
 				bookId = command.bookId,
-				creatorMemberId = loginUser.id,
+				creatorId = loginUser.id,
 			),
 		)
 	}

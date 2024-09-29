@@ -34,7 +34,7 @@ CREATE TABLE book_quiz_question
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE book_quiz_answer_option
+CREATE TABLE book_quiz_select_option
 (
 	id                    bigint     NOT NULL AUTO_INCREMENT,
 	content               blob       NOT NULL,
@@ -43,8 +43,8 @@ CREATE TABLE book_quiz_answer_option
 	updated_at            datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted               tinyint(1) NOT NULL DEFAULT '0',
 	PRIMARY KEY (id),
-	KEY book_quiz_answer_option_book_quiz_question_id_fk (book_quiz_question_id),
-	CONSTRAINT book_quiz_answer_option_book_quiz_question_id_fk FOREIGN KEY (book_quiz_question_id) REFERENCES book_quiz_question (id)
+	KEY book_quiz_select_option_book_quiz_question_id_fk (book_quiz_question_id),
+	CONSTRAINT book_quiz_select_option_book_quiz_question_id_fk FOREIGN KEY (book_quiz_question_id) REFERENCES book_quiz_question (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;

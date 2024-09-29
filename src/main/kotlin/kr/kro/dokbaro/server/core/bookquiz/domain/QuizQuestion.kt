@@ -4,10 +4,12 @@ import kr.kro.dokbaro.server.common.constant.Constants
 
 data class QuizQuestion(
 	val content: String,
-	val explanation: String,
+	// 답안 선택지
+	val selectOptions: Collection<SelectOption> = emptyList(),
+	val answerExplanation: String,
 	val answer: Answerable,
-	val answerOptions: List<AnswerOption> = listOf(), // 답안 선택지
+	val quizId: Long,
 	val id: Long = Constants.UNSAVED_ID,
 ) {
-	fun getQuizType(): QuizType = answer.getType()
+	val quizType: QuizType = answer.getType()
 }
