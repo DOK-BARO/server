@@ -25,9 +25,9 @@ fun bookQuizFixture(
 
 fun quizQuestionFixture(
 	content: String = "content",
-	selectOptions: Collection<SelectOption> = emptyList(), // 답안 선택지
+	selectOptions: Collection<SelectOption> = listOf(SelectOption("selectOption")), // 답안 선택지
 	answerExplanation: String = "answer_explanation",
-	answer: Answerable = AnswerFactory.create(QuizType.OX, AnswerSheet(listOf("O"))),
+	answer: Answerable = AnswerFactory.create(QuizType.MULTIPLE_CHOICE, AnswerSheet(listOf("2", "4"))),
 	quizId: Long = 1L,
 	id: Long = Constants.UNSAVED_ID,
 ) = QuizQuestion(
