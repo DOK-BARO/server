@@ -4,7 +4,8 @@ import kr.kro.dokbaro.server.common.constant.Constants
 
 data class QuizQuestion(
 	val content: String,
-	val selectOptions: Collection<SelectOption> = emptyList(), // 답안 선택지
+	// 답안 선택지
+	val selectOptions: Collection<SelectOption> = emptyList(),
 	val answerExplanation: String,
 	val answer: Answerable,
 	val quizId: Long,
