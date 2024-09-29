@@ -24,7 +24,7 @@ class BookQuizRepository(
 			).values(
 				bookQuiz.title,
 				bookQuiz.description.toByteArray(),
-				bookQuiz.creatorMemberId,
+				bookQuiz.creatorId,
 				bookQuiz.bookId,
 			).returningResult(BOOK_QUIZ.ID)
 			.fetchOneInto(Long::class.java)!!

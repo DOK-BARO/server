@@ -8,7 +8,9 @@ import java.util.UUID
 
 fun authTokenFixture(
 	accessToken: String =
-		"ewogICJ0eXAiOiJKV1QiLAogICJhbGciOiJIUzI1NiIKfQ.ewogICJqdGkiOiI5NjQ5MmQ1OS0wYWQ1LTRjMDAtODkyZC01OTBhZDVhYzAwZjMiLAogICJzdWIiOiIwMTIzNDU2Nzg5IiwKICAibmFtZSI6IkpvaG4gRG9lIiwKICAiaWF0IjoxNjgxMDQwNTE1Cn0.ZXdvZ0lDSjBlWEFpT2lKS1YxUWlMQW9nSUNKaGJHY2lPaUpJVXpJMU5pSUtmUS4uSXFlTmwzbEhTVWZQZkVZbXR0dmxRcDFzSDlMcEFvUEpsVWlTdjRYUERTRQ",
+		"ewogICJ0eXAiOiJKV1QiLAogICJhbGciOiJIUzI1NiIKfQ." +
+			"ewogICJqdGkiOiI5NjQ5MmQ1OS0wYWQ1LTRjMDAtODkyZC01." +
+			"ZXdvZ0lDSjBlWEFpT2lKS1YxUWlMQW9nSUNKaGJHY2lPaU",
 	refreshToken: String = "6d096f99-6e08-46ea-896f-996e08a6ea2e",
 ): AuthToken =
 	AuthToken(

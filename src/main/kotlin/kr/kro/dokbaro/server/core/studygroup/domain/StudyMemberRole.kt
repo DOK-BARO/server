@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.core.studygroup.domain
 
 enum class StudyMemberRole(
-	val authorities: Set<StudyMemberRoleAuthority> = setOf(),
+	val authorities: Set<StudyMemberRoleAuthority> = emptySet(),
 ) {
 	LEADER(
 		setOf(
