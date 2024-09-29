@@ -6,6 +6,6 @@ data class BookQuiz(
 	val title: String,
 	val description: String,
 	val bookId: Long,
-	val creatorMemberId: Long,
+	val creatorId: Long,
 	val id: Long = Constants.UNSAVED_ID,
 )
