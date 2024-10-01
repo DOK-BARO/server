@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.studygroup.domain
 
-class StudyMember(
+data class StudyMember(
 	val memberId: Long,
 	val role: StudyMemberRole,
 )
