@@ -5,8 +5,9 @@ import kr.kro.dokbaro.server.common.constant.Constants
 class StudyGroup(
 	val name: String,
 	val introduction: String,
-	val profileImageUrl: String,
+	val profileImageUrl: String? = null,
 	val studyMembers: MutableSet<StudyMember> = mutableSetOf(),
+	val inviteCode: InviteCode,
 	val id: Long = Constants.UNSAVED_ID,
 ) {
 	constructor(
@@ -14,6 +15,7 @@ class StudyGroup(
 		introduction: String,
 		profileImageUrl: String,
 		creatorId: Long,
+		inviteCode: InviteCode,
 	) : this(
 		name,
 		introduction,
@@ -24,5 +26,10 @@ class StudyGroup(
 				StudyMemberRole.LEADER,
 			),
 		),
+		inviteCode,
 	)
+
+	fun join(participantId: Long) {
+		studyMembers.add(StudyMember(participantId, StudyMemberRole.MEMBER))
+	}
 }

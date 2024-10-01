@@ -5,11 +5,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class RandomSixDigitMailCodeGenerator : EmailCodeGenerator {
-	override fun generate(): String {
-		val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
-		return (1..6)
-			.map { chars.random() }
+	override fun generate(): String =
+		(1..6)
+			.map { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".random() }
 			.joinToString("")
-	}
 }
