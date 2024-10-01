@@ -13,9 +13,27 @@ class StudyGroupTest :
 					"introduction",
 					"profileImage.png",
 					4,
+					InviteCode(""),
 				)
 
 			studyGroup.studyMembers.count() shouldBe 1
 			studyGroup.studyMembers.first().role shouldBe StudyMemberRole.LEADER
+		}
+
+		"스터디 그룹에 참여한다" {
+			val studyGroup =
+				StudyGroup(
+					"name",
+					"introduction",
+					"profileImage.png",
+					4,
+					InviteCode(""),
+				)
+
+			val newMemberId = 5L
+
+			studyGroup.join(newMemberId)
+
+			studyGroup.studyMembers.contains(StudyMember(newMemberId, StudyMemberRole.MEMBER))
 		}
 	})
