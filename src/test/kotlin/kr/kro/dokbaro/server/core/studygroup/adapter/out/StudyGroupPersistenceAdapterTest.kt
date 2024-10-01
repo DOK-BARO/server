@@ -10,8 +10,12 @@ import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.Mem
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
+import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
-import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
+import kr.kro.dokbaro.server.core.studygroup.domain.InviteCode
+import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
+import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
+import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.generated.tables.daos.StudyGroupDao
@@ -30,7 +34,7 @@ class StudyGroupPersistenceAdapterTest(
 		val studyGroupDao = StudyGroupDao(configuration)
 		val studyGroupMemberDao = StudyGroupMemberDao(configuration)
 
-		val repository = StudyGroupRepository(dslContext)
+		val repository = StudyGroupRepository(dslContext, StudyGroupMapper())
 		val adapter = StudyGroupPersistenceAdapter(repository)
 
 		"study group 저장을 수행한다." {
@@ -44,17 +48,88 @@ class StudyGroupPersistenceAdapterTest(
 					),
 				)
 			val studyGroup =
-				StudyGroup(
-					"name",
-					"introduction",
-					"profileImage.png",
-					savedMember.id,
-				)
+				studyGroupFixture(studyMembers = mutableSetOf(StudyMember(savedMember.id, StudyMemberRole.LEADER)))
 
 			val id = adapter.insert(studyGroup)
 
 			id shouldNotBe null
 			studyGroupDao.findById(id) shouldNotBe null
 			studyGroupMemberDao.findAll().count { it.studyGroupId == id } shouldBe 1
+		}
+
+		"초대 코드를 통한 검색을 수행한다" {
+			val savedMember =
+				memberRepository.insert(
+					Member(
+						"nick",
+						Email("www@gmail.com"),
+						"aaa.png",
+						UUID.randomUUID(),
+					),
+				)
+			val targetCode = "ABC123"
+
+			val studyGroup =
+				studyGroupFixture(
+					studyMembers = mutableSetOf(StudyMember(savedMember.id, StudyMemberRole.LEADER)),
+					inviteCode = InviteCode(targetCode),
+				)
+			adapter.insert(studyGroup)
+
+			adapter.findByInviteCode(targetCode) shouldNotBe null
+			adapter.findByInviteCode("123ABC") shouldBe null
+		}
+
+		"update를 수행한다" {
+			val savedMember =
+				memberRepository.insert(
+					Member(
+						"nick",
+						Email("www@gmail.com"),
+						"aaa.png",
+						UUID.randomUUID(),
+					),
+				)
+			val studyGroup =
+				studyGroupFixture(studyMembers = mutableSetOf(StudyMember(savedMember.id, StudyMemberRole.LEADER)))
+			val id = adapter.insert(studyGroup)
+
+			val savedMember2 =
+				memberRepository.insert(
+					Member(
+						"nick2",
+						Email("www2@gmail.com"),
+						"aaa.png",
+						UUID.randomUUID(),
+					),
+				)
+			val newName = "new name"
+			val newIntro = "new intro"
+			val newCode = "NEW234"
+			val newMembers =
+				mutableSetOf(
+					StudyMember(savedMember.id, StudyMemberRole.LEADER),
+					StudyMember(savedMember2.id, StudyMemberRole.LEADER),
+				)
+			val updated = studyGroupFixture(id = id)
+
+			val newGroup =
+				studyGroupFixture(
+					newName,
+					newIntro,
+					null,
+					newMembers,
+					InviteCode(newCode),
+					id,
+				)
+
+			adapter.update(newGroup)
+
+			val result = adapter.findByInviteCode(newCode)!!
+
+			result.name shouldBe newName
+			result.introduction shouldBe newIntro
+			result.inviteCode.value shouldBe newCode
+			result.studyMembers shouldBe newMembers
 		}
 	})

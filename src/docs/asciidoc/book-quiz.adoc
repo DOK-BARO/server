@@ -1,0 +1,26 @@
+= BOOK_QUIZ
+
+== 북 퀴즈 생성
+
+=== HTTP request
+
+include::{snippets}/book-quiz/create-book-quiz/http-request.adoc[]
+include::{snippets}/book-quiz/create-book-quiz/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/book-quiz/create-book-quiz/http-response.adoc[]
+include::{snippets}/book-quiz/create-book-quiz/response-fields.adoc[]
+
+== 북 퀴즈 문제 생성
+
+=== HTTP request
+
+include::{snippets}/book-quiz/create-book-quiz-question/http-request.adoc[]
+include::{snippets}/book-quiz/create-book-quiz-question/path-parameters.adoc[]
+include::{snippets}/book-quiz/create-book-quiz-question/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/book-quiz/create-book-quiz-question/http-response.adoc[]
+include::{snippets}/book-quiz/create-book-quiz-question/response-fields.adoc[]

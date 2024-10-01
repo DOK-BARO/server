@@ -4,6 +4,7 @@ CREATE TABLE study_group
 	name              varchar(50) NOT NULL,
 	introduction      blob        NOT NULL,
 	profile_image_url varchar(100)         DEFAULT NULL,
+	invite_code       varchar(30) NOT NULL,
 	created_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted           tinyint(1)  NOT NULL DEFAULT '0',

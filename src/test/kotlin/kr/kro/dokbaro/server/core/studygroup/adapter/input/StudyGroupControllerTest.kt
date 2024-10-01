@@ -5,7 +5,9 @@ import io.mockk.every
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.dto.CreateStudyGroupRequest
+import kr.kro.dokbaro.server.core.studygroup.adapter.input.dto.JoinStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -17,6 +19,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 class StudyGroupControllerTest : RestDocsTest() {
 	@MockkBean
 	lateinit var createStudyGroupUseCase: CreateStudyGroupUseCase
+
+	@MockkBean
+	lateinit var joinStudyGroupUseCase: JoinStudyGroupUseCase
 
 	init {
 		"스터디 그룹 생성을 수행한다" {
@@ -42,6 +47,21 @@ class StudyGroupControllerTest : RestDocsTest() {
 						responseFields(
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("스터디 그룹 ID"),
 						),
+					),
+				)
+		}
+
+		"스터디 그룹에 참여한다" {
+			every { joinStudyGroupUseCase.join(any()) } returns Unit
+
+			val body = JoinStudyGroupRequest("ABC123")
+
+			performPost(Path("/study-groups/join"), body)
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"study-group/join",
+						requestFields(fieldWithPath("inviteCode").description("초대 코드")),
 					),
 				)
 		}
