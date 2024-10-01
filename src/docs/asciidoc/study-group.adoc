@@ -11,3 +11,14 @@ include::{snippets}/study-group/create/request-fields.adoc[]
 
 include::{snippets}/study-group/create/http-response.adoc[]
 include::{snippets}/study-group/create/response-fields.adoc[]
+
+== 스터디 그룹 참여
+
+=== HTTP request
+
+include::{snippets}/study-group/join/http-request.adoc[]
+include::{snippets}/study-group/join/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/study-group/join/http-response.adoc[]
