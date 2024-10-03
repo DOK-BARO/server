@@ -33,6 +33,7 @@ class BookQuizService(
 						answer = AnswerFactory.create(it.answerType, AnswerSheet(it.answers)),
 					)
 				},
+				studyGroups = command.studyGroupIds,
 			),
 		)
 	}

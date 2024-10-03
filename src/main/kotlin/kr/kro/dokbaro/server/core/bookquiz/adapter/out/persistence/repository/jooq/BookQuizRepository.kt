@@ -6,6 +6,7 @@ import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizAnswer
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
+import org.jooq.generated.tables.JStudyGroupQuiz
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -17,6 +18,7 @@ class BookQuizRepository(
 		private val BOOK_QUIZ_QUESTION = JBookQuizQuestion.BOOK_QUIZ_QUESTION
 		private val BOOK_QUIZ_ANSWER = JBookQuizAnswer.BOOK_QUIZ_ANSWER
 		private val BOOK_QUIZ_SELECT_OPTION = JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
+		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
 	}
 
 	fun insert(bookQuiz: BookQuiz): Long {
@@ -80,6 +82,18 @@ class BookQuizRepository(
 							value,
 						)
 				}
+		}
+
+		bookQuiz.studyGroups.forEach {
+			dslContext
+				.insertInto(
+					STUDY_GROUP_QUIZ,
+					STUDY_GROUP_QUIZ.STUDY_GROUP_ID,
+					STUDY_GROUP_QUIZ.BOOK_QUIZ_ID,
+				).values(
+					it,
+					bookQuizId,
+				)
 		}
 
 		return bookQuizId
