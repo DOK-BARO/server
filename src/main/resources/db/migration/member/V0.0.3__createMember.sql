@@ -10,8 +10,7 @@ CREATE TABLE member
 	deleted           tinyint(1)  NOT NULL DEFAULT '0',
 	PRIMARY KEY (id),
 	UNIQUE KEY member_pk (certification_id),
-	UNIQUE KEY member_pk_2 (nickname),
-	UNIQUE KEY member_pk_3 (email)
+	UNIQUE KEY member_pk_2 (email)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
