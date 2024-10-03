@@ -45,6 +45,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								listOf("4"),
 							),
 						),
+					studyGroupIds = listOf(2),
 				)
 
 			performPost(Path("/book-quizzes"), body)
@@ -77,6 +78,9 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("questions[].answers")
 								.type(JsonFieldType.ARRAY)
 								.description("답안"),
+							fieldWithPath("studyGroupIds")
+								.type(JsonFieldType.ARRAY)
+								.description("연관 Study group ID 목록"),
 						),
 						responseFields(
 							fieldWithPath("id")

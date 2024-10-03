@@ -8,5 +8,6 @@ data class BookQuiz(
 	val bookId: Long,
 	val creatorId: Long,
 	val questions: Collection<QuizQuestion>,
+	val studyGroups: Collection<Long> = emptyList(),
 	val id: Long = Constants.UNSAVED_ID,
 )
