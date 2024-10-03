@@ -9,6 +9,7 @@ data class CreateBookQuizCommand(
 	val bookId: Long,
 	val creatorAuthId: UUID,
 	val questions: Collection<CreateQuizQuestionCommand>,
+	val studyGroupIds: Collection<Long> = emptyList(),
 )
 
 data class CreateQuizQuestionCommand(
