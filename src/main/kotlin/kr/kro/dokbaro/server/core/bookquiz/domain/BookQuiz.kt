@@ -7,5 +7,6 @@ data class BookQuiz(
 	val description: String,
 	val bookId: Long,
 	val creatorId: Long,
+	val questions: Collection<QuizQuestion>,
 	val id: Long = Constants.UNSAVED_ID,
 )

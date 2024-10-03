@@ -38,11 +38,13 @@ CREATE TABLE book_quiz_select_option
 (
 	id                    bigint     NOT NULL AUTO_INCREMENT,
 	content               blob       NOT NULL,
+	seq                 int        NOT NULL,
 	book_quiz_question_id bigint     NOT NULL,
 	created_at            datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at            datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted               tinyint(1) NOT NULL DEFAULT '0',
 	PRIMARY KEY (id),
+	UNIQUE KEY book_quiz_select_option_pk (book_quiz_question_id, seq),
 	KEY book_quiz_select_option_book_quiz_question_id_fk (book_quiz_question_id),
 	CONSTRAINT book_quiz_select_option_book_quiz_question_id_fk FOREIGN KEY (book_quiz_question_id) REFERENCES book_quiz_question (id)
 ) ENGINE = InnoDB

@@ -8,7 +8,7 @@ data class QuizQuestion(
 	val selectOptions: Collection<SelectOption> = emptyList(),
 	val answerExplanation: String,
 	val answer: Answerable,
-	val quizId: Long,
+	val active: Boolean = true,
 	val id: Long = Constants.UNSAVED_ID,
 ) {
 	val quizType: QuizType = answer.getType()

@@ -14,12 +14,14 @@ fun bookQuizFixture(
 	description: String = "description",
 	bookId: Long = 0,
 	creatorId: Long = 0,
+	questions: Collection<QuizQuestion> = listOf(quizQuestionFixture()),
 	id: Long = 0,
 ) = BookQuiz(
 	title = title,
 	description = description,
 	bookId = bookId,
 	creatorId = creatorId,
+	questions = questions,
 	id = id,
 )
 
@@ -32,13 +34,11 @@ fun quizQuestionFixture(
 			QuizType.MULTIPLE_CHOICE,
 			AnswerSheet(listOf("2", "4")),
 		),
-	quizId: Long = 1L,
 	id: Long = Constants.UNSAVED_ID,
 ) = QuizQuestion(
 	content = content,
 	selectOptions = selectOptions,
 	answerExplanation = answerExplanation,
 	answer = answer,
-	quizId = quizId,
 	id = id,
 )
