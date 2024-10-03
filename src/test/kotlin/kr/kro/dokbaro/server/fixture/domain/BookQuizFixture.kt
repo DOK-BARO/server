@@ -15,6 +15,7 @@ fun bookQuizFixture(
 	bookId: Long = 0,
 	creatorId: Long = 0,
 	questions: Collection<QuizQuestion> = listOf(quizQuestionFixture()),
+	studyGroups: Collection<Long> = emptyList(),
 	id: Long = 0,
 ) = BookQuiz(
 	title = title,
@@ -22,6 +23,7 @@ fun bookQuizFixture(
 	bookId = bookId,
 	creatorId = creatorId,
 	questions = questions,
+	studyGroups = studyGroups,
 	id = id,
 )
 
