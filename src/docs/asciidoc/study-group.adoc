@@ -22,3 +22,15 @@ include::{snippets}/study-group/join/request-fields.adoc[]
 === HTTP response
 
 include::{snippets}/study-group/join/http-response.adoc[]
+
+
+== 로그인한 사용자가 속한 스터디 그룹 목록
+
+=== HTTP request
+
+include::{snippets}/study-group/get-my-study-group-list/http-request.adoc[]
+
+=== HTTP response
+
+include::{snippets}/study-group/get-my-study-group-list/http-response.adoc[]
+include::{snippets}/study-group/get-my-study-group-list/response-fields.adoc[]
