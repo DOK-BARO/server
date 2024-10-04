@@ -9,6 +9,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.dto.MatchResponse
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.ExistEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.InsertEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.LoadEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendEmailAuthenticationCodePort
@@ -16,6 +17,7 @@ import kr.kro.dokbaro.server.fixture.domain.emailAuthenticationFixture
 
 class EmailAuthenticationServiceTest :
 	StringSpec({
+		val existEmailAuthenticationPort = mockk<ExistEmailAuthenticationPort>()
 		val insertEmailAuthenticationPort = mockk<InsertEmailAuthenticationPort>()
 		val loadEmailAuthenticationPort = mockk<LoadEmailAuthenticationPort>()
 		val updateEmailAuthenticationPort = UpdateEmailAuthenticationPortMock()
@@ -24,6 +26,7 @@ class EmailAuthenticationServiceTest :
 
 		val emailAuthenticationService =
 			EmailAuthenticationService(
+				existEmailAuthenticationPort,
 				insertEmailAuthenticationPort,
 				loadEmailAuthenticationPort,
 				updateEmailAuthenticationPort,
@@ -42,12 +45,30 @@ class EmailAuthenticationServiceTest :
 		}
 
 		"생성을 수행한다" {
+			every { existEmailAuthenticationPort.existBy(any()) } returns false
 			every { insertEmailAuthenticationPort.insert(any()) } returns 1
 			every { sendEmailAuthenticationCodePort.sendEmail(any(), any()) } returns Unit
 
 			val email = "www@example.org"
 			emailAuthenticationService.create(email)
 
+			verify { sendEmailAuthenticationCodePort.sendEmail(email, any()) }
+		}
+
+		"생성 시 이미 미인증된 이메일로 등록되어있으면 인증코드 업데이트만 진행한 후 메일을 전송한다'" {
+			val email = "www@example.org"
+			val code = "ABC123"
+			every { existEmailAuthenticationPort.existBy(any()) } returns true
+			every { sendEmailAuthenticationCodePort.sendEmail(any(), any()) } returns Unit
+			every { loadEmailAuthenticationPort.findBy(any()) } returns
+				emailAuthenticationFixture(
+					address = email,
+					code = code,
+				)
+
+			emailAuthenticationService.create(email)
+
+			updateEmailAuthenticationPort.storage?.code shouldNotBe code
 			verify { sendEmailAuthenticationCodePort.sendEmail(email, any()) }
 		}
 
