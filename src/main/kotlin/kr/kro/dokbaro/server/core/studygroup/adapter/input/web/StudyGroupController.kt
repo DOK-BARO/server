@@ -1,9 +1,9 @@
-package kr.kro.dokbaro.server.core.studygroup.adapter.input
+package kr.kro.dokbaro.server.core.studygroup.adapter.input.web
 
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
 import kr.kro.dokbaro.server.common.util.UUIDUtils
-import kr.kro.dokbaro.server.core.studygroup.adapter.input.dto.CreateStudyGroupRequest
-import kr.kro.dokbaro.server.core.studygroup.adapter.input.dto.JoinStudyGroupRequest
+import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.CreateStudyGroupRequest
+import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.JoinStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand

@@ -44,6 +44,12 @@ class BookQuizControllerTest : RestDocsTest() {
 								QuizType.MULTIPLE_CHOICE,
 								listOf("4"),
 							),
+							CreateQuizQuestionCommand(
+								content = "명량에서 이순신 역은 류승룡이 담당했다",
+								answerExplanation = "최민식이 담당했다",
+								answerType = QuizType.OX,
+								answers = listOf("X"),
+							),
 						),
 					studyGroupIds = listOf(2),
 				)
@@ -68,7 +74,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								.description("질문 내용"),
 							fieldWithPath("questions[].selectOptions")
 								.type(JsonFieldType.ARRAY)
-								.description("질문 선택지, seq는 0부터 시작"),
+								.description("질문 선택지, 객관식에서만 사용, seq는 0부터 시작"),
 							fieldWithPath("questions[].answerExplanation")
 								.type(JsonFieldType.STRING)
 								.description("답안 설명"),

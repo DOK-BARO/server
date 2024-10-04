@@ -1,11 +1,11 @@
-package kr.kro.dokbaro.server.core.studygroup.adapter.input
+package kr.kro.dokbaro.server.core.studygroup.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
-import kr.kro.dokbaro.server.core.studygroup.adapter.input.dto.CreateStudyGroupRequest
-import kr.kro.dokbaro.server.core.studygroup.adapter.input.dto.JoinStudyGroupRequest
+import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.CreateStudyGroupRequest
+import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.JoinStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest

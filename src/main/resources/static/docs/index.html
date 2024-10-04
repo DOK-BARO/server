@@ -607,6 +607,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_http_response_21">HTTP response</a></li>
 </ul>
 </li>
+<li><a href="#_로그인한_사용자가_속한_스터디_그룹_목록">로그인한 사용자가 속한 스터디 그룹 목록</a>
+<ul class="sectlevel2">
+<li><a href="#_http_request_22">HTTP request</a></li>
+<li><a href="#_http_response_22">HTTP response</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_terms_of_service">TERMS-OF-SERVICE</a>
+<ul class="sectlevel1">
+<li><a href="#_이용약관_조회">이용약관 조회</a>
+<ul class="sectlevel2">
+<li><a href="#_http_request_23">HTTP request</a></li>
+<li><a href="#_http_response_23">HTTP response</a></li>
+</ul>
+</li>
+<li><a href="#_이용약관_상세_내용_조회">이용약관 상세 내용 조회</a>
+<ul class="sectlevel2">
+<li><a href="#_http_request_24">HTTP request</a></li>
+<li><a href="#_http_response_24">HTTP response</a></li>
+</ul>
+</li>
+<li><a href="#_이용약관_동의">이용약관 동의</a>
+<ul class="sectlevel2">
+<li><a href="#_http_request_25">HTTP request</a></li>
+<li><a href="#_http_response_25">HTTP response</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -697,7 +725,7 @@ Content-Length: 145
 <h3 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/signup/KAKAO?_csrf=v-auc-s2UYa5X-IyzOLE5Ws2PBNoY4LVeIHtidmJJtP7uYNS29OeQ4kHZ-CUbYEArc_w0woAEXILWrD4HLjdsbq7RbbPjbo2 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/signup/KAKAO?_csrf=O4LiyNXOkV_7QwFsNizJ8NvxB9K65O7IgO8MFKu5re3lrS0wAubRqeX4qW7WImJbBwH9ke2XKuvc1djls9w5IsjcmYnVzBwH HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 94
 Host: localhost:8080
@@ -790,7 +818,7 @@ Content-Length: 47
 <h3 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/KAKAO?_csrf=2WBJU_JjE03U3C62coHOVP8WcNkdKr_dGGoUJD7H59KSa85p4Fd_YcVTcXT57RmBQ6z6bch1Xbh5TIzwe1wtEVjz0-vxW_sN HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/KAKAO?_csrf=xFaFWD5DHhyOiXrPn1p2xq_VnutnWD1_m_aauQ8faYyiVQYX_WG9YFpweiijuUOsqndCoMm0s9JQbw5S_8f-jD8uXLqSNjRy HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 94
 Host: localhost:8080
@@ -883,7 +911,7 @@ Content-Length: 46
 <h3 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/email/signup?_csrf=4LXtf7XLbDv9AHSvMWUbFBEJLePN8xw5adBRKwURD0Wd_rNF0YGPT9D4XwLQNReZVEgvJiEwANurxX4UDeNjH2ckO3WuzIck HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/email/signup?_csrf=fHu-EVLHfCXdtv9HavFfIQONTJsreNMnDZDeSwPT4bsbofksTR7YJGelS0Tw18h_DNxrGTruYfoST7EKP_ToKjG20N9_kJgc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 119
 Host: localhost:8080
@@ -988,7 +1016,7 @@ Content-Length: 47
 <h3 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/email/login?_csrf=wv9UsrCO8oPA2Fl9ukiDtSJQz3hJ7g_6BnsTdZ6fgwzWZf8ep55ghNG-wubt7Wkbj2W3jRFi4kEtj2vXPh4rE6aosD3uU84n HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/email/login?_csrf=qDvMFS4RNEoqxLN__ytJSIe3jpEprUkGXjCorwDppc1kpUyNnV-qIE8pAikHotdKngZ9feKDo6kZzH0rP1PNnzaPk_0Fk3zs HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 58
 Host: localhost:8080
@@ -1082,7 +1110,7 @@ Content-Length: 47
 <h3 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /books?_csrf=V9tlfAUwNYcOVlAH7C-PVaeVUe3fPkewzl7pBCVtYsGj7RdTZ-oHRWcGBeEjbmg13wK7Yp6sfNTrC3ed9juMNRVUBPGTjydl HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /books?_csrf=YwVn-iF9ehfhcNj23ZetccqeQa6ydI8_EDeLbYZG_afFQrXdUzYGzRlESiPMRuHC67qZR_2rbJaLFbkSJ1XtC-InyJX0doG5 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 368
 Host: localhost:8080
@@ -1091,7 +1119,7 @@ Host: localhost:8080
   "isbn" : "9783161484100",
   "title" : "Effective Kotlin",
   "publisher" : "TechBooks",
-  "publishedAt" : "2024-10-03",
+  "publishedAt" : "2024-10-04",
   "price" : 45000,
   "description" : "A comprehensive guide to writing high-quality Kotlin code.",
   "imageUrl" : "https://example.com/images/effective-kotlin.jpg",
@@ -1490,7 +1518,7 @@ Content-Length: 588
 <h3 id="_http_request_9"><a class="link" href="#_http_request_9">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-categories?_csrf=ZfGI2IJYh3mSg4jumo8aVtqkGGcSHShcytKa42fJnp2U1IKjVMPu6bNp5Eu_tbCL-6IuNLyWNV4qL01xqeX50wSoq_is7bKV HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-categories?_csrf=0FEV5bhVw-bksT0qeJNVTW8GSrgLdVRcLrokiAZN4QC7CDNws2B01I8w9NPJiQodHr5hf10zZ4A6EWZxTdtB7j5-0WPdPQoS HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 78
 Host: localhost:8080
@@ -1696,9 +1724,9 @@ Content-Length: 412
 <h3 id="_http_request_11"><a class="link" href="#_http_request_11">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-quizzes?_csrf=jYtmMqvVOzxOt_4NOz6CMBdD_xCgk3giTUY8fcwISSPF37dyvbIHAM7sWQxjj8ZpAhO2VS4g0ijBpk8PfyQES_U_K0egudRB HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-quizzes?_csrf=cEQwxIX4r0DkkLBkj92fm8Qnrn4ZuDVwLAxe3eMCGKsxLcm-QX1U8uCennPJ8YEGv_CrovdFg0cpjQddTT1s6tQ1KcgJGviP HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 490
+Content-Length: 703
 Host: localhost:8080
 
 {
@@ -1711,6 +1739,12 @@ Host: localhost:8080
     "answerExplanation" : "엄복동은 누적 관객 수 17만명을 기록했다.",
     "answerType" : "MULTIPLE_CHOICE",
     "answers" : [ "4" ]
+  }, {
+    "content" : "명량에서 이순신 역은 류승룡이 담당했다",
+    "selectOptions" : [ ],
+    "answerExplanation" : "최민식이 담당했다",
+    "answerType" : "OX",
+    "answers" : [ "X" ]
   } ],
   "studyGroupIds" : [ 2 ]
 }</code></pre>
@@ -1753,7 +1787,7 @@ Host: localhost:8080
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].selectOptions</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">질문 선택지, seq는 0부터 시작</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">질문 선택지, 객관식에서만 사용, seq는 0부터 시작</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answerExplanation</code></p></td>
@@ -1832,7 +1866,7 @@ Content-Length: 14
 <h3 id="_http_request_12"><a class="link" href="#_http_request_12">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=5EZDu4AaWhi7g8qwzGgtVmwIxY0quMeO9RDc5lAs6xvBLUxf3XAgj7YvPiGWsv7U_kUZMFg96O9MjPKjlCm91GFI3H_xTyk- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=4ULUr1wm_RPKKP3yXbzc8kHox0L8MTqX1IcfMv-lrVJvkLM60XDnm2wSn3fnGp6Xb5HoynmO6nvLCQq65uR5AZmUnTZepoEJ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
 Host: localhost:8080
@@ -1890,7 +1924,7 @@ X-Frame-Options: DENY</code></pre>
 <h3 id="_http_request_13"><a class="link" href="#_http_request_13">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=C2S9gdpIHQCRwazenDDCFFVhG3jFznte6PQgYH6UVY5pM0HaaVbe4OhxKze89Zi__R32JG0CNkHz9hlzjswVV06jM-9eAyK- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=7u-IO4GQ3X3hxH56i12MDCC5yrSPjzRfFBTMZSjJGcSZbhw3ita4DbWp5EXMoRwfvHC4bkPa59XqulZyJCT0URvwKaavWy9U HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
 Host: localhost:8080
@@ -1981,7 +2015,7 @@ Content-Length: 21
 <h3 id="_http_request_14"><a class="link" href="#_http_request_14">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=3dUagHUKTFm1zTpVyzcR_wl5VC5S68EwrApe6aAJxm2KZEAuvOUu4hc-KGyYqAI0-BolmTtKeRc2j6Udnmtn0ZQ781_rV3kb HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=2yd-DrtxPbU1Lj1fC5tDeuc_THbTD2fl14J3VKG-Ib4vLl0k7hFNNoJGW4MYHQhnPLZ3T9MLYU_nO1DI5bZGNZSMFN9OSmVG HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
 Host: localhost:8080
@@ -2195,7 +2229,7 @@ Content-Length: 64
 <h3 id="_http_request_18"><a class="link" href="#_http_request_18">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=55x9rOa7fSwE5trmhaW9brF6_rA7VvfsJs06jlwiR5eZrCdKhv1MlILeGBwp0rmEtYiJX4RC04kDY8fBHvUO6D4WJa_8yEV_ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=zNCv8C5hPxN822rL9zDyVl5G4Q8KoTgNDWIhgoeSqsBIes9-qbHJwk8HCXZRv1P_kx3GMmsnzDduk14gP1ARs-Kjm6V-Sf0a HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 92
 Host: localhost:8080
@@ -2285,15 +2319,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 209
+Content-Length: 208
 
 {
   "nickName" : "nickname",
   "email" : "asdf@gmail.com",
   "profileImage" : "image.png",
-  "certificationId" : "4227973a-33db-4ed6-8de5-a1e734152ec5",
+  "certificationId" : "dfdb169a-8e60-49c8-8a96-0c4478b32e1b",
   "roles" : [ "GUEST" ],
-  "id" : -2831185453346131817
+  "id" : 5142293970185259916
 }</code></pre>
 </div>
 </div>
@@ -2354,7 +2388,7 @@ Content-Length: 209
 <h3 id="_http_request_20"><a class="link" href="#_http_request_20">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups?_csrf=Iy3ayyEncy3PI-Tj6Mw_gfgtn6mN9l3Mihcs9BkVlq7M2Hb4EUvi_0cSQU_iQobQ3-EL4plJspC-wzjhvCAcwH8t9cqpuxKc HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups?_csrf=29Sj_Z199HHXRz9LrqG0AlW9gZpSxbwnfMRWdCg7679S4_BZuOKWn6sbxUD6JgoumoyANTeJrPsz84sKTPZiER0P0o4w18M9 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 125
 Host: localhost:8080
@@ -2451,7 +2485,7 @@ Content-Length: 14
 <h3 id="_http_request_21"><a class="link" href="#_http_request_21">HTTP request</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/join?_csrf=YnlKzmk1e_ik9gl5nGd01spEk5TpppGEmHtijlQxuxya8bfEW0Ap_AgBHpuJwmhOqEpA5v8gvqzcw_Kp-R0DtmcI3X_8koCm HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/join?_csrf=642tp4m8VdgvBaUJPQ1jJ23im1xlJYX7hf2kgAjitsvzXBrR07-ekLiFNuwCNJAxWSBXFFuBtj1UHL3W5MmSsWrU0PiVbn_o HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 29
 Host: localhost:8080
@@ -2502,11 +2536,325 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_로그인한_사용자가_속한_스터디_그룹_목록"><a class="link" href="#_로그인한_사용자가_속한_스터디_그룹_목록">로그인한 사용자가 속한 스터디 그룹 목록</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_22"><a class="link" href="#_http_request_22">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /study-groups/my HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_22"><a class="link" href="#_http_response_22">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 238
+
+[ {
+  "name" : "C 스터디",
+  "profileImageUrl" : "ccc.png",
+  "id" : 1
+}, {
+  "name" : "JAVA 스터디",
+  "profileImageUrl" : "ccc.png",
+  "id" : 1
+}, {
+  "name" : "모각코 합시다",
+  "profileImageUrl" : "ccc.png",
+  "id" : 1
+} ]</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 프로필 사진</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<h1 id="_terms_of_service" class="sect0"><a class="link" href="#_terms_of_service">TERMS-OF-SERVICE</a></h1>
+<div class="sect1">
+<h2 id="_이용약관_조회"><a class="link" href="#_이용약관_조회">이용약관 조회</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_23"><a class="link" href="#_http_request_23">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http_response_23"><a class="link" href="#_http_response_23">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 666
+
+[ {
+  "id" : 1,
+  "title" : "이용 약관 동의",
+  "subTitle" : null,
+  "hasDetail" : true,
+  "primary" : true
+}, {
+  "id" : 2,
+  "title" : "개인 정보 수집 및 이용 동의",
+  "subTitle" : null,
+  "hasDetail" : true,
+  "primary" : true
+}, {
+  "id" : 3,
+  "title" : "신규 퀴즈 소식을 이메일로 받기",
+  "subTitle" : "관심도서의 신규 퀴즈 업데이트 소식을 받아보세요!",
+  "hasDetail" : false,
+  "primary" : false
+}, {
+  "id" : 4,
+  "title" : "DOKBARO의 광고 메시지를 이메일로 받기",
+  "subTitle" : "DOKBARO가 고른 도서 소식을 이메일로 받아보세요!",
+  "hasDetail" : false,
+  "primary" : false
+} ]</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이용 약관 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].subTitle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">부제목 (optional)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].hasDetail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상세 내용 존재 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].primary</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수 여부</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_이용약관_상세_내용_조회"><a class="link" href="#_이용약관_상세_내용_조회">이용약관 상세 내용 조회</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_24"><a class="link" href="#_http_request_24">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services/1/detail HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. /terms-of-services/{id}/detail</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이용약관 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_http_response_24"><a class="link" href="#_http_response_24">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 52
+
+{
+  "value" : "이용 약관 동의 상세 내용"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>value</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이용 약관 동의 상세 내용</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_이용약관_동의"><a class="link" href="#_이용약관_동의">이용약관 동의</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_25"><a class="link" href="#_http_request_25">HTTP request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /terms-of-services/agree?_csrf=HnsoTFYnxEAPLLRrVYZP86PXyko3sjPoU172ESsombDkhYKye01OfTMX83ciHYcOM6t7w5Kx5ysGhwXFZDyQcxofrtXS5rrW HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 27
+Host: localhost:8080
+
+{
+  "items" : [ 1, 2, 3 ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>items</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">동의하는 약관의 ID 목록</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_http_response_25"><a class="link" href="#_http_response_25">HTTP response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-09-29 15:16:40 +0900
+Last updated 2024-10-04 21:34:42 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

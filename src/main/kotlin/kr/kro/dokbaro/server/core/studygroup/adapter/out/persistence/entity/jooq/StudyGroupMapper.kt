@@ -4,6 +4,7 @@ import kr.kro.dokbaro.server.core.studygroup.domain.InviteCode
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
+import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import org.jooq.Record
 import org.jooq.Result
 import org.jooq.generated.tables.JStudyGroupMember
@@ -35,4 +36,13 @@ class StudyGroupMapper {
 					id = group.id,
 				)
 			}.firstOrNull()
+
+	fun toStudyGroupSummary(record: Result<StudyGroupRecord>): Collection<StudyGroupSummary> =
+		record.map {
+			StudyGroupSummary(
+				it.name,
+				it.profileImageUrl,
+				it.id,
+			)
+		}
 }
