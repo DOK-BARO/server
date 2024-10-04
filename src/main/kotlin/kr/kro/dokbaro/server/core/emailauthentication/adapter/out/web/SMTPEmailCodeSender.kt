@@ -5,6 +5,7 @@ import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendE
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.context.Context
@@ -15,6 +16,7 @@ class SMTPEmailCodeSender(
 	private val templateEngine: TemplateEngine,
 	@Value("\${mail-authentication.title}") private val title: String,
 ) : SendEmailAuthenticationCodePort {
+	@Async
 	override fun sendEmail(
 		email: String,
 		code: String,
