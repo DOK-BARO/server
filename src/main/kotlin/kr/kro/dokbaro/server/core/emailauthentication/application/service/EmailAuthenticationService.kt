@@ -5,6 +5,7 @@ import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.Mat
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.RecreateEmailAuthenticationUseCase
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.dto.MatchResponse
+import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.ExistEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.InsertEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.LoadEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendEmailAuthenticationCodePort
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class EmailAuthenticationService(
+	private val existEmailAuthenticationPort: ExistEmailAuthenticationPort,
 	private val insertEmailAuthenticationPort: InsertEmailAuthenticationPort,
 	private val loadEmailAuthenticationPort: LoadEmailAuthenticationPort,
 	private val updateEmailAuthenticationPort: UpdateEmailAuthenticationPort,
@@ -25,8 +27,19 @@ class EmailAuthenticationService(
 	RecreateEmailAuthenticationUseCase,
 	UseAuthenticatedEmailUseCase {
 	override fun create(email: String) {
-		val code: String = emailCodeGenerator.generate()
+		if (existEmailAuthenticationPort.existBy(
+				SearchEmailAuthenticationCondition(
+					address = email,
+					authenticated = false,
+					used = false,
+				),
+			)
+		) {
+			recreate(email)
+			return
+		}
 
+		val code: String = emailCodeGenerator.generate()
 		insertEmailAuthenticationPort.insert(EmailAuthentication(email, code))
 		sendEmailAuthenticationCodePort.sendEmail(email, code)
 	}

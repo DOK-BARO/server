@@ -43,10 +43,7 @@ class TermsOfServiceService(
 			AgreeTermsOfService(
 				certificatedMemberUseCase.getByCertificationId(authId).id,
 				items.map { itemId ->
-					TermsOfService.entries.find { t ->
-						t.id ==
-							itemId
-					}
+					TermsOfService.entries.find { t -> t.id == itemId }
 						?: throw NotFoundTermsOfServiceException(itemId)
 				},
 			),
