@@ -24,3 +24,5 @@ include::image.adoc[]
 include::member.adoc[]
 
 include::study-group.adoc[]
+
+include::terms-of-service.adoc[]
