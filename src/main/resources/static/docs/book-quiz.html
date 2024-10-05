@@ -451,9 +451,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_http_request">HTTP request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=cEQwxIX4r0DkkLBkj92fm8Qnrn4ZuDVwLAxe3eMCGKsxLcm-QX1U8uCennPJ8YEGv_CrovdFg0cpjQddTT1s6tQ1KcgJGviP HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=jN3jodwW6I5n_RLaK85mWCjkE112PCHU0UezKj7YGs8g0-L8uOzUkuUijbdKyCLrT-NSPk3cPj8TWhb5537RTge6L6kYttCf HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 703
+Content-Length: 784
 Host: localhost:8080
 
 {
@@ -473,7 +473,10 @@ Host: localhost:8080
     "answerType" : "OX",
     "answers" : [ "X" ]
   } ],
-  "studyGroupIds" : [ 2 ]
+  "studyGroupIds" : [ 2 ],
+  "timeLimitSecond" : 60,
+  "viewScope" : "EVERYONE",
+  "editScope" : "CREATOR"
 }</code></pre>
 </div>
 </div>
@@ -505,6 +508,21 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 관련 서적 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>timeLimitSecond</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">풀이 제한 시간 (optional), 무제한 시 null</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>viewScope</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">보기 접근 권한 [EVERYONE, STUDY_GROUP, CREATOR]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>editScope</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">편집 접근 권한 [EVERYONE, STUDY_GROUP, CREATOR]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].content</code></p></td>
