@@ -32,6 +32,9 @@ class BookQuizController(
 					bookId = body.bookId,
 					creatorAuthId = UUIDUtils.stringToUUID(auth.name),
 					questions = body.questions,
+					timeLimitSecond = body.timeLimitSecond,
+					viewScope = body.viewScope,
+					editScope = body.editScope,
 				),
 			),
 		)
