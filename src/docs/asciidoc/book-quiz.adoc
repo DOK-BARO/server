@@ -11,3 +11,15 @@ include::{snippets}/book-quiz/create-book-quiz/request-fields.adoc[]
 
 include::{snippets}/book-quiz/create-book-quiz/http-response.adoc[]
 include::{snippets}/book-quiz/create-book-quiz/response-fields.adoc[]
+
+== 북 퀴즈 질문 조회
+
+=== HTTP request
+
+include::{snippets}/book-quiz/get-book-quiz-questions/http-request.adoc[]
+include::{snippets}/book-quiz/get-book-quiz-questions/path-parameters.adoc[]
+
+=== HTTP response
+
+include::{snippets}/book-quiz/get-book-quiz-questions/http-response.adoc[]
+include::{snippets}/book-quiz/get-book-quiz-questions/response-fields.adoc[]
