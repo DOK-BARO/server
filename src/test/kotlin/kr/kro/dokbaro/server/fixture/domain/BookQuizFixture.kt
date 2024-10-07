@@ -29,7 +29,7 @@ fun bookQuizFixture(
 
 fun quizQuestionFixture(
 	content: String = "content",
-	selectOptions: Collection<SelectOption> = listOf(SelectOption("selectOption")),
+	selectOptions: Collection<SelectOption> = listOf(SelectOption("selectOption1"), SelectOption("selectOption1")),
 	answerExplanation: String = "answer_explanation",
 	answer: Answerable =
 		AnswerFactory.create(

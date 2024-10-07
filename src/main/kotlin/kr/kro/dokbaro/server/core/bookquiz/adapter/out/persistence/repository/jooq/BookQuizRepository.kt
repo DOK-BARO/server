@@ -70,7 +70,7 @@ class BookQuizRepository(
 					).values(
 						questionId,
 						it,
-					)
+					).execute()
 			}
 
 			question.selectOptions
@@ -86,7 +86,7 @@ class BookQuizRepository(
 							index,
 							questionId,
 							value,
-						)
+						).execute()
 				}
 		}
 
@@ -99,7 +99,7 @@ class BookQuizRepository(
 				).values(
 					it,
 					bookQuizId,
-				)
+				).execute()
 		}
 
 		return bookQuizId
