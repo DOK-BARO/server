@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8" />
@@ -87,12 +87,12 @@
 	</header>
 	<main>
 		<p class="instruction">
-			dockbaro@gmail.com님 안녕하세요.
+			<span th:text="${email}"></span>님 안녕하세요.
 			<br />
 			회원가입을 위해 인증코드를 가입 페이지에 입력해 주세요.
 		</p>
 		<div class="code-container">
-			<p class="code">3f1jr9</p>
+			<p class="code" th:text="${code}"></p>
 			<button class="code-copy-button">복사하기</button>
 		</div>
 		<script>
