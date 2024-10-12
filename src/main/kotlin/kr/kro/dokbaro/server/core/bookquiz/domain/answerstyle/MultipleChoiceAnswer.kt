@@ -7,7 +7,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.exception.IllegalRegisterSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.IllegalSubmitSheetFormatException
 
 class MultipleChoiceAnswer private constructor(
-	private val answers: Set<Int>,
+	private val correctAnswers: Set<Int>,
 ) : Answerable {
 	companion object {
 		fun from(sheet: AnswerSheet): Answerable {
@@ -27,14 +27,14 @@ class MultipleChoiceAnswer private constructor(
 		}
 		val submitAnswers: Set<Int> = sheet.answer.map { it.toInt() }.toSet()
 
-		if (answers.size != submitAnswers.size) {
+		if (correctAnswers.size != submitAnswers.size) {
 			return false
 		}
 
-		return answers.containsAll(submitAnswers)
+		return correctAnswers.containsAll(submitAnswers)
 	}
 
 	override fun getType(): QuizType = QuizType.MULTIPLE_CHOICE
 
-	override fun getAnswers(): Collection<String> = answers.map { it.toString() }
+	override fun getAnswers(): Collection<String> = correctAnswers.map { it.toString() }
 }
