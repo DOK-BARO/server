@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq
 
-import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.entity.jooq.BookQuizMapper
+import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import org.jooq.DSLContext
 import org.jooq.Record9

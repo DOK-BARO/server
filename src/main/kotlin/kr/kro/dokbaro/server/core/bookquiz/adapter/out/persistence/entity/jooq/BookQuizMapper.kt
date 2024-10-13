@@ -1,5 +1,6 @@
-package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.entity.jooq
+package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq
 
+import kr.kro.dokbaro.server.common.annotation.Mapper
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
@@ -9,9 +10,8 @@ import org.jooq.Result
 import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
-import org.springframework.stereotype.Component
 
-@Component
+@Mapper
 class BookQuizMapper {
 	companion object {
 		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ

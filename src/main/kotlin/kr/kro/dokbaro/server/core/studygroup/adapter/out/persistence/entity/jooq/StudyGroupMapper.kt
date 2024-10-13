@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq
 
+import kr.kro.dokbaro.server.common.annotation.Mapper
 import kr.kro.dokbaro.server.core.studygroup.domain.InviteCode
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
@@ -9,9 +10,8 @@ import org.jooq.Record
 import org.jooq.Result
 import org.jooq.generated.tables.JStudyGroupMember
 import org.jooq.generated.tables.records.StudyGroupRecord
-import org.springframework.stereotype.Component
 
-@Component
+@Mapper
 class StudyGroupMapper {
 	companion object {
 		private val STUDY_GROUP_MEMBER = JStudyGroupMember.STUDY_GROUP_MEMBER
