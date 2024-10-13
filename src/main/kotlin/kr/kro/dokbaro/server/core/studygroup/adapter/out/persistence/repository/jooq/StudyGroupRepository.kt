@@ -31,7 +31,7 @@ class StudyGroupRepository(
 					STUDY_GROUP.INVITE_CODE,
 				).values(
 					studyGroup.name,
-					studyGroup.introduction.toByteArray(),
+					studyGroup.introduction?.toByteArray(),
 					studyGroup.profileImageUrl,
 					studyGroup.inviteCode.value,
 				).returningResult(STUDY_GROUP.ID)
@@ -71,7 +71,7 @@ class StudyGroupRepository(
 		dslContext
 			.update(STUDY_GROUP)
 			.set(STUDY_GROUP.NAME, studyGroup.name)
-			.set(STUDY_GROUP.INTRODUCTION, studyGroup.introduction.toByteArray())
+			.set(STUDY_GROUP.INTRODUCTION, studyGroup.introduction?.toByteArray())
 			.set(STUDY_GROUP.PROFILE_IMAGE_URL, studyGroup.profileImageUrl)
 			.set(STUDY_GROUP.INVITE_CODE, studyGroup.inviteCode.value)
 			.where(STUDY_GROUP.ID.eq(studyGroup.id))

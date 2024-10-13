@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class CreateStudyGroupCommand(
 	val name: String,
-	val introduction: String,
-	val profileImageUrl: String,
+	val introduction: String?,
+	val profileImageUrl: String?,
 	val creatorAuthId: UUID,
 )

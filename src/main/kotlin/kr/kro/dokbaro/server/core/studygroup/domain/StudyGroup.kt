@@ -4,7 +4,7 @@ import kr.kro.dokbaro.server.common.constant.Constants
 
 class StudyGroup(
 	val name: String,
-	val introduction: String,
+	val introduction: String? = null,
 	val profileImageUrl: String? = null,
 	val studyMembers: MutableSet<StudyMember> = mutableSetOf(),
 	val inviteCode: InviteCode,
@@ -12,8 +12,8 @@ class StudyGroup(
 ) {
 	constructor(
 		name: String,
-		introduction: String,
-		profileImageUrl: String,
+		introduction: String?,
+		profileImageUrl: String?,
 		creatorId: Long,
 		inviteCode: InviteCode,
 	) : this(
