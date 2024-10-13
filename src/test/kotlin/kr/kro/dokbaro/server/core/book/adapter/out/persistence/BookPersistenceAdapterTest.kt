@@ -125,7 +125,7 @@ class BookPersistenceAdapterTest(
 			val condition = ReadBookCollectionCondition(authorName = target)
 
 			queryAdapter.getAllBook(condition, defaultPagingOption).count() shouldBe
-				books.count { it.authors.any { author -> author.name == target } }
+				books.count { it.authors.any { author -> author.name.contains(target) } }
 		}
 
 		"제목이 포함된 책만 조회를 수행한다" {
@@ -166,5 +166,22 @@ class BookPersistenceAdapterTest(
 
 			queryAdapter.getAllBook(condition, defaultPagingOption).count() shouldBe
 				books.count { it.description?.contains(target) == true }
+		}
+	
+		"통합 검색을 수행한다" {
+			val keyword = "자바"
+			val books =
+				listOf(
+					bookFixture(title = "모두의$keyword"),
+					bookFixture(title = "${keyword}스크립트"),
+					bookFixture(title = "깍", authors = listOf("${keyword}의정석")),
+					bookFixture(title = "액션${keyword}스크립트", authors = listOf("${keyword}의정석")),
+					bookFixture(title = "한"),
+				)
+			books.forEach {
+				adapter.insert(it)
+			}
+
+			queryAdapter.findAllIntegratedBook(defaultPagingOption, keyword).size shouldBe 4
 		}
 	})

@@ -9,6 +9,7 @@ import kr.kro.dokbaro.server.core.book.query.BookSummary
 import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.Record
+import org.jooq.Record5
 import org.jooq.Result
 import org.jooq.Table
 import org.jooq.generated.tables.JBook
@@ -55,20 +56,7 @@ class BookQueryRepository(
 				.offset(pagingOption.offset)
 				.asTable(bookTable)
 
-		val record: Map<Long, Result<out Record>> =
-			dslContext
-				.select(
-					BOOK.ID,
-					BOOK.TITLE,
-					BOOK.PUBLISHER,
-					BOOK.IMAGE_URL,
-					BOOK_AUTHOR.NAME,
-				).from(books)
-				.join(BOOK_AUTHOR)
-				.on(books.field(BOOK.ID)!!.eq(BOOK_AUTHOR.BOOK_ID))
-				.join(BOOK_CATEGORY_GROUP)
-				.on(books.field(BOOK.ID)!!.eq(BOOK_CATEGORY_GROUP.BOOK_ID))
-				.fetchGroups(BOOK.ID)
+		val record: Map<Long, Result<out Record>> = getSummaryRecord(books)
 
 		return bookMapper.toSummaryCollection(record)
 	}
@@ -83,10 +71,11 @@ class BookQueryRepository(
 		condition.authorName?.let {
 			result =
 				result.and(
-					`val`(it).`in`(
-						select(BOOK_AUTHOR.NAME).from(BOOK_AUTHOR).where(
-							BOOK_AUTHOR.BOOK_ID.eq(BOOK.ID),
-						),
+					BOOK.ID.`in`(
+						select(BOOK_AUTHOR.BOOK_ID)
+							.from(BOOK_AUTHOR)
+							.where(BOOK_AUTHOR.BOOK_ID.eq(BOOK.ID))
+							.and(BOOK_AUTHOR.NAME.likeIgnoreCase("%$it%")),
 					),
 				)
 		}
@@ -210,4 +199,52 @@ class BookQueryRepository(
 			.from(name(hierarchyTable))
 			.fetchInto(BOOK_CATEGORY)
 	}
+
+	fun findAllIntegratedBook(
+		pagingOption: PagingOption,
+		keyword: String,
+	): Collection<BookSummary> {
+		val bookTable = "book"
+
+		val books: Table<out Record> =
+			select(
+				BOOK.ID,
+				BOOK.TITLE,
+				BOOK.PUBLISHER,
+				BOOK.IMAGE_URL,
+			).from(BOOK)
+				.where(
+					BOOK.ID
+						.`in`(
+							select(BOOK_AUTHOR.BOOK_ID)
+								.from(BOOK_AUTHOR)
+								.where(BOOK_AUTHOR.BOOK_ID.eq(BOOK.ID))
+								.and(BOOK_AUTHOR.NAME.likeIgnoreCase("%$keyword%")),
+						).or((BOOK.TITLE.likeIgnoreCase("%$keyword%"))),
+				).orderBy(BOOK.ID)
+				.limit(pagingOption.limit)
+				.offset(pagingOption.offset)
+				.asTable(bookTable)
+
+		val record: Map<Long, Result<out Record>> = getSummaryRecord(books)
+
+		return bookMapper.toSummaryCollection(record)
+	}
+
+	private fun getSummaryRecord(
+		books: Table<out Record>,
+	): Map<Long, Result<Record5<Long, String, String, String, String>>> =
+		dslContext
+			.select(
+				BOOK.ID,
+				BOOK.TITLE,
+				BOOK.PUBLISHER,
+				BOOK.IMAGE_URL,
+				BOOK_AUTHOR.NAME,
+			).from(books)
+			.join(BOOK_AUTHOR)
+			.on(books.field(BOOK.ID)!!.eq(BOOK_AUTHOR.BOOK_ID))
+			.join(BOOK_CATEGORY_GROUP)
+			.on(books.field(BOOK.ID)!!.eq(BOOK_CATEGORY_GROUP.BOOK_ID))
+			.fetchGroups(BOOK.ID)
 }
