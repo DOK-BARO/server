@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
-import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.entity.jooq.BookQuizMapper
+import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper

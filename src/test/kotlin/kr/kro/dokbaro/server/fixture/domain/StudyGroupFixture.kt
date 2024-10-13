@@ -8,7 +8,7 @@ import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
 
 fun studyGroupFixture(
 	name: String = "Name",
-	introduction: String = "Introduction",
+	introduction: String? = "Introduction",
 	profileImageUrl: String? = null,
 	studyMembers: MutableSet<StudyMember> = mutableSetOf(StudyMember(1, StudyMemberRole.LEADER)),
 	inviteCode: InviteCode = InviteCode("ABC123"),
