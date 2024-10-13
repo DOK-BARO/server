@@ -1,0 +1,71 @@
+package kr.kro.dokbaro.server.core.solvingquiz.application.service
+
+import io.kotest.assertions.throwables.shouldNotThrow
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+import io.mockk.clearAllMocks
+import io.mockk.every
+import io.mockk.mockk
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.dto.SolveQuestionCommand
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.dto.StartSolvingQuizCommand
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.InsertSolvingQuizPort
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadSolvingQuizPort
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.UpdateSolvingQuizPort
+import kr.kro.dokbaro.server.core.solvingquiz.application.service.exception.NotFoundSolvingQuizException
+import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
+import kr.kro.dokbaro.server.fixture.domain.memberResponseFixture
+import java.util.UUID
+
+class SolvingQuizServiceTest :
+	StringSpec({
+		val findCertificatedMemberUseCase = mockk<FindCertificatedMemberUseCase>()
+		val insertSolvingQuizPort = mockk<InsertSolvingQuizPort>()
+		val loadSolvingQuizPort = mockk<LoadSolvingQuizPort>()
+		val updateSolvingQuizPort = mockk<UpdateSolvingQuizPort>()
+
+		val solvingQuizService =
+			SolvingQuizService(
+				findCertificatedMemberUseCase,
+				insertSolvingQuizPort,
+				loadSolvingQuizPort,
+				updateSolvingQuizPort,
+			)
+		afterEach {
+			clearAllMocks()
+		}
+
+		"퀴즈 풀기를 시작한다" {
+			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns memberResponseFixture()
+			every { insertSolvingQuizPort.insert(any()) } returns 1
+
+			solvingQuizService.start(
+				StartSolvingQuizCommand(
+					UUID.randomUUID(),
+					1,
+				),
+			) shouldBe 1
+		}
+
+		"퀴즈 문제를 풀 때 해당하는 풀이 ID가 없으면 예외를 반환한다" {
+			every { loadSolvingQuizPort.findById(any()) } returns null
+
+			val command =
+				SolveQuestionCommand(
+					1,
+					2,
+					listOf("hello", "world"),
+				)
+			shouldThrow<NotFoundSolvingQuizException> {
+				solvingQuizService.solve(command)
+			}
+
+			every { loadSolvingQuizPort.findById(any()) } returns SolvingQuiz(1, 2)
+			every { updateSolvingQuizPort.update(any()) } returns Unit
+
+			shouldNotThrow<NotFoundSolvingQuizException> {
+				solvingQuizService.solve(command)
+			}
+		}
+	})
