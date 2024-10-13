@@ -6,19 +6,29 @@ import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.CreateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateQuizQuestionCommand
+import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
+import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
+import kr.kro.dokbaro.server.core.bookquiz.query.Question
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
+import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(BookQuizController::class)
 class BookQuizControllerTest : RestDocsTest() {
 	@MockkBean
 	lateinit var createBookQuizUseCase: CreateBookQuizUseCase
+
+	@MockkBean
+	lateinit var findBookQuizQuestionUseCase: FindBookQuizQuestionUseCase
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
@@ -52,6 +62,9 @@ class BookQuizControllerTest : RestDocsTest() {
 							),
 						),
 					studyGroupIds = listOf(2),
+					timeLimitSecond = 60,
+					viewScope = AccessScope.EVERYONE,
+					editScope = AccessScope.CREATOR,
 				)
 
 			performPost(Path("/book-quizzes"), body)
@@ -69,6 +82,16 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("bookId")
 								.type(JsonFieldType.NUMBER)
 								.description("퀴즈 관련 서적 ID"),
+							fieldWithPath("timeLimitSecond")
+								.type(JsonFieldType.NUMBER)
+								.description("풀이 제한 시간 (optional), 무제한 시 null")
+								.optional(),
+							fieldWithPath("viewScope")
+								.type(JsonFieldType.STRING)
+								.description("보기 접근 권한 [EVERYONE, STUDY_GROUP, CREATOR]"),
+							fieldWithPath("editScope")
+								.type(JsonFieldType.STRING)
+								.description("편집 접근 권한 [EVERYONE, STUDY_GROUP, CREATOR]"),
 							fieldWithPath("questions[].content")
 								.type(JsonFieldType.STRING)
 								.description("질문 내용"),
@@ -92,6 +115,49 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("id")
 								.type(JsonFieldType.NUMBER)
 								.description("저장된 북퀴즈 ID"),
+						),
+					),
+				)
+		}
+
+		"북 퀴즈 문제 조회를 수행한다" {
+			every { findBookQuizQuestionUseCase.findBookQuizQuestionsBy(any()) } returns
+				BookQuizQuestions(
+					1,
+					"java 정석 1차",
+					60,
+					listOf(
+						Question(
+							1,
+							"조정석의 아내 이름은?",
+							QuizType.MULTIPLE_CHOICE,
+							listOf(
+								SelectOption("거미"),
+								SelectOption("개미"),
+								SelectOption("고미"),
+							),
+						),
+					),
+				)
+
+			performGet(Path("/book-quizzes/{id}/questions", "1"))
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"book-quiz/get-book-quiz-questions",
+						pathParameters(parameterWithName("id").description("퀴즈 ID")),
+						responseFields(
+							fieldWithPath("id").type(JsonFieldType.NUMBER).description("퀴즈의 고유 식별자").optional(),
+							fieldWithPath("title").type(JsonFieldType.STRING).description("퀴즈 제목"),
+							fieldWithPath("timeLimitSecond").type(JsonFieldType.NUMBER).description("퀴즈의 시간 제한(초), null 가능").optional(),
+							fieldWithPath("questions").type(JsonFieldType.ARRAY).description("퀴즈에 포함된 질문 리스트"),
+							fieldWithPath("questions[].id").type(JsonFieldType.NUMBER).description("질문의 고유 식별자"),
+							fieldWithPath("questions[].content").type(JsonFieldType.STRING).description("질문의 내용"),
+							fieldWithPath("questions[].selectOptions").type(JsonFieldType.ARRAY).description("질문의 선택지 리스트"),
+							fieldWithPath("questions[].type")
+								.type(JsonFieldType.STRING)
+								.description("질문의 유형 [OX, FILL_BLANK, MULTIPLE_CHOICE, SHORT]"),
+							fieldWithPath("questions[].selectOptions[].content").type(JsonFieldType.STRING).description("선택지의 내용"),
 						),
 					),
 				)

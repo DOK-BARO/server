@@ -30,11 +30,17 @@ class BookQuizRepository(
 					BOOK_QUIZ.DESCRIPTION,
 					BOOK_QUIZ.CREATOR_ID,
 					BOOK_QUIZ.BOOK_ID,
+					BOOK_QUIZ.TIME_LIMIT_SECOND,
+					BOOK_QUIZ.VIEW_SCOPE,
+					BOOK_QUIZ.EDIT_SCOPE,
 				).values(
 					bookQuiz.title,
 					bookQuiz.description.toByteArray(),
 					bookQuiz.creatorId,
 					bookQuiz.bookId,
+					bookQuiz.timeLimitSecond,
+					bookQuiz.viewScope.name,
+					bookQuiz.editScope.name,
 				).returningResult(BOOK_QUIZ.ID)
 				.fetchOneInto(Long::class.java)!!
 
@@ -64,7 +70,7 @@ class BookQuizRepository(
 					).values(
 						questionId,
 						it,
-					)
+					).execute()
 			}
 
 			question.selectOptions
@@ -80,7 +86,7 @@ class BookQuizRepository(
 							index,
 							questionId,
 							value,
-						)
+						).execute()
 				}
 		}
 
@@ -93,7 +99,7 @@ class BookQuizRepository(
 				).values(
 					it,
 					bookQuizId,
-				)
+				).execute()
 		}
 
 		return bookQuizId

@@ -7,7 +7,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.exception.IllegalRegisterSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.IllegalSubmitSheetFormatException
 
 class OXAnswer private constructor(
-	private val answer: OX,
+	private val correctAnswers: OX,
 ) : Answerable {
 	companion object {
 		fun from(sheet: AnswerSheet): Answerable {
@@ -28,12 +28,12 @@ class OXAnswer private constructor(
 			throw IllegalSubmitSheetFormatException()
 		}
 
-		return answer.name == sheet.answer.first()
+		return correctAnswers.name == sheet.answer.first()
 	}
 
 	override fun getType(): QuizType = QuizType.OX
 
-	override fun getAnswers(): Collection<String> = listOf(answer.name)
+	override fun getAnswers(): Collection<String> = listOf(correctAnswers.name)
 }
 
 enum class OX {

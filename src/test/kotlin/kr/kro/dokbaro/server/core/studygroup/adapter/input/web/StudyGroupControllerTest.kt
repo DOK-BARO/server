@@ -41,8 +41,8 @@ class StudyGroupControllerTest : RestDocsTest() {
 						"study-group/create",
 						requestFields(
 							fieldWithPath("name").description("그룹명"),
-							fieldWithPath("introduction").description("그룹 소개글"),
-							fieldWithPath("profileImageUrl").description("그룹 프로필 사진"),
+							fieldWithPath("introduction").description("그룹 소개글 (optional)").optional(),
+							fieldWithPath("profileImageUrl").description("그룹 프로필 사진 (optional)").optional(),
 						),
 						responseFields(
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("스터디 그룹 ID"),

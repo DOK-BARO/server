@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq
 
+import kr.kro.dokbaro.server.common.annotation.Mapper
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
 import kr.kro.dokbaro.server.core.book.query.BookCategorySingle
 import kr.kro.dokbaro.server.core.book.query.BookCategoryTree
@@ -10,9 +11,8 @@ import org.jooq.Result
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookAuthor
 import org.jooq.generated.tables.records.BookCategoryRecord
-import org.springframework.stereotype.Component
 
-@Component
+@Mapper
 class BookMapper {
 	companion object {
 		private val BOOK = JBook.BOOK

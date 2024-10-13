@@ -1,10 +1,10 @@
 package kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.entity.jooq
 
+import kr.kro.dokbaro.server.common.annotation.Mapper
 import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
 import org.jooq.generated.tables.records.EmailAuthenticationRecord
-import org.springframework.stereotype.Component
 
-@Component
+@Mapper
 class EmailAuthenticationMapper {
 	fun recordToEmailAuthentication(record: EmailAuthenticationRecord?): EmailAuthentication? =
 		record?.let {
