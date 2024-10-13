@@ -73,6 +73,7 @@ class StudyGroupPersistenceAdapterTest(
 				studyGroupFixture(
 					studyMembers = mutableSetOf(StudyMember(savedMember.id, StudyMemberRole.LEADER)),
 					inviteCode = InviteCode(targetCode),
+					introduction = null,
 				)
 			adapter.insert(studyGroup)
 
@@ -92,6 +93,7 @@ class StudyGroupPersistenceAdapterTest(
 				)
 			val studyGroup =
 				studyGroupFixture(studyMembers = mutableSetOf(StudyMember(savedMember.id, StudyMemberRole.LEADER)))
+
 			val id = adapter.insert(studyGroup)
 
 			val savedMember2 =
@@ -111,7 +113,6 @@ class StudyGroupPersistenceAdapterTest(
 					StudyMember(savedMember.id, StudyMemberRole.LEADER),
 					StudyMember(savedMember2.id, StudyMemberRole.LEADER),
 				)
-			val updated = studyGroupFixture(id = id)
 
 			val newGroup =
 				studyGroupFixture(
@@ -131,5 +132,19 @@ class StudyGroupPersistenceAdapterTest(
 			result.introduction shouldBe newIntro
 			result.inviteCode.value shouldBe newCode
 			result.studyMembers shouldBe newMembers
+
+			val updated2 =
+				studyGroupFixture(
+					newName,
+					null,
+					null,
+					newMembers,
+					InviteCode(newCode),
+					id,
+				)
+			adapter.update(updated2)
+
+			val result2 = adapter.findByInviteCode(newCode)!!
+			result2.introduction shouldBe null
 		}
 	})
