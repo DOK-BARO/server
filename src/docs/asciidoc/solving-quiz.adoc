@@ -1,0 +1,25 @@
+= SOLVING_QUIZ
+
+== 북 퀴즈 풀기 시작
+
+=== HTTP request
+
+include::{snippets}/solving-quiz/solving-quiz-start/http-request.adoc[]
+include::{snippets}/solving-quiz/solving-quiz-start/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/solving-quiz/solving-quiz-start/http-response.adoc[]
+include::{snippets}/solving-quiz/solving-quiz-start/response-fields.adoc[]
+
+== 북 퀴즈 질문 조회
+
+=== HTTP request
+
+include::{snippets}/solving-quiz/submit-quiz-sheet/http-request.adoc[]
+include::{snippets}/solving-quiz/submit-quiz-sheet/path-parameters.adoc[]
+include::{snippets}/solving-quiz/submit-quiz-sheet/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/solving-quiz/submit-quiz-sheet/http-response.adoc[]
