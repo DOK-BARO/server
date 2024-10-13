@@ -10,6 +10,7 @@ import io.mockk.mockk
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookCollectionPort
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookPort
+import kr.kro.dokbaro.server.core.book.application.port.out.ReadIntegratedBookCollectionPort
 import kr.kro.dokbaro.server.core.book.application.service.exception.BookNotFoundException
 import kr.kro.dokbaro.server.fixture.domain.bookDetailFixture
 import kr.kro.dokbaro.server.fixture.domain.bookSummaryFixture
@@ -18,8 +19,9 @@ class BookQueryServiceTest :
 	StringSpec({
 		val readBookCollectionPort = mockk<ReadBookCollectionPort>()
 		val readBookPort = mockk<ReadBookPort>()
+		val readIntegratedBookCollectionPort = mockk<ReadIntegratedBookCollectionPort>()
 
-		val bookQueryService = BookQueryService(readBookCollectionPort, readBookPort)
+		val bookQueryService = BookQueryService(readBookCollectionPort, readBookPort, readIntegratedBookCollectionPort)
 
 		afterEach {
 			clearAllMocks()
@@ -49,5 +51,16 @@ class BookQueryServiceTest :
 			shouldThrow<BookNotFoundException> {
 				bookQueryService.getBy(5)
 			}
+		}
+
+		"통합 검색을 수행한다" {
+			every { readIntegratedBookCollectionPort.findAllIntegratedBook(any(), any()) } returns
+				listOf(
+					bookSummaryFixture(),
+					bookSummaryFixture(),
+					bookSummaryFixture(),
+				)
+
+			bookQueryService.findAllIntegratedBooks(page = 1, size = 10, "asdf").size shouldBe 3
 		}
 	})

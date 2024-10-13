@@ -2,10 +2,12 @@ package kr.kro.dokbaro.server.core.book.application.service
 
 import kr.kro.dokbaro.server.common.dto.page.PagingOption
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
+import kr.kro.dokbaro.server.core.book.application.port.input.FindIntegratedBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookCollectionPort
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookPort
+import kr.kro.dokbaro.server.core.book.application.port.out.ReadIntegratedBookCollectionPort
 import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.application.service.exception.BookNotFoundException
 import kr.kro.dokbaro.server.core.book.query.BookDetail
@@ -16,8 +18,10 @@ import org.springframework.stereotype.Service
 class BookQueryService(
 	private val readBookCollectionPort: ReadBookCollectionPort,
 	private val readBookPort: ReadBookPort,
+	private val readIntegratedBookCollectionPort: ReadIntegratedBookCollectionPort,
 ) : FindAllBookUseCase,
-	FindOneBookUseCase {
+	FindOneBookUseCase,
+	FindIntegratedBookUseCase {
 	override fun findAllBy(command: FindAllBookCommand): Collection<BookSummary> =
 		readBookCollectionPort.getAllBook(
 			ReadBookCollectionCondition(
@@ -30,4 +34,11 @@ class BookQueryService(
 		)
 
 	override fun getBy(id: Long): BookDetail = readBookPort.findBy(id) ?: throw BookNotFoundException(id)
+
+	override fun findAllIntegratedBooks(
+		page: Long,
+		size: Long,
+		keyword: String,
+	): Collection<BookSummary> =
+		readIntegratedBookCollectionPort.findAllIntegratedBook(PagingOption.of(page, size), keyword)
 }
