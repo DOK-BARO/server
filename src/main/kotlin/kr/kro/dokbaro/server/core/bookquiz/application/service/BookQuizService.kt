@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.bookquiz.application.service
 
+import kr.kro.dokbaro.server.common.constant.Constants
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
@@ -50,9 +51,29 @@ class BookQuizService(
 	}
 
 	override fun update(command: UpdateBookQuizCommand) {
-		val bookQuiz: BookQuiz = loadBookQuizPort.load(command.id)
+		val bookQuiz: BookQuiz =
+			loadBookQuizPort.load(command.id) ?: throw NotFoundQuizException(command.id)
 
-		bookQuiz
+		bookQuiz.updateBasicOption(
+			title = command.title,
+			description = command.description,
+			bookId = command.bookId,
+			timeLimitSecond = command.timeLimitSecond,
+			viewScope = command.viewScope,
+			editScope = command.editScope,
+		)
+		bookQuiz.updateStudyGroups(command.studyGroups)
+		bookQuiz.updateQuestions(
+			command.questions.map {
+				QuizQuestion(
+					id = it.id ?: Constants.UNSAVED_ID,
+					content = it.content,
+					selectOptions = it.selectOptions.map { o -> SelectOption(o) },
+					answerExplanation = it.answerExplanation,
+					answer = AnswerFactory.create(it.answerType, AnswerSheet(it.answers)),
+				)
+			},
+		)
 
 		updateBookQuizPort.update(bookQuiz)
 	}

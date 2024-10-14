@@ -15,12 +15,12 @@ data class BookQuiz(
 	val id: Long = Constants.UNSAVED_ID,
 ) {
 	fun updateBasicOption(
-		title: String,
-		description: String,
-		bookId: Long,
-		timeLimitSecond: Int?,
-		viewScope: AccessScope,
-		editScope: AccessScope,
+		title: String = this.title,
+		description: String = this.description,
+		bookId: Long = this.bookId,
+		timeLimitSecond: Int? = this.timeLimitSecond,
+		viewScope: AccessScope = this.viewScope,
+		editScope: AccessScope = this.editScope,
 	) {
 		this.title = title
 		this.description = description
@@ -35,6 +35,7 @@ data class BookQuiz(
 		studyGroups.addAll(newGroups)
 	}
 
-	fun updateQuestions() {
+	fun updateQuestions(newQuestions: Collection<QuizQuestion>) {
+		questions.updateQuestions(newQuestions)
 	}
 }

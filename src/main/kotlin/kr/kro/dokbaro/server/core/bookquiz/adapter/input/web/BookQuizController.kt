@@ -3,10 +3,12 @@ package kr.kro.dokbaro.server.core.bookquiz.adapter.input.web
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
 import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.CreateBookQuizRequest
+import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
@@ -53,8 +55,23 @@ class BookQuizController(
 	): BookQuizQuestions = findBookQuizQuestionUseCase.findBookQuizQuestionsBy(id)
 
 	@PutMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	fun updateQuiz(
 		@PathVariable id: Long,
+		@RequestBody body: UpdateBookQuizRequest,
 	) {
+		updateBookQuizUseCase.update(
+			UpdateBookQuizCommand(
+				id = id,
+				title = body.title,
+				description = body.description,
+				bookId = body.bookId,
+				timeLimitSecond = body.timeLimitSecond,
+				viewScope = body.viewScope,
+				editScope = body.editScope,
+				studyGroups = body.studyGroupIds,
+				questions = body.questions,
+			),
+		)
 	}
 }
