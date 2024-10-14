@@ -23,3 +23,15 @@ include::{snippets}/book-quiz/get-book-quiz-questions/path-parameters.adoc[]
 
 include::{snippets}/book-quiz/get-book-quiz-questions/http-response.adoc[]
 include::{snippets}/book-quiz/get-book-quiz-questions/response-fields.adoc[]
+
+== 북 퀴즈 수정
+
+=== HTTP request
+
+include::{snippets}/book-quiz/update-book-quiz/http-request.adoc[]
+include::{snippets}/book-quiz/update-book-quiz/path-parameters.adoc[]
+include::{snippets}/book-quiz/update-book-quiz/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/book-quiz/update-book-quiz/http-response.adoc[]
