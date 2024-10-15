@@ -16,7 +16,7 @@ fun bookQuizFixture(
 	bookId: Long = 0,
 	creatorId: Long = 0,
 	questions: Collection<QuizQuestion> = listOf(quizQuestionFixture()),
-	studyGroups: Collection<Long> = emptyList(),
+	studyGroupId: Long? = null,
 	id: Long = 0,
 ) = BookQuiz(
 	title = title,
@@ -24,7 +24,7 @@ fun bookQuizFixture(
 	bookId = bookId,
 	creatorId = creatorId,
 	questions = QuizQuestions(questions.toMutableList()),
-	studyGroups = studyGroups.toMutableSet(),
+	studyGroupId = studyGroupId,
 	id = id,
 )
 

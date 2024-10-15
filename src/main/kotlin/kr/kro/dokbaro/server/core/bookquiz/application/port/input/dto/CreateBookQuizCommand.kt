@@ -10,7 +10,7 @@ data class CreateBookQuizCommand(
 	val bookId: Long,
 	val creatorAuthId: UUID,
 	val questions: Collection<CreateQuizQuestionCommand>,
-	val studyGroupIds: Collection<Long> = emptyList(),
+	val studyGroupId: Long? = null,
 	val timeLimitSecond: Int? = null,
 	val viewScope: AccessScope,
 	val editScope: AccessScope,

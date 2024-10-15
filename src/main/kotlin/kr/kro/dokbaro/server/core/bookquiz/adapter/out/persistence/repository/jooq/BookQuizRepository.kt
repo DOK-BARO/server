@@ -205,7 +205,7 @@ class BookQuizRepository(
 		bookQuiz: BookQuiz,
 		bookQuizId: Long,
 	) {
-		bookQuiz.studyGroups.forEach {
+		bookQuiz.studyGroupId?.let {
 			dslContext
 				.insertInto(
 					STUDY_GROUP_QUIZ,

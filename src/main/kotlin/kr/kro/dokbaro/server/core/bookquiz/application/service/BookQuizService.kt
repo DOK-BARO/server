@@ -45,7 +45,7 @@ class BookQuizService(
 							)
 						}.toMutableList(),
 				),
-				studyGroups = command.studyGroupIds.toMutableSet(),
+				studyGroupId = command.studyGroupId,
 			),
 		)
 	}
@@ -58,11 +58,12 @@ class BookQuizService(
 			title = command.title,
 			description = command.description,
 			bookId = command.bookId,
+			studyGroupId = command.studyGroupId,
 			timeLimitSecond = command.timeLimitSecond,
 			viewScope = command.viewScope,
 			editScope = command.editScope,
 		)
-		bookQuiz.updateStudyGroups(command.studyGroups)
+
 		bookQuiz.updateQuestions(
 			command.questions.map {
 				QuizQuestion(

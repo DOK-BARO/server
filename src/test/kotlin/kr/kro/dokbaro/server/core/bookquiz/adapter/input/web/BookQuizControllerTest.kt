@@ -67,7 +67,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								answers = listOf("X"),
 							),
 						),
-					studyGroupIds = listOf(2),
+					studyGroupId = 2,
 					timeLimitSecond = 60,
 					viewScope = AccessScope.EVERYONE,
 					editScope = AccessScope.CREATOR,
@@ -113,9 +113,10 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("questions[].answers")
 								.type(JsonFieldType.ARRAY)
 								.description("답안"),
-							fieldWithPath("studyGroupIds")
-								.type(JsonFieldType.ARRAY)
-								.description("연관 Study group ID 목록"),
+							fieldWithPath("studyGroupId")
+								.type(JsonFieldType.NUMBER)
+								.description("연관 Study group ID (optional)")
+								.optional(),
 						),
 						responseFields(
 							fieldWithPath("id")
@@ -201,7 +202,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								answers = listOf("X"),
 							),
 						),
-					studyGroupIds = listOf(2),
+					studyGroupId = 2,
 					timeLimitSecond = 60,
 					viewScope = AccessScope.EVERYONE,
 					editScope = AccessScope.CREATOR,
@@ -252,9 +253,10 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("questions[].answers")
 								.type(JsonFieldType.ARRAY)
 								.description("답안"),
-							fieldWithPath("studyGroupIds")
-								.type(JsonFieldType.ARRAY)
-								.description("연관 Study group ID 목록"),
+							fieldWithPath("studyGroupId")
+								.type(JsonFieldType.NUMBER)
+								.description("연관 Study group ID (optional)")
+								.optional(),
 						),
 					),
 				)
