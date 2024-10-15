@@ -6,6 +6,7 @@ import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.book.application.port.input.CreateBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
+import kr.kro.dokbaro.server.core.book.application.port.input.FindIntegratedBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookCommand
 import kr.kro.dokbaro.server.fixture.domain.bookDetailFixture
@@ -32,6 +33,9 @@ class BookControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var createBookUseCase: CreateBookUseCase
+
+	@MockkBean
+	lateinit var findIntegratedBookUseCase: FindIntegratedBookUseCase
 
 	init {
 		"책 전체 조회를 수행한다" {
@@ -149,6 +153,40 @@ class BookControllerTest : RestDocsTest() {
 						),
 						responseFields(
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("저장된 책의 id"),
+						),
+					),
+				)
+		}
+
+		"통합 검색을 수행한다" {
+			every { findIntegratedBookUseCase.findAllIntegratedBooks(any(), any(), any()) } returns
+				listOf(
+					bookSummaryFixture(),
+					bookSummaryFixture(title = "제목"),
+				)
+
+			val param =
+				mapOf(
+					"keyword" to "자바",
+					"page" to "3",
+					"size" to "10",
+				)
+			performGet(Path("/books/integrated"), param)
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"book/find-integrated-book-collection",
+						queryParameters(
+							parameterWithName("keyword").description("검색 키워드"),
+							parameterWithName("page").description("page 번호. 1부터 시작. (default : 1)").optional(),
+							parameterWithName("size").description("노출 개수"),
+						),
+						responseFields(
+							fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("id"),
+							fieldWithPath("[].title").type(JsonFieldType.STRING).description("책 제목"),
+							fieldWithPath("[].publisher").type(JsonFieldType.STRING).description("출판사"),
+							fieldWithPath("[].imageUrl").type(JsonFieldType.STRING).description("image url"),
+							fieldWithPath("[].authors").type(JsonFieldType.ARRAY).description("저자명"),
 						),
 					),
 				)

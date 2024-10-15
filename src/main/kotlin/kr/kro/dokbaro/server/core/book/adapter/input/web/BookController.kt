@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.book.adapter.input.web
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
 import kr.kro.dokbaro.server.core.book.application.port.input.CreateBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
+import kr.kro.dokbaro.server.core.book.application.port.input.FindIntegratedBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookCommand
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
@@ -24,6 +25,7 @@ class BookController(
 	private val createBookUseCase: CreateBookUseCase,
 	private val findAllBookUseCase: FindAllBookUseCase,
 	private val findOneBookUseCase: FindOneBookUseCase,
+	private val findIntegratedBookUseCase: FindIntegratedBookUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -47,4 +49,11 @@ class BookController(
 	fun findOne(
 		@PathVariable id: Long,
 	): BookDetail = findOneBookUseCase.getBy(id)
+
+	@GetMapping("/integrated")
+	fun findIntegratedBooks(
+		@RequestParam(defaultValue = "1") page: Long,
+		@RequestParam size: Long,
+		@RequestParam keyword: String,
+	): Collection<BookSummary> = findIntegratedBookUseCase.findAllIntegratedBooks(page, size, keyword)
 }

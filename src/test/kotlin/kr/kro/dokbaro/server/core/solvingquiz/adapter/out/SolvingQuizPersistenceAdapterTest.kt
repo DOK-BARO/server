@@ -28,7 +28,7 @@ class SolvingQuizPersistenceAdapterTest(
 
 		val memberRepository = MemberRepository(dslContext, MemberMapper())
 		val bookRepository = BookRepository(dslContext)
-		val bookQuizRepository = BookQuizRepository(dslContext)
+		val bookQuizRepository = BookQuizRepository(dslContext, BookQuizMapper())
 		val bookQuizQueryRepository = BookQuizQueryRepository(dslContext, BookQuizMapper())
 
 		val solvingQuizRepository = SolvingQuizRepository(dslContext, SolvingQuizMapper())

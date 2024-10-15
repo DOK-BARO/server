@@ -12,7 +12,7 @@ include::{snippets}/book/create-book/request-fields.adoc[]
 include::{snippets}/book/create-book/http-response.adoc[]
 include::{snippets}/book/create-book/response-fields.adoc[]
 
-== 책 목록 조회
+== 책 목록(필터링) 조회
 
 === HTTP request
 
@@ -59,3 +59,15 @@ include::{snippets}/book/find-book-category/query-parameters.adoc[]
 
 include::{snippets}/book/find-book-category/http-response.adoc[]
 include::{snippets}/book/find-book-category/response-fields.adoc[]
+
+== 책 통합 조회
+
+=== HTTP request
+
+include::{snippets}/book/find-integrated-book-collection/http-request.adoc[]
+include::{snippets}/book/find-integrated-book-collection/query-parameters.adoc[]
+
+=== HTTP response
+
+include::{snippets}/book/find-integrated-book-collection/http-response.adoc[]
+include::{snippets}/book/find-integrated-book-collection/response-fields.adoc[]

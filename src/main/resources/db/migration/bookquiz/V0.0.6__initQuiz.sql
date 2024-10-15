@@ -27,6 +27,7 @@ CREATE TABLE book_quiz_question
 	book_quiz_id     bigint      NOT NULL,
 	question_type    varchar(31) NOT NULL,
 	explanation      blob        NOT NULL,
+	active           tinyint(1)  NOT NULL DEFAULT '1',
 	created_at       datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at       datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted          tinyint(1)  NOT NULL DEFAULT '0',

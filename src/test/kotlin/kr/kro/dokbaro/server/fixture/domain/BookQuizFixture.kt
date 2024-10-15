@@ -6,6 +6,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.Answerable
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestion
+import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 
@@ -22,8 +23,8 @@ fun bookQuizFixture(
 	description = description,
 	bookId = bookId,
 	creatorId = creatorId,
-	questions = questions,
-	studyGroups = studyGroups,
+	questions = QuizQuestions(questions.toMutableList()),
+	studyGroups = studyGroups.toMutableSet(),
 	id = id,
 )
 
