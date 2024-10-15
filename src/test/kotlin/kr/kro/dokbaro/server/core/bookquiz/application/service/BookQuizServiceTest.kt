@@ -86,7 +86,7 @@ class BookQuizServiceTest :
 					timeLimitSecond = 4,
 					viewScope = AccessScope.EVERYONE,
 					editScope = AccessScope.CREATOR,
-					studyGroups = listOf(),
+					studyGroupId = null,
 					questions =
 						listOf(
 							UpdateQuizQuestionCommand(
@@ -116,7 +116,7 @@ class BookQuizServiceTest :
 						timeLimitSecond = 4,
 						viewScope = AccessScope.EVERYONE,
 						editScope = AccessScope.CREATOR,
-						studyGroups = listOf(),
+						studyGroupId = null,
 						questions =
 							listOf(
 								UpdateQuizQuestionCommand(
@@ -146,7 +146,7 @@ class BookQuizServiceTest :
 					timeLimitSecond = 4,
 					viewScope = AccessScope.EVERYONE,
 					editScope = AccessScope.CREATOR,
-					studyGroups = listOf(),
+					studyGroupId = null,
 					questions =
 						listOf(
 							UpdateQuizQuestionCommand(

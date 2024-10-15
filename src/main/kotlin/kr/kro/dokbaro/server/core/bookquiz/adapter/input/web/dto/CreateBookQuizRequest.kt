@@ -8,7 +8,7 @@ data class CreateBookQuizRequest(
 	val description: String,
 	val bookId: Long,
 	val questions: Collection<CreateQuizQuestionCommand>,
-	val studyGroupIds: Collection<Long> = emptyList(),
+	val studyGroupId: Long?,
 	val timeLimitSecond: Int?,
 	val viewScope: AccessScope,
 	val editScope: AccessScope,

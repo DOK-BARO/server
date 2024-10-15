@@ -70,7 +70,7 @@ class BookQuizMapper {
 					bookId = quiz.bookId,
 					creatorId = quiz.creatorId,
 					questions = toQuestions(etc),
-					studyGroups = etc.getValues(STUDY_GROUP_QUIZ.STUDY_GROUP_ID).toMutableSet(),
+					studyGroupId = etc.getValues(STUDY_GROUP_QUIZ.STUDY_GROUP_ID).filterNotNull().firstOrNull(),
 					timeLimitSecond = quiz.timeLimitSecond,
 					viewScope = AccessScope.valueOf(quiz.viewScope),
 					editScope = AccessScope.valueOf(quiz.editScope),

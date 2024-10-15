@@ -8,7 +8,7 @@ data class BookQuiz(
 	var bookId: Long,
 	val creatorId: Long,
 	val questions: QuizQuestions,
-	val studyGroups: MutableSet<Long> = mutableSetOf(),
+	var studyGroupId: Long? = null,
 	var timeLimitSecond: Int? = null,
 	var viewScope: AccessScope = AccessScope.EVERYONE,
 	var editScope: AccessScope = AccessScope.CREATOR,
@@ -18,6 +18,7 @@ data class BookQuiz(
 		title: String = this.title,
 		description: String = this.description,
 		bookId: Long = this.bookId,
+		studyGroupId: Long? = this.studyGroupId,
 		timeLimitSecond: Int? = this.timeLimitSecond,
 		viewScope: AccessScope = this.viewScope,
 		editScope: AccessScope = this.editScope,
@@ -25,14 +26,10 @@ data class BookQuiz(
 		this.title = title
 		this.description = description
 		this.bookId = bookId
+		this.studyGroupId = studyGroupId
 		this.timeLimitSecond = timeLimitSecond
 		this.viewScope = viewScope
 		this.editScope = editScope
-	}
-
-	fun updateStudyGroups(newGroups: Collection<Long>) {
-		studyGroups.clear()
-		studyGroups.addAll(newGroups)
 	}
 
 	fun updateQuestions(newQuestions: Collection<QuizQuestion>) {

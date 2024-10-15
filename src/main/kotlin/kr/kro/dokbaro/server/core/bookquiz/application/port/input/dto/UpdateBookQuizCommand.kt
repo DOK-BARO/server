@@ -11,7 +11,7 @@ data class UpdateBookQuizCommand(
 	val timeLimitSecond: Int?,
 	val viewScope: AccessScope,
 	val editScope: AccessScope,
-	val studyGroups: Collection<Long>,
+	val studyGroupId: Long?,
 	val questions: Collection<UpdateQuizQuestionCommand>,
 )
 
