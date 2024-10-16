@@ -14,6 +14,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateQuiz
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.InsertBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.LoadBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.UpdateBookQuizPort
+import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase

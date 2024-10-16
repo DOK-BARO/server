@@ -9,9 +9,11 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestion
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.Question
 import org.jooq.Record
+import org.jooq.Record2
 import org.jooq.Record9
 import org.jooq.Result
 import org.jooq.generated.tables.JBookQuiz
@@ -108,6 +110,16 @@ class BookQuizMapper {
 					)
 				}.toMutableList(),
 		)
+
+	fun toBookQuizAnswer(record: Result<Record2<String, ByteArray>>): BookQuizAnswer? =
+		record
+			.groupBy { it.get(BOOK_QUIZ_QUESTION.EXPLANATION).toString(Charsets.UTF_8) }
+			.map { (explanation, record) ->
+				BookQuizAnswer(
+					record.map { it.get(BOOK_QUIZ_ANSWER.CONTENT) },
+					explanation,
+				)
+			}.firstOrNull()
 }
 
 data class QuestionBasic(

@@ -1,11 +1,13 @@
 package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq
 
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import org.jooq.DSLContext
 import org.jooq.Record9
 import org.jooq.Result
 import org.jooq.generated.tables.JBookQuiz
+import org.jooq.generated.tables.JBookQuizAnswer
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
 import org.springframework.stereotype.Repository
@@ -19,6 +21,7 @@ class BookQuizQueryRepository(
 		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
 		private val BOOK_QUIZ_QUESTION = JBookQuizQuestion.BOOK_QUIZ_QUESTION
 		private val BOOK_QUIZ_SELECT_OPTION = JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
+		private val BOOK_QUIZ_ANSWER = JBookQuizAnswer.BOOK_QUIZ_ANSWER
 	}
 
 	fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? {
@@ -43,5 +46,20 @@ class BookQuizQueryRepository(
 				.fetch()
 
 		return bookQuizMapper.recordToBookQuizQuestions(record)
+	}
+
+	fun findBookQuizAnswerBy(questionId: Long): BookQuizAnswer? {
+		val record =
+			dslContext
+				.select(
+					BOOK_QUIZ_ANSWER.CONTENT,
+					BOOK_QUIZ_QUESTION.EXPLANATION,
+				).from(BOOK_QUIZ_ANSWER)
+				.join(BOOK_QUIZ_QUESTION)
+				.on(BOOK_QUIZ_QUESTION.ID.eq(BOOK_QUIZ_ANSWER.BOOK_QUIZ_QUESTION_ID))
+				.where(BOOK_QUIZ_QUESTION.ID.eq(questionId))
+				.fetch()
+
+		return bookQuizMapper.toBookQuizAnswer(record)
 	}
 }
