@@ -1,0 +1,14 @@
+= QUIZ_REVIEW
+
+== 퀴즈 리뷰 생성
+
+=== HTTP request
+
+include::{snippets}/quiz-review/create/http-request.adoc[]
+include::{snippets}/quiz-review/create/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/quiz-review/create/http-response.adoc[]
+include::{snippets}/quiz-review/create/response-fields.adoc[]
+
