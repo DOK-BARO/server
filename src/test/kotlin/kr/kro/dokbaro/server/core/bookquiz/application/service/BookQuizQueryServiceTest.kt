@@ -5,18 +5,22 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizAnswerPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizQuestionPort
+import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuestionException
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.Question
+import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 
 class BookQuizQueryServiceTest :
 	StringSpec({
 		val readBookQuizQuestionPort = mockk<ReadBookQuizQuestionPort>()
+		val readBookQuizAnswerPort = mockk<ReadBookQuizAnswerPort>()
 
-		val bookQuizQueryService = BookQuizQueryService(readBookQuizQuestionPort)
+		val bookQuizQueryService = BookQuizQueryService(readBookQuizQuestionPort, readBookQuizAnswerPort)
 
 		"퀴즈를 조회한다" {
 			every { readBookQuizQuestionPort.findBookQuizQuestionsBy(any()) } returns
@@ -46,6 +50,20 @@ class BookQuizQueryServiceTest :
 
 			shouldThrow<NotFoundQuizException> {
 				bookQuizQueryService.findBookQuizQuestionsBy(5)
+			}
+		}
+
+		"question id 에 해당하는 답변을 가져온다" {
+			every { readBookQuizAnswerPort.findBookQuizAnswerBy(any()) } returns bookQuizAnswerFixture()
+
+			bookQuizQueryService.findBookQuizAnswer(4) shouldNotBe null
+		}
+
+		"답변 조회 시 question id에 해당하는 question이 없으면 예외를 반환한다" {
+			every { readBookQuizAnswerPort.findBookQuizAnswerBy(any()) } returns null
+
+			shouldThrow<NotFoundQuestionException> {
+				bookQuizQueryService.findBookQuizAnswer(5)
 			}
 		}
 	})

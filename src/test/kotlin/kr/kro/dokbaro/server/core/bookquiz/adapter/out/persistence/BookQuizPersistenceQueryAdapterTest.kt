@@ -10,6 +10,7 @@ import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.B
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
+import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.fixture.domain.bookFixture
@@ -39,5 +40,15 @@ class BookQuizPersistenceQueryAdapterTest(
 			adapter.findBookQuizQuestionsBy(300000) shouldBe null
 
 			adapter.findBookQuizQuestionsBy(bookQuizId) shouldNotBe null
+		}
+
+		"퀴즈 답변 목록을 조회한다" {
+			val member = memberRepository.insert(memberFixture()).id
+			val book = bookRepository.insertBook(bookFixture())
+			val bookQuizId: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = member, bookId = book))
+
+			val bookQuiz: BookQuiz = bookQuizRepository.load(bookQuizId)!!
+
+			adapter.findBookQuizAnswerBy(bookQuiz.questions.getQuestions()[0].id) shouldNotBe null
 		}
 	})
