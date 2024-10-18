@@ -9,6 +9,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestion
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 
 fun bookQuizFixture(
 	title: String = "title",
@@ -45,3 +46,8 @@ fun quizQuestionFixture(
 	answer = answer,
 	id = id,
 )
+
+fun bookQuizAnswerFixture(
+	correctAnswer: Collection<String> = listOf("1", "4"),
+	explanation: String = "설명입니다",
+) = BookQuizAnswer(correctAnswer, explanation)
