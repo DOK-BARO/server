@@ -46,13 +46,4 @@ class BookQuizTest :
 			bookQuiz.viewScope shouldBe beforeViewScope
 			bookQuiz.editScope shouldBe beforeEditScope
 		}
-
-		"스터디 그룹을 수정한다" {
-			val bookQuiz = bookQuizFixture()
-			val newGroup = listOf<Long>(1, 2, 4)
-
-			bookQuiz.updateStudyGroups(newGroup)
-
-			bookQuiz.studyGroups shouldBe newGroup
-		}
 	})

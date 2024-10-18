@@ -35,3 +35,15 @@ include::{snippets}/book-quiz/update-book-quiz/request-fields.adoc[]
 === HTTP response
 
 include::{snippets}/book-quiz/update-book-quiz/http-response.adoc[]
+
+== 북 퀴즈 답변 조회
+
+=== HTTP request
+
+include::{snippets}/book-quiz/get-answer/http-request.adoc[]
+include::{snippets}/book-quiz/get-answer/query-parameters.adoc[]
+
+=== HTTP response
+
+include::{snippets}/book-quiz/get-answer/http-response.adoc[]
+include::{snippets}/book-quiz/get-answer/response-fields.adoc[]

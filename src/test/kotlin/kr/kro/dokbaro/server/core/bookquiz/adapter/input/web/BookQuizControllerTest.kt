@@ -7,6 +7,7 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.CreateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateQuizQuestionCommand
@@ -16,6 +17,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.Question
+import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -23,6 +25,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
+import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(BookQuizController::class)
@@ -35,6 +38,9 @@ class BookQuizControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var updateBookQuizUseCase: UpdateBookQuizUseCase
+
+	@MockkBean
+	lateinit var findBookQuizAnswerUseCase: FindBookQuizAnswerUseCase
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
@@ -67,7 +73,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								answers = listOf("X"),
 							),
 						),
-					studyGroupIds = listOf(2),
+					studyGroupId = 2,
 					timeLimitSecond = 60,
 					viewScope = AccessScope.EVERYONE,
 					editScope = AccessScope.CREATOR,
@@ -113,9 +119,10 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("questions[].answers")
 								.type(JsonFieldType.ARRAY)
 								.description("답안"),
-							fieldWithPath("studyGroupIds")
-								.type(JsonFieldType.ARRAY)
-								.description("연관 Study group ID 목록"),
+							fieldWithPath("studyGroupId")
+								.type(JsonFieldType.NUMBER)
+								.description("연관 Study group ID (optional)")
+								.optional(),
 						),
 						responseFields(
 							fieldWithPath("id")
@@ -201,7 +208,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								answers = listOf("X"),
 							),
 						),
-					studyGroupIds = listOf(2),
+					studyGroupId = 2,
 					timeLimitSecond = 60,
 					viewScope = AccessScope.EVERYONE,
 					editScope = AccessScope.CREATOR,
@@ -252,9 +259,30 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("questions[].answers")
 								.type(JsonFieldType.ARRAY)
 								.description("답안"),
-							fieldWithPath("studyGroupIds")
-								.type(JsonFieldType.ARRAY)
-								.description("연관 Study group ID 목록"),
+							fieldWithPath("studyGroupId")
+								.type(JsonFieldType.NUMBER)
+								.description("연관 Study group ID (optional)")
+								.optional(),
+						),
+					),
+				)
+		}
+
+		"책에 대한 답변을 가져온다" {
+			every { findBookQuizAnswerUseCase.findBookQuizAnswer(any()) } returns bookQuizAnswerFixture()
+
+			val param = mapOf("questionId" to "1")
+			performGet(Path("/book-quizzes/answer"), param)
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"book-quiz/get-answer",
+						queryParameters(
+							parameterWithName("questionId").description("질문 ID"),
+						),
+						responseFields(
+							fieldWithPath("correctAnswer").type(JsonFieldType.ARRAY).description("정답 목록을 포함하는 배열. 여러 개의 정답이 있을 수 있다."),
+							fieldWithPath("explanation").type(JsonFieldType.STRING).description("정답에 대한 설명."),
 						),
 					),
 				)

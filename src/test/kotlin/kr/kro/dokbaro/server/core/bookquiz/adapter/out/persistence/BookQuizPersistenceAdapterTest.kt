@@ -46,7 +46,7 @@ class BookQuizPersistenceAdapterTest(
 					),
 				)
 			adapter.insert(
-				bookQuizFixture(bookId = bookId, creatorId = memberId, studyGroups = listOf(studyGroupId)),
+				bookQuizFixture(bookId = bookId, creatorId = memberId, studyGroupId = studyGroupId),
 			) shouldNotBe
 				null
 		}
@@ -62,7 +62,7 @@ class BookQuizPersistenceAdapterTest(
 				)
 			val savedQuizId: Long =
 				adapter.insert(
-					bookQuizFixture(bookId = bookId, creatorId = memberId, studyGroups = listOf(studyGroupId)),
+					bookQuizFixture(bookId = bookId, creatorId = memberId, studyGroupId = studyGroupId),
 				)
 
 			adapter.load(savedQuizId) shouldNotBe null
@@ -80,7 +80,7 @@ class BookQuizPersistenceAdapterTest(
 
 			val savedQuizId: Long =
 				adapter.insert(
-					bookQuizFixture(bookId = bookId, creatorId = memberId, studyGroups = listOf(studyGroupId)),
+					bookQuizFixture(bookId = bookId, creatorId = memberId, studyGroupId = studyGroupId),
 				)
 
 			val quiz: BookQuiz = adapter.load(savedQuizId)!!
