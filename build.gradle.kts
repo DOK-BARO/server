@@ -201,12 +201,12 @@ kover {
 				disabled = false
 				groupBy = GroupingEntityType.CLASS
 				bound {
-					minValue = 90
+					minValue = 100
 					coverageUnits = CoverageUnit.INSTRUCTION
 					aggregationForGroup = AggregationType.COVERED_PERCENTAGE
 				}
 				bound {
-					minValue = 90
+					minValue = 100
 					coverageUnits = CoverageUnit.BRANCH
 					aggregationForGroup = AggregationType.COVERED_PERCENTAGE
 				}
