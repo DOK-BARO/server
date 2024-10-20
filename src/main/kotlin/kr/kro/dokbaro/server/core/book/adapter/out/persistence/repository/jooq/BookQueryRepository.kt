@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq
 
-import kr.kro.dokbaro.server.common.dto.page.PagingOption
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
 import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.query.BookCategoryTree
@@ -39,7 +39,7 @@ class BookQueryRepository(
 
 	fun findAllBookBy(
 		condition: ReadBookCollectionCondition,
-		pagingOption: PagingOption,
+		pageOption: PageOption,
 	): Collection<BookSummary> {
 		val bookTable = "book"
 
@@ -52,8 +52,8 @@ class BookQueryRepository(
 			).from(BOOK)
 				.where(buildCondition(condition))
 				.orderBy(BOOK.ID)
-				.limit(pagingOption.limit)
-				.offset(pagingOption.offset)
+				.limit(pageOption.limit)
+				.offset(pageOption.offset)
 				.asTable(bookTable)
 
 		val record: Map<Long, Result<out Record>> = getSummaryRecord(books)
@@ -201,7 +201,7 @@ class BookQueryRepository(
 	}
 
 	fun findAllIntegratedBook(
-		pagingOption: PagingOption,
+		pageOption: PageOption,
 		keyword: String,
 	): Collection<BookSummary> {
 		val bookTable = "book"
@@ -222,8 +222,8 @@ class BookQueryRepository(
 								.and(BOOK_AUTHOR.NAME.likeIgnoreCase("%$keyword%")),
 						).or((BOOK.TITLE.likeIgnoreCase("%$keyword%"))),
 				).orderBy(BOOK.ID)
-				.limit(pagingOption.limit)
-				.offset(pagingOption.offset)
+				.limit(pageOption.limit)
+				.offset(pageOption.offset)
 				.asTable(bookTable)
 
 		val record: Map<Long, Result<out Record>> = getSummaryRecord(books)

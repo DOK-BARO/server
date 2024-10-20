@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.book.application.service
 
-import kr.kro.dokbaro.server.common.dto.page.PagingOption
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindIntegratedBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
@@ -30,7 +30,7 @@ class BookQueryService(
 				command.description,
 				command.category,
 			),
-			PagingOption.of(command.page, command.size),
+			PageOption.of(command.page, command.size),
 		)
 
 	override fun getBy(id: Long): BookDetail = readBookPort.findBy(id) ?: throw BookNotFoundException(id)
@@ -39,6 +39,5 @@ class BookQueryService(
 		page: Long,
 		size: Long,
 		keyword: String,
-	): Collection<BookSummary> =
-		readIntegratedBookCollectionPort.findAllIntegratedBook(PagingOption.of(page, size), keyword)
+	): Collection<BookSummary> = readIntegratedBookCollectionPort.findAllIntegratedBook(PageOption.of(page, size), keyword)
 }

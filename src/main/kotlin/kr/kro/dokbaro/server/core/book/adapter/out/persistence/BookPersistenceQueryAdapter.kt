@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.core.book.adapter.out.persistence
 
 import kr.kro.dokbaro.server.common.annotation.PersistenceAdapter
-import kr.kro.dokbaro.server.common.dto.page.PagingOption
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookQueryRepository
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookCollectionPort
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookPort
@@ -18,13 +18,13 @@ class BookPersistenceQueryAdapter(
 	ReadIntegratedBookCollectionPort {
 	override fun getAllBook(
 		condition: ReadBookCollectionCondition,
-		pagingOption: PagingOption,
-	): Collection<BookSummary> = bookRepository.findAllBookBy(condition, pagingOption)
+		pageOption: PageOption,
+	): Collection<BookSummary> = bookRepository.findAllBookBy(condition, pageOption)
 
 	override fun findBy(id: Long): BookDetail? = bookRepository.findById(id)
 
 	override fun findAllIntegratedBook(
-		pagingOption: PagingOption,
+		pageOption: PageOption,
 		keyword: String,
-	): Collection<BookSummary> = bookRepository.findAllIntegratedBook(pagingOption, keyword)
+	): Collection<BookSummary> = bookRepository.findAllIntegratedBook(pageOption, keyword)
 }

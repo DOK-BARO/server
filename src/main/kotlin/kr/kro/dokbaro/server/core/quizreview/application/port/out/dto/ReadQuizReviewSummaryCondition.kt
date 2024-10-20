@@ -1,7 +1,5 @@
 package kr.kro.dokbaro.server.core.quizreview.application.port.out.dto
 
-data class QuizReviewTotalScoreElement(
+data class ReadQuizReviewSummaryCondition(
 	val quizId: Long,
-	val starRating: Int,
-	val difficultyLevel: Int,
 )
