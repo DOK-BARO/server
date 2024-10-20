@@ -17,13 +17,13 @@ class QuizReviewRepository(
 		dslContext
 			.insertInto(
 				QUIZ_REVIEW,
-				QUIZ_REVIEW.SCORE,
+				QUIZ_REVIEW.STAR_RATING,
 				QUIZ_REVIEW.DIFFICULTY_LEVEL,
 				QUIZ_REVIEW.COMMENT,
 				QUIZ_REVIEW.MEMBER_ID,
 				QUIZ_REVIEW.QUIZ_ID,
 			).values(
-				quizReview.score,
+				quizReview.starRating,
 				quizReview.difficultyLevel,
 				quizReview.comment?.toByteArray(),
 				quizReview.memberId,

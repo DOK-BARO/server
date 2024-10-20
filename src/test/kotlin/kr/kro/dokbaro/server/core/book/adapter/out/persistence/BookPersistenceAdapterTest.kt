@@ -6,7 +6,7 @@ import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import kr.kro.dokbaro.server.common.dto.page.PagingOption
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookQueryRepository
@@ -76,11 +76,11 @@ class BookPersistenceAdapterTest(
 			queryAdapter
 				.getAllBook(
 					condition = ReadBookCollectionCondition(),
-					pagingOption = PagingOption(0, expectedCount.toLong()),
+					pageOption = PageOption(0, expectedCount.toLong()),
 				).size shouldBe expectedCount
 		}
 
-		val defaultPagingOption = PagingOption(0, 200_000_000)
+		val defaultPageOption = PageOption(0, 200_000_000)
 
 		"category를 통한 목록 조회를 수행한다" {
 			val mobileId =
@@ -101,10 +101,10 @@ class BookPersistenceAdapterTest(
 			val mobileCondition = ReadBookCollectionCondition(categoryId = mobileId)
 			val osCondition = ReadBookCollectionCondition(categoryId = osId)
 
-			queryAdapter.getAllBook(mobileCondition, defaultPagingOption).count() shouldBe
+			queryAdapter.getAllBook(mobileCondition, defaultPageOption).count() shouldBe
 				books.count { it.categories.contains(mobileId) }
 
-			queryAdapter.getAllBook(osCondition, defaultPagingOption).count() shouldBe
+			queryAdapter.getAllBook(osCondition, defaultPageOption).count() shouldBe
 				books.count { it.categories.contains(osId) }
 		}
 
@@ -124,7 +124,7 @@ class BookPersistenceAdapterTest(
 			val target = "현"
 			val condition = ReadBookCollectionCondition(authorName = target)
 
-			queryAdapter.getAllBook(condition, defaultPagingOption).count() shouldBe
+			queryAdapter.getAllBook(condition, defaultPageOption).count() shouldBe
 				books.count { it.authors.any { author -> author.name.contains(target) } }
 		}
 
@@ -144,7 +144,7 @@ class BookPersistenceAdapterTest(
 			val target = "자바"
 			val condition = ReadBookCollectionCondition(title = target)
 
-			queryAdapter.getAllBook(condition, defaultPagingOption).count() shouldBe
+			queryAdapter.getAllBook(condition, defaultPageOption).count() shouldBe
 				books.count { it.title.contains(target) }
 		}
 
@@ -164,7 +164,7 @@ class BookPersistenceAdapterTest(
 			val target = "자바"
 			val condition = ReadBookCollectionCondition(description = target)
 
-			queryAdapter.getAllBook(condition, defaultPagingOption).count() shouldBe
+			queryAdapter.getAllBook(condition, defaultPageOption).count() shouldBe
 				books.count { it.description?.contains(target) == true }
 		}
 	
@@ -182,6 +182,6 @@ class BookPersistenceAdapterTest(
 				adapter.insert(it)
 			}
 
-			queryAdapter.findAllIntegratedBook(defaultPagingOption, keyword).size shouldBe 4
+			queryAdapter.findAllIntegratedBook(defaultPageOption, keyword).size shouldBe 4
 		}
 	})
