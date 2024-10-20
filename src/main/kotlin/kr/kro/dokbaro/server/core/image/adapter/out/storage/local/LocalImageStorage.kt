@@ -23,7 +23,7 @@ class LocalImageStorage(
 
 		val totalPath = combinePath(locationPath, middlePath)
 
-		file.transferTo(File(totalPath + middlePath, fileName))
+		file.transferTo(File(totalPath, fileName))
 
 		return hostUrl + totalPath + fileName
 	}
