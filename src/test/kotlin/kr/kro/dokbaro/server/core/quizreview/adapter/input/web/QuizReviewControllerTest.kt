@@ -62,7 +62,7 @@ class QuizReviewControllerTest : RestDocsTest() {
 		}
 
 		"퀴즈 총 평점을 조회한다" {
-			every { findQuizReviewTotalScoreUseCase.findBy(any()) } returns
+			every { findQuizReviewTotalScoreUseCase.findTotalScoreBy(any()) } returns
 				QuizReviewTotalScore(
 					1,
 					4.5,

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class QuizReviewQueryService(
 	private val readQuizReviewTotalScorePort: ReadQuizReviewTotalScorePort,
 ) : FindQuizReviewTotalScoreUseCase {
-	override fun findBy(quizId: Long): QuizReviewTotalScore {
+	override fun findTotalScoreBy(quizId: Long): QuizReviewTotalScore {
 		val elements: Collection<QuizReviewTotalScoreElement> = readQuizReviewTotalScorePort.findBy(quizId)
 
 		if (elements.isEmpty()) {

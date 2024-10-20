@@ -46,7 +46,7 @@ class QuizReviewController(
 	@GetMapping("/total-score")
 	fun getTotalScore(
 		@RequestParam quizId: Long,
-	): QuizReviewTotalScore = findQuizReviewTotalScoreUseCase.findBy(quizId)
+	): QuizReviewTotalScore = findQuizReviewTotalScoreUseCase.findTotalScoreBy(quizId)
 
 	@GetMapping
 	fun getReviews(

@@ -24,14 +24,14 @@ class QuizReviewQueryServiceTest :
 					QuizReviewTotalScoreElement(1, 1, 1),
 				)
 
-			quizReviewQueryService.findBy(1) shouldNotBe null
+			quizReviewQueryService.findTotalScoreBy(1) shouldNotBe null
 		}
 
 		"퀴즈 총 점수 조회 시 quiz id에 해당하는 quiz가 없으면 예외를 반환한다" {
 			every { readQuizReviewTotalScorePort.findBy(any()) } returns emptyList()
 
 			shouldThrow<NotFoundQuizException> {
-				quizReviewQueryService.findBy(1)
+				quizReviewQueryService.findTotalScoreBy(1)
 			}
 		}
 	})
