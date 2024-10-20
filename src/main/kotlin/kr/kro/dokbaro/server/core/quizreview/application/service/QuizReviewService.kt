@@ -16,7 +16,7 @@ class QuizReviewService(
 		val memberId = findCertificatedMemberUseCase.getByCertificationId(command.authId).id
 		return insertQuizReviewPort.insert(
 			QuizReview(
-				score = command.score,
+				starRating = command.starRating,
 				difficultyLevel = command.difficultyLevel,
 				comment = command.comment,
 				memberId = memberId,

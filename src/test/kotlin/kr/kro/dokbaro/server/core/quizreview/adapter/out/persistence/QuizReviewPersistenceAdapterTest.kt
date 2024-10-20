@@ -11,10 +11,10 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jo
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq.QuizReviewRepository
-import kr.kro.dokbaro.server.core.quizreview.domain.QuizReview
 import kr.kro.dokbaro.server.fixture.domain.bookFixture
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
 import kr.kro.dokbaro.server.fixture.domain.memberFixture
+import kr.kro.dokbaro.server.fixture.domain.quizReviewFixture
 import org.jooq.DSLContext
 
 @PersistenceAdapterTest
@@ -35,7 +35,7 @@ class QuizReviewPersistenceAdapterTest(
 			val bookId = bookRepository.insertBook(bookFixture())
 			val bookQuizId: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
 
-			adapter.insert(QuizReview(1, 1, null, memberId, bookQuizId)) shouldNotBe null
-			adapter.insert(QuizReview(1, 1, "hello", memberId, bookQuizId)) shouldNotBe null
+			adapter.insert(quizReviewFixture(memberId = memberId, quizId = bookQuizId)) shouldNotBe null
+			adapter.insert(quizReviewFixture(comment = "hello", memberId = memberId, quizId = bookQuizId)) shouldNotBe null
 		}
 	})
