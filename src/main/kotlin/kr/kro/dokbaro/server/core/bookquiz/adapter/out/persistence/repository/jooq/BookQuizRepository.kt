@@ -9,6 +9,7 @@ import org.jooq.Record
 import org.jooq.Result
 import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizAnswer
+import org.jooq.generated.tables.JBookQuizAnswerExplainImage
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
 import org.jooq.generated.tables.JStudyGroupQuiz
@@ -26,6 +27,7 @@ class BookQuizRepository(
 		private val BOOK_QUIZ_ANSWER = JBookQuizAnswer.BOOK_QUIZ_ANSWER
 		private val BOOK_QUIZ_SELECT_OPTION = JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
 		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
+		private val BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE = JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
 	}
 
 	fun insert(bookQuiz: BookQuiz): Long {
@@ -119,6 +121,18 @@ class BookQuizRepository(
 						value,
 					).execute()
 			}
+
+		question.answerExplanationImages.forEach {
+			dslContext
+				.insertInto(
+					BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE,
+					BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID,
+					BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL,
+				).values(
+					questionId,
+					it,
+				).execute()
+		}
 	}
 
 	fun load(id: Long): BookQuiz? {

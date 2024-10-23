@@ -35,17 +35,19 @@ class BookQuizService(
 				description = command.description,
 				bookId = command.bookId,
 				creatorId = loginUser.id,
-				QuizQuestions(
-					command.questions
-						.map {
-							QuizQuestion(
-								content = it.content,
-								selectOptions = it.selectOptions.map { o -> SelectOption(o) },
-								answerExplanation = it.answerExplanation,
-								answer = AnswerFactory.create(it.answerType, AnswerSheet(it.answers)),
-							)
-						}.toMutableList(),
-				),
+				questions =
+					QuizQuestions(
+						command.questions
+							.map {
+								QuizQuestion(
+									content = it.content,
+									selectOptions = it.selectOptions.map { o -> SelectOption(o) },
+									answerExplanation = it.answerExplanation,
+									answerExplanationImages = it.answerExplanationImages,
+									answer = AnswerFactory.create(it.answerType, AnswerSheet(it.answers)),
+								)
+							}.toMutableList(),
+					),
 				studyGroupId = command.studyGroupId,
 			),
 		)
