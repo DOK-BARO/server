@@ -1,11 +1,13 @@
 package kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq
 
 import kr.kro.dokbaro.server.common.annotation.Mapper
+import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRecordFieldName
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
 import kr.kro.dokbaro.server.core.book.query.BookCategorySingle
 import kr.kro.dokbaro.server.core.book.query.BookCategoryTree
 import kr.kro.dokbaro.server.core.book.query.BookDetail
 import kr.kro.dokbaro.server.core.book.query.BookSummary
+import kr.kro.dokbaro.server.core.book.query.IntegratedBook
 import org.jooq.Record
 import org.jooq.Result
 import org.jooq.generated.tables.JBook
@@ -22,6 +24,18 @@ class BookMapper {
 	fun toSummaryCollection(record: Map<Long, Result<out Record>>): Collection<BookSummary> =
 		record.map {
 			BookSummary(
+				it.key,
+				it.value.getValues(BOOK.TITLE).first(),
+				it.value.getValues(BOOK.PUBLISHER).first(),
+				it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
+				it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
+				it.value.getValues(BookRecordFieldName.QUIZ_COUNT.name, Long::class.java).first(),
+			)
+		}
+
+	fun toIntegratedBookCollection(record: Map<Long, Result<out Record>>): Collection<IntegratedBook> =
+		record.map {
+			IntegratedBook(
 				it.key,
 				it.value.getValues(BOOK.TITLE).first(),
 				it.value.getValues(BOOK.PUBLISHER).first(),
