@@ -63,12 +63,14 @@ class BookQuizControllerTest : RestDocsTest() {
 									"자전차왕 엄복동",
 								),
 								"엄복동은 누적 관객 수 17만명을 기록했다.",
+								listOf("hello.png"),
 								QuizType.MULTIPLE_CHOICE,
 								listOf("4"),
 							),
 							CreateQuizQuestionCommand(
 								content = "명량에서 이순신 역은 류승룡이 담당했다",
 								answerExplanation = "최민식이 담당했다",
+								answerExplanationImages = listOf("hello.png"),
 								answerType = QuizType.OX,
 								answers = listOf("X"),
 							),
@@ -113,6 +115,9 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("questions[].answerExplanation")
 								.type(JsonFieldType.STRING)
 								.description("답안 설명"),
+							fieldWithPath("questions[].answerExplanationImages")
+								.type(JsonFieldType.ARRAY)
+								.description("설명 사진 목록"),
 							fieldWithPath("questions[].answerType")
 								.type(JsonFieldType.STRING)
 								.description("답안 타입 [OX, FILL_BLANK, MULTIPLE_CHOICE, SHORT]"),
@@ -283,6 +288,9 @@ class BookQuizControllerTest : RestDocsTest() {
 						responseFields(
 							fieldWithPath("correctAnswer").type(JsonFieldType.ARRAY).description("정답 목록을 포함하는 배열. 여러 개의 정답이 있을 수 있다."),
 							fieldWithPath("explanation").type(JsonFieldType.STRING).description("정답에 대한 설명."),
+							fieldWithPath("explanationImages")
+								.type(JsonFieldType.ARRAY)
+								.description("설명 사진 목록"),
 						),
 					),
 				)

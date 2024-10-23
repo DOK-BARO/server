@@ -33,6 +33,7 @@ fun quizQuestionFixture(
 	content: String = "content",
 	selectOptions: Collection<SelectOption> = listOf(SelectOption("selectOption1"), SelectOption("selectOption1")),
 	answerExplanation: String = "answer_explanation",
+	answerExplanationImages: Collection<String> = listOf("hello.png"),
 	answer: Answerable =
 		AnswerFactory.create(
 			QuizType.MULTIPLE_CHOICE,
@@ -43,6 +44,7 @@ fun quizQuestionFixture(
 	content = content,
 	selectOptions = selectOptions,
 	answerExplanation = answerExplanation,
+	answerExplanationImages = answerExplanationImages,
 	answer = answer,
 	id = id,
 )
@@ -50,4 +52,5 @@ fun quizQuestionFixture(
 fun bookQuizAnswerFixture(
 	correctAnswer: Collection<String> = listOf("1", "4"),
 	explanation: String = "설명입니다",
-) = BookQuizAnswer(correctAnswer, explanation)
+	explanationImages: Collection<String> = listOf("hello.png"),
+) = BookQuizAnswer(correctAnswer, explanation, explanationImages)
