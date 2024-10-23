@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq
 
+import kr.kro.dokbaro.server.common.constant.Constants
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.option.SortOption
@@ -230,8 +231,9 @@ class BookQueryRepository(
 	}
 
 	fun findAllIntegratedBook(
-		pageOption: PageOption,
+		size: Long,
 		keyword: String,
+		lastId: Long?,
 	): Collection<IntegratedBook> {
 		val bookTable = "book"
 
@@ -251,8 +253,8 @@ class BookQueryRepository(
 								.and(BOOK_AUTHOR.NAME.likeIgnoreCase("%$keyword%")),
 						).or((BOOK.TITLE.likeIgnoreCase("%$keyword%"))),
 				).orderBy(BOOK.ID)
-				.limit(pageOption.limit)
-				.offset(pageOption.offset)
+				.seek(lastId ?: Constants.UNSAVED_ID)
+				.limit(size)
 				.asTable(bookTable)
 
 		val record: Map<Long, Result<out Record>> = getSummaryRecord(books)

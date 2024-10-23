@@ -183,7 +183,7 @@ class BookControllerTest : RestDocsTest() {
 			val param =
 				mapOf(
 					"keyword" to "자바",
-					"page" to "3",
+					"lastId" to "3",
 					"size" to "10",
 				)
 			performGet(Path("/books/integrated"), param)
@@ -193,7 +193,7 @@ class BookControllerTest : RestDocsTest() {
 						"book/find-integrated-book-collection",
 						queryParameters(
 							parameterWithName("keyword").description("검색 키워드"),
-							parameterWithName("page").description("page 번호. 1부터 시작. (default : 1)").optional(),
+							parameterWithName("lastId").description("조회한 값 중 마지막 ID, 최초 조회 시 null (optional)").optional(),
 							parameterWithName("size").description("노출 개수"),
 						),
 						responseFields(
