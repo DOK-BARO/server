@@ -30,9 +30,10 @@ class BookPersistenceQueryAdapter(
 	override fun findBy(id: Long): BookDetail? = bookRepository.findById(id)
 
 	override fun findAllIntegratedBook(
-		pageOption: PageOption,
+		size: Long,
 		keyword: String,
-	): Collection<IntegratedBook> = bookRepository.findAllIntegratedBook(pageOption, keyword)
+		lastId: Long?,
+	): Collection<IntegratedBook> = bookRepository.findAllIntegratedBook(size, keyword, lastId)
 
 	override fun countBy(condition: ReadBookCollectionCondition): Long = bookRepository.countBy(condition)
 }

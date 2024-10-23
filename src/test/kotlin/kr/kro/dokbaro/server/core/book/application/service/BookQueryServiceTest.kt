@@ -70,13 +70,13 @@ class BookQueryServiceTest :
 		}
 
 		"통합 검색을 수행한다" {
-			every { readIntegratedBookCollectionPort.findAllIntegratedBook(any(), any()) } returns
+			every { readIntegratedBookCollectionPort.findAllIntegratedBook(any(), any(), any()) } returns
 				listOf(
 					integratedBookFixture(),
 					integratedBookFixture(),
 					integratedBookFixture(),
 				)
 
-			bookQueryService.findAllIntegratedBooks(page = 1, size = 10, "asdf").size shouldBe 3
+			bookQueryService.findAllIntegratedBooks(10, "asdf", null).size shouldBe 3
 		}
 	})

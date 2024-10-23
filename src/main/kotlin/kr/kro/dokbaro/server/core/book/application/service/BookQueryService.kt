@@ -49,9 +49,8 @@ class BookQueryService(
 	override fun getBy(id: Long): BookDetail = readBookPort.findBy(id) ?: throw BookNotFoundException(id)
 
 	override fun findAllIntegratedBooks(
-		page: Long,
 		size: Long,
 		keyword: String,
-	): Collection<IntegratedBook> =
-		readIntegratedBookCollectionPort.findAllIntegratedBook(PageOption.of(page, size), keyword)
+		lastId: Long?,
+	): Collection<IntegratedBook> = readIntegratedBookCollectionPort.findAllIntegratedBook(size, keyword, lastId)
 }

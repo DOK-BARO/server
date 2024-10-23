@@ -69,8 +69,8 @@ class BookController(
 
 	@GetMapping("/integrated")
 	fun findIntegratedBooks(
-		@RequestParam(defaultValue = "1") page: Long,
 		@RequestParam size: Long,
 		@RequestParam keyword: String,
-	): Collection<IntegratedBook> = findIntegratedBookUseCase.findAllIntegratedBooks(page, size, keyword)
+		@RequestParam lastId: Long?,
+	): Collection<IntegratedBook> = findIntegratedBookUseCase.findAllIntegratedBooks(size, keyword, lastId)
 }
