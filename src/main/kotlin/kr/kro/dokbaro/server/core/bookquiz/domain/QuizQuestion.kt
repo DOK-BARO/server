@@ -7,6 +7,8 @@ data class QuizQuestion(
 	// 답안 선택지
 	val selectOptions: Collection<SelectOption> = emptyList(),
 	val answerExplanation: String,
+	// 추가 설명 이미지
+	val answerExplanationImages: Collection<String> = emptyList(),
 	val answer: Answerable,
 	val active: Boolean = true,
 	val id: Long = Constants.UNSAVED_ID,

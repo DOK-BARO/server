@@ -62,6 +62,7 @@ class BookQuizServiceTest :
 								"자전차왕 엄복동",
 							),
 							"엄복동은 누적 관객 수 17만명을 기록했다.",
+							listOf("hello.png"),
 							QuizType.MULTIPLE_CHOICE,
 							listOf("4"),
 						),
