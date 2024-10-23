@@ -188,7 +188,8 @@ class BookPersistenceAdapterTest(
 				adapter.insert(it)
 			}
 
-			queryAdapter.findAllIntegratedBook(defaultPageOption, keyword).size shouldBe 4
+			queryAdapter.findAllIntegratedBook(100000, keyword, null).size shouldBe 4
+			queryAdapter.findAllIntegratedBook(100000, keyword, 0).size shouldBe 4
 		}
 
 		"조회한 결과를 정렬한다" {

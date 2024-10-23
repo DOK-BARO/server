@@ -4,8 +4,8 @@ import kr.kro.dokbaro.server.core.book.query.IntegratedBook
 
 interface FindIntegratedBookUseCase {
 	fun findAllIntegratedBooks(
-		page: Long,
 		size: Long,
 		keyword: String,
+		lastId: Long?,
 	): Collection<IntegratedBook>
 }
