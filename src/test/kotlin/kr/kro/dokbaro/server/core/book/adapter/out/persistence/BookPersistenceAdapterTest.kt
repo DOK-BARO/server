@@ -6,16 +6,21 @@ import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.common.dto.option.PageOption
+import kr.kro.dokbaro.server.common.dto.option.SortDirection
+import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookQueryRepository
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
 import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
+import kr.kro.dokbaro.server.core.book.query.BookSummarySortOption
 import kr.kro.dokbaro.server.fixture.domain.bookCategoryFixture
 import kr.kro.dokbaro.server.fixture.domain.bookFixture
 import org.jooq.DSLContext
+import java.time.LocalDate
 
 @PersistenceAdapterTest
 class BookPersistenceAdapterTest(
@@ -65,6 +70,8 @@ class BookPersistenceAdapterTest(
 			findBook.description shouldBe null
 		}
 
+		val defaultPageOption = PageOption(0, 200_000_000)
+		val defaultSortOption = SortOption(BookSummarySortOption.TITLE)
 		"책 목록을 조회한다" {
 			val categoryId =
 				repository.insertBookCategory(bookCategoryFixture(parentId = BookCategory.ROOT_ID, koreanName = "모바일"))
@@ -77,10 +84,9 @@ class BookPersistenceAdapterTest(
 				.getAllBook(
 					condition = ReadBookCollectionCondition(),
 					pageOption = PageOption(0, expectedCount.toLong()),
+					sortOption = defaultSortOption,
 				).size shouldBe expectedCount
 		}
-
-		val defaultPageOption = PageOption(0, 200_000_000)
 
 		"category를 통한 목록 조회를 수행한다" {
 			val mobileId =
@@ -101,10 +107,10 @@ class BookPersistenceAdapterTest(
 			val mobileCondition = ReadBookCollectionCondition(categoryId = mobileId)
 			val osCondition = ReadBookCollectionCondition(categoryId = osId)
 
-			queryAdapter.getAllBook(mobileCondition, defaultPageOption).count() shouldBe
+			queryAdapter.getAllBook(mobileCondition, defaultPageOption, defaultSortOption).count() shouldBe
 				books.count { it.categories.contains(mobileId) }
 
-			queryAdapter.getAllBook(osCondition, defaultPageOption).count() shouldBe
+			queryAdapter.getAllBook(osCondition, defaultPageOption, defaultSortOption).count() shouldBe
 				books.count { it.categories.contains(osId) }
 		}
 
@@ -124,7 +130,7 @@ class BookPersistenceAdapterTest(
 			val target = "현"
 			val condition = ReadBookCollectionCondition(authorName = target)
 
-			queryAdapter.getAllBook(condition, defaultPageOption).count() shouldBe
+			queryAdapter.getAllBook(condition, defaultPageOption, defaultSortOption).count() shouldBe
 				books.count { it.authors.any { author -> author.name.contains(target) } }
 		}
 
@@ -144,7 +150,7 @@ class BookPersistenceAdapterTest(
 			val target = "자바"
 			val condition = ReadBookCollectionCondition(title = target)
 
-			queryAdapter.getAllBook(condition, defaultPageOption).count() shouldBe
+			queryAdapter.getAllBook(condition, defaultPageOption, defaultSortOption).count() shouldBe
 				books.count { it.title.contains(target) }
 		}
 
@@ -164,10 +170,10 @@ class BookPersistenceAdapterTest(
 			val target = "자바"
 			val condition = ReadBookCollectionCondition(description = target)
 
-			queryAdapter.getAllBook(condition, defaultPageOption).count() shouldBe
+			queryAdapter.getAllBook(condition, defaultPageOption, defaultSortOption).count() shouldBe
 				books.count { it.description?.contains(target) == true }
 		}
-	
+
 		"통합 검색을 수행한다" {
 			val keyword = "자바"
 			val books =
@@ -183,5 +189,62 @@ class BookPersistenceAdapterTest(
 			}
 
 			queryAdapter.findAllIntegratedBook(defaultPageOption, keyword).size shouldBe 4
+		}
+
+		"조회한 결과를 정렬한다" {
+			val books =
+				listOf(
+					bookFixture(title = "A", publishedAt = LocalDate.of(2024, 1, 5)),
+					bookFixture(title = "B", publishedAt = LocalDate.of(2024, 1, 4)),
+					bookFixture(title = "C", publishedAt = LocalDate.of(2024, 1, 3)),
+					bookFixture(title = "D", publishedAt = LocalDate.of(2024, 1, 2)),
+					bookFixture(title = "E", publishedAt = LocalDate.of(2024, 1, 1)),
+				)
+			books.forEach {
+				adapter.insert(it)
+			}
+			val condition = ReadBookCollectionCondition()
+
+			queryAdapter
+				.getAllBook(
+					condition,
+					defaultPageOption,
+					SortOption(BookSummarySortOption.TITLE, SortDirection.ASC),
+				).toList()[0]
+				.title shouldBe "A"
+
+			val title =
+				queryAdapter
+					.getAllBook(
+						condition,
+						defaultPageOption,
+						SortOption(BookSummarySortOption.PUBLISHED_AT, SortDirection.ASC),
+					).toList()[0]
+					.title
+			title shouldBe "A"
+
+			queryAdapter
+				.getAllBook(
+					condition,
+					defaultPageOption,
+					SortOption(BookSummarySortOption.QUIZ_COUNT, SortDirection.DESC),
+				).toList()[0] shouldNotBe null
+		}
+
+		"개수를 조회한다" {
+			val books =
+				listOf(
+					bookFixture(title = "A", publishedAt = LocalDate.of(2024, 1, 5)),
+					bookFixture(title = "AA", publishedAt = LocalDate.of(2024, 1, 4)),
+					bookFixture(title = "AAA", publishedAt = LocalDate.of(2024, 1, 3)),
+					bookFixture(title = "D", publishedAt = LocalDate.of(2024, 1, 2)),
+					bookFixture(title = "E", publishedAt = LocalDate.of(2024, 1, 1)),
+				)
+			books.forEach {
+				adapter.insert(it)
+			}
+
+			queryAdapter.countBy(ReadBookCollectionCondition()) shouldBe 5
+			queryAdapter.countBy(ReadBookCollectionCondition(title = "A")) shouldBe 3
 		}
 	})

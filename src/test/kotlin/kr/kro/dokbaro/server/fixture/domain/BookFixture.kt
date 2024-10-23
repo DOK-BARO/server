@@ -7,6 +7,7 @@ import kr.kro.dokbaro.server.core.book.domain.BookCategory
 import kr.kro.dokbaro.server.core.book.query.BookCategorySingle
 import kr.kro.dokbaro.server.core.book.query.BookDetail
 import kr.kro.dokbaro.server.core.book.query.BookSummary
+import kr.kro.dokbaro.server.core.book.query.IntegratedBook
 import java.time.LocalDate
 import kotlin.random.Random
 
@@ -87,8 +88,25 @@ fun bookSummaryFixture(
 	publisher: String = "위키북스",
 	imageUrl: String = "image.png",
 	authors: List<String> = listOf("마틴 파울러", "조영호"),
+	quizCount: Long = 0,
 ): BookSummary =
 	BookSummary(
+		id = id,
+		title = title,
+		publisher = publisher,
+		imageUrl = imageUrl,
+		authors = authors,
+		quizCount = quizCount,
+	)
+
+fun integratedBookFixture(
+	id: Long = 1,
+	title: String = "점프투자바",
+	publisher: String = "위키북스",
+	imageUrl: String = "image.png",
+	authors: List<String> = listOf("마틴 파울러", "조영호"),
+): IntegratedBook =
+	IntegratedBook(
 		id = id,
 		title = title,
 		publisher = publisher,

@@ -1,26 +1,33 @@
 package kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq
 
 import kr.kro.dokbaro.server.common.dto.option.PageOption
+import kr.kro.dokbaro.server.common.dto.option.SortDirection
+import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
 import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.query.BookCategoryTree
 import kr.kro.dokbaro.server.core.book.query.BookDetail
 import kr.kro.dokbaro.server.core.book.query.BookSummary
+import kr.kro.dokbaro.server.core.book.query.BookSummarySortOption
+import kr.kro.dokbaro.server.core.book.query.IntegratedBook
 import org.jooq.Condition
 import org.jooq.DSLContext
+import org.jooq.OrderField
 import org.jooq.Record
-import org.jooq.Record5
+import org.jooq.Record6
 import org.jooq.Result
 import org.jooq.Table
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookAuthor
 import org.jooq.generated.tables.JBookCategory
 import org.jooq.generated.tables.JBookCategoryGroup
+import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.records.BookCategoryRecord
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.field
 import org.jooq.impl.DSL.name
 import org.jooq.impl.DSL.select
+import org.jooq.impl.DSL.selectCount
 import org.jooq.impl.DSL.table
 import org.jooq.impl.DSL.`val`
 import org.springframework.stereotype.Repository
@@ -35,11 +42,13 @@ class BookQueryRepository(
 		private val BOOK_AUTHOR = JBookAuthor.BOOK_AUTHOR
 		private val BOOK_CATEGORY = JBookCategory.BOOK_CATEGORY
 		private val BOOK_CATEGORY_GROUP = JBookCategoryGroup.BOOK_CATEGORY_GROUP
+		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
 	}
 
 	fun findAllBookBy(
 		condition: ReadBookCollectionCondition,
 		pageOption: PageOption,
+		sortOption: SortOption<BookSummarySortOption>,
 	): Collection<BookSummary> {
 		val bookTable = "book"
 
@@ -49,9 +58,14 @@ class BookQueryRepository(
 				BOOK.TITLE,
 				BOOK.PUBLISHER,
 				BOOK.IMAGE_URL,
+				field(
+					selectCount()
+						.from(BOOK_QUIZ)
+						.where(BOOK_QUIZ.BOOK_ID.eq(BOOK.ID)),
+				).`as`(BookRecordFieldName.QUIZ_COUNT.name),
 			).from(BOOK)
 				.where(buildCondition(condition))
-				.orderBy(BOOK.ID)
+				.orderBy(toOrderQuery(sortOption))
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
 				.asTable(bookTable)
@@ -59,6 +73,21 @@ class BookQueryRepository(
 		val record: Map<Long, Result<out Record>> = getSummaryRecord(books)
 
 		return bookMapper.toSummaryCollection(record)
+	}
+
+	private fun toOrderQuery(sortOption: SortOption<BookSummarySortOption>): OrderField<out Any>? {
+		val query =
+			when (sortOption.keyword) {
+				BookSummarySortOption.PUBLISHED_AT -> BOOK.PUBLISHED_AT
+				BookSummarySortOption.TITLE -> BOOK.TITLE
+				BookSummarySortOption.QUIZ_COUNT -> field(BookRecordFieldName.QUIZ_COUNT.name)
+			}
+
+		if (sortOption.direction == SortDirection.DESC) {
+			return query.desc()
+		}
+
+		return query
 	}
 
 	private fun buildCondition(condition: ReadBookCollectionCondition): Condition {
@@ -203,7 +232,7 @@ class BookQueryRepository(
 	fun findAllIntegratedBook(
 		pageOption: PageOption,
 		keyword: String,
-	): Collection<BookSummary> {
+	): Collection<IntegratedBook> {
 		val bookTable = "book"
 
 		val books: Table<out Record> =
@@ -228,12 +257,12 @@ class BookQueryRepository(
 
 		val record: Map<Long, Result<out Record>> = getSummaryRecord(books)
 
-		return bookMapper.toSummaryCollection(record)
+		return bookMapper.toIntegratedBookCollection(record)
 	}
 
 	private fun getSummaryRecord(
 		books: Table<out Record>,
-	): Map<Long, Result<Record5<Long, String, String, String, String>>> =
+	): Map<Long, Result<Record6<Long, String, String, String, String, Long>>> =
 		dslContext
 			.select(
 				BOOK.ID,
@@ -241,10 +270,18 @@ class BookQueryRepository(
 				BOOK.PUBLISHER,
 				BOOK.IMAGE_URL,
 				BOOK_AUTHOR.NAME,
+				books.field(BookRecordFieldName.QUIZ_COUNT.name, Long::class.java),
 			).from(books)
 			.join(BOOK_AUTHOR)
 			.on(books.field(BOOK.ID)!!.eq(BOOK_AUTHOR.BOOK_ID))
 			.join(BOOK_CATEGORY_GROUP)
 			.on(books.field(BOOK.ID)!!.eq(BOOK_CATEGORY_GROUP.BOOK_ID))
 			.fetchGroups(BOOK.ID)
+
+	fun countBy(condition: ReadBookCollectionCondition): Long =
+		dslContext
+			.selectCount()
+			.from(BOOK)
+			.where(buildCondition(condition))
+			.fetchOneInto(Long::class.java)!!
 }

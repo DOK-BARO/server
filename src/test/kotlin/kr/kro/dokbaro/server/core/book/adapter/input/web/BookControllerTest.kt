@@ -2,6 +2,7 @@ package kr.kro.dokbaro.server.core.book.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.book.application.port.input.CreateBookUseCase
@@ -11,6 +12,7 @@ import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookCommand
 import kr.kro.dokbaro.server.fixture.domain.bookDetailFixture
 import kr.kro.dokbaro.server.fixture.domain.bookSummaryFixture
+import kr.kro.dokbaro.server.fixture.domain.integratedBookFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -40,9 +42,12 @@ class BookControllerTest : RestDocsTest() {
 	init {
 		"책 전체 조회를 수행한다" {
 			every { findAllBookUseCase.findAllBy(any()) } returns
-				listOf(
-					bookSummaryFixture(),
-					bookSummaryFixture(title = "제목"),
+				PageResponse(
+					100,
+					listOf(
+						bookSummaryFixture(),
+						bookSummaryFixture(title = "제목"),
+					),
 				)
 
 			val param =
@@ -53,6 +58,7 @@ class BookControllerTest : RestDocsTest() {
 					"category" to "4",
 					"page" to "3",
 					"size" to "10",
+					"sort" to "TITLE",
 				)
 			performGet(Path("/books"), param)
 				.andExpect(status().isOk)
@@ -66,13 +72,22 @@ class BookControllerTest : RestDocsTest() {
 							parameterWithName("category").description("카테고리 ID (optional)").optional(),
 							parameterWithName("page").description("page 번호. 1부터 시작. (default : 1)").optional(),
 							parameterWithName("size").description("노출 개수"),
+							parameterWithName("sort")
+								.description("정렬 기준. ( PUBLISHED_AT, TITLE, QUIZ_COUNT )"),
+							parameterWithName("direction")
+								.description("정렬 방향. ( 'ASC' , 'DESC' ) default: ASC")
+								.optional(),
 						),
 						responseFields(
-							fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("id"),
-							fieldWithPath("[].title").type(JsonFieldType.STRING).description("책 제목"),
-							fieldWithPath("[].publisher").type(JsonFieldType.STRING).description("출판사"),
-							fieldWithPath("[].imageUrl").type(JsonFieldType.STRING).description("image url"),
-							fieldWithPath("[].authors").type(JsonFieldType.ARRAY).description("저자명"),
+							fieldWithPath("endPageNumber")
+								.type(JsonFieldType.NUMBER)
+								.description("마지막 페이지 번호."),
+							fieldWithPath("data[].id").type(JsonFieldType.NUMBER).description("id"),
+							fieldWithPath("data[].title").type(JsonFieldType.STRING).description("책 제목"),
+							fieldWithPath("data[].publisher").type(JsonFieldType.STRING).description("출판사"),
+							fieldWithPath("data[].imageUrl").type(JsonFieldType.STRING).description("image url"),
+							fieldWithPath("data[].authors").type(JsonFieldType.ARRAY).description("저자명"),
+							fieldWithPath("data[].quizCount").type(JsonFieldType.NUMBER).description("관련 quiz 개수"),
 						),
 					),
 				)
@@ -161,8 +176,8 @@ class BookControllerTest : RestDocsTest() {
 		"통합 검색을 수행한다" {
 			every { findIntegratedBookUseCase.findAllIntegratedBooks(any(), any(), any()) } returns
 				listOf(
-					bookSummaryFixture(),
-					bookSummaryFixture(title = "제목"),
+					integratedBookFixture(),
+					integratedBookFixture(title = "제목"),
 				)
 
 			val param =
