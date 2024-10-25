@@ -47,3 +47,16 @@ include::{snippets}/book-quiz/get-answer/query-parameters.adoc[]
 
 include::{snippets}/book-quiz/get-answer/http-response.adoc[]
 include::{snippets}/book-quiz/get-answer/response-fields.adoc[]
+
+
+== 퀴즈 목록 조회
+
+=== HTTP request
+
+include::{snippets}/book-quiz/get-summary/http-request.adoc[]
+include::{snippets}/book-quiz/get-summary/query-parameters.adoc[]
+
+=== HTTP response
+
+include::{snippets}/book-quiz/get-summary/http-response.adoc[]
+include::{snippets}/book-quiz/get-summary/response-fields.adoc[]

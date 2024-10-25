@@ -2,6 +2,8 @@ package kr.kro.dokbaro.server.core.bookquiz.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import kr.kro.dokbaro.server.common.dto.option.SortDirection
+import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.CreateBookQuizRequest
@@ -9,6 +11,7 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizR
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateQuizQuestionCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateQuizQuestionCommand
@@ -16,6 +19,9 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
+import kr.kro.dokbaro.server.core.bookquiz.query.Creator
 import kr.kro.dokbaro.server.core.bookquiz.query.Question
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -41,6 +47,9 @@ class BookQuizControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var findBookQuizAnswerUseCase: FindBookQuizAnswerUseCase
+
+	@MockkBean
+	lateinit var findBookQuizSummaryUseCase: FindBookQuizSummaryUseCase
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
@@ -291,6 +300,93 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("explanationImages")
 								.type(JsonFieldType.ARRAY)
 								.description("설명 사진 목록"),
+						),
+					),
+				)
+		}
+
+		"책에 대한 퀴즈 목록을 조회한다" {
+			every { findBookQuizSummaryUseCase.findAllBookQuizSummary(any(), any(), any(), any(), any()) } returns
+				PageResponse(
+					endPageNumber = 5L,
+					data =
+						listOf(
+							BookQuizSummary(
+								id = 101L,
+								title = "Kotlin Basics Quiz",
+								averageStarRating = 4.5,
+								averageDifficultyLevel = 3.2,
+								questionCount = 10,
+								creator =
+									Creator(
+										id = 1001L,
+										nickname = "quizMaster01",
+										profileUrl = "https://example.com/profiles/quizMaster01",
+									),
+							),
+							BookQuizSummary(
+								id = 102L,
+								title = "Advanced Java Concepts",
+								averageStarRating = 4.8,
+								averageDifficultyLevel = 4.0,
+								questionCount = 15,
+								creator =
+									Creator(
+										id = 1002L,
+										nickname = "javaExpert99",
+										profileUrl = "https://example.com/profiles/javaExpert99",
+									),
+							),
+							BookQuizSummary(
+								id = 103L,
+								title = "Python for Beginners",
+								averageStarRating = 4.2,
+								averageDifficultyLevel = 2.5,
+								questionCount = 8,
+								creator =
+									Creator(
+										id = 1003L,
+										nickname = "pythonGuru",
+										profileUrl = null,
+									),
+							),
+						),
+				)
+
+			val params =
+				mapOf(
+					"page" to "1",
+					"size" to "10",
+					"bookId" to "12345",
+					"sort" to BookQuizSummarySortOption.CREATED_AT.name,
+					"direction" to SortDirection.ASC.name,
+				)
+
+			performGet(Path("/book-quizzes"), params)
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"book-quiz/get-summary",
+						queryParameters(
+							parameterWithName("page").description("결과 페이지 번호. 0부터 시작."),
+							parameterWithName("size").description("페이지당 결과 수."),
+							parameterWithName("bookId").description("퀴즈 목록을 조회할 책 ID."),
+							parameterWithName("sort").description("정렬 기준. [CREATED_AT, STAR_RATING]"),
+							parameterWithName("direction").description("정렬 방향. 가능한 값은 'ASC' 또는 'DESC'"),
+						),
+						responseFields(
+							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),
+							fieldWithPath("data[].id").type(JsonFieldType.NUMBER).description("퀴즈의 ID."),
+							fieldWithPath("data[].title").type(JsonFieldType.STRING).description("퀴즈의 제목."),
+							fieldWithPath("data[].averageStarRating").type(JsonFieldType.NUMBER).description("퀴즈의 평균 별점."),
+							fieldWithPath("data[].averageDifficultyLevel").type(JsonFieldType.NUMBER).description("퀴즈의 평균 난이도."),
+							fieldWithPath("data[].questionCount").type(JsonFieldType.NUMBER).description("퀴즈의 질문 수."),
+							fieldWithPath("data[].creator").type(JsonFieldType.OBJECT).description("퀴즈 작성자 정보."),
+							fieldWithPath("data[].creator.id").type(JsonFieldType.NUMBER).description("작성자의 ID."),
+							fieldWithPath("data[].creator.nickname").type(JsonFieldType.STRING).description("작성자의 닉네임."),
+							fieldWithPath(
+								"data[].creator.profileUrl",
+							).type(JsonFieldType.STRING).optional().description("생성자의 프로필 URL. (optional)"),
 						),
 					),
 				)

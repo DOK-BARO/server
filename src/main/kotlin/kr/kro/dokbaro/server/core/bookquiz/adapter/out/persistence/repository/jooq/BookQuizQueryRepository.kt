@@ -1,9 +1,15 @@
 package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq
 
+import kr.kro.dokbaro.server.common.dto.option.PageOption
+import kr.kro.dokbaro.server.common.dto.option.SortDirection
+import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import org.jooq.DSLContext
+import org.jooq.OrderField
 import org.jooq.Record3
 import org.jooq.Record9
 import org.jooq.Result
@@ -12,6 +18,11 @@ import org.jooq.generated.tables.JBookQuizAnswer
 import org.jooq.generated.tables.JBookQuizAnswerExplainImage
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
+import org.jooq.generated.tables.JMember
+import org.jooq.generated.tables.JQuizReview
+import org.jooq.impl.DSL.avg
+import org.jooq.impl.DSL.field
+import org.jooq.impl.DSL.selectCount
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -25,6 +36,8 @@ class BookQuizQueryRepository(
 		private val BOOK_QUIZ_SELECT_OPTION = JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
 		private val BOOK_QUIZ_ANSWER = JBookQuizAnswer.BOOK_QUIZ_ANSWER
 		private val BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE = JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
+		private val MEMBER = JMember.MEMBER
+		private val QUIZ_REVIEW = JQuizReview.QUIZ_REVIEW
 	}
 
 	fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? {
@@ -67,5 +80,64 @@ class BookQuizQueryRepository(
 				.fetch()
 
 		return bookQuizMapper.toBookQuizAnswer(record)
+	}
+
+	fun countBookQuizBy(bookId: Long): Long =
+		dslContext
+			.selectCount()
+			.from(BOOK_QUIZ)
+			.where(BOOK_QUIZ.BOOK_ID.eq(bookId))
+			.fetchOneInto(Long::class.java)!!
+
+	fun findAllBookQuizSummary(
+		bookId: Long,
+		pageOption: PageOption,
+		sortOption: SortOption<BookQuizSummarySortOption>,
+	): Collection<BookQuizSummary> {
+		val record =
+			dslContext
+				.select(
+					BOOK_QUIZ.ID,
+					BOOK_QUIZ.TITLE,
+					MEMBER.ID,
+					MEMBER.NICKNAME,
+					MEMBER.PROFILE_IMAGE_URL,
+					avg(QUIZ_REVIEW.STAR_RATING).`as`(BookQuizRecordFieldName.AVERAGE_STAR_RATING.name),
+					avg(QUIZ_REVIEW.DIFFICULTY_LEVEL).`as`(BookQuizRecordFieldName.AVERAGE_DIFFICULTY_LEVEL.name),
+					field(
+						selectCount()
+							.from(BOOK_QUIZ_QUESTION)
+							.where(
+								BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID
+									.eq(BOOK_QUIZ.ID),
+							),
+					).`as`(BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT.name),
+				).from(BOOK_QUIZ)
+				.join(MEMBER)
+				.on(BOOK_QUIZ.CREATOR_ID.eq(MEMBER.ID))
+				.leftJoin(QUIZ_REVIEW)
+				.on(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.where(BOOK_QUIZ.BOOK_ID.eq(bookId))
+				.groupBy(BOOK_QUIZ)
+				.orderBy(toOrderQuery(sortOption))
+				.limit(pageOption.limit)
+				.offset(pageOption.offset)
+				.fetch()
+
+		return bookQuizMapper.toBookQuizSummary(record)
+	}
+
+	private fun toOrderQuery(sortOption: SortOption<BookQuizSummarySortOption>): OrderField<out Any>? {
+		val query =
+			when (sortOption.keyword) {
+				BookQuizSummarySortOption.STAR_RATING -> field(BookQuizRecordFieldName.AVERAGE_STAR_RATING.name)
+				BookQuizSummarySortOption.CREATED_AT -> BOOK_QUIZ.CREATED_AT
+			}
+
+		if (sortOption.direction == SortDirection.DESC) {
+			return query.desc()
+		}
+
+		return query
 	}
 }
