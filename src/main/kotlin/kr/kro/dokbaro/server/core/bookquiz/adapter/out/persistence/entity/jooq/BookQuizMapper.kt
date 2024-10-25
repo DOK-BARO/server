@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq
 
 import kr.kro.dokbaro.server.common.annotation.Mapper
+import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRecordFieldName
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerFactory
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
@@ -11,6 +12,8 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.Creator
 import kr.kro.dokbaro.server.core.bookquiz.query.Question
 import org.jooq.Record
 import org.jooq.Record3
@@ -21,6 +24,7 @@ import org.jooq.generated.tables.JBookQuizAnswer
 import org.jooq.generated.tables.JBookQuizAnswerExplainImage
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
+import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JStudyGroupQuiz
 import org.jooq.generated.tables.records.BookQuizRecord
 
@@ -33,6 +37,7 @@ class BookQuizMapper {
 		private val BOOK_QUIZ_SELECT_OPTION = JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
 		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
 		private val BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE = JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
+		private val MEMBER = JMember.MEMBER
 	}
 
 	fun recordToBookQuizQuestions(
@@ -123,6 +128,22 @@ class BookQuizMapper {
 					record.map { it.get(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL) },
 				)
 			}.firstOrNull()
+
+	fun toBookQuizSummary(record: Result<out Record>): Collection<BookQuizSummary> =
+		record.map {
+			BookQuizSummary(
+				it.get(BOOK_QUIZ.ID),
+				it.get(BOOK_QUIZ.TITLE),
+				it.get(BookQuizRecordFieldName.AVERAGE_STAR_RATING.name, Double::class.java),
+				it.get(BookQuizRecordFieldName.AVERAGE_DIFFICULTY_LEVEL.name, Double::class.java),
+				it.get(BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT.name, Int::class.java),
+				Creator(
+					it.get(MEMBER.ID),
+					it.get(MEMBER.NICKNAME),
+					it.get(MEMBER.PROFILE_IMAGE_URL),
+				),
+			)
+		}
 }
 
 data class QuestionBasic(
