@@ -1,17 +1,22 @@
 package kr.kro.dokbaro.server.core.bookquiz.adapter.input.web
 
+import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
+import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.CreateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
@@ -31,6 +36,7 @@ class BookQuizController(
 	private val findBookQuizQuestionUseCase: FindBookQuizQuestionUseCase,
 	private val updateBookQuizUseCase: UpdateBookQuizUseCase,
 	private val findBookQuizAnswerUseCase: FindBookQuizAnswerUseCase,
+	private val findBookQuizSummaryUseCase: FindBookQuizSummaryUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -83,4 +89,14 @@ class BookQuizController(
 	fun getQuestionAnswer(
 		@RequestParam questionId: Long,
 	): BookQuizAnswer = findBookQuizAnswerUseCase.findBookQuizAnswer(questionId)
+
+	@GetMapping
+	fun getBookQuizSummary(
+		@RequestParam bookId: Long,
+		@RequestParam page: Long,
+		@RequestParam size: Long,
+		@RequestParam sort: BookQuizSummarySortOption,
+		@RequestParam direction: SortDirection,
+	): PageResponse<BookQuizSummary> =
+		findBookQuizSummaryUseCase.findAllBookQuizSummary(bookId, page, size, sort, direction)
 }
