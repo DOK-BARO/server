@@ -97,4 +97,26 @@ class BookQuizPersistenceAdapterTest(
 
 			adapter.load(savedQuizId)!!.title shouldBe newTitle
 		}
+
+		"question을 포함한 quiz를 조회한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val bookId = bookRepository.insertBook(bookFixture())
+			val studyGroupId =
+				studyGroupRepository.insert(
+					studyGroupFixture(
+						studyMembers = mutableSetOf(StudyMember(memberId, StudyMemberRole.LEADER)),
+					),
+				)
+
+			val savedQuizId: Long =
+				adapter.insert(
+					bookQuizFixture(bookId = bookId, creatorId = memberId, studyGroupId = studyGroupId),
+				)
+
+			val quiz: BookQuiz = adapter.load(savedQuizId)!!
+
+			val anyQuestion = quiz.questions.getQuestions().first()
+
+			adapter.loadByQuestionId(anyQuestion.id)?.id shouldBe savedQuizId
+		}
 	})

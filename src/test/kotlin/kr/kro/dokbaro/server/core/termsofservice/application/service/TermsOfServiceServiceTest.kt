@@ -11,7 +11,7 @@ import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertif
 import kr.kro.dokbaro.server.core.termsofservice.application.port.out.InsertAgreeTermsOfServicePersistencePort
 import kr.kro.dokbaro.server.core.termsofservice.application.port.out.LoadTermsOfServiceDetailPort
 import kr.kro.dokbaro.server.core.termsofservice.query.TermsOfServiceDetail
-import kr.kro.dokbaro.server.fixture.domain.memberResponseFixture
+import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
 import java.util.UUID
 
 class TermsOfServiceServiceTest :
@@ -46,7 +46,7 @@ class TermsOfServiceServiceTest :
 		}
 
 		"서비스 이용 약관에 동의한다" {
-			every { certificatedMemberUseCase.getByCertificationId(any()) } returns memberResponseFixture()
+			every { certificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			every { insertAgreeTermsOfServicePersistencePort.insertAgree(any()) } returns Unit
 
 			shouldNotThrow<NotFoundTermsOfServiceException> {
@@ -55,7 +55,7 @@ class TermsOfServiceServiceTest :
 		}
 
 		"서비스 이용 약관 동의 시 관리하지 않는 ID에 동의하면 예외를 반환한다" {
-			every { certificatedMemberUseCase.getByCertificationId(any()) } returns memberResponseFixture()
+			every { certificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 
 			shouldThrow<NotFoundTermsOfServiceException> {
 				termsOfServiceService.agree(UUID.randomUUID(), listOf(1, 2, 3, 7))

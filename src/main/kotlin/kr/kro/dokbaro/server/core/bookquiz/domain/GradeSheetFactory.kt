@@ -5,11 +5,11 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.answerstyle.MultipleChoiceAnsw
 import kr.kro.dokbaro.server.core.bookquiz.domain.answerstyle.OXAnswer
 import kr.kro.dokbaro.server.core.bookquiz.domain.answerstyle.ShortAnswer
 
-object AnswerFactory {
+object GradeSheetFactory {
 	fun create(
 		type: QuizType,
 		sheet: AnswerSheet,
-	): Answerable =
+	): Gradable =
 		when (type) {
 			QuizType.FILL_BLANK -> FillBlankAnswer.from(sheet)
 			QuizType.MULTIPLE_CHOICE -> MultipleChoiceAnswer.from(sheet)

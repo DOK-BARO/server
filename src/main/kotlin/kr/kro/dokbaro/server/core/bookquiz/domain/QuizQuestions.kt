@@ -1,6 +1,8 @@
 package kr.kro.dokbaro.server.core.bookquiz.domain
 
 import kr.kro.dokbaro.server.common.constant.Constants
+import kr.kro.dokbaro.server.core.bookquiz.domain.exception.IllegalSubmitSheetFormatException
+import kr.kro.dokbaro.server.core.bookquiz.domain.exception.NotFoundQuestionException
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.QuizTypeMissMatchException
 
 data class QuizQuestions(
@@ -21,5 +23,35 @@ data class QuizQuestions(
 				questions.clear()
 				questions.addAll(newQuestions)
 			}
+	}
+
+	fun grade(
+		questionId: Long,
+		sheet: AnswerSheet,
+	): GradeResult {
+		val question: QuizQuestion =
+			questions.find { it.id == questionId } ?: throw NotFoundQuestionException(questionId)
+
+		return GradeResult(question.isCorrect(sheet))
+	}
+
+	fun gradeAll(sheets: Map<Long, AnswerSheet>): Map<Long, GradeResult> {
+		if (sheets.size != questions.size) {
+			throw IllegalSubmitSheetFormatException()
+		}
+
+		return sheets.mapValues { (id, sheet) ->
+			GradeResult(
+				questions.find { it.id == id }?.isCorrect(sheet)
+					?: throw NotFoundQuestionException(id),
+			)
+		}
+	}
+
+	fun getAnswer(questionId: Long): QuestionAnswer {
+		val quizQuestion: QuizQuestion =
+			questions.find { it.id == questionId } ?: throw NotFoundQuestionException(questionId)
+
+		return quizQuestion.answer
 	}
 }

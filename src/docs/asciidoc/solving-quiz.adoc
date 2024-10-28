@@ -12,7 +12,7 @@ include::{snippets}/solving-quiz/solving-quiz-start/request-fields.adoc[]
 include::{snippets}/solving-quiz/solving-quiz-start/http-response.adoc[]
 include::{snippets}/solving-quiz/solving-quiz-start/response-fields.adoc[]
 
-== 북 퀴즈 질문 조회
+== 북 퀴즈 문제 풀기 제출
 
 === HTTP request
 
@@ -23,3 +23,16 @@ include::{snippets}/solving-quiz/submit-quiz-sheet/request-fields.adoc[]
 === HTTP response
 
 include::{snippets}/solving-quiz/submit-quiz-sheet/http-response.adoc[]
+include::{snippets}/solving-quiz/submit-quiz-sheet/response-fields.adoc[]
+
+== 푼 퀴즈 결과 보기 조회
+
+=== HTTP request
+
+include::{snippets}/solving-quiz/grade-result/http-request.adoc[]
+include::{snippets}/solving-quiz/grade-result/path-parameters.adoc[]
+
+=== HTTP response
+
+include::{snippets}/solving-quiz/grade-result/http-response.adoc[]
+include::{snippets}/solving-quiz/grade-result/response-fields.adoc[]

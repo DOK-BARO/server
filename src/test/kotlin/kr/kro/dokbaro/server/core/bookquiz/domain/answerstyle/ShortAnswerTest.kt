@@ -14,14 +14,14 @@ class ShortAnswerTest :
 		}
 
 		"답변 일치 여부를 확인한다" {
-			ShortAnswer.from(AnswerSheet(listOf("답1"))).match(AnswerSheet(listOf("답1"))) shouldBe true
-			ShortAnswer.from(AnswerSheet(listOf("답1", "답2"))).match(AnswerSheet(listOf("답2"))) shouldBe true
-			ShortAnswer.from(AnswerSheet(listOf("답1"))).match(AnswerSheet(listOf("답2"))) shouldBe false
+			ShortAnswer.from(AnswerSheet(listOf("답1"))).isCorrect(AnswerSheet(listOf("답1"))) shouldBe true
+			ShortAnswer.from(AnswerSheet(listOf("답1", "답2"))).isCorrect(AnswerSheet(listOf("답2"))) shouldBe true
+			ShortAnswer.from(AnswerSheet(listOf("답1"))).isCorrect(AnswerSheet(listOf("답2"))) shouldBe false
 		}
 
 		"답변 일치 여부 확인 시 답변이 단일 개수가 아니면 예외를 반환한다" {
 			shouldThrow<IllegalSubmitSheetFormatException> {
-				ShortAnswer.from(AnswerSheet(listOf("답"))).match(AnswerSheet(listOf("1", "답")))
+				ShortAnswer.from(AnswerSheet(listOf("답"))).isCorrect(AnswerSheet(listOf("1", "답")))
 			}
 		}
 

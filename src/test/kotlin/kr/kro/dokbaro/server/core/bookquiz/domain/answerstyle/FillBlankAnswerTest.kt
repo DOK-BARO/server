@@ -16,8 +16,8 @@ class FillBlankAnswerTest :
 			val correct = listOf("답변", "체크")
 			val answer = FillBlankAnswer.from(AnswerSheet(correct))
 
-			answer.match(AnswerSheet(correct)) shouldBe true
-			answer.match(AnswerSheet(listOf("오답"))) shouldBe false
+			answer.isCorrect(AnswerSheet(correct)) shouldBe true
+			answer.isCorrect(AnswerSheet(listOf("오답"))) shouldBe false
 		}
 
 		"답변 목록을 가져온다" {

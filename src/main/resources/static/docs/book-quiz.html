@@ -451,9 +451,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_http_request">HTTP request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=Sh_RtQL6QLsYdYOEHwycj7O7b6r317XpKKCK-45UYQwnMBf9fiy00GHCJNk1FOexLCGo7ovYQpLF5tPEHpCzwr9lAjkfCXXF HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=yXfZL8H0EYuPSIdG8VdBShBauj1HkpvpHS1tsJ46KLeZC59w_kXsTPWQdO6iLOIik3p1fXVul1x2pqjEJE9ah60PSYGpM68T HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 877
+Content-Length: 891
 Host: localhost:8080
 
 {
@@ -463,14 +463,14 @@ Host: localhost:8080
   "questions" : [ {
     "content" : "다음 중 천만 관객 영화가 아닌 것은?",
     "selectOptions" : [ "광해", "명량", "암살", "국제시장", "자전차왕 엄복동" ],
-    "answerExplanation" : "엄복동은 누적 관객 수 17만명을 기록했다.",
+    "answerExplanationContent" : "엄복동은 누적 관객 수 17만명을 기록했다.",
     "answerExplanationImages" : [ "hello.png" ],
     "answerType" : "MULTIPLE_CHOICE",
     "answers" : [ "4" ]
   }, {
     "content" : "명량에서 이순신 역은 류승룡이 담당했다",
     "selectOptions" : [ ],
-    "answerExplanation" : "최민식이 담당했다",
+    "answerExplanationContent" : "최민식이 담당했다",
     "answerExplanationImages" : [ "hello.png" ],
     "answerType" : "OX",
     "answers" : [ "X" ]
@@ -537,7 +537,7 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">질문 선택지, 객관식에서만 사용, seq는 0부터 시작</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answerExplanation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answerExplanationContent</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">답안 설명</p></td>
 </tr>
@@ -748,9 +748,9 @@ Content-Length: 328
 <h3 id="_http_request_3">HTTP request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=MMUVyis4XFiA_DqAJhYpWJQaKyyTzY-K3H1oeI62nvhIPaUrBqYm-E8AOWytzgi2EDsdPKZ_Bk2k-r2nuEhbG7uOp54tCJdI HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=bvrqYjug6Z45LCysGgSeHGg4XVXJk5mDfWs5F0aOhtQ03reTW87aAArGj6sUTkqfeymqfVxZcDf8qv2uGF0NICS-sOIA74_w HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 807
+Content-Length: 920
 Host: localhost:8080
 
 {
@@ -765,14 +765,16 @@ Host: localhost:8080
     "id" : 1,
     "content" : "다음 중 천만 관객 영화가 아닌 것은?",
     "selectOptions" : [ "광해", "명량", "암살", "국제시장", "자전차왕 엄복동" ],
-    "answerExplanation" : "엄복동은 누적 관객 수 17만명을 기록했다.",
+    "answerExplanationContent" : "엄복동은 누적 관객 수 17만명을 기록했다.",
+    "answerExplanationImages" : [ "hello.png", "world.jpg" ],
     "answerType" : "MULTIPLE_CHOICE",
     "answers" : [ "4" ]
   }, {
     "id" : 2,
     "content" : "명량에서 이순신 역은 류승룡이 담당했다",
     "selectOptions" : [ ],
-    "answerExplanation" : "최민식이 담당했다",
+    "answerExplanationContent" : "최민식이 담당했다",
+    "answerExplanationImages" : [ ],
     "answerType" : "OX",
     "answers" : [ "X" ]
   } ]
@@ -858,9 +860,14 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">질문 선택지, 객관식에서만 사용, seq는 0부터 시작</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answerExplanation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answerExplanationContent</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">답안 설명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answerExplanationImages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답안 설명 이미지 파일들</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answerType</code></p></td>
@@ -1162,7 +1169,7 @@ Content-Length: 889
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-10-24 18:13:58 +0900
+Last updated 2024-10-25 18:02:24 +0900
 </div>
 </div>
 </body>
