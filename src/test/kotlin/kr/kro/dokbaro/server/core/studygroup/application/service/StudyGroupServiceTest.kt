@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.MemberResponse
+import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.member.domain.Role
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
@@ -15,7 +15,7 @@ import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStud
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupByInviteCodePort
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
-import kr.kro.dokbaro.server.fixture.domain.memberResponseFixture
+import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
 import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 import java.util.UUID
 
@@ -43,7 +43,7 @@ class StudyGroupServiceTest :
 
 		"study group을 생성한다" {
 			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns
-				MemberResponse(
+				CertificatedMember(
 					nickName = "test",
 					email = "test@test.com",
 					profileImage = "test.png",
@@ -67,7 +67,7 @@ class StudyGroupServiceTest :
 
 		"study group에 참여한다" {
 			every { loadStudyGroupByInviteCodePort.findByInviteCode(any()) } returns studyGroupFixture()
-			val member = memberResponseFixture()
+			val member = certificatedMemberFixture()
 			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns member
 
 			studyGroupService.join(
