@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.core.bookquiz.domain
 
-interface Answerable {
-	fun match(sheet: AnswerSheet): Boolean
+interface Gradable {
+	fun isCorrect(sheet: AnswerSheet): Boolean
 
 	fun getType(): QuizType
 

@@ -7,6 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizByQuestionIdUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.dto.SolveQuestionCommand
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.dto.StartSolvingQuizCommand
@@ -15,7 +16,8 @@ import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadSolvingQu
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.UpdateSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.service.exception.NotFoundSolvingQuizException
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
-import kr.kro.dokbaro.server.fixture.domain.memberResponseFixture
+import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
+import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
 import java.util.UUID
 
 class SolvingQuizServiceTest :
@@ -24,20 +26,21 @@ class SolvingQuizServiceTest :
 		val insertSolvingQuizPort = mockk<InsertSolvingQuizPort>()
 		val loadSolvingQuizPort = mockk<LoadSolvingQuizPort>()
 		val updateSolvingQuizPort = mockk<UpdateSolvingQuizPort>()
-
+		val findBookQuizByQuestionIdUseCase = mockk<FindBookQuizByQuestionIdUseCase>()
 		val solvingQuizService =
 			SolvingQuizService(
 				findCertificatedMemberUseCase,
 				insertSolvingQuizPort,
 				loadSolvingQuizPort,
 				updateSolvingQuizPort,
+				findBookQuizByQuestionIdUseCase,
 			)
 		afterEach {
 			clearAllMocks()
 		}
 
 		"퀴즈 풀기를 시작한다" {
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns memberResponseFixture()
+			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			every { insertSolvingQuizPort.insert(any()) } returns 1
 
 			solvingQuizService.start(
@@ -54,15 +57,17 @@ class SolvingQuizServiceTest :
 			val command =
 				SolveQuestionCommand(
 					1,
-					2,
-					listOf("hello", "world"),
+					0,
+					listOf("3"),
 				)
+
 			shouldThrow<NotFoundSolvingQuizException> {
 				solvingQuizService.solve(command)
 			}
 
 			every { loadSolvingQuizPort.findById(any()) } returns SolvingQuiz(1, 2)
 			every { updateSolvingQuizPort.update(any()) } returns Unit
+			every { findBookQuizByQuestionIdUseCase.findByQuestionId(any()) } returns bookQuizFixture()
 
 			shouldNotThrow<NotFoundSolvingQuizException> {
 				solvingQuizService.solve(command)

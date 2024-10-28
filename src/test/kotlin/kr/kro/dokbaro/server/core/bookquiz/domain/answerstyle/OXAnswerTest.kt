@@ -16,8 +16,8 @@ class OXAnswerTest :
 
 		"답변 일치 여부를 확인한다" {
 			val correct = AnswerSheet(listOf("O"))
-			OXAnswer.from(correct).match(correct) shouldBe true
-			OXAnswer.from(correct).match(AnswerSheet(listOf("X"))) shouldBe false
+			OXAnswer.from(correct).isCorrect(correct) shouldBe true
+			OXAnswer.from(correct).isCorrect(AnswerSheet(listOf("X"))) shouldBe false
 		}
 
 		"답변 포멧이 다르거나, 단일 개수가 아니면 예외를 반환한다" {
@@ -34,7 +34,7 @@ class OXAnswerTest :
 				}
 
 				shouldThrow<IllegalSubmitSheetFormatException> {
-					OXAnswer.from(AnswerSheet(listOf("O"))).match(AnswerSheet(it))
+					OXAnswer.from(AnswerSheet(listOf("O"))).isCorrect(AnswerSheet(it))
 				}
 			}
 		}

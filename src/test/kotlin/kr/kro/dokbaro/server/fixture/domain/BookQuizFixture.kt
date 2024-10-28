@@ -1,10 +1,11 @@
 package kr.kro.dokbaro.server.fixture.domain
 
 import kr.kro.dokbaro.server.common.constant.Constants
-import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerFactory
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
-import kr.kro.dokbaro.server.core.bookquiz.domain.Answerable
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
+import kr.kro.dokbaro.server.core.bookquiz.domain.Gradable
+import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
+import kr.kro.dokbaro.server.core.bookquiz.domain.QuestionAnswer
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestion
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
@@ -34,8 +35,8 @@ fun quizQuestionFixture(
 	selectOptions: Collection<SelectOption> = listOf(SelectOption("selectOption1"), SelectOption("selectOption1")),
 	answerExplanation: String = "answer_explanation",
 	answerExplanationImages: Collection<String> = listOf("hello.png"),
-	answer: Answerable =
-		AnswerFactory.create(
+	answer: Gradable =
+		GradeSheetFactory.create(
 			QuizType.MULTIPLE_CHOICE,
 			AnswerSheet(listOf("2", "4")),
 		),
@@ -43,9 +44,12 @@ fun quizQuestionFixture(
 ) = QuizQuestion(
 	content = content,
 	selectOptions = selectOptions,
-	answerExplanation = answerExplanation,
-	answerExplanationImages = answerExplanationImages,
-	answer = answer,
+	answer =
+		QuestionAnswer(
+			explanationContent = answerExplanation,
+			explanationImages = answerExplanationImages,
+			gradeSheet = answer,
+		),
 	id = id,
 )
 

@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.core.bookquiz.application.service.exception
+package kr.kro.dokbaro.server.core.bookquiz.domain.exception
 
 import kr.kro.dokbaro.server.common.exception.http.status4xx.NotFoundException
 

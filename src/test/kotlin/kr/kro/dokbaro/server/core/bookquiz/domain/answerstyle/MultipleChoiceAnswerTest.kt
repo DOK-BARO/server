@@ -24,17 +24,17 @@ class MultipleChoiceAnswerTest :
 			val correct = AnswerSheet(listOf("1", "2", "3"))
 			val answer = MultipleChoiceAnswer.from(correct)
 
-			answer.match(correct) shouldBe true
-			answer.match(AnswerSheet(listOf("4"))) shouldBe false
-			answer.match(AnswerSheet(listOf("1"))) shouldBe false
-			answer.match(AnswerSheet(listOf("1", "2"))) shouldBe false
-			answer.match(AnswerSheet(listOf("1", "2", "4"))) shouldBe false
-			answer.match(AnswerSheet(listOf("1", "2", "3", "4"))) shouldBe false
+			answer.isCorrect(correct) shouldBe true
+			answer.isCorrect(AnswerSheet(listOf("4"))) shouldBe false
+			answer.isCorrect(AnswerSheet(listOf("1"))) shouldBe false
+			answer.isCorrect(AnswerSheet(listOf("1", "2"))) shouldBe false
+			answer.isCorrect(AnswerSheet(listOf("1", "2", "4"))) shouldBe false
+			answer.isCorrect(AnswerSheet(listOf("1", "2", "3", "4"))) shouldBe false
 		}
 
 		"답변 제출 시 숫자 형태가 아닌 값을 제출 시 예외를 반환한다" {
 			shouldThrow<IllegalSubmitSheetFormatException> {
-				MultipleChoiceAnswer.from(AnswerSheet(listOf("1"))).match(AnswerSheet(listOf("A")))
+				MultipleChoiceAnswer.from(AnswerSheet(listOf("1"))).isCorrect(AnswerSheet(listOf("A")))
 			}
 		}
 
