@@ -19,7 +19,8 @@ data class UpdateQuizQuestionCommand(
 	val id: Long? = null,
 	val content: String,
 	val selectOptions: Collection<String> = emptyList(),
-	val answerExplanation: String,
+	val answerExplanationContent: String,
+	val answerExplanationImages: Collection<String> = emptyList(),
 	val answerType: QuizType,
 	val answers: Collection<String> = emptyList(),
 )

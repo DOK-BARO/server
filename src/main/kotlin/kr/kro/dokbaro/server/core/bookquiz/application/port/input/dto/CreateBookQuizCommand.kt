@@ -19,7 +19,7 @@ data class CreateBookQuizCommand(
 data class CreateQuizQuestionCommand(
 	val content: String,
 	val selectOptions: Collection<String> = emptyList(),
-	val answerExplanation: String,
+	val answerExplanationContent: String,
 	val answerExplanationImages: Collection<String> = emptyList(),
 	val answerType: QuizType,
 	val answers: Collection<String> = emptyList(),
