@@ -35,4 +35,15 @@ data class BookQuiz(
 	fun updateQuestions(newQuestions: Collection<QuizQuestion>) {
 		questions.updateQuestions(newQuestions)
 	}
+
+	fun getAnswer(questionId: Long): QuestionAnswer = questions.getAnswer(questionId)
+
+	fun grade(
+		questionId: Long,
+		sheet: AnswerSheet,
+	): GradeResult = questions.grade(questionId, sheet)
+
+	fun gradeAll(sheets: Map<Long, AnswerSheet>): Map<Long, GradeResult> = questions.gradeAll(sheets)
+
+	fun getQuestionCount(): Int = questions.getQuestions().size
 }

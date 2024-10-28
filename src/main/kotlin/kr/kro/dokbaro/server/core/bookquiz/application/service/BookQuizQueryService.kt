@@ -11,8 +11,8 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.out.CountBookQuizPor
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizAnswerPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizQuestionPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizSummaryPort
-import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuestionException
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
+import kr.kro.dokbaro.server.core.bookquiz.domain.exception.NotFoundQuestionException
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary

@@ -1,16 +1,16 @@
 package kr.kro.dokbaro.server.core.bookquiz.domain.answerstyle
 
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
-import kr.kro.dokbaro.server.core.bookquiz.domain.Answerable
+import kr.kro.dokbaro.server.core.bookquiz.domain.Gradable
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.IllegalRegisterSheetFormatException
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.IllegalSubmitSheetFormatException
 
 class MultipleChoiceAnswer private constructor(
 	private val correctAnswers: Set<Int>,
-) : Answerable {
+) : Gradable {
 	companion object {
-		fun from(sheet: AnswerSheet): Answerable {
+		fun from(sheet: AnswerSheet): Gradable {
 			if (sheet.answer.any { it.toIntOrNull() == null }) {
 				throw IllegalRegisterSheetFormatException()
 			}
@@ -21,7 +21,7 @@ class MultipleChoiceAnswer private constructor(
 		}
 	}
 
-	override fun match(sheet: AnswerSheet): Boolean {
+	override fun isCorrect(sheet: AnswerSheet): Boolean {
 		if (sheet.answer.any { it.toIntOrNull() == null }) {
 			throw IllegalSubmitSheetFormatException()
 		}

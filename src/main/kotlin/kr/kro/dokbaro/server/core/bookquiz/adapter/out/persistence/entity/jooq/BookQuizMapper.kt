@@ -3,9 +3,10 @@ package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq
 import kr.kro.dokbaro.server.common.annotation.Mapper
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRecordFieldName
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
-import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerFactory
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
+import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
+import kr.kro.dokbaro.server.core.bookquiz.domain.QuestionAnswer
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestion
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
@@ -17,7 +18,6 @@ import kr.kro.dokbaro.server.core.bookquiz.query.Creator
 import kr.kro.dokbaro.server.core.bookquiz.query.Question
 import org.jooq.Record
 import org.jooq.Record3
-import org.jooq.Record9
 import org.jooq.Result
 import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizAnswer
@@ -40,9 +40,7 @@ class BookQuizMapper {
 		private val MEMBER = JMember.MEMBER
 	}
 
-	fun recordToBookQuizQuestions(
-		record: Result<Record9<Long, String, Int, Long, ByteArray, String, Long, ByteArray, Int>>,
-	): BookQuizQuestions? =
+	fun recordToBookQuizQuestions(record: Result<out Record>): BookQuizQuestions? =
 		record
 			.groupBy {
 				Triple(it.get(BOOK_QUIZ.ID), it.get(BOOK_QUIZ.TITLE), it.get(BOOK_QUIZ.TIME_LIMIT_SECOND))
@@ -107,12 +105,16 @@ class BookQuizMapper {
 									SelectOption(it.get(BOOK_QUIZ_SELECT_OPTION.CONTENT).toString(Charsets.UTF_8))
 								}.distinct(),
 						answer =
-							AnswerFactory.create(
-								questionBasic.quizType,
-								AnswerSheet(elements.map { it.get(BOOK_QUIZ_ANSWER.CONTENT) }.distinct()),
+							QuestionAnswer(
+								gradeSheet =
+									GradeSheetFactory.create(
+										questionBasic.quizType,
+										AnswerSheet(elements.map { it.get(BOOK_QUIZ_ANSWER.CONTENT) }.distinct()),
+									),
+								explanationContent = questionBasic.answerExplanation,
+								explanationImages = elements.map { it.get(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL) }.distinct(),
 							),
 						active = questionBasic.active,
-						answerExplanation = questionBasic.answerExplanation,
 						id = questionBasic.id,
 					)
 				}.toMutableList(),

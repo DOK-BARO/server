@@ -24,7 +24,7 @@ class QuizQuestionsTest :
 						quizQuestionFixture(
 							id = 1,
 							answer =
-								AnswerFactory.create(
+								GradeSheetFactory.create(
 									QuizType.MULTIPLE_CHOICE,
 									AnswerSheet(listOf("2", "4")),
 								),
@@ -38,7 +38,7 @@ class QuizQuestionsTest :
 						quizQuestionFixture(
 							id = 1,
 							answer =
-								AnswerFactory.create(
+								GradeSheetFactory.create(
 									QuizType.OX,
 									AnswerSheet(listOf("O")),
 								),

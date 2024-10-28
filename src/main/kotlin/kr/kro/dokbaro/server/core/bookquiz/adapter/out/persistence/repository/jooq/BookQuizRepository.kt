@@ -14,6 +14,7 @@ import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
 import org.jooq.generated.tables.JStudyGroupQuiz
 import org.jooq.generated.tables.records.BookQuizRecord
+import org.jooq.impl.DSL.select
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -80,7 +81,7 @@ class BookQuizRepository(
 					BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID,
 				).values(
 					question.content.toByteArray(),
-					question.answerExplanation.toByteArray(),
+					question.answer.explanationContent.toByteArray(),
 					question.quizType.name,
 					question.active,
 					bookQuizId,
@@ -94,7 +95,7 @@ class BookQuizRepository(
 		question: QuizQuestion,
 		questionId: Long,
 	) {
-		question.answer.getAnswers().forEach {
+		question.answer.gradeSheet.getAnswers().forEach {
 			dslContext
 				.insertInto(
 					BOOK_QUIZ_ANSWER,
@@ -122,7 +123,7 @@ class BookQuizRepository(
 					).execute()
 			}
 
-		question.answerExplanationImages.forEach {
+		question.answer.explanationImages.forEach {
 			dslContext
 				.insertInto(
 					BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE,
@@ -148,6 +149,8 @@ class BookQuizRepository(
 				.on(BOOK_QUIZ_ANSWER.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
 				.leftJoin(STUDY_GROUP_QUIZ)
 				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(STUDY_GROUP_QUIZ.ID))
+				.leftJoin(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE)
+				.on(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
 				.where(BOOK_QUIZ.ID.eq(id))
 				.fetchGroups(BOOK_QUIZ)
 
@@ -196,7 +199,7 @@ class BookQuizRepository(
 			.update(BOOK_QUIZ_QUESTION)
 			.set(BOOK_QUIZ_QUESTION.DELETED, false)
 			.set(BOOK_QUIZ_QUESTION.QUESTION_CONTENT, question.content.toByteArray())
-			.set(BOOK_QUIZ_QUESTION.EXPLANATION, question.answerExplanation.toByteArray())
+			.set(BOOK_QUIZ_QUESTION.EXPLANATION, question.answer.explanationContent.toByteArray())
 			.set(BOOK_QUIZ_QUESTION.QUESTION_TYPE, question.quizType.name)
 			.set(BOOK_QUIZ_QUESTION.ACTIVE, question.active)
 			.set(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID, quizId)
@@ -210,6 +213,10 @@ class BookQuizRepository(
 		dslContext
 			.deleteFrom(BOOK_QUIZ_SELECT_OPTION)
 			.where(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID.eq(question.id))
+			.execute()
+		dslContext
+			.deleteFrom(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE)
+			.where(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID.eq(question.id))
 			.execute()
 
 		insertQuestionAnswerAndOptions(question, question.id)
@@ -230,5 +237,31 @@ class BookQuizRepository(
 					bookQuizId,
 				).execute()
 		}
+	}
+
+	fun loadByQuestionId(questionId: Long): BookQuiz? {
+		val record: Map<BookQuizRecord, Result<Record>> =
+			dslContext
+				.select()
+				.from(BOOK_QUIZ)
+				.join(BOOK_QUIZ_QUESTION)
+				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID).and(BOOK_QUIZ_QUESTION.DELETED.eq(false)))
+				.leftJoin(BOOK_QUIZ_SELECT_OPTION)
+				.on(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
+				.leftJoin(BOOK_QUIZ_ANSWER)
+				.on(BOOK_QUIZ_ANSWER.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
+				.leftJoin(STUDY_GROUP_QUIZ)
+				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(STUDY_GROUP_QUIZ.ID))
+				.leftJoin(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE)
+				.on(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
+				.where(
+					BOOK_QUIZ.ID.eq(
+						select(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID).from(BOOK_QUIZ_QUESTION).where(
+							BOOK_QUIZ_QUESTION.ID.eq(questionId),
+						),
+					),
+				).fetchGroups(BOOK_QUIZ)
+
+		return bookQuizMapper.toBookQuiz(record)
 	}
 }

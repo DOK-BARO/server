@@ -4,7 +4,7 @@ import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.core.member.domain.Role
 import java.util.UUID
 
-data class MemberResponse(
+data class CertificatedMember(
 	var nickName: String,
 	var email: String,
 	var profileImage: String?,

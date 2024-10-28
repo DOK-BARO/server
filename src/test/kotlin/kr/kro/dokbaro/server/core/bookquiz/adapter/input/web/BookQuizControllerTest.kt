@@ -78,7 +78,7 @@ class BookQuizControllerTest : RestDocsTest() {
 							),
 							CreateQuizQuestionCommand(
 								content = "명량에서 이순신 역은 류승룡이 담당했다",
-								answerExplanation = "최민식이 담당했다",
+								answerExplanationContent = "최민식이 담당했다",
 								answerExplanationImages = listOf("hello.png"),
 								answerType = QuizType.OX,
 								answers = listOf("X"),
@@ -121,7 +121,7 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("questions[].selectOptions")
 								.type(JsonFieldType.ARRAY)
 								.description("질문 선택지, 객관식에서만 사용, seq는 0부터 시작"),
-							fieldWithPath("questions[].answerExplanation")
+							fieldWithPath("questions[].answerExplanationContent")
 								.type(JsonFieldType.STRING)
 								.description("답안 설명"),
 							fieldWithPath("questions[].answerExplanationImages")
@@ -211,13 +211,14 @@ class BookQuizControllerTest : RestDocsTest() {
 									"자전차왕 엄복동",
 								),
 								"엄복동은 누적 관객 수 17만명을 기록했다.",
+								listOf("hello.png", "world.jpg"),
 								QuizType.MULTIPLE_CHOICE,
 								listOf("4"),
 							),
 							UpdateQuizQuestionCommand(
 								id = 2,
 								content = "명량에서 이순신 역은 류승룡이 담당했다",
-								answerExplanation = "최민식이 담당했다",
+								answerExplanationContent = "최민식이 담당했다",
 								answerType = QuizType.OX,
 								answers = listOf("X"),
 							),
@@ -264,9 +265,12 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("questions[].selectOptions")
 								.type(JsonFieldType.ARRAY)
 								.description("질문 선택지, 객관식에서만 사용, seq는 0부터 시작"),
-							fieldWithPath("questions[].answerExplanation")
+							fieldWithPath("questions[].answerExplanationContent")
 								.type(JsonFieldType.STRING)
 								.description("답안 설명"),
+							fieldWithPath("questions[].answerExplanationImages")
+								.type(JsonFieldType.ARRAY)
+								.description("답안 설명 이미지 파일들"),
 							fieldWithPath("questions[].answerType")
 								.type(JsonFieldType.STRING)
 								.description("답안 타입 [OX, FILL_BLANK, MULTIPLE_CHOICE, SHORT]"),

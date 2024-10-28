@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.studygroup.application.service
 
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.MemberResponse
+import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
@@ -23,7 +23,7 @@ class StudyGroupService(
 ) : CreateStudyGroupUseCase,
 	JoinStudyGroupUseCase {
 	override fun create(command: CreateStudyGroupCommand): Long {
-		val creator: MemberResponse = findCertificatedMemberUseCase.getByCertificationId(command.creatorAuthId)
+		val creator: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.creatorAuthId)
 		
 		return insertStudyGroupPort.insert(
 			StudyGroup(
@@ -41,7 +41,7 @@ class StudyGroupService(
 			loadStudyGroupByInviteCodePort.findByInviteCode(
 				command.inviteCode,
 			) ?: throw NotFoundStudyGroupException(command.inviteCode)
-		val memberId: MemberResponse = findCertificatedMemberUseCase.getByCertificationId(command.participantAuthId)
+		val memberId: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.participantAuthId)
 
 		studyGroup.join(memberId.id)
 

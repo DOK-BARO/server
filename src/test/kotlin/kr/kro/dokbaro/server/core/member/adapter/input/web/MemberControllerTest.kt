@@ -6,7 +6,7 @@ import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberRequest
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.MemberResponse
+import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.member.domain.Role
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -61,7 +61,7 @@ class MemberControllerTest : RestDocsTest() {
 
 		"login한 member 정보를 가져온다" {
 			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns
-				MemberResponse(
+				CertificatedMember(
 					nickName = "nickname",
 					email = "asdf@gmail.com",
 					profileImage = "image.png",
