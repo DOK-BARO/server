@@ -7,6 +7,7 @@ import io.mockk.mockk
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.CreateQuizReviewCommand
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.InsertQuizReviewPort
+import kr.kro.dokbaro.server.dummy.EventPublisherDummy
 import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
 import java.util.UUID
 
@@ -15,7 +16,7 @@ class QuizReviewServiceTest :
 		val insertQuizReviewPort = mockk<InsertQuizReviewPort>()
 		val findCertificatedMemberUseCase = mockk<FindCertificatedMemberUseCase>()
 
-		val quizReviewService = QuizReviewService(insertQuizReviewPort, findCertificatedMemberUseCase)
+		val quizReviewService = QuizReviewService(insertQuizReviewPort, findCertificatedMemberUseCase, EventPublisherDummy())
 
 		"퀴즈를 생성한다" {
 			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()

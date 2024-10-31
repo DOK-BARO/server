@@ -15,6 +15,7 @@ import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStud
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupByInviteCodePort
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
+import kr.kro.dokbaro.server.dummy.EventPublisherDummy
 import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
 import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 import java.util.UUID
@@ -34,6 +35,7 @@ class StudyGroupServiceTest :
 				inviteCodeGenerator,
 				loadStudyGroupByInviteCodePort,
 				updateStudyGroupPort,
+				EventPublisherDummy(),
 			)
 
 		afterEach {
