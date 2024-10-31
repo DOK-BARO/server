@@ -5,9 +5,12 @@ import kr.kro.dokbaro.server.core.studygroup.domain.InviteCode
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
+import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import org.jooq.Record
+import org.jooq.Record5
 import org.jooq.Result
+import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JStudyGroupMember
 import org.jooq.generated.tables.records.StudyGroupRecord
 
@@ -15,6 +18,7 @@ import org.jooq.generated.tables.records.StudyGroupRecord
 class StudyGroupMapper {
 	companion object {
 		private val STUDY_GROUP_MEMBER = JStudyGroupMember.STUDY_GROUP_MEMBER
+		private val MEMBER = JMember.MEMBER
 	}
 
 	fun recordToStudyGroup(record: Map<StudyGroupRecord, Result<Record>>): StudyGroup? =
@@ -43,6 +47,19 @@ class StudyGroupMapper {
 				it.name,
 				it.profileImageUrl,
 				it.id,
+			)
+		}
+
+	fun toStudyGroupMemberResult(
+		record: Result<Record5<Long, Long, Long, String, String>>,
+	): Collection<StudyGroupMemberResult> =
+		record.map {
+			StudyGroupMemberResult(
+				it.get(STUDY_GROUP_MEMBER.STUDY_GROUP_ID),
+				it.get(STUDY_GROUP_MEMBER.ID),
+				it.get(STUDY_GROUP_MEMBER.MEMBER_ID),
+				it.get(MEMBER.NICKNAME),
+				StudyMemberRole.valueOf(it.get(STUDY_GROUP_MEMBER.MEMBER_ROLE)),
 			)
 		}
 }

@@ -60,4 +60,27 @@ class StudyGroupPersistenceQueryAdapterTest(
 
 			queryAdapter.findAllByStudyMemberId(members[0].id).size shouldBe 2
 		}
+
+		"study group에 소속된 member 목록을 조회한다" {
+			val members =
+				listOf(
+					memberRepository.insert(memberFixture(email = Email("aaa@aa.com"))),
+					memberRepository.insert(memberFixture(email = Email("bbb@aa.com"))),
+					memberRepository.insert(memberFixture(email = Email("ccc@aa.com"))),
+				)
+
+			val groupId =
+				studyGroupRepository.insert(
+					studyGroupFixture(
+						studyMembers =
+							mutableSetOf(
+								StudyMember(members[1].id, StudyMemberRole.LEADER),
+								StudyMember(members[2].id, StudyMemberRole.MEMBER),
+								StudyMember(members[3].id, StudyMemberRole.MEMBER),
+							),
+					),
+				)
+
+			queryAdapter.findAllStudyGroupMembers(groupId).size shouldBe 3
+		}
 	})
