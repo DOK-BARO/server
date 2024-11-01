@@ -48,17 +48,20 @@ class MemberRepository(
 		roles: Collection<Role>,
 		memberId: Long,
 	) {
-		roles.map { it.name }.forEach {
-			dslContext
-				.insertInto(
-					MEMBER_ROLE,
-					MEMBER_ROLE.MEMBER_ID,
-					MEMBER_ROLE.NAME,
-				).values(
-					memberId,
-					it,
-				).execute()
-		}
+		val roleInsertQuery =
+			roles.map {
+				dslContext
+					.insertInto(
+						MEMBER_ROLE,
+						MEMBER_ROLE.MEMBER_ID,
+						MEMBER_ROLE.NAME,
+					).values(
+						memberId,
+						it.name,
+					)
+			}
+
+		dslContext.batch(roleInsertQuery).execute()
 	}
 
 	private fun findById(id: Long): Member? {

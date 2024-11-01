@@ -28,16 +28,19 @@ class TermsOfServiceRepository(
 	}
 
 	fun insertAgreeTermsOfService(agreeTermsOfService: AgreeTermsOfService) {
-		agreeTermsOfService.item.forEach {
-			dslContext
-				.insertInto(
-					AGREE_TERMS_OF_SERVICE,
-					AGREE_TERMS_OF_SERVICE.TERMS_OF_SERVICE_ID,
-					AGREE_TERMS_OF_SERVICE.MEMBER_ID,
-				).values(
-					it.id,
-					agreeTermsOfService.memberId,
-				).execute()
-		}
+		val insertQuery =
+			agreeTermsOfService.item.map {
+				dslContext
+					.insertInto(
+						AGREE_TERMS_OF_SERVICE,
+						AGREE_TERMS_OF_SERVICE.TERMS_OF_SERVICE_ID,
+						AGREE_TERMS_OF_SERVICE.MEMBER_ID,
+					).values(
+						it.id,
+						agreeTermsOfService.memberId,
+					)
+			}
+
+		dslContext.batch(insertQuery).execute()
 	}
 }
