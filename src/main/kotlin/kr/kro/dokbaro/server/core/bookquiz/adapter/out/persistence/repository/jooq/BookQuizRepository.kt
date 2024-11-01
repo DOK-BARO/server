@@ -95,45 +95,53 @@ class BookQuizRepository(
 		question: QuizQuestion,
 		questionId: Long,
 	) {
-		question.answer.gradeSheet.getAnswers().forEach {
-			dslContext
-				.insertInto(
-					BOOK_QUIZ_ANSWER,
-					BOOK_QUIZ_ANSWER.BOOK_QUIZ_QUESTION_ID,
-					BOOK_QUIZ_ANSWER.CONTENT,
-				).values(
-					questionId,
-					it,
-				).execute()
-		}
-
-		question.selectOptions
-			.map { it.content.toByteArray() }
-			.forEachIndexed { index, value ->
+		val answerInsertQuery =
+			question.answer.gradeSheet.getAnswers().map {
 				dslContext
 					.insertInto(
-						BOOK_QUIZ_SELECT_OPTION,
-						BOOK_QUIZ_SELECT_OPTION.SEQ,
-						BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID,
-						BOOK_QUIZ_SELECT_OPTION.CONTENT,
+						BOOK_QUIZ_ANSWER,
+						BOOK_QUIZ_ANSWER.BOOK_QUIZ_QUESTION_ID,
+						BOOK_QUIZ_ANSWER.CONTENT,
 					).values(
-						index,
 						questionId,
-						value,
-					).execute()
+						it,
+					)
 			}
 
-		question.answer.explanationImages.forEach {
-			dslContext
-				.insertInto(
-					BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE,
-					BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID,
-					BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL,
-				).values(
-					questionId,
-					it,
-				).execute()
-		}
+		dslContext.batch(answerInsertQuery).execute()
+
+		val optionInsertQuery =
+			question.selectOptions
+				.map { it.content.toByteArray() }
+				.mapIndexed { index, value ->
+					dslContext
+						.insertInto(
+							BOOK_QUIZ_SELECT_OPTION,
+							BOOK_QUIZ_SELECT_OPTION.SEQ,
+							BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID,
+							BOOK_QUIZ_SELECT_OPTION.CONTENT,
+						).values(
+							index,
+							questionId,
+							value,
+						)
+				}
+		dslContext.batch(optionInsertQuery).execute()
+
+		val explanationInsertQuery =
+			question.answer.explanationImages.map {
+				dslContext
+					.insertInto(
+						BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE,
+						BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID,
+						BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL,
+					).values(
+						questionId,
+						it,
+					)
+			}
+
+		dslContext.batch(explanationInsertQuery).execute()
 	}
 
 	fun load(id: Long): BookQuiz? {

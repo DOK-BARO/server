@@ -37,19 +37,22 @@ class StudyGroupRepository(
 				).returningResult(STUDY_GROUP.ID)
 				.fetchOneInto(Long::class.java)!!
 
-		studyGroup.studyMembers.forEach {
-			dslContext
-				.insertInto(
-					STUDY_GROUP_MEMBER,
-					STUDY_GROUP_MEMBER.STUDY_GROUP_ID,
-					STUDY_GROUP_MEMBER.MEMBER_ID,
-					STUDY_GROUP_MEMBER.MEMBER_ROLE,
-				).values(
-					studyGroupId,
-					it.memberId,
-					it.role.name,
-				).execute()
-		}
+		val insertQuery =
+			studyGroup.studyMembers.map {
+				dslContext
+					.insertInto(
+						STUDY_GROUP_MEMBER,
+						STUDY_GROUP_MEMBER.STUDY_GROUP_ID,
+						STUDY_GROUP_MEMBER.MEMBER_ID,
+						STUDY_GROUP_MEMBER.MEMBER_ROLE,
+					).values(
+						studyGroupId,
+						it.memberId,
+						it.role.name,
+					)
+			}
+
+		dslContext.batch(insertQuery).execute()
 
 		return studyGroupId
 	}
@@ -79,18 +82,21 @@ class StudyGroupRepository(
 
 		dslContext.delete(STUDY_GROUP_MEMBER).where(STUDY_GROUP_MEMBER.STUDY_GROUP_ID.eq(studyGroup.id)).execute()
 
-		studyGroup.studyMembers.forEach {
-			dslContext
-				.insertInto(
-					STUDY_GROUP_MEMBER,
-					STUDY_GROUP_MEMBER.STUDY_GROUP_ID,
-					STUDY_GROUP_MEMBER.MEMBER_ID,
-					STUDY_GROUP_MEMBER.MEMBER_ROLE,
-				).values(
-					studyGroup.id,
-					it.memberId,
-					it.role.name,
-				).execute()
-		}
+		val insertQuery =
+			studyGroup.studyMembers.map {
+				dslContext
+					.insertInto(
+						STUDY_GROUP_MEMBER,
+						STUDY_GROUP_MEMBER.STUDY_GROUP_ID,
+						STUDY_GROUP_MEMBER.MEMBER_ID,
+						STUDY_GROUP_MEMBER.MEMBER_ROLE,
+					).values(
+						studyGroup.id,
+						it.memberId,
+						it.role.name,
+					)
+			}
+
+		dslContext.batch(insertQuery).execute()
 	}
 }

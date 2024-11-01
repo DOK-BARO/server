@@ -52,19 +52,21 @@ class SolvingQuizRepository(
 			.execute()
 
 		solvingQuiz.getSheets().forEach { (questionId, sheet) ->
-			sheet.answer.forEach { sheetContent ->
-				dslContext
-					.insertInto(
-						SOLVING_QUIZ_SHEET,
-						SOLVING_QUIZ_SHEET.SOLVING_QUIZ_ID,
-						SOLVING_QUIZ_SHEET.QUESTION_ID,
-						SOLVING_QUIZ_SHEET.CONTENT,
-					).values(
-						solvingQuiz.id,
-						questionId,
-						sheetContent,
-					).execute()
-			}
+			val query =
+				sheet.answer.map { sheetContent ->
+					dslContext
+						.insertInto(
+							SOLVING_QUIZ_SHEET,
+							SOLVING_QUIZ_SHEET.SOLVING_QUIZ_ID,
+							SOLVING_QUIZ_SHEET.QUESTION_ID,
+							SOLVING_QUIZ_SHEET.CONTENT,
+						).values(
+							solvingQuiz.id,
+							questionId,
+							sheetContent,
+						)
+				}
+			dslContext.batch(query).execute()
 		}
 	}
 }
