@@ -41,7 +41,7 @@ class StudyGroupQueryServiceTest :
 					StudyGroupMemberResult(1, 2, 3, "n", StudyMemberRole.MEMBER),
 					StudyGroupMemberResult(1, 3, 4, "n", StudyMemberRole.MEMBER),
 				)
-		}
 
-		studyGroupQueryService.findAllStudyGroupMembers(1) shouldNotBe null
+			studyGroupQueryService.findAllStudyGroupMembers(1) shouldNotBe null
+		}
 	})

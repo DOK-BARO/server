@@ -74,9 +74,9 @@ class StudyGroupPersistenceQueryAdapterTest(
 					studyGroupFixture(
 						studyMembers =
 							mutableSetOf(
-								StudyMember(members[1].id, StudyMemberRole.LEADER),
+								StudyMember(members[0].id, StudyMemberRole.LEADER),
+								StudyMember(members[1].id, StudyMemberRole.MEMBER),
 								StudyMember(members[2].id, StudyMemberRole.MEMBER),
-								StudyMember(members[3].id, StudyMemberRole.MEMBER),
 							),
 					),
 				)
