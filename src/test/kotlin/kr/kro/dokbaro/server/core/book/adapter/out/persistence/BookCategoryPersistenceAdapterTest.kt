@@ -1,6 +1,8 @@
 package kr.kro.dokbaro.server.core.book.adapter.out.persistence
 
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.extensions.spring.SpringTestExtension
+import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
@@ -12,6 +14,8 @@ import org.jooq.DSLContext
 class BookCategoryPersistenceAdapterTest(
 	private val dslContext: DSLContext,
 ) : StringSpec({
+		extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
+	
 		val bookRepository = BookRepository(dslContext)
 		val adapter = BookCategoryPersistenceAdapter(bookRepository)
 

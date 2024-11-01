@@ -20,6 +20,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoun
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
+import kr.kro.dokbaro.server.dummy.EventPublisherDummy
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
 import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
 import java.util.UUID
@@ -40,6 +41,7 @@ class BookQuizServiceTest :
 				loadBookQuizPort,
 				updateBookQuizPort,
 				loadBookQuizByQuestionIdPort,
+				EventPublisherDummy(),
 			)
 
 		afterEach {
