@@ -11,6 +11,8 @@ import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroup
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.UpdateStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
+import kr.kro.dokbaro.server.core.studygroup.event.JoinedStudyGroupMemberEvent
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,6 +22,7 @@ class StudyGroupService(
 	private val inviteCodeGenerator: InviteCodeGenerator,
 	private val loadStudyGroupByInviteCodePort: LoadStudyGroupByInviteCodePort,
 	private val updateStudyGroupPort: UpdateStudyGroupPort,
+	private val eventPublisher: ApplicationEventPublisher,
 ) : CreateStudyGroupUseCase,
 	JoinStudyGroupUseCase {
 	override fun create(command: CreateStudyGroupCommand): Long {
@@ -41,10 +44,19 @@ class StudyGroupService(
 			loadStudyGroupByInviteCodePort.findByInviteCode(
 				command.inviteCode,
 			) ?: throw NotFoundStudyGroupException(command.inviteCode)
-		val memberId: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.participantAuthId)
+		val member: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.participantAuthId)
 
-		studyGroup.join(memberId.id)
+		studyGroup.join(member.id)
 
 		updateStudyGroupPort.update(studyGroup)
+
+		eventPublisher.publishEvent(
+			JoinedStudyGroupMemberEvent(
+				studyGroupId = studyGroup.id,
+				studyGroupName = studyGroup.name,
+				memberId = member.id,
+				memberName = member.nickName,
+			),
+		)
 	}
 }

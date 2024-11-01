@@ -23,6 +23,8 @@ include::image.adoc[]
 
 include::member.adoc[]
 
+include::notification.adoc[]
+
 include::solving-quiz.adoc[]
 
 include::study-group.adoc[]
