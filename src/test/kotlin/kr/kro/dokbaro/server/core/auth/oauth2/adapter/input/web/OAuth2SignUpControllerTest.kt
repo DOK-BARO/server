@@ -2,6 +2,7 @@ package kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import kr.kro.dokbaro.server.common.http.jwt.JwtResponseGenerator
 import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest

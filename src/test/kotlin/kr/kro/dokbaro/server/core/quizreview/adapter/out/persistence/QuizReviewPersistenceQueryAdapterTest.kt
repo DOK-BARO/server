@@ -13,6 +13,7 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.B
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
+import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.entity.jooq.QuizReviewMapper
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq.QuizReviewQueryRepository
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq.QuizReviewRepository
@@ -41,22 +42,28 @@ class QuizReviewPersistenceQueryAdapterTest(
 
 		"퀴즈 리뷰 평점 및 난이도 조회를 수행한다" {
 			val memberId = memberRepository.insert(memberFixture()).id
+			val memberId2 = memberRepository.insert(memberFixture(email = Email("member2@mmail.com"))).id
 			val bookId = bookRepository.insertBook(bookFixture())
 			val bookQuizId: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
+			val bookQuizId2: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
 
 			quizReviewRepository.insert(quizReviewFixture(memberId = memberId, quizId = bookQuizId))
-			quizReviewRepository.insert(quizReviewFixture(comment = "hello", memberId = memberId, quizId = bookQuizId))
+			quizReviewRepository.insert(quizReviewFixture(memberId = memberId2, quizId = bookQuizId))
+			quizReviewRepository.insert(quizReviewFixture(comment = "hello", memberId = memberId, quizId = bookQuizId2))
 
 			adapter.findBy(bookQuizId).size shouldBe 2
 		}
 
 		"개수를 조회한다" {
 			val memberId = memberRepository.insert(memberFixture()).id
+			val memberId2 = memberRepository.insert(memberFixture(email = Email("member2@mmail.com"))).id
 			val bookId = bookRepository.insertBook(bookFixture())
 			val bookQuizId: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
+			val bookQuizId2: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
 
 			quizReviewRepository.insert(quizReviewFixture(memberId = memberId, quizId = bookQuizId))
-			quizReviewRepository.insert(quizReviewFixture(comment = "hello", memberId = memberId, quizId = bookQuizId))
+			quizReviewRepository.insert(quizReviewFixture(memberId = memberId2, quizId = bookQuizId))
+			quizReviewRepository.insert(quizReviewFixture(comment = "hello", memberId = memberId, quizId = bookQuizId2))
 
 			adapter.countBy(CountQuizReviewCondition(bookQuizId)) shouldBe 2
 		}
@@ -65,11 +72,13 @@ class QuizReviewPersistenceQueryAdapterTest(
 
 		"요약본 조회를 수행한다" {
 			val memberId = memberRepository.insert(memberFixture()).id
+
 			val bookId = bookRepository.insertBook(bookFixture())
 			val bookQuizId: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
 
 			(1..100).toList().shuffled().forEach { i ->
-				quizReviewRepository.insert(quizReviewFixture(starRating = i, memberId = memberId, quizId = bookQuizId))
+				val reviewerId = memberRepository.insert(memberFixture(email = Email("aaaa$i@gmail.com"))).id
+				quizReviewRepository.insert(quizReviewFixture(starRating = i, memberId = reviewerId, quizId = bookQuizId))
 			}
 
 			adapter
@@ -86,11 +95,14 @@ class QuizReviewPersistenceQueryAdapterTest(
 			val bookQuizId: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
 
 			(1..50).toList().shuffled().forEach { i ->
+				val reviewerId1 = memberRepository.insert(memberFixture(email = Email("aaaa$i@gmail.com"))).id
+				val reviewerId2 = memberRepository.insert(memberFixture(email = Email("bbbb$i@gmail.com"))).id
+
 				quizReviewRepository.insert(
-					quizReviewFixture(starRating = i, comment = null, memberId = memberId, quizId = bookQuizId),
+					quizReviewFixture(starRating = i, comment = null, memberId = reviewerId1, quizId = bookQuizId),
 				)
 				quizReviewRepository.insert(
-					quizReviewFixture(starRating = i, comment = "hello", memberId = memberId, quizId = bookQuizId),
+					quizReviewFixture(starRating = i, comment = "hello", memberId = reviewerId2, quizId = bookQuizId),
 				)
 			}
 
