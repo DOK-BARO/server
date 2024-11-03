@@ -1,5 +1,6 @@
-package kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web
+package kr.kro.dokbaro.server.common.http.jwt
 
+import kr.kro.dokbaro.server.common.http.CookieGenerator
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity

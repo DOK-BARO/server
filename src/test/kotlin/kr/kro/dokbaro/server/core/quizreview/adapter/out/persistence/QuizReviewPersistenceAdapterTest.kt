@@ -34,8 +34,9 @@ class QuizReviewPersistenceAdapterTest(
 			val memberId = memberRepository.insert(memberFixture()).id
 			val bookId = bookRepository.insertBook(bookFixture())
 			val bookQuizId: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
+			val bookQuizId2: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
 
 			adapter.insert(quizReviewFixture(memberId = memberId, quizId = bookQuizId)) shouldNotBe null
-			adapter.insert(quizReviewFixture(comment = "hello", memberId = memberId, quizId = bookQuizId)) shouldNotBe null
+			adapter.insert(quizReviewFixture(comment = "hello", memberId = memberId, quizId = bookQuizId2)) shouldNotBe null
 		}
 	})

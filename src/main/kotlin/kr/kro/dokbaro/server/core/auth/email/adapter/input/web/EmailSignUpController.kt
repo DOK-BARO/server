@@ -1,9 +1,9 @@
 package kr.kro.dokbaro.server.core.auth.email.adapter.input.web
 
 import kr.kro.dokbaro.server.common.dto.response.MessageResponse
+import kr.kro.dokbaro.server.common.http.jwt.JwtResponseGenerator
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.EmailSignUpUseCase
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.dto.EmailSignUpCommand
-import kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web.JwtResponseGenerator
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

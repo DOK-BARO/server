@@ -2,6 +2,8 @@ package kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import kr.kro.dokbaro.server.common.http.CookieGenerator
+import kr.kro.dokbaro.server.common.http.jwt.JwtResponseGenerator
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 
