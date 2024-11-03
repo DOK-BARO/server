@@ -55,15 +55,17 @@ class BookRepository(
 				).execute()
 		}
 
-		book.categories.forEach {
-			dslContext
-				.insertInto(
-					BOOK_CATEGORY_GROUP,
-					BOOK_CATEGORY_GROUP.BOOK_ID,
-					BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID,
-				).values(savedId, it)
-				.execute()
-		}
+		val insertQuery =
+			book.categories.map {
+				dslContext
+					.insertInto(
+						BOOK_CATEGORY_GROUP,
+						BOOK_CATEGORY_GROUP.BOOK_ID,
+						BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID,
+					).values(savedId, it)
+			}
+
+		dslContext.batch(insertQuery).execute()
 
 		return savedId
 	}

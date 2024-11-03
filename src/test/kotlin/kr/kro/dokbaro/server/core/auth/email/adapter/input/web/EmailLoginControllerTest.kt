@@ -2,11 +2,11 @@ package kr.kro.dokbaro.server.core.auth.email.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import kr.kro.dokbaro.server.common.http.jwt.JwtResponseGenerator
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.EmailLoginUseCase
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.dto.EmailLoginCommand
-import kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web.JwtResponseGenerator
 import kr.kro.dokbaro.server.fixture.domain.authTokenFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders

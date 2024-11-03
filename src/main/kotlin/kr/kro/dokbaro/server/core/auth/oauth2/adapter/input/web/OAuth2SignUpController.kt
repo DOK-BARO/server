@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web
 
 import kr.kro.dokbaro.server.common.dto.response.MessageResponse
+import kr.kro.dokbaro.server.common.http.jwt.JwtResponseGenerator
 import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web.dto.ProviderAuthorizationTokenRequest
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.LoadProviderAccountCommand

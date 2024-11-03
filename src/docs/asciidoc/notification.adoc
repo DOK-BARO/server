@@ -26,7 +26,6 @@ include::{snippets}/notification/disable/http-response.adoc[]
 === HTTP request
 
 include::{snippets}/notification/find-all/http-request.adoc[]
-include::{snippets}/notification/find-all/http-request.adoc[]
 
 === HTTP response
 

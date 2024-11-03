@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringExtension
+import jakarta.servlet.http.Cookie
 import kr.kro.dokbaro.server.configuration.security.TestSecurityConfig
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
@@ -48,6 +49,7 @@ abstract class RestDocsTest : StringSpec() {
 		path: Path,
 		body: Any? = null,
 		param: MultiValueMap<String, String>? = null,
+		cookie: Map<String, String>? = null,
 	): ResultActions {
 		val requestBuilder =
 			post(path.endPoint, *path.pathVariable)
@@ -58,6 +60,8 @@ abstract class RestDocsTest : StringSpec() {
 					body?.let { content(toBody(it)) }
 				}.apply {
 					param?.let { params(it) }
+				}.apply {
+					cookie?.let { cookie(*mapToCookies(it)) }
 				}
 
 		return mockMvc.perform(requestBuilder)
@@ -155,6 +159,9 @@ abstract class RestDocsTest : StringSpec() {
 
 		return objectMapper
 	}
+
+	private fun mapToCookies(cookieMap: Map<String, String>): Array<Cookie> =
+		cookieMap.map { (name, value) -> Cookie(name, value) }.toTypedArray()
 
 	protected fun print(
 		title: String,
