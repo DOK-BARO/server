@@ -10,6 +10,7 @@ import org.jooq.Result
 import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizAnswer
 import org.jooq.generated.tables.JBookQuizAnswerExplainImage
+import org.jooq.generated.tables.JBookQuizContributor
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
 import org.jooq.generated.tables.JStudyGroupQuiz
@@ -29,6 +30,7 @@ class BookQuizRepository(
 		private val BOOK_QUIZ_SELECT_OPTION = JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
 		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
 		private val BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE = JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
+		private val BOOK_QUIZ_CONTRIBUTOR = JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
 	}
 
 	fun insert(bookQuiz: BookQuiz): Long {
@@ -197,6 +199,26 @@ class BookQuizRepository(
 				updateBookQuizQuestion(question, bookQuiz.id)
 			}
 		}
+
+		dslContext
+			.deleteFrom(BOOK_QUIZ_CONTRIBUTOR)
+			.where(BOOK_QUIZ_CONTRIBUTOR.BOOK_QUIZ_ID.eq(bookQuiz.id))
+			.execute()
+
+		val contributorInsertQuery =
+			bookQuiz.contributorIds.map { contributorId ->
+				dslContext
+					.insertInto(
+						BOOK_QUIZ_CONTRIBUTOR,
+						BOOK_QUIZ_CONTRIBUTOR.BOOK_QUIZ_ID,
+						BOOK_QUIZ_CONTRIBUTOR.MEMBER_ID,
+					).values(
+						bookQuiz.id,
+						contributorId,
+					)
+			}
+
+		dslContext.batch(contributorInsertQuery).execute()
 	}
 
 	private fun updateBookQuizQuestion(

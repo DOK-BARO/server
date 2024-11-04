@@ -69,6 +69,7 @@ class BookQuizController(
 	fun updateQuiz(
 		@PathVariable id: Long,
 		@RequestBody body: UpdateBookQuizRequest,
+		auth: Authentication,
 	) {
 		updateBookQuizUseCase.update(
 			UpdateBookQuizCommand(
@@ -81,6 +82,7 @@ class BookQuizController(
 				editScope = body.editScope,
 				studyGroupId = body.studyGroupId,
 				questions = body.questions,
+				modifierAuthId = UUIDUtils.stringToUUID(auth.name),
 			),
 		)
 	}

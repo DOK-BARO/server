@@ -7,6 +7,7 @@ data class BookQuiz(
 	var description: String,
 	var bookId: Long,
 	val creatorId: Long,
+	val contributorIds: MutableSet<Long> = mutableSetOf(),
 	val questions: QuizQuestions,
 	var studyGroupId: Long? = null,
 	var timeLimitSecond: Int? = null,
@@ -32,8 +33,15 @@ data class BookQuiz(
 		this.editScope = editScope
 	}
 
-	fun updateQuestions(newQuestions: Collection<QuizQuestion>) {
+	fun updateQuestions(
+		newQuestions: Collection<QuizQuestion>,
+		modifierId: Long,
+	) {
 		questions.updateQuestions(newQuestions)
+
+		if (modifierId != creatorId) {
+			contributorIds.add(modifierId)
+		}
 	}
 
 	fun getAnswer(questionId: Long): QuestionAnswer = questions.getAnswer(questionId)
