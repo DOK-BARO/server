@@ -101,3 +101,22 @@ CREATE TABLE book_quiz_answer_explain_image
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE book_quiz_contributor
+(
+	id           bigint     NOT NULL AUTO_INCREMENT,
+	book_quiz_id bigint     NOT NULL,
+	member_id    bigint     NOT NULL,
+	created_at   datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at   datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted      tinyint(1) NOT NULL DEFAULT '0',
+	PRIMARY KEY (id),
+	unique key (book_quiz_id, member_id),
+	KEY book_quiz_contributor_book_quiz_id___fk (book_quiz_id),
+	CONSTRAINT book_quiz_contributor_book_quiz_id___fk FOREIGN KEY (book_quiz_id) REFERENCES book_quiz (id) ON DELETE CASCADE,
+	KEY book_quiz_contributor_member_id___fk (member_id),
+	CONSTRAINT book_quiz_contributor_member_id___fk FOREIGN KEY (member_id) REFERENCES member (id) ON DELETE CASCADE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;

@@ -84,7 +84,7 @@ class BookQuizServiceTest :
 			every { loadBookQuizPort.load(any()) } returns bookQuizFixture()
 
 			every { updateBookQuizPort.update(any()) } returns Unit
-
+			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			bookQuizService.update(
 				UpdateBookQuizCommand(
 					id = 1,
@@ -105,6 +105,7 @@ class BookQuizServiceTest :
 								answers = listOf("X"),
 							),
 						),
+					modifierAuthId = UUID.randomUUID(),
 				),
 			)
 
@@ -113,6 +114,7 @@ class BookQuizServiceTest :
 
 		"book quiz 수정 시 id에 해당하는 값을 찾을 수 없으면 예외를 반환한다" {
 			every { loadBookQuizPort.load(any()) } returns null
+			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 
 			shouldThrow<NotFoundQuizException> {
 				bookQuizService.update(
@@ -135,6 +137,7 @@ class BookQuizServiceTest :
 									answers = listOf("X"),
 								),
 							),
+						modifierAuthId = UUID.randomUUID(),
 					),
 				)
 			}
@@ -142,7 +145,7 @@ class BookQuizServiceTest :
 
 		"book quiz 수정 시 question id가 없으면 (신규 question 이면) id를 0으로 대체한다" {
 			every { loadBookQuizPort.load(any()) } returns bookQuizFixture()
-
+			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			every { updateBookQuizPort.update(any()) } returns Unit
 
 			bookQuizService.update(
@@ -164,6 +167,7 @@ class BookQuizServiceTest :
 								answers = listOf("X"),
 							),
 						),
+					modifierAuthId = UUID.randomUUID(),
 				),
 			)
 
