@@ -2,7 +2,7 @@ package kr.kro.dokbaro.server.core.bookquiz.query
 
 import java.time.LocalDateTime
 
-data class BookAndBookQuizSummary(
+data class UnsolvedGroupBookQuizSummary(
 	val book: BookSummary,
 	val quiz: QuizSummary,
 )
@@ -18,9 +18,16 @@ data class QuizSummary(
 	val title: String,
 	val creator: QuizCreator,
 	val createdAt: LocalDateTime,
+	val contributors: Collection<QuizContributor>,
 )
 
 data class QuizCreator(
+	val id: Long,
+	val nickname: String,
+	val profileImageUrl: String?,
+)
+
+data class QuizContributor(
 	val id: Long,
 	val nickname: String,
 	val profileImageUrl: String?,

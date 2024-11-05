@@ -14,17 +14,26 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.BookSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.Creator
 import kr.kro.dokbaro.server.core.bookquiz.query.Question
+import kr.kro.dokbaro.server.core.bookquiz.query.QuizContributor
+import kr.kro.dokbaro.server.core.bookquiz.query.QuizCreator
+import kr.kro.dokbaro.server.core.bookquiz.query.QuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import org.jooq.Record
 import org.jooq.Record3
 import org.jooq.Result
+import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizAnswer
 import org.jooq.generated.tables.JBookQuizAnswerExplainImage
+import org.jooq.generated.tables.JBookQuizContributor
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
 import org.jooq.generated.tables.JMember
+import org.jooq.generated.tables.JQuizReview
+import org.jooq.generated.tables.JSolvingQuiz
 import org.jooq.generated.tables.JStudyGroupQuiz
 import org.jooq.generated.tables.records.BookQuizRecord
 
@@ -33,11 +42,15 @@ class BookQuizMapper {
 	companion object {
 		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
 		private val BOOK_QUIZ_QUESTION = JBookQuizQuestion.BOOK_QUIZ_QUESTION
-		private val BOOK_QUIZ_ANSWER = JBookQuizAnswer.BOOK_QUIZ_ANSWER
 		private val BOOK_QUIZ_SELECT_OPTION = JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
-		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
+		private val BOOK_QUIZ_ANSWER = JBookQuizAnswer.BOOK_QUIZ_ANSWER
 		private val BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE = JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
 		private val MEMBER = JMember.MEMBER
+		private val QUIZ_REVIEW = JQuizReview.QUIZ_REVIEW
+		private val BOOK_QUIZ_CONTRIBUTOR = JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
+		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
+		private val BOOK = JBook.BOOK
+		private val SOLVING_QUIZ = JSolvingQuiz.SOLVING_QUIZ
 	}
 
 	fun recordToBookQuizQuestions(record: Result<out Record>): BookQuizQuestions? =
@@ -112,7 +125,10 @@ class BookQuizMapper {
 										AnswerSheet(elements.map { it.get(BOOK_QUIZ_ANSWER.CONTENT) }.distinct()),
 									),
 								explanationContent = questionBasic.answerExplanation,
-								explanationImages = elements.map { it.get(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL) }.distinct(),
+								explanationImages =
+									elements
+										.map { it.get(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL) }
+										.distinct(),
 							),
 						active = questionBasic.active,
 						id = questionBasic.id,
@@ -144,6 +160,54 @@ class BookQuizMapper {
 					it.get(MEMBER.NICKNAME),
 					it.get(MEMBER.PROFILE_IMAGE_URL),
 				),
+			)
+		}
+
+	fun toUnsolvedGroupBookQuizSummary(
+		record: Map<BookQuizRecord, Result<out Record>>,
+	): Collection<UnsolvedGroupBookQuizSummary> =
+		record.map { (quiz, other) ->
+			UnsolvedGroupBookQuizSummary(
+				book =
+					BookSummary(
+						id = other.map { it.get(BOOK.ID) }.first(),
+						title = other.map { it.get(BOOK.TITLE) }.first(),
+						imageUrl = other.map { it.get(BOOK.IMAGE_URL) }.first(),
+					),
+				quiz =
+					QuizSummary(
+						id = quiz.id,
+						title = quiz.title,
+						creator =
+							QuizCreator(
+								id = other.map { it.get(BookQuizRecordFieldName.CREATOR_ID.name, Long::class.java) }.first(),
+								nickname =
+									other
+										.map { it.get(BookQuizRecordFieldName.CREATOR_NAME.name, String::class.java) }
+										.first(),
+								profileImageUrl =
+									other
+										.map {
+											it.get(
+												BookQuizRecordFieldName.CREATOR_IMAGE_URL.name,
+												String::class.java,
+											)
+										}.first(),
+							),
+						createdAt = quiz.createdAt,
+						contributors =
+							other.map {
+								QuizContributor(
+									id = it.get(BookQuizRecordFieldName.CONTRIBUTOR_ID.name, Long::class.java),
+									nickname = it.get(BookQuizRecordFieldName.CONTRIBUTOR_NAME.name, String::class.java),
+									profileImageUrl =
+										it.get(
+											BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name,
+											String::class.java,
+										),
+								)
+							},
+					),
 			)
 		}
 }
