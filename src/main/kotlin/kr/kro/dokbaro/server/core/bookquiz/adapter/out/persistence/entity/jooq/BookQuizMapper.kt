@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq
 
 import kr.kro.dokbaro.server.common.annotation.Mapper
+import kr.kro.dokbaro.server.common.constant.Constants
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRecordFieldName
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
@@ -196,17 +197,23 @@ class BookQuizMapper {
 							),
 						createdAt = quiz.createdAt,
 						contributors =
-							other.map {
-								QuizContributor(
-									id = it.get(BookQuizRecordFieldName.CONTRIBUTOR_ID.name, Long::class.java),
-									nickname = it.get(BookQuizRecordFieldName.CONTRIBUTOR_NAME.name, String::class.java),
-									profileImageUrl =
-										it.get(
-											BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name,
-											String::class.java,
-										),
-								)
-							},
+							other
+								.filter {
+									it.get(
+										BookQuizRecordFieldName.CONTRIBUTOR_ID.name,
+										Long::class.java,
+									) != Constants.UNSAVED_ID
+								}.map {
+									QuizContributor(
+										id = it.get(BookQuizRecordFieldName.CONTRIBUTOR_ID.name, Long::class.java),
+										nickname = it.get(BookQuizRecordFieldName.CONTRIBUTOR_NAME.name, String::class.java),
+										profileImageUrl =
+											it.get(
+												BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name,
+												String::class.java,
+											),
+									)
+								},
 					),
 			)
 		}

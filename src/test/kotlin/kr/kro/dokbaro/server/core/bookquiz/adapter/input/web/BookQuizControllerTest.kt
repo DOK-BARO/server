@@ -12,6 +12,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindUnsolvedGroupBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateQuizQuestionCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateQuizQuestionCommand
@@ -21,8 +22,13 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
+import kr.kro.dokbaro.server.core.bookquiz.query.BookSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.Creator
 import kr.kro.dokbaro.server.core.bookquiz.query.Question
+import kr.kro.dokbaro.server.core.bookquiz.query.QuizContributor
+import kr.kro.dokbaro.server.core.bookquiz.query.QuizCreator
+import kr.kro.dokbaro.server.core.bookquiz.query.QuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
@@ -33,6 +39,7 @@ import org.springframework.restdocs.request.RequestDocumentation.parameterWithNa
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.time.LocalDateTime
 
 @WebMvcTest(BookQuizController::class)
 class BookQuizControllerTest : RestDocsTest() {
@@ -50,6 +57,9 @@ class BookQuizControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var findBookQuizSummaryUseCase: FindBookQuizSummaryUseCase
+
+	@MockkBean
+	lateinit var findUnsolvedGroupBookQuizUseCase: FindUnsolvedGroupBookQuizUseCase
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
@@ -176,15 +186,22 @@ class BookQuizControllerTest : RestDocsTest() {
 						responseFields(
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("퀴즈의 고유 식별자").optional(),
 							fieldWithPath("title").type(JsonFieldType.STRING).description("퀴즈 제목"),
-							fieldWithPath("timeLimitSecond").type(JsonFieldType.NUMBER).description("퀴즈의 시간 제한(초), null 가능").optional(),
+							fieldWithPath("timeLimitSecond")
+								.type(JsonFieldType.NUMBER)
+								.description("퀴즈의 시간 제한(초), null 가능")
+								.optional(),
 							fieldWithPath("questions").type(JsonFieldType.ARRAY).description("퀴즈에 포함된 질문 리스트"),
 							fieldWithPath("questions[].id").type(JsonFieldType.NUMBER).description("질문의 고유 식별자"),
 							fieldWithPath("questions[].content").type(JsonFieldType.STRING).description("질문의 내용"),
-							fieldWithPath("questions[].selectOptions").type(JsonFieldType.ARRAY).description("질문의 선택지 리스트"),
+							fieldWithPath("questions[].selectOptions")
+								.type(JsonFieldType.ARRAY)
+								.description("질문의 선택지 리스트"),
 							fieldWithPath("questions[].type")
 								.type(JsonFieldType.STRING)
 								.description("질문의 유형 [OX, FILL_BLANK, MULTIPLE_CHOICE, SHORT]"),
-							fieldWithPath("questions[].selectOptions[].content").type(JsonFieldType.STRING).description("선택지의 내용"),
+							fieldWithPath("questions[].selectOptions[].content")
+								.type(JsonFieldType.STRING)
+								.description("선택지의 내용"),
 						),
 					),
 				)
@@ -299,7 +316,9 @@ class BookQuizControllerTest : RestDocsTest() {
 							parameterWithName("questionId").description("질문 ID"),
 						),
 						responseFields(
-							fieldWithPath("correctAnswer").type(JsonFieldType.ARRAY).description("정답 목록을 포함하는 배열. 여러 개의 정답이 있을 수 있다."),
+							fieldWithPath("correctAnswer")
+								.type(JsonFieldType.ARRAY)
+								.description("정답 목록을 포함하는 배열. 여러 개의 정답이 있을 수 있다."),
 							fieldWithPath("explanation").type(JsonFieldType.STRING).description("정답에 대한 설명."),
 							fieldWithPath("explanationImages")
 								.type(JsonFieldType.ARRAY)
@@ -382,15 +401,122 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),
 							fieldWithPath("data[].id").type(JsonFieldType.NUMBER).description("퀴즈의 ID."),
 							fieldWithPath("data[].title").type(JsonFieldType.STRING).description("퀴즈의 제목."),
-							fieldWithPath("data[].averageStarRating").type(JsonFieldType.NUMBER).description("퀴즈의 평균 별점."),
-							fieldWithPath("data[].averageDifficultyLevel").type(JsonFieldType.NUMBER).description("퀴즈의 평균 난이도."),
+							fieldWithPath("data[].averageStarRating")
+								.type(JsonFieldType.NUMBER)
+								.description("퀴즈의 평균 별점."),
+							fieldWithPath("data[].averageDifficultyLevel")
+								.type(JsonFieldType.NUMBER)
+								.description("퀴즈의 평균 난이도."),
 							fieldWithPath("data[].questionCount").type(JsonFieldType.NUMBER).description("퀴즈의 질문 수."),
 							fieldWithPath("data[].creator").type(JsonFieldType.OBJECT).description("퀴즈 작성자 정보."),
 							fieldWithPath("data[].creator.id").type(JsonFieldType.NUMBER).description("작성자의 ID."),
-							fieldWithPath("data[].creator.nickname").type(JsonFieldType.STRING).description("작성자의 닉네임."),
+							fieldWithPath("data[].creator.nickname")
+								.type(JsonFieldType.STRING)
+								.description("작성자의 닉네임."),
 							fieldWithPath(
 								"data[].creator.profileUrl",
 							).type(JsonFieldType.STRING).optional().description("생성자의 프로필 URL. (optional)"),
+						),
+					),
+				)
+		}
+
+		"스터디 그룹 퀴즈 중 본인이 안 푼 문제 목록을 조회한다" {
+			every { findUnsolvedGroupBookQuizUseCase.findAllUnsolvedQuizzes(any(), any()) } returns
+				listOf(
+					UnsolvedGroupBookQuizSummary(
+						book =
+							BookSummary(
+								id = 1L,
+								title = "The Great Adventure",
+								imageUrl = "https://example.com/the_great_adventure.jpg",
+							),
+						quiz =
+							QuizSummary(
+								id = 101L,
+								title = "Adventure Quiz",
+								creator =
+									QuizCreator(
+										id = 1001L,
+										nickname = "quizMaster",
+										profileImageUrl = "https://example.com/profile_quizmaster.jpg",
+									),
+								createdAt = LocalDateTime.of(2024, 5, 10, 14, 30, 0, 0),
+								contributors =
+									listOf(
+										QuizContributor(
+											id = 2001L,
+											nickname = "contributorOne",
+											profileImageUrl = "https://example.com/profile_contributorone.jpg",
+										),
+										QuizContributor(
+											id = 2002L,
+											nickname = "contributorTwo",
+											profileImageUrl = "https://example.com/profile_contributortwo.jpg",
+										),
+									),
+							),
+					),
+					UnsolvedGroupBookQuizSummary(
+						book =
+							BookSummary(
+								id = 2L,
+								title = "Mystery of the Lost City",
+								imageUrl = "https://example.com/mystery_lost_city.jpg",
+							),
+						quiz =
+							QuizSummary(
+								id = 102L,
+								title = "Mystery Quiz",
+								creator =
+									QuizCreator(
+										id = 1002L,
+										nickname = "mysterySolver",
+										profileImageUrl = "https://example.com/profile_mysterysolver.jpg",
+									),
+								createdAt = LocalDateTime.of(2024, 6, 15, 10, 0, 0, 0),
+								contributors =
+									listOf(
+										QuizContributor(
+											id = 2003L,
+											nickname = "mysteryFan",
+											profileImageUrl = "https://example.com/profile_mysteryfan.jpg",
+										),
+									),
+							),
+					),
+				)
+
+			performGet(Path("/book-quizzes/study-groups/{studyGroupId}/unsolved", "1"))
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"book-quiz/get-unsolved-study-group-quiz",
+						pathParameters(parameterWithName("studyGroupId").description("스터디 그룹 ID")),
+						responseFields(
+							// Top level field
+							fieldWithPath("[].book").description("퀴즈에 관련된 책 정보"),
+							fieldWithPath("[].quiz").description("퀴즈의 상세 정보"),
+							// Book summary fields
+							fieldWithPath("[].book.id").description("책의 고유 ID"),
+							fieldWithPath("[].book.title").description("책의 제목"),
+							fieldWithPath("[].book.imageUrl").description("책의 이미지 URL"),
+							// Quiz summary fields
+							fieldWithPath("[].quiz.id").description("퀴즈의 고유 ID"),
+							fieldWithPath("[].quiz.title").description("퀴즈 제목"),
+							fieldWithPath("[].quiz.creator").description("퀴즈 생성자 정보"),
+							fieldWithPath("[].quiz.createdAt").description("퀴즈 생성 날짜 및 시간"),
+							fieldWithPath("[].quiz.contributors").description("퀴즈 기여자 목록"),
+							// Quiz creator fields
+							fieldWithPath("[].quiz.creator.id").description("퀴즈 생성자의 고유 ID"),
+							fieldWithPath("[].quiz.creator.nickname").description("퀴즈 생성자의 닉네임"),
+							fieldWithPath("[].quiz.creator.profileImageUrl")
+								.description("퀴즈 생성자의 프로필 이미지 URL (선택 사항)"),
+							// Quiz contributor fields (each contributor)
+							fieldWithPath("[].quiz.contributors[].id").description("퀴즈 기여자의 고유 ID"),
+							fieldWithPath("[].quiz.contributors[].nickname").description("퀴즈 기여자의 닉네임"),
+							fieldWithPath("[].quiz.contributors[].profileImageUrl")
+								.description("퀴즈 기여자의 프로필 이미지 URL (선택 사항)"),
 						),
 					),
 				)

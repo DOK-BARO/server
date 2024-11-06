@@ -43,6 +43,21 @@ class BookQuizRepository(
 
 		insertStudyGroupQuiz(bookQuiz, bookQuizId)
 
+		val contributorInsertQuery =
+			bookQuiz.contributorIds.map { contributorId ->
+				dslContext
+					.insertInto(
+						BOOK_QUIZ_CONTRIBUTOR,
+						BOOK_QUIZ_CONTRIBUTOR.BOOK_QUIZ_ID,
+						BOOK_QUIZ_CONTRIBUTOR.MEMBER_ID,
+					).values(
+						bookQuizId,
+						contributorId,
+					)
+			}
+
+		dslContext.batch(contributorInsertQuery).execute()
+
 		return bookQuizId
 	}
 

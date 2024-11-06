@@ -180,16 +180,16 @@ class BookQuizQueryRepository(
 				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
 				.join(creator)
 				.on(creator.ID.eq(BOOK_QUIZ.CREATOR_ID))
-				.join(BOOK_QUIZ_CONTRIBUTOR)
+				.leftJoin(BOOK_QUIZ_CONTRIBUTOR)
 				.on(BOOK_QUIZ_CONTRIBUTOR.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
-				.join(contributor)
+				.leftJoin(contributor)
 				.on(contributor.ID.eq(BOOK_QUIZ_CONTRIBUTOR.MEMBER_ID))
 				.where(
 					BOOK_QUIZ.ID
 						.`in`(
 							select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
 								.from(STUDY_GROUP_QUIZ)
-								.where(STUDY_GROUP_QUIZ.ID.eq(studyGroupId)),
+								.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(studyGroupId)),
 						).and(
 							BOOK_QUIZ.ID.notIn(
 								select(SOLVING_QUIZ.QUIZ_ID)
