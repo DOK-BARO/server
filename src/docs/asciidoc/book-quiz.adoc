@@ -60,3 +60,15 @@ include::{snippets}/book-quiz/get-summary/query-parameters.adoc[]
 
 include::{snippets}/book-quiz/get-summary/http-response.adoc[]
 include::{snippets}/book-quiz/get-summary/response-fields.adoc[]
+
+== 스터디 그룹 퀴즈 중 안 푼 문제 조회
+
+=== HTTP request
+
+include::{snippets}/book-quiz/get-unsolved-study-group-quiz/http-request.adoc[]
+include::{snippets}/book-quiz/get-unsolved-study-group-quiz/path-parameters.adoc[]
+
+=== HTTP response
+
+include::{snippets}/book-quiz/get-unsolved-study-group-quiz/http-response.adoc[]
+include::{snippets}/book-quiz/get-unsolved-study-group-quiz/response-fields.adoc[]

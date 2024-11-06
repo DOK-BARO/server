@@ -8,20 +8,28 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
+import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import org.jooq.DSLContext
 import org.jooq.OrderField
+import org.jooq.Record
 import org.jooq.Record3
 import org.jooq.Record9
 import org.jooq.Result
+import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizAnswer
 import org.jooq.generated.tables.JBookQuizAnswerExplainImage
+import org.jooq.generated.tables.JBookQuizContributor
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
 import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JQuizReview
+import org.jooq.generated.tables.JSolvingQuiz
+import org.jooq.generated.tables.JStudyGroupQuiz
+import org.jooq.generated.tables.records.BookQuizRecord
 import org.jooq.impl.DSL.avg
 import org.jooq.impl.DSL.field
+import org.jooq.impl.DSL.select
 import org.jooq.impl.DSL.selectCount
 import org.springframework.stereotype.Repository
 
@@ -38,6 +46,10 @@ class BookQuizQueryRepository(
 		private val BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE = JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
 		private val MEMBER = JMember.MEMBER
 		private val QUIZ_REVIEW = JQuizReview.QUIZ_REVIEW
+		private val BOOK_QUIZ_CONTRIBUTOR = JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
+		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
+		private val BOOK = JBook.BOOK
+		private val SOLVING_QUIZ = JSolvingQuiz.SOLVING_QUIZ
 	}
 
 	fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? {
@@ -139,5 +151,54 @@ class BookQuizQueryRepository(
 		}
 
 		return query
+	}
+
+	fun findAllUnsolvedQuizzes(
+		memberId: Long,
+		studyGroupId: Long,
+	): Collection<UnsolvedGroupBookQuizSummary> {
+		val creator = MEMBER.`as`("CREATOR")
+		val contributor = MEMBER.`as`("CONTRIBUTOR")
+
+		val record: Map<BookQuizRecord, Result<out Record>> =
+			dslContext
+				.select(
+					BOOK.ID,
+					BOOK.TITLE,
+					BOOK.IMAGE_URL,
+					BOOK_QUIZ.ID,
+					BOOK_QUIZ.TITLE,
+					BOOK_QUIZ.CREATED_AT,
+					creator.ID.`as`(BookQuizRecordFieldName.CREATOR_ID.name),
+					creator.NICKNAME.`as`(BookQuizRecordFieldName.CREATOR_NAME.name),
+					creator.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CREATOR_IMAGE_URL.name),
+					contributor.ID.`as`(BookQuizRecordFieldName.CONTRIBUTOR_ID.name),
+					contributor.NICKNAME.`as`(BookQuizRecordFieldName.CONTRIBUTOR_NAME.name),
+					contributor.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name),
+				).from(BOOK_QUIZ)
+				.join(BOOK)
+				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
+				.join(creator)
+				.on(creator.ID.eq(BOOK_QUIZ.CREATOR_ID))
+				.leftJoin(BOOK_QUIZ_CONTRIBUTOR)
+				.on(BOOK_QUIZ_CONTRIBUTOR.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.leftJoin(contributor)
+				.on(contributor.ID.eq(BOOK_QUIZ_CONTRIBUTOR.MEMBER_ID))
+				.where(
+					BOOK_QUIZ.ID
+						.`in`(
+							select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
+								.from(STUDY_GROUP_QUIZ)
+								.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(studyGroupId)),
+						).and(
+							BOOK_QUIZ.ID.notIn(
+								select(SOLVING_QUIZ.QUIZ_ID)
+									.from(SOLVING_QUIZ)
+									.where(SOLVING_QUIZ.MEMBER_ID.eq(memberId)),
+							),
+						),
+				).fetchGroups(BOOK_QUIZ)
+
+		return bookQuizMapper.toUnsolvedGroupBookQuizSummary(record)
 	}
 }
