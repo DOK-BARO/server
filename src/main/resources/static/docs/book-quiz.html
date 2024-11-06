@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_http_request">HTTP request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=23V3JYXh9eNQaj0a2T0hWm-_FaA5bt2c-416wJ1LZZiznlCg7BYSHLTUxoB9DwQu7RAVbl7eOJgIXuqxmulM8qp8Uf2EqTaX HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=voSD1tHG9IUQ7mG5RmMnfMj9s7j3awPvO8bVv3-qnMwRhXF_3bSy5LfyxOA93Afdf04TGvDPntnAWjHCC_-w3h2Z-K1wtRcd HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 891
 Host: localhost:8080
@@ -748,7 +748,7 @@ Content-Length: 328
 <h3 id="_http_request_3">HTTP request</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=9SpAhwfQ7-5J-S4SDF2NVPtUbyj7C9vCKFfY11sFSKlcWM0ulxx24WPgjdpkyhhxPXC5Mp1kQkmZOOzvH2O-7j83Kco_Pf0W HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=SuYMTy5E-MHPaGknBgcpR1ASXldiLcW1sRENp2d2ej9lCLRvftBudhdyy6PiDV5CZCodcWYrc24GHqSY0CVvnlYTSgxXPddY HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 920
 Host: localhost:8080
@@ -1165,11 +1165,207 @@ Content-Length: 889
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_스터디_그룹_퀴즈_중_안_푼_문제_조회">스터디 그룹 퀴즈 중 안 푼 문제 조회</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_request_6">HTTP request</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-quizzes/study-groups/1/unsolved HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. /book-quizzes/study-groups/{studyGroupId}/unsolved</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyGroupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_http_response_6">HTTP response</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 1251
+
+[ {
+  "book" : {
+    "id" : 1,
+    "title" : "The Great Adventure",
+    "imageUrl" : "https://example.com/the_great_adventure.jpg"
+  },
+  "quiz" : {
+    "id" : 101,
+    "title" : "Adventure Quiz",
+    "creator" : {
+      "id" : 1001,
+      "nickname" : "quizMaster",
+      "profileImageUrl" : "https://example.com/profile_quizmaster.jpg"
+    },
+    "createdAt" : "2024-05-10T14:30:00",
+    "contributors" : [ {
+      "id" : 2001,
+      "nickname" : "contributorOne",
+      "profileImageUrl" : "https://example.com/profile_contributorone.jpg"
+    }, {
+      "id" : 2002,
+      "nickname" : "contributorTwo",
+      "profileImageUrl" : "https://example.com/profile_contributortwo.jpg"
+    } ]
+  }
+}, {
+  "book" : {
+    "id" : 2,
+    "title" : "Mystery of the Lost City",
+    "imageUrl" : "https://example.com/mystery_lost_city.jpg"
+  },
+  "quiz" : {
+    "id" : 102,
+    "title" : "Mystery Quiz",
+    "creator" : {
+      "id" : 1002,
+      "nickname" : "mysterySolver",
+      "profileImageUrl" : "https://example.com/profile_mysterysolver.jpg"
+    },
+    "createdAt" : "2024-06-15T10:00:00",
+    "contributors" : [ {
+      "id" : 2003,
+      "nickname" : "mysteryFan",
+      "profileImageUrl" : "https://example.com/profile_mysteryfan.jpg"
+    } ]
+  }
+} ]</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].book</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈에 관련된 책 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈의 상세 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].book.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책의 고유 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].book.title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책의 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].book.imageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">책의 이미지 URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈의 고유 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.creator</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 생성자 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 생성 날짜 및 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.contributors</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 기여자 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.creator.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 생성자의 고유 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.creator.nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 생성자의 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.creator.profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 생성자의 프로필 이미지 URL (선택 사항)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.contributors[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 기여자의 고유 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.contributors[].nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 기여자의 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].quiz.contributors[].profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 기여자의 프로필 이미지 URL (선택 사항)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-10-25 18:02:24 +0900
+Last updated 2024-11-06 17:13:51 +0900
 </div>
 </div>
 </body>
