@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
+import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.common.dto.option.PageOption
@@ -17,11 +18,17 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
+import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq.QuizReviewRepository
+import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
+import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
+import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
+import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
 import kr.kro.dokbaro.server.fixture.domain.bookFixture
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
 import kr.kro.dokbaro.server.fixture.domain.memberFixture
 import kr.kro.dokbaro.server.fixture.domain.quizReviewFixture
+import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 import org.jooq.DSLContext
 
 @PersistenceAdapterTest
@@ -35,6 +42,7 @@ class BookQuizPersistenceQueryAdapterTest(
 		val memberRepository = MemberRepository(dslContext, MemberMapper())
 		val bookQuizRepository = BookQuizRepository(dslContext, BookQuizMapper())
 		val bookQuizQueryRepository = BookQuizQueryRepository(dslContext, BookQuizMapper())
+		val studyGroupRepository = StudyGroupRepository(dslContext, StudyGroupMapper())
 		val quizReviewRepository = QuizReviewRepository(dslContext)
 
 		val adapter = BookQuizPersistenceQueryAdapter(bookQuizQueryRepository)
@@ -125,5 +133,34 @@ class BookQuizPersistenceQueryAdapterTest(
 					SortOption(BookQuizSummarySortOption.STAR_RATING, SortDirection.DESC),
 				).toList()[0]
 				.averageStarRating shouldBe 10.toDouble()
+		}
+
+		"스터디 그룹 퀴즈 중 본인이 안 푼 문제 목록을 조회한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val contributorId = memberRepository.insert(memberFixture(email = Email("cont@gmail.com"))).id
+
+			val studyGroupId =
+				studyGroupRepository.insert(
+					studyGroupFixture(
+						studyMembers = mutableSetOf(StudyMember(memberId, StudyMemberRole.LEADER)),
+					),
+				)
+
+			val bookId = bookRepository.insertBook(bookFixture())
+
+			bookQuizRepository.insert(
+				bookQuizFixture(
+					bookId = bookId,
+					creatorId = memberId,
+					studyGroupId = studyGroupId,
+					contributorIds = mutableSetOf(contributorId),
+				),
+			)
+
+			adapter
+				.findAllUnsolvedQuizzes(
+					memberId = memberId,
+					studyGroupId = studyGroupId,
+				).shouldNotBeEmpty()
 		}
 	})

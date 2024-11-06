@@ -13,6 +13,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestion
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
+import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
@@ -91,7 +92,9 @@ class BookQuizPersistenceAdapterTest(
 
 			val newQuestions = beforeQuestions.toMutableList()
 			newQuestions.add(quizQuestionFixture(content = "hello"))
-			quiz.updateQuestions(newQuestions)
+			val modifierId = memberRepository.insert(memberFixture(email = Email("mod@gmail.com"))).id
+
+			quiz.updateQuestions(newQuestions, modifierId)
 
 			adapter.update(quiz)
 

@@ -83,6 +83,8 @@ class BookQuizService(
 		val bookQuiz: BookQuiz =
 			loadBookQuizPort.load(command.id) ?: throw NotFoundQuizException(command.id)
 
+		val modifierId: Long = findCertificatedMemberUseCase.getByCertificationId(command.modifierAuthId).id
+
 		bookQuiz.updateBasicOption(
 			title = command.title,
 			description = command.description,
@@ -107,6 +109,7 @@ class BookQuizService(
 						),
 				)
 			},
+			modifierId,
 		)
 
 		updateBookQuizPort.update(bookQuiz)

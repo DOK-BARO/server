@@ -10,6 +10,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindUnsolvedGroupBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
@@ -17,6 +18,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
+import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
@@ -37,6 +39,7 @@ class BookQuizController(
 	private val updateBookQuizUseCase: UpdateBookQuizUseCase,
 	private val findBookQuizAnswerUseCase: FindBookQuizAnswerUseCase,
 	private val findBookQuizSummaryUseCase: FindBookQuizSummaryUseCase,
+	private val findUnsolvedGroupBookQuizUseCase: FindUnsolvedGroupBookQuizUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -69,6 +72,7 @@ class BookQuizController(
 	fun updateQuiz(
 		@PathVariable id: Long,
 		@RequestBody body: UpdateBookQuizRequest,
+		auth: Authentication,
 	) {
 		updateBookQuizUseCase.update(
 			UpdateBookQuizCommand(
@@ -81,6 +85,7 @@ class BookQuizController(
 				editScope = body.editScope,
 				studyGroupId = body.studyGroupId,
 				questions = body.questions,
+				modifierAuthId = UUIDUtils.stringToUUID(auth.name),
 			),
 		)
 	}
@@ -99,4 +104,11 @@ class BookQuizController(
 		@RequestParam direction: SortDirection,
 	): PageResponse<BookQuizSummary> =
 		findBookQuizSummaryUseCase.findAllBookQuizSummary(bookId, page, size, sort, direction)
+
+	@GetMapping("/study-groups/{studyGroupId}/unsolved")
+	fun getUnsolvedBookQuizSummary(
+		@PathVariable studyGroupId: Long,
+		auth: Authentication,
+	): Collection<UnsolvedGroupBookQuizSummary> =
+		findUnsolvedGroupBookQuizUseCase.findAllUnsolvedQuizzes(UUIDUtils.stringToUUID(auth.name), studyGroupId)
 }
