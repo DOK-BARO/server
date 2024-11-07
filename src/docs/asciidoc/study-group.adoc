@@ -34,3 +34,15 @@ include::{snippets}/study-group/get-my-study-group-list/http-request.adoc[]
 
 include::{snippets}/study-group/get-my-study-group-list/http-response.adoc[]
 include::{snippets}/study-group/get-my-study-group-list/response-fields.adoc[]
+
+== 스터디 그룹 상세 조회
+
+=== HTTP request
+
+include::{snippets}/study-group/get-study-group-detail/http-request.adoc[]
+include::{snippets}/study-group/get-study-group-detail/path-parameters.adoc[]
+
+=== HTTP response
+
+include::{snippets}/study-group/get-study-group-detail/http-response.adoc[]
+include::{snippets}/study-group/get-study-group-detail/response-fields.adoc[]

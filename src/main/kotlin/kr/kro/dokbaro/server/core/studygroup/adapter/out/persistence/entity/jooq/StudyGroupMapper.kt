@@ -5,6 +5,8 @@ import kr.kro.dokbaro.server.core.studygroup.domain.InviteCode
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
+import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
+import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetailMember
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import org.jooq.Record
@@ -62,4 +64,25 @@ class StudyGroupMapper {
 				StudyMemberRole.valueOf(it.get(STUDY_GROUP_MEMBER.MEMBER_ROLE)),
 			)
 		}
+
+	fun toStudyGroupDetail(record: Map<StudyGroupRecord, Result<out Record>>): StudyGroupDetail? =
+		record
+			.map { (studyGroup, members) ->
+				StudyGroupDetail(
+					name = studyGroup.name,
+					introduction = studyGroup.introduction.toString(Charsets.UTF_8),
+					profileImageUrl = studyGroup.profileImageUrl,
+					studyMembers =
+						members.map {
+							StudyGroupDetailMember(
+								id = it.get(STUDY_GROUP_MEMBER.MEMBER_ID),
+								nickname = it.get(MEMBER.NICKNAME),
+								profileImageUrl = it.get(MEMBER.PROFILE_IMAGE_URL),
+								role = it.get(STUDY_GROUP_MEMBER.MEMBER_ROLE),
+							)
+						},
+					inviteCode = studyGroup.inviteCode,
+					id = studyGroup.id,
+				)
+			}.firstOrNull()
 }
