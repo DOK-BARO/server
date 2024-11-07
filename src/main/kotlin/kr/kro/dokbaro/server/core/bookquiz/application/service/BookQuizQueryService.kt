@@ -7,11 +7,13 @@ import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindMyBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindUnsolvedGroupBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.CountBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizAnswerPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizQuestionPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizSummaryPort
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadMyBookQuizSummaryPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadUnsolvedGroupBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.NotFoundQuestionException
@@ -19,6 +21,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
+import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import org.springframework.stereotype.Service
@@ -32,10 +35,12 @@ class BookQuizQueryService(
 	private val readBookQuizSummaryPort: ReadBookQuizSummaryPort,
 	private val findCertificatedMemberUseCase: FindCertificatedMemberUseCase,
 	private val findUnsolvedGroupBookQuizPort: ReadUnsolvedGroupBookQuizPort,
+	private val readMyBookQuizSummaryPort: ReadMyBookQuizSummaryPort,
 ) : FindBookQuizQuestionUseCase,
 	FindBookQuizAnswerUseCase,
 	FindBookQuizSummaryUseCase,
-	FindUnsolvedGroupBookQuizUseCase {
+	FindUnsolvedGroupBookQuizUseCase,
+	FindMyBookQuizUseCase {
 	override fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions =
 		readBookQuizQuestionPort.findBookQuizQuestionsBy(quizId) ?: throw NotFoundQuizException(quizId)
 
@@ -68,5 +73,11 @@ class BookQuizQueryService(
 		val memberId: Long = findCertificatedMemberUseCase.getByCertificationId(memberAuthId).id
 
 		return findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(memberId, studyGroupId)
+	}
+
+	override fun findMyBookQuiz(authId: UUID): Collection<MyBookQuizSummary> {
+		val memberId: Long = findCertificatedMemberUseCase.getByCertificationId(authId).id
+
+		return readMyBookQuizSummaryPort.findAllMyBookQuiz(memberId)
 	}
 }
