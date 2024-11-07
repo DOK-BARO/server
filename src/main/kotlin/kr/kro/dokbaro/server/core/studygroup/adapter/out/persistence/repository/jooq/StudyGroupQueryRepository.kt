@@ -1,9 +1,11 @@
 package kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq
 
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
+import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import org.jooq.DSLContext
+import org.jooq.Record
 import org.jooq.Record5
 import org.jooq.Result
 import org.jooq.generated.tables.JMember
@@ -60,5 +62,29 @@ class StudyGroupQueryRepository(
 				.fetch()
 
 		return studyGroupMapper.toStudyGroupMemberResult(record)
+	}
+
+	fun findDetailBy(id: Long): StudyGroupDetail? {
+		val record: Map<StudyGroupRecord, Result<out Record>> =
+			dslContext
+				.select(
+					STUDY_GROUP.ID,
+					STUDY_GROUP.INVITE_CODE,
+					STUDY_GROUP.NAME,
+					STUDY_GROUP.INTRODUCTION,
+					STUDY_GROUP.PROFILE_IMAGE_URL,
+					STUDY_GROUP_MEMBER.MEMBER_ID,
+					STUDY_GROUP_MEMBER.MEMBER_ROLE,
+					MEMBER.NICKNAME,
+					MEMBER.PROFILE_IMAGE_URL,
+				).from(STUDY_GROUP)
+				.join(STUDY_GROUP_MEMBER)
+				.on(STUDY_GROUP_MEMBER.STUDY_GROUP_ID.eq(STUDY_GROUP.ID))
+				.join(MEMBER)
+				.on(MEMBER.ID.eq(STUDY_GROUP_MEMBER.MEMBER_ID))
+				.where(STUDY_GROUP.ID.eq(id))
+				.fetchGroups(STUDY_GROUP)
+
+		return studyGroupMapper.toStudyGroupDetail(record)
 	}
 }

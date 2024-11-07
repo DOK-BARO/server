@@ -27,7 +27,7 @@ class StudyGroupService(
 	JoinStudyGroupUseCase {
 	override fun create(command: CreateStudyGroupCommand): Long {
 		val creator: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.creatorAuthId)
-		
+
 		return insertStudyGroupPort.insert(
 			StudyGroup(
 				command.name,
@@ -43,7 +43,7 @@ class StudyGroupService(
 		val studyGroup: StudyGroup =
 			loadStudyGroupByInviteCodePort.findByInviteCode(
 				command.inviteCode,
-			) ?: throw NotFoundStudyGroupException(command.inviteCode)
+			) ?: throw NotFoundStudyGroupException()
 		val member: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.participantAuthId)
 
 		studyGroup.join(member.id)
