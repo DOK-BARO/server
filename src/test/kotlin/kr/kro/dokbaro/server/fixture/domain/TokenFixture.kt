@@ -7,7 +7,7 @@ import java.util.UUID
 fun refreshTokenFixture(
 	token: String = UUID.randomUUID().toString(),
 	certificateId: UUID = UUID.randomUUID(),
-	expiredAt: LocalDateTime = LocalDateTime.now(),
+	expiredAt: LocalDateTime = LocalDateTime.now().plusWeeks(2),
 	used: Boolean = false,
 ): RefreshToken =
 	RefreshToken(
