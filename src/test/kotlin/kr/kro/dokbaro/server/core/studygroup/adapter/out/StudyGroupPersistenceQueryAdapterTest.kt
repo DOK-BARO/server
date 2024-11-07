@@ -4,6 +4,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
@@ -82,5 +83,21 @@ class StudyGroupPersistenceQueryAdapterTest(
 				)
 
 			queryAdapter.findAllStudyGroupMembers(groupId).size shouldBe 3
+		}
+
+		"스터디 그룹 정보를 조회한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+
+			val groupId: Long =
+				studyGroupRepository.insert(
+					studyGroupFixture(
+						studyMembers =
+							mutableSetOf(
+								StudyMember(memberId, StudyMemberRole.LEADER),
+							),
+					),
+				)
+
+			queryAdapter.findStudyGroupDetailBy(groupId) shouldNotBe null
 		}
 	})
