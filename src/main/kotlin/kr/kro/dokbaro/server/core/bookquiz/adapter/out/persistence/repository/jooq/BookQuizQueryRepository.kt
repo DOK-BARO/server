@@ -8,6 +8,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
+import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import org.jooq.DSLContext
 import org.jooq.OrderField
@@ -200,5 +201,22 @@ class BookQuizQueryRepository(
 				).fetchGroups(BOOK_QUIZ)
 
 		return bookQuizMapper.toUnsolvedGroupBookQuizSummary(record)
+	}
+
+	fun findAllMyBookQuizzes(memberId: Long): Collection<MyBookQuizSummary> {
+		val record: Result<out Record> =
+			dslContext
+				.select(
+					BOOK_QUIZ.ID,
+					BOOK.IMAGE_URL,
+					BOOK_QUIZ.TITLE,
+					BOOK_QUIZ.UPDATED_AT,
+				).from(BOOK_QUIZ)
+				.join(BOOK)
+				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
+				.where(BOOK_QUIZ.CREATOR_ID.eq(memberId))
+				.fetch()
+
+		return bookQuizMapper.toMyBookQuiz(record)
 	}
 }

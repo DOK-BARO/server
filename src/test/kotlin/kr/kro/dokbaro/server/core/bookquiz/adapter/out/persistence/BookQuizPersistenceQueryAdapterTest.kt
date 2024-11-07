@@ -163,4 +163,25 @@ class BookQuizPersistenceQueryAdapterTest(
 					studyGroupId = studyGroupId,
 				).shouldNotBeEmpty()
 		}
+
+		"내가 제작한 퀴즈 목록을 조회한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val memberId2 = memberRepository.insert(memberFixture(email = Email("hello@gmail.com"))).id
+			val bookId = bookRepository.insertBook(bookFixture())
+
+			bookQuizRepository.insert(
+				bookQuizFixture(
+					bookId = bookId,
+					creatorId = memberId,
+				),
+			)
+			bookQuizRepository.insert(
+				bookQuizFixture(
+					bookId = bookId,
+					creatorId = memberId2,
+				),
+			)
+
+			adapter.findAllMyBookQuiz(memberId).size shouldBe 1
+		}
 	})
