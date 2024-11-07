@@ -12,6 +12,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindMyBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindUnsolvedGroupBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateQuizQuestionCommand
@@ -24,6 +25,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.Creator
+import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.Question
 import kr.kro.dokbaro.server.core.bookquiz.query.QuizContributor
 import kr.kro.dokbaro.server.core.bookquiz.query.QuizCreator
@@ -60,6 +62,9 @@ class BookQuizControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var findUnsolvedGroupBookQuizUseCase: FindUnsolvedGroupBookQuizUseCase
+
+	@MockkBean
+	lateinit var findMyBookQuizUseCase: FindMyBookQuizUseCase
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
@@ -517,6 +522,38 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("[].quiz.contributors[].nickname").description("퀴즈 기여자의 닉네임"),
 							fieldWithPath("[].quiz.contributors[].profileImageUrl")
 								.description("퀴즈 기여자의 프로필 이미지 URL (선택 사항)"),
+						),
+					),
+				)
+		}
+
+		"내가 작성한 퀴즈 목록을 조회한다" {
+			every { findMyBookQuizUseCase.findMyBookQuiz(any()) } returns
+				listOf(
+					MyBookQuizSummary(
+						id = 1L,
+						bookImageUrl = "https://example.com/book_image1.jpg",
+						title = "Effective Kotlin",
+						updatedAt = LocalDateTime.now().minusDays(2),
+					),
+					MyBookQuizSummary(
+						id = 2L,
+						bookImageUrl = "https://example.com/book_image2.jpg",
+						title = "Kotlin in Action",
+						updatedAt = LocalDateTime.now().minusDays(5),
+					),
+				)
+
+			performGet(Path("/book-quizzes/my"))
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"book-quiz/get-my-quiz",
+						responseFields(
+							fieldWithPath("[].id").description("퀴즈 요약의 고유 ID"),
+							fieldWithPath("[].bookImageUrl").optional().description("책의 이미지 URL (optional)"),
+							fieldWithPath("[].title").description("책의 제목"),
+							fieldWithPath("[].updatedAt").description("마지막으로 업데이트된 시간 (ISO 8601 형식)"),
 						),
 					),
 				)

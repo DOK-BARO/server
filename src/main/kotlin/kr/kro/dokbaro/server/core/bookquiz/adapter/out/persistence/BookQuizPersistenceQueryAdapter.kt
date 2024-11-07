@@ -8,11 +8,13 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.out.CountBookQuizPor
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizAnswerPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizQuestionPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizSummaryPort
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadMyBookQuizSummaryPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadUnsolvedGroupBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
+import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 
 @PersistenceAdapter
@@ -22,7 +24,8 @@ class BookQuizPersistenceQueryAdapter(
 	ReadBookQuizAnswerPort,
 	CountBookQuizPort,
 	ReadBookQuizSummaryPort,
-	ReadUnsolvedGroupBookQuizPort {
+	ReadUnsolvedGroupBookQuizPort,
+	ReadMyBookQuizSummaryPort {
 	override fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? =
 		bookQuizQueryRepository.findBookQuizQuestionsBy(quizId)
 
@@ -41,4 +44,7 @@ class BookQuizPersistenceQueryAdapter(
 		memberId: Long,
 		studyGroupId: Long,
 	): Collection<UnsolvedGroupBookQuizSummary> = bookQuizQueryRepository.findAllUnsolvedQuizzes(memberId, studyGroupId)
+
+	override fun findAllMyBookQuiz(memberId: Long): Collection<MyBookQuizSummary> =
+		bookQuizQueryRepository.findAllMyBookQuizzes(memberId)
 }

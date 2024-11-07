@@ -17,6 +17,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.Creator
+import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.Question
 import kr.kro.dokbaro.server.core.bookquiz.query.QuizContributor
 import kr.kro.dokbaro.server.core.bookquiz.query.QuizCreator
@@ -215,6 +216,16 @@ class BookQuizMapper {
 									)
 								},
 					),
+			)
+		}
+
+	fun toMyBookQuiz(record: Result<out Record>): Collection<MyBookQuizSummary> =
+		record.map {
+			MyBookQuizSummary(
+				id = it.get(BOOK_QUIZ.ID),
+				bookImageUrl = it.get(BOOK.IMAGE_URL),
+				title = it.get(BOOK_QUIZ.TITLE),
+				updatedAt = it.get(BOOK_QUIZ.UPDATED_AT),
 			)
 		}
 }

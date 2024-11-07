@@ -10,6 +10,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindMyBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindUnsolvedGroupBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
@@ -18,6 +19,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
+import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
@@ -40,6 +42,7 @@ class BookQuizController(
 	private val findBookQuizAnswerUseCase: FindBookQuizAnswerUseCase,
 	private val findBookQuizSummaryUseCase: FindBookQuizSummaryUseCase,
 	private val findUnsolvedGroupBookQuizUseCase: FindUnsolvedGroupBookQuizUseCase,
+	private val findMyBookQuizUseCase: FindMyBookQuizUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -111,4 +114,8 @@ class BookQuizController(
 		auth: Authentication,
 	): Collection<UnsolvedGroupBookQuizSummary> =
 		findUnsolvedGroupBookQuizUseCase.findAllUnsolvedQuizzes(UUIDUtils.stringToUUID(auth.name), studyGroupId)
+
+	@GetMapping("/my")
+	fun getMyQuizzes(auth: Authentication): Collection<MyBookQuizSummary> =
+		findMyBookQuizUseCase.findMyBookQuiz(UUIDUtils.stringToUUID(auth.name))
 }
