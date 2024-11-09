@@ -35,3 +35,26 @@ include::{snippets}/quiz-review/find-all-summary/query-parameters.adoc[]
 
 include::{snippets}/quiz-review/find-all-summary/http-response.adoc[]
 include::{snippets}/quiz-review/find-all-summary/response-fields.adoc[]
+
+== 퀴즈 리뷰 수정
+
+=== HTTP request
+
+include::{snippets}/quiz-review/update/http-request.adoc[]
+include::{snippets}/quiz-review/update/path-parameters.adoc[]
+include::{snippets}/quiz-review/update/request-fields.adoc[]
+
+=== HTTP response
+
+include::{snippets}/quiz-review/update/http-response.adoc[]
+
+== 퀴즈 리뷰 삭제
+
+=== HTTP request
+
+include::{snippets}/quiz-review/delete/http-request.adoc[]
+include::{snippets}/quiz-review/delete/path-parameters.adoc[]
+
+=== HTTP response
+
+include::{snippets}/quiz-review/delete/http-response.adoc[]

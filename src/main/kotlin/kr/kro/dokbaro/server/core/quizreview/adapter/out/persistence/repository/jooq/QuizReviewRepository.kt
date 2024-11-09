@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq
 
+import kr.kro.dokbaro.server.common.constant.Constants
 import kr.kro.dokbaro.server.core.quizreview.domain.QuizReview
 import org.jooq.DSLContext
 import org.jooq.generated.tables.JQuizReview
@@ -30,4 +31,22 @@ class QuizReviewRepository(
 				quizReview.quizId,
 			).returningResult(QUIZ_REVIEW.ID)
 			.fetchOneInto(Long::class.java)!!
+
+	fun update(quizReview: QuizReview) {
+		dslContext
+			.update(QUIZ_REVIEW)
+			.set(QUIZ_REVIEW.STAR_RATING, quizReview.starRating)
+			.set(QUIZ_REVIEW.DIFFICULTY_LEVEL, quizReview.difficultyLevel)
+			.set(QUIZ_REVIEW.COMMENT, quizReview.comment?.toByteArray())
+			.where(QUIZ_REVIEW.ID.eq(quizReview.id))
+			.execute()
+	}
+
+	fun deleteBy(id: Long) {
+		dslContext
+			.update(QUIZ_REVIEW)
+			.set(QUIZ_REVIEW.DELETED, Constants.DELETED)
+			.where(QUIZ_REVIEW.ID.eq(id))
+			.execute()
+	}
 }
