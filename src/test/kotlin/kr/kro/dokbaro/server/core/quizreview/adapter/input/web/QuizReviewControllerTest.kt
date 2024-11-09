@@ -7,8 +7,10 @@ import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.quizreview.adapter.input.web.dto.CreateQuizReviewRequest
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.CreateQuizReviewUseCase
+import kr.kro.dokbaro.server.core.quizreview.application.port.input.DeleteQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizReviewSummaryUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizReviewTotalScoreUseCase
+import kr.kro.dokbaro.server.core.quizreview.application.port.input.UpdateQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
 import kr.kro.dokbaro.server.core.quizreview.query.TotalDifficultyScore
@@ -18,6 +20,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.Instant
@@ -32,6 +35,10 @@ class QuizReviewControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var findQuizReviewSummaryUseCase: FindQuizReviewSummaryUseCase
+
+	@MockkBean lateinit var updateQuizReviewUseCase: UpdateQuizReviewUseCase
+
+	@MockkBean lateinit var deleteQuizReviewUseCase: DeleteQuizReviewUseCase
 
 	init {
 		"퀴즈 후기를 생성한다" {
@@ -51,7 +58,7 @@ class QuizReviewControllerTest : RestDocsTest() {
 					print(
 						"quiz-review/create",
 						requestFields(
-							fieldWithPath("score")
+							fieldWithPath("starRating")
 								.type(JsonFieldType.NUMBER)
 								.description("퀴즈에 대한 점수. (예: 1에서 5 사이)"),
 							fieldWithPath("difficultyLevel")
@@ -204,6 +211,46 @@ class QuizReviewControllerTest : RestDocsTest() {
 								.type(JsonFieldType.STRING)
 								.description("리뷰 작성 시간. ISO 8601 포맷."),
 						),
+					),
+				)
+		}
+
+		"퀴즈 후기를 수정한다" {
+			every { updateQuizReviewUseCase.update(any()) } returns Unit
+
+			val body =
+				CreateQuizReviewRequest(
+					starRating = 4,
+					difficultyLevel = 3,
+					comment = "퀴즈가 흥미롭고 잘 구성되어 있습니다.",
+					quizId = 456L,
+				)
+
+			performPut(Path("/quiz-reviews/{id}", "1"), body)
+				.andExpect(status().isNoContent)
+				.andDo(
+					print(
+						"quiz-review/update",
+						pathParameters(parameterWithName("id").description("리뷰 ID")),
+						requestFields(
+							fieldWithPath("starRating").description("퀴즈에 대한 별점 (1에서 5 사이의 값)"),
+							fieldWithPath("difficultyLevel").description("퀴즈의 난이도 (1에서 3 사이의 값)"),
+							fieldWithPath("comment").description("퀴즈에 대한 리뷰 내용").optional(),
+							fieldWithPath("quizId").description("리뷰를 작성할 퀴즈의 고유 식별자"),
+						),
+					),
+				)
+		}
+
+		"퀴즈 후기를 삭제한다" {
+			every { deleteQuizReviewUseCase.delete(any()) } returns Unit
+
+			performDelete(Path("/quiz-reviews/{id}", "1"))
+				.andExpect(status().isNoContent)
+				.andDo(
+					print(
+						"quiz-review/delete",
+						pathParameters(parameterWithName("id").description("리뷰 ID")),
 					),
 				)
 		}
