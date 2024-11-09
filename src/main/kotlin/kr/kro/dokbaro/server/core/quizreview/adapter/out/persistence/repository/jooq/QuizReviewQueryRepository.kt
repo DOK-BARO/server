@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq
 
+import kr.kro.dokbaro.server.common.constant.Constants
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.option.SortOption
@@ -7,6 +8,7 @@ import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.entity.jooq
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.CountQuizReviewCondition
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.QuizReviewTotalScoreElement
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.ReadQuizReviewSummaryCondition
+import kr.kro.dokbaro.server.core.quizreview.domain.QuizReview
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortOption
 import org.jooq.DSLContext
@@ -66,8 +68,11 @@ class QuizReviewQueryRepository(
 				).from(QUIZ_REVIEW)
 				.join(MEMBER)
 				.on(QUIZ_REVIEW.MEMBER_ID.eq(MEMBER.ID))
-				.where(QUIZ_REVIEW.QUIZ_ID.eq(condition.quizId))
-				.orderBy(toOrderByQuery(sortOption))
+				.where(
+					QUIZ_REVIEW.QUIZ_ID.eq(condition.quizId).and(
+						QUIZ_REVIEW.DELETED.eq(Constants.NOT_DELETED),
+					),
+				).orderBy(toOrderByQuery(sortOption))
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
 				.fetch()
@@ -87,5 +92,22 @@ class QuizReviewQueryRepository(
 		}
 
 		return query
+	}
+
+	fun findById(id: Long): QuizReview? {
+		val record: QuizReviewRecord? =
+			dslContext
+				.select(
+					QUIZ_REVIEW.STAR_RATING,
+					QUIZ_REVIEW.DIFFICULTY_LEVEL,
+					QUIZ_REVIEW.COMMENT,
+					QUIZ_REVIEW.MEMBER_ID,
+					QUIZ_REVIEW.QUIZ_ID,
+					QUIZ_REVIEW.ID,
+				).from(QUIZ_REVIEW)
+				.where(QUIZ_REVIEW.ID.eq(id).and(QUIZ_REVIEW.DELETED.eq(Constants.NOT_DELETED)))
+				.fetchOneInto(QUIZ_REVIEW)
+
+		return quizReviewMapper.toQuizReview(record)
 	}
 }
