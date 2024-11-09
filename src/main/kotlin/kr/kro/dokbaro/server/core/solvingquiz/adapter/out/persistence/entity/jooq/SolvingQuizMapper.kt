@@ -16,7 +16,6 @@ import org.jooq.Record
 import org.jooq.Result
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
-import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JSolvingQuiz
 import org.jooq.generated.tables.JSolvingQuizSheet
 import org.jooq.generated.tables.records.SolvingQuizRecord
@@ -28,7 +27,6 @@ class SolvingQuizMapper {
 		private val SOLVING_QUIZ_SHEET = JSolvingQuizSheet.SOLVING_QUIZ_SHEET
 		private val BOOK = JBook.BOOK
 		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
-		private val MEMBER = JMember.MEMBER
 	}
 
 	fun toSolvingQuiz(record: Map<SolvingQuizRecord, Result<Record>>): SolvingQuiz? =
