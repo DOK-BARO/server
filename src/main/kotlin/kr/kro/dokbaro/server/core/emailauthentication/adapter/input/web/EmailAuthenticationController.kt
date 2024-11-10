@@ -29,7 +29,6 @@ class EmailAuthenticationController(
 	}
 
 	@PostMapping("/match-code")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
 	fun matchCode(
 		@RequestBody matchEmailCodeRequest: MatchEmailCodeRequest,
 	): MatchResponse = matchCodeUseCase.match(matchEmailCodeRequest.email, matchEmailCodeRequest.code)
