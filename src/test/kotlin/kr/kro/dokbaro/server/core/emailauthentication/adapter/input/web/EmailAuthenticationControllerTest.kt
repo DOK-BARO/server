@@ -59,7 +59,7 @@ class EmailAuthenticationControllerTest : RestDocsTest() {
 				)
 
 			performPost(Path("/email-authentications/match-code"), request)
-				.andExpect(status().isNoContent)
+				.andExpect(status().isOk)
 				.andDo(
 					print(
 						"email-authentication/match-email-code",
