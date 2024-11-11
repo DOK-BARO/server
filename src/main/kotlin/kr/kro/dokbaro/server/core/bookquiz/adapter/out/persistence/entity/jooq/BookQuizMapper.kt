@@ -30,12 +30,9 @@ import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizAnswer
 import org.jooq.generated.tables.JBookQuizAnswerExplainImage
-import org.jooq.generated.tables.JBookQuizContributor
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
 import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JQuizReview
-import org.jooq.generated.tables.JSolvingQuiz
 import org.jooq.generated.tables.JStudyGroupQuiz
 import org.jooq.generated.tables.records.BookQuizRecord
 
@@ -48,39 +45,40 @@ class BookQuizMapper {
 		private val BOOK_QUIZ_ANSWER = JBookQuizAnswer.BOOK_QUIZ_ANSWER
 		private val BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE = JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
 		private val MEMBER = JMember.MEMBER
-		private val QUIZ_REVIEW = JQuizReview.QUIZ_REVIEW
-		private val BOOK_QUIZ_CONTRIBUTOR = JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
 		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
 		private val BOOK = JBook.BOOK
-		private val SOLVING_QUIZ = JSolvingQuiz.SOLVING_QUIZ
 	}
 
 	fun recordToBookQuizQuestions(record: Result<out Record>): BookQuizQuestions? =
 		record
 			.groupBy {
 				Triple(it.get(BOOK_QUIZ.ID), it.get(BOOK_QUIZ.TITLE), it.get(BOOK_QUIZ.TIME_LIMIT_SECOND))
-			}.mapValues { entry ->
-				entry.value
-					.groupBy {
-						Triple(
-							it.get(BOOK_QUIZ_QUESTION.ID),
-							it.get(BOOK_QUIZ_QUESTION.QUESTION_CONTENT),
-							it.get(BOOK_QUIZ_QUESTION.QUESTION_TYPE),
-						)
-					}.map {
-						Question(
-							it.key.first,
-							it.key.second.toString(Charsets.UTF_8),
-							QuizType.valueOf(it.key.third),
-							it.value.map { v ->
-								SelectOption(
-									v.get(BOOK_QUIZ_SELECT_OPTION.CONTENT).toString(Charsets.UTF_8),
+			}.map { (book, questions) ->
+				BookQuizQuestions(
+					id = book.first,
+					title = book.second,
+					timeLimitSecond = book.third,
+					questions =
+						questions
+							.groupBy {
+								Triple(
+									it.get(BOOK_QUIZ_QUESTION.ID),
+									it.get(BOOK_QUIZ_QUESTION.QUESTION_CONTENT).toString(Charsets.UTF_8),
+									QuizType.valueOf(it.get(BOOK_QUIZ_QUESTION.QUESTION_TYPE)),
+								)
+							}.map { (question, options) ->
+								Question(
+									question.first,
+									question.second,
+									question.third,
+									options.distinctBy { v -> v.get(BOOK_QUIZ_SELECT_OPTION.ID) }.map { v ->
+										SelectOption(
+											v.get(BOOK_QUIZ_SELECT_OPTION.CONTENT).toString(Charsets.UTF_8),
+										)
+									},
 								)
 							},
-						)
-					}
-			}.map {
-				BookQuizQuestions(it.key.first, it.key.second, it.key.third, it.value)
+				)
 			}.firstOrNull()
 
 	fun toBookQuiz(record: Map<BookQuizRecord, Result<Record>>): BookQuiz? =
