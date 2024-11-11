@@ -12,7 +12,14 @@ class JwtResponseGeneratorTest :
 
 		val cookieGenerator = CookieGenerator("localhost")
 
-		val jwtResponseGenerator = JwtResponseGenerator(cookieGenerator, "Authorization", "Refresh", 500)
+		val jwtResponseGenerator =
+			JwtResponseGenerator(
+				cookieGenerator,
+				"Authorization",
+				"Refresh",
+				15,
+				7,
+			)
 
 		"jwt token 값을 넣어 cookie를 header에 주입한다" {
 			val responseBuilder: ResponseEntity.BodyBuilder =
