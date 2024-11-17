@@ -12,14 +12,14 @@ class CookieGenerator(
 	fun generate(
 		name: String,
 		value: String,
-		maxAgeMinute: Long,
+		age: Duration,
 		path: String = "/",
 	): String =
 		ResponseCookie
 			.from(name, value)
 			.sameSite("None")
 			.domain(domain)
-			.maxAge(Duration.ofSeconds(maxAgeMinute))
+			.maxAge(age)
 			.path(path)
 			.secure(true)
 			.httpOnly(true)

@@ -15,6 +15,7 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.B
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
@@ -51,11 +52,16 @@ class BookQuizPersistenceQueryAdapterTest(
 
 			val member = memberRepository.insert(memberFixture()).id
 			val book = bookRepository.insertBook(bookFixture())
-			val bookQuizId: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = member, bookId = book))
+			val bookQuiz = bookQuizFixture(creatorId = member, bookId = book)
+			val bookQuizId: Long = bookQuizRepository.insert(bookQuiz)
 
-			adapter.findBookQuizQuestionsBy(300000) shouldBe null
+			adapter.findBookQuizQuestionsBy(bookQuizId + 1) shouldBe null
 
-			adapter.findBookQuizQuestionsBy(bookQuizId) shouldNotBe null
+			val target: BookQuizQuestions = adapter.findBookQuizQuestionsBy(bookQuizId)!!
+
+			target.questions.size shouldBe bookQuiz.questions.getQuestions().size
+			target.questions.sumOf { it.selectOptions.size } shouldBe
+				bookQuiz.questions.getQuestions().sumOf { it.selectOptions.size }
 		}
 
 		"퀴즈 답변 목록을 조회한다" {

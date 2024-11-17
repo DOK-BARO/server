@@ -34,7 +34,7 @@ fun bookQuizFixture(
 
 fun quizQuestionFixture(
 	content: String = "content",
-	selectOptions: Collection<SelectOption> = listOf(SelectOption("selectOption1"), SelectOption("selectOption1")),
+	selectOptions: Collection<SelectOption> = listOf(SelectOption("selectOption1"), SelectOption("selectOption2")),
 	answerExplanation: String = "answer_explanation",
 	answerExplanationImages: Collection<String> = listOf("hello.png"),
 	answer: Gradable =
