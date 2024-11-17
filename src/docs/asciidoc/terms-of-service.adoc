@@ -34,3 +34,15 @@ include::{snippets}/terms-of-service/agree/request-fields.adoc[]
 === HTTP response
 
 include::{snippets}/terms-of-service/agree/http-response.adoc[]
+
+
+== 필수 동의 여부 전체 동의 여부 조회
+
+=== HTTP request
+
+include::{snippets}/terms-of-service/get-member-agree-required/http-request.adoc[]
+
+=== HTTP response
+
+include::{snippets}/terms-of-service/get-member-agree-required/http-response.adoc[]
+include::{snippets}/terms-of-service/get-member-agree-required/response-fields.adoc[]
