@@ -31,7 +31,13 @@ class LocalImageStorage(
 	private fun combinePath(
 		rootPath: String,
 		middlePath: String,
-	): String = File(rootPath).resolve(middlePath).path + "/"
+	): String {
+		val combined = rootPath.trimEnd('/') + "/" + middlePath.trimStart('/')
+		if (combined.endsWith("/")) {
+			return combined
+		}
+		return "$combined/"
+	}
 
 	fun load(locationPath: String): File = File(locationPath)
 }
