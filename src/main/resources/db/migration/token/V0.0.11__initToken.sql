@@ -6,7 +6,6 @@ CREATE TABLE refresh_token
 	expired_at              datetime    NOT NULL,
 	created_at              datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (token_value),
-	UNIQUE KEY refresh_token_member_id_pk (member_certification_id),
 	KEY refresh_token_member_certification_id_fk (member_certification_id),
 	CONSTRAINT refresh_token_member_certification_id_fk FOREIGN KEY (member_certification_id) REFERENCES member (certification_id) ON DELETE CASCADE
 ) ENGINE = InnoDB
