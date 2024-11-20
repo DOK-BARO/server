@@ -9,6 +9,7 @@ include::{snippets}/image/upload/http-request.adoc[]
 ==== imageTarget 목록
 * MEMBER_PROFILE : 맴버 프로필
 * STUDY_GROUP_PROFILE : study group 프로필
+* BOOK_QUIZ_ANSWER : book quiz 해설 이미지
 
 === HTTP response
 
