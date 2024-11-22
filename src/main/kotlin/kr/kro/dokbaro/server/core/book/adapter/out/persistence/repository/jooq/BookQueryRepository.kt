@@ -30,7 +30,6 @@ import org.jooq.impl.DSL.name
 import org.jooq.impl.DSL.select
 import org.jooq.impl.DSL.selectCount
 import org.jooq.impl.DSL.table
-import org.jooq.impl.DSL.`val`
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -115,13 +114,42 @@ class BookQueryRepository(
 		}
 
 		condition.categoryId?.let {
+			val hierarchyTable = "CategoryHierarchy"
+			val hierarchyTableAlias = "ch"
+
 			result =
 				result.and(
-					`val`(it).`in`(
-						select(BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID)
+					BOOK.ID.`in`(
+						dslContext
+							.select(BOOK_CATEGORY_GROUP.BOOK_ID)
 							.from(BOOK_CATEGORY_GROUP)
 							.where(
-								BOOK_CATEGORY_GROUP.BOOK_ID.eq(BOOK.ID),
+								BOOK_CATEGORY_GROUP.BOOK_CATEGORY_ID.`in`(
+									dslContext
+										.withRecursive(hierarchyTable)
+										.`as`(
+											dslContext
+												.select(
+													BOOK_CATEGORY.ID,
+												).from(BOOK_CATEGORY)
+												.where(BOOK_CATEGORY.ID.eq(it))
+												.unionAll(
+													dslContext
+														.select(
+															BOOK_CATEGORY.ID,
+														).from(BOOK_CATEGORY)
+														.join(table(name(hierarchyTable)).`as`(hierarchyTableAlias))
+														.on(
+															field(
+																name(hierarchyTableAlias, "id"),
+																Long::class.java,
+															).eq(BOOK_CATEGORY.PARENT_ID),
+														),
+												),
+										).select()
+										.from(name(hierarchyTable))
+										.fetchInto(Long::class.java),
+								),
 							),
 					),
 				)
