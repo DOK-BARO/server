@@ -10,7 +10,6 @@ CREATE TABLE email_authentication
 	deleted       tinyint(1)  NOT NULL DEFAULT '0',
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 

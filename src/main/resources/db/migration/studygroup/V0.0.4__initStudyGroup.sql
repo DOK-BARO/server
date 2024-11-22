@@ -10,7 +10,6 @@ CREATE TABLE study_group
 	deleted           tinyint(1)  NOT NULL DEFAULT '0',
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
@@ -25,10 +24,8 @@ CREATE TABLE study_group_member
 	deleted        tinyint(1)  NOT NULL DEFAULT '0',
 	PRIMARY KEY (id),
 	UNIQUE KEY study_group_member_pk (study_group_id, member_id),
-	KEY            study_group_member_member_id_fk (member_id),
 	CONSTRAINT study_group_member_member_id_fk FOREIGN KEY (member_id) REFERENCES member (id),
 	CONSTRAINT study_group_member_study_group_id_fk FOREIGN KEY (study_group_id) REFERENCES study_group (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;

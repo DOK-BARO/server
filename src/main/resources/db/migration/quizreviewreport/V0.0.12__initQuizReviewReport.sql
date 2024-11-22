@@ -9,9 +9,7 @@ CREATE TABLE quiz_review_report
 	updated_at       datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted          tinyint(1) NOT NULL DEFAULT '0',
 	PRIMARY KEY (id),
-	KEY quiz_review_report_report_member_id_fk (report_member_id),
 	CONSTRAINT quiz_review_report_report_member_id_fk FOREIGN KEY (report_member_id) REFERENCES member (id),
-	KEY quiz_review_report_report_quiz_review_id_fk (quiz_review_id),
 	CONSTRAINT quiz_review_report_report_quiz_review_id_fk FOREIGN KEY (quiz_review_id) REFERENCES quiz_review (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
