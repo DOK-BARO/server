@@ -7,7 +7,7 @@ CREATE TABLE book
 	published_at date        NOT NULL,
 	price        int         NOT NULL,
 	description  blob,
-	image_url    varchar(100)         DEFAULT NULL,
+	image_url    varchar(255)         DEFAULT NULL,
 	created_at   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted      boolean     NOT NULL DEFAULT false,

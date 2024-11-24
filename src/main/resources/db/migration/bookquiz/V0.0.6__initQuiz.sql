@@ -85,7 +85,7 @@ CREATE TABLE book_quiz_answer_explain_image
 (
 	id                    bigint       NOT NULL AUTO_INCREMENT,
 	book_quiz_question_id bigint       NOT NULL,
-	image_url             varchar(100) NOT NULL,
+	image_url             varchar(255) NOT NULL,
 	created_at            datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at            datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted               tinyint(1)   NOT NULL DEFAULT '0',
