@@ -10,7 +10,6 @@ CREATE TABLE notification
 	deleted              tinyint(1)  NOT NULL DEFAULT '0',
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
@@ -26,11 +25,8 @@ CREATE TABLE notification_visibility
 	deleted         tinyint(1) NOT NULL DEFAULT '0',
 	PRIMARY KEY (id),
 	UNIQUE KEY notification_visibility_pk (member_id, notification_id),
-	KEY notification_visibility___fk (notification_id),
-	KEY notification_visibility_member_id_fk (member_id),
 	CONSTRAINT notification_visibility___fk FOREIGN KEY (notification_id) REFERENCES notification (id),
 	CONSTRAINT notification_visibility_member_id_fk FOREIGN KEY (member_id) REFERENCES member (id)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;

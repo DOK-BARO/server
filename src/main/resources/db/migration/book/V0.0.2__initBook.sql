@@ -14,7 +14,6 @@ CREATE TABLE book
 	PRIMARY KEY (id),
 	UNIQUE KEY isbn (isbn)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
@@ -28,10 +27,8 @@ CREATE TABLE book_author
 	updated_at datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted    boolean     NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
-	KEY book_author_book_id_fk (book_id),
 	CONSTRAINT book_author_book_id_fk FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
@@ -46,7 +43,6 @@ CREATE TABLE book_category
 	updated_at   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted      boolean     NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
-	KEY book_category_book_category_id_fk (parent_id),
 	CONSTRAINT book_category_book_category_id_fk FOREIGN KEY (parent_id) REFERENCES book_category (id) ON DELETE SET NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -64,10 +60,8 @@ CREATE TABLE book_category_group
 	deleted          boolean  NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY book_category (book_id, book_category_id),
-	KEY book_category_group_book_category_id_fk (book_category_id),
 	CONSTRAINT book_category_group_book_category_id_fk FOREIGN KEY (book_category_id) REFERENCES book_category (id),
 	CONSTRAINT book_category_of_book___fk FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;

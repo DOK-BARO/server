@@ -9,7 +9,9 @@ CREATE TABLE solving_quiz
 	PRIMARY KEY (id),
 	CONSTRAINT solving_quiz_member_id_fk FOREIGN KEY (member_id) REFERENCES member (id),
 	CONSTRAINT solving_quiz_quiz_id_fk FOREIGN KEY (quiz_id) REFERENCES book_quiz (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB
+	DEFAULT CHARSET=utf8mb4
+	COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE solving_quiz_sheet
 (
@@ -23,4 +25,6 @@ CREATE TABLE solving_quiz_sheet
 	PRIMARY KEY (id),
 	CONSTRAINT solving_quiz_sheet_solving_quiz_id_fk FOREIGN KEY (solving_quiz_id) REFERENCES solving_quiz (id),
 	CONSTRAINT solving_quiz_sheet_question_id_fk FOREIGN KEY (question_id) REFERENCES book_quiz_question (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB
+	DEFAULT CHARSET=utf8mb4
+	COLLATE=utf8mb4_0900_ai_ci;
