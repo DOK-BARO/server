@@ -14,7 +14,6 @@ CREATE TABLE book
 	PRIMARY KEY (id),
 	UNIQUE KEY isbn (isbn)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
@@ -30,7 +29,6 @@ CREATE TABLE book_author
 	PRIMARY KEY (id),
 	CONSTRAINT book_author_book_id_fk FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
@@ -65,6 +63,5 @@ CREATE TABLE book_category_group
 	CONSTRAINT book_category_group_book_category_id_fk FOREIGN KEY (book_category_id) REFERENCES book_category (id),
 	CONSTRAINT book_category_of_book___fk FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;

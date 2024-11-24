@@ -8,7 +8,8 @@ CREATE TABLE study_group
 	created_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted           tinyint(1)  NOT NULL DEFAULT '0',
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	UNIQUE KEY study_group_pk (invite_code)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
