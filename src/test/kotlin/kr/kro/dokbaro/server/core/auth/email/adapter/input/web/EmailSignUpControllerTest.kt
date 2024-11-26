@@ -2,7 +2,7 @@ package kr.kro.dokbaro.server.core.auth.email.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import kr.kro.dokbaro.server.common.http.jwt.JwtResponseGenerator
+import kr.kro.dokbaro.server.common.http.jwt.JwtResponseEntityGenerator
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.auth.email.application.port.input.EmailSignUpUseCase
@@ -23,12 +23,12 @@ class EmailSignUpControllerTest : RestDocsTest() {
 	lateinit var emailSignUpUseCase: EmailSignUpUseCase
 
 	@MockkBean
-	lateinit var jwtResponseGenerator: JwtResponseGenerator
+	lateinit var jwtResponseEntityGenerator: JwtResponseEntityGenerator
 
 	init {
 		"회원가입을 수행한다" {
 			every { emailSignUpUseCase.signUp(any()) } returns authTokenFixture()
-			every { jwtResponseGenerator.getResponseBuilder(any(), any()) } returns
+			every { jwtResponseEntityGenerator.getResponseBuilder(any(), any()) } returns
 				ResponseEntity
 					.ok()
 					.header(HttpHeaders.SET_COOKIE, "Authorization=access-token;")

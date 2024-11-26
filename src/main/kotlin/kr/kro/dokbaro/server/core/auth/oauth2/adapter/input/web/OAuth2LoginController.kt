@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web
 
 import kr.kro.dokbaro.server.common.dto.response.MessageResponse
-import kr.kro.dokbaro.server.common.http.jwt.JwtResponseGenerator
+import kr.kro.dokbaro.server.common.http.jwt.JwtResponseEntityGenerator
 import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web.dto.ProviderAuthorizationTokenRequest
 import kr.kro.dokbaro.server.core.auth.oauth2.application.port.dto.LoadProviderAccountCommand
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/auth/oauth2/login")
 class OAuth2LoginController(
 	private val loginUseCase: OAuth2LoginUseCase,
-	private val jwtResponseGenerator: JwtResponseGenerator,
+	private val jwtResponseEntityGenerator: JwtResponseEntityGenerator,
 ) {
 	@PostMapping("/{provider}")
 	fun oauth2Login(
@@ -33,7 +33,7 @@ class OAuth2LoginController(
 				),
 			)
 
-		return jwtResponseGenerator
+		return jwtResponseEntityGenerator
 			.getResponseBuilder(accessToken, refreshToken)
 			.body(MessageResponse("Login Success / set cookie"))
 	}

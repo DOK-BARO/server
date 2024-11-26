@@ -2,7 +2,7 @@ package kr.kro.dokbaro.server.core.auth.oauth2.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import kr.kro.dokbaro.server.common.http.jwt.JwtResponseGenerator
+import kr.kro.dokbaro.server.common.http.jwt.JwtResponseEntityGenerator
 import kr.kro.dokbaro.server.common.type.AuthProvider
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
@@ -24,12 +24,12 @@ class OAuth2SignUpControllerTest : RestDocsTest() {
 	lateinit var oAuth2SignUpUseCase: OAuth2SignUpUseCase
 
 	@MockkBean
-	lateinit var jwtResponseGenerator: JwtResponseGenerator
+	lateinit var jwtResponseEntityGenerator: JwtResponseEntityGenerator
 
 	init {
 		"회원가입을 수행한다" {
 			every { oAuth2SignUpUseCase.signUp(any()) } returns authTokenFixture()
-			every { jwtResponseGenerator.getResponseBuilder(any(), any()) } returns
+			every { jwtResponseEntityGenerator.getResponseBuilder(any(), any()) } returns
 				ResponseEntity
 					.ok()
 					.header(HttpHeaders.SET_COOKIE, "Authorization=access-token;")
