@@ -1,7 +1,7 @@
 package kr.kro.dokbaro.server.core.token.adapter.input.web
 
 import kr.kro.dokbaro.server.common.dto.response.MessageResponse
-import kr.kro.dokbaro.server.common.http.jwt.JwtResponseGenerator
+import kr.kro.dokbaro.server.common.http.jwt.JwtResponseEntityGenerator
 import kr.kro.dokbaro.server.core.token.application.port.input.ReGenerateAuthTokenUseCase
 import kr.kro.dokbaro.server.core.token.domain.AuthToken
 import org.springframework.http.ResponseEntity
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/token")
 class TokenController(
 	private val reGenerateAuthTokenUseCase: ReGenerateAuthTokenUseCase,
-	private val jwtResponseGenerator: JwtResponseGenerator,
+	private val jwtResponseEntityGenerator: JwtResponseEntityGenerator,
 ) {
 	@PostMapping("/refresh")
 	fun refreshToken(
@@ -22,7 +22,7 @@ class TokenController(
 	): ResponseEntity<MessageResponse> {
 		val reGenerateToken: AuthToken = reGenerateAuthTokenUseCase.reGenerate(refreshToken)
 
-		return jwtResponseGenerator
+		return jwtResponseEntityGenerator
 			.getResponseBuilder(reGenerateToken.accessToken, reGenerateToken.refreshToken)
 			.body(MessageResponse("refresh Success / set cookie"))
 	}

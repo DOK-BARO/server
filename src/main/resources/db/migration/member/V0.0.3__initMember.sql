@@ -12,7 +12,6 @@ CREATE TABLE member
 	UNIQUE KEY member_pk (certification_id),
 	UNIQUE KEY member_pk_2 (email)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
@@ -39,6 +38,5 @@ CREATE TABLE member_role
 	UNIQUE KEY member_role_pk (member_id, name),
 	CONSTRAINT member_role_member_id_fk FOREIGN KEY (member_id) REFERENCES member (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;

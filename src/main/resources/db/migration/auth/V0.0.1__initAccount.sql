@@ -11,7 +11,6 @@ CREATE TABLE oauth2_account
 	UNIQUE KEY account_pk (provider, social_id),
 	UNIQUE KEY account_pk_2 (provider, member_id)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
@@ -27,6 +26,5 @@ create table account_password
 	PRIMARY KEY (id),
 	UNIQUE KEY account_password_pk (member_id)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;

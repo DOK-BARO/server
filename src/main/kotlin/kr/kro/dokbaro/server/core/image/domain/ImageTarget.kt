@@ -5,4 +5,5 @@ enum class ImageTarget(
 ) {
 	MEMBER_PROFILE("/user/profile/"),
 	STUDY_GROUP_PROFILE("/studygroup/profile/"),
+	BOOK_QUIZ_ANSWER("/bookquiz/answer/"),
 }
