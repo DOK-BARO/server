@@ -33,7 +33,7 @@ class SecurityConfig(
 	fun configure(http: HttpSecurity): SecurityFilterChain =
 		http
 			.authorizeHttpRequests {
-				it.anyRequest().permitAll()
+				AuthorizationEndpointChain.authorizeHttpRequests(it)
 			}.sessionManagement {
 				it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			}.addFilterBefore(tokenBasedAuthorizationFilter(), UsernamePasswordAuthenticationFilter::class.java)
@@ -48,7 +48,6 @@ class SecurityConfig(
 
 	fun corsConfig(): CorsConfigurationSource {
 		val corsConfiguration = CorsConfiguration()
-
 		corsConfiguration.allowedOrigins = originPattern
 		corsConfiguration.addAllowedHeader("*")
 		corsConfiguration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS")
