@@ -1,7 +1,9 @@
 package kr.kro.dokbaro.server.core.security
 
 import jakarta.servlet.http.HttpServletResponse
+import kr.kro.dokbaro.server.common.http.jwt.JwtCookiePairGenerator
 import kr.kro.dokbaro.server.core.token.application.port.input.DecodeAccessTokenUseCase
+import kr.kro.dokbaro.server.core.token.application.port.input.ReGenerateAuthTokenUseCase
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,6 +25,9 @@ class SecurityConfig(
 	@Value("\${spring.security.allow-origins}") private val originPattern: List<String>,
 	private val decodeAccessTokenUseCase: DecodeAccessTokenUseCase,
 	@Value("\${jwt.access-header-name}") private val accessTokenKey: String,
+	@Value("\${jwt.refresh-header-name}") private val refreshTokenKey: String,
+	private val reGenerateAuthTokenUseCase: ReGenerateAuthTokenUseCase,
+	private val jwtCookiePairGenerator: JwtCookiePairGenerator,
 ) {
 	@Bean
 	fun configure(http: HttpSecurity): SecurityFilterChain =
@@ -64,5 +69,11 @@ class SecurityConfig(
 	fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
 	fun tokenBasedAuthorizationFilter(): TokenBasedAuthorizationFilter =
-		TokenBasedAuthorizationFilter(decodeAccessTokenUseCase, accessTokenKey)
+		TokenBasedAuthorizationFilter(
+			decodeAccessTokenUseCase = decodeAccessTokenUseCase,
+			accessTokenKey = accessTokenKey,
+			refreshTokenKey = refreshTokenKey,
+			reGenerateAuthTokenUseCase = reGenerateAuthTokenUseCase,
+			jwtCookiePairGenerator = jwtCookiePairGenerator,
+		)
 }

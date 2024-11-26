@@ -2,7 +2,7 @@ package kr.kro.dokbaro.server.core.token.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import kr.kro.dokbaro.server.common.http.jwt.JwtResponseGenerator
+import kr.kro.dokbaro.server.common.http.jwt.JwtResponseEntityGenerator
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.token.application.port.input.ReGenerateAuthTokenUseCase
@@ -19,11 +19,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 class TokenControllerTest : RestDocsTest() {
 	@MockkBean lateinit var reGenerateAuthTokenUseCase: ReGenerateAuthTokenUseCase
 
-	@MockkBean lateinit var jwtResponseGenerator: JwtResponseGenerator
+	@MockkBean lateinit var jwtResponseEntityGenerator: JwtResponseEntityGenerator
 
 	init {
 		"token 재발급을 수행한다" {
-			every { jwtResponseGenerator.getResponseBuilder(any(), any()) } returns
+			every { jwtResponseEntityGenerator.getResponseBuilder(any(), any()) } returns
 				ResponseEntity
 					.ok()
 					.header(HttpHeaders.SET_COOKIE, "Authorization=access-token;")
