@@ -7,7 +7,7 @@ CREATE TABLE notification
 	image_url            varchar(255)         DEFAULT NULL,
 	created_at           datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at           datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted              tinyint(1)  NOT NULL DEFAULT '0',
+	deleted              boolean     NOT NULL DEFAULT false,
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -18,11 +18,11 @@ CREATE TABLE notification_visibility
 	id              bigint     NOT NULL AUTO_INCREMENT,
 	notification_id bigint     NOT NULL,
 	member_id       bigint     NOT NULL,
-	checked         tinyint(1) NOT NULL DEFAULT '0',
-	disabled        tinyint(1) NOT NULL DEFAULT '0',
+	checked         boolean    NOT NULL DEFAULT false,
+	disabled        boolean    NOT NULL DEFAULT false,
 	created_at      datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at      datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted         tinyint(1) NOT NULL DEFAULT '0',
+	deleted         boolean    NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY notification_visibility_pk (member_id, notification_id),
 	CONSTRAINT notification_visibility___fk FOREIGN KEY (notification_id) REFERENCES notification (id),
