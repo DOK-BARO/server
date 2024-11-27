@@ -50,7 +50,6 @@ include::{snippets}/auth/email-signup/response-fields.adoc[]
 
 == 이메일 로그인
 
-
 === HTTP request
 
 include::{snippets}/auth/email-login/http-request.adoc[]

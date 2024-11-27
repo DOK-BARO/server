@@ -48,7 +48,8 @@ CREATE TABLE book_category
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
-INSERT INTO book_category(id, english_name, korean_name) VALUES (1, 'ROOT', 'ROOT');
+INSERT INTO book_category(id, english_name, korean_name)
+VALUES (1, 'ROOT', 'ROOT');
 
 CREATE TABLE book_category_group
 (

@@ -22,7 +22,11 @@ class StudyGroupNotificationService(
 		val savedNotificationId =
 			insertNotificationPort.insert(
 				Notification(
-					content = NewStudyGroupMemberNotificationContent(command.studyGroupName, command.memberName).getContent(),
+					content =
+						NewStudyGroupMemberNotificationContent(
+							command.studyGroupName,
+							command.memberName,
+						).getContent(),
 					trigger = NotificationTrigger.NEW_STUDY_GROUP_MEMBER,
 					linkedId = command.studyGroupId,
 				),

@@ -27,9 +27,7 @@ class QuizReviewMapper {
 			)
 		}
 
-	fun recordToSummary(
-		record: Result<out Record>,
-	): Collection<QuizReviewSummary> =
+	fun recordToSummary(record: Result<out Record>): Collection<QuizReviewSummary> =
 		record.map {
 			QuizReviewSummary(
 				it.get(QUIZ_REVIEW.ID),

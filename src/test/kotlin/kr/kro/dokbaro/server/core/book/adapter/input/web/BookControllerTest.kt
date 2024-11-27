@@ -193,7 +193,9 @@ class BookControllerTest : RestDocsTest() {
 						"book/find-integrated-book-collection",
 						queryParameters(
 							parameterWithName("keyword").description("검색 키워드"),
-							parameterWithName("lastId").description("조회한 값 중 마지막 ID, 최초 조회 시 null (optional)").optional(),
+							parameterWithName("lastId")
+								.description("조회한 값 중 마지막 ID, 최초 조회 시 null (optional)")
+								.optional(),
 							parameterWithName("size").description("노출 개수"),
 						),
 						responseFields(

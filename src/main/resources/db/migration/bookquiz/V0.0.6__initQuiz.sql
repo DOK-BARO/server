@@ -37,13 +37,13 @@ CREATE TABLE book_quiz_question
 
 CREATE TABLE book_quiz_select_option
 (
-	id                    bigint     NOT NULL AUTO_INCREMENT,
-	content               text       NOT NULL,
-	seq                   int        NOT NULL,
-	book_quiz_question_id bigint     NOT NULL,
-	created_at            datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at            datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted               boolean    NOT NULL DEFAULT false,
+	id                    bigint   NOT NULL AUTO_INCREMENT,
+	content               text     NOT NULL,
+	seq                   int      NOT NULL,
+	book_quiz_question_id bigint   NOT NULL,
+	created_at            datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at            datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted               boolean  NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY book_quiz_select_option_pk (book_quiz_question_id, seq),
 	CONSTRAINT book_quiz_select_option_book_quiz_question_id_fk FOREIGN KEY (book_quiz_question_id) REFERENCES book_quiz_question (id) ON DELETE CASCADE
@@ -67,12 +67,12 @@ CREATE TABLE book_quiz_answer
 
 CREATE TABLE study_group_quiz
 (
-	id             bigint     NOT NULL AUTO_INCREMENT,
-	study_group_id bigint     NOT NULL,
-	book_quiz_id   bigint     NOT NULL,
-	created_at     datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at     datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted        boolean    NOT NULL DEFAULT false,
+	id             bigint   NOT NULL AUTO_INCREMENT,
+	study_group_id bigint   NOT NULL,
+	book_quiz_id   bigint   NOT NULL,
+	created_at     datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at     datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted        boolean  NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY study_group_quiz_pk (study_group_id, book_quiz_id),
 	CONSTRAINT study_group_quiz___fk FOREIGN KEY (book_quiz_id) REFERENCES book_quiz (id),
@@ -98,12 +98,12 @@ CREATE TABLE book_quiz_answer_explain_image
 
 CREATE TABLE book_quiz_contributor
 (
-	id           bigint     NOT NULL AUTO_INCREMENT,
-	book_quiz_id bigint     NOT NULL,
-	member_id    bigint     NOT NULL,
-	created_at   datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at   datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted      boolean    NOT NULL DEFAULT false,
+	id           bigint   NOT NULL AUTO_INCREMENT,
+	book_quiz_id bigint   NOT NULL,
+	member_id    bigint   NOT NULL,
+	created_at   datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at   datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted      boolean  NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY (book_quiz_id, member_id),
 	CONSTRAINT book_quiz_contributor_book_quiz_id___fk FOREIGN KEY (book_quiz_id) REFERENCES book_quiz (id) ON DELETE CASCADE,

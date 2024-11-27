@@ -17,9 +17,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(TokenController::class)
 class TokenControllerTest : RestDocsTest() {
-	@MockkBean lateinit var reGenerateAuthTokenUseCase: ReGenerateAuthTokenUseCase
+	@MockkBean
+	lateinit var reGenerateAuthTokenUseCase: ReGenerateAuthTokenUseCase
 
-	@MockkBean lateinit var jwtResponseEntityGenerator: JwtResponseEntityGenerator
+	@MockkBean
+	lateinit var jwtResponseEntityGenerator: JwtResponseEntityGenerator
 
 	init {
 		"token 재발급을 수행한다" {

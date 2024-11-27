@@ -89,12 +89,20 @@ class SolvingQuizMapper {
 									QuizCreator(
 										id =
 											etc
-												.map { it.get(SolvingQuizRecordFieldName.CREATOR_ID.name, Long::class.java) }
-												.first(),
+												.map {
+													it.get(
+														SolvingQuizRecordFieldName.CREATOR_ID.name,
+														Long::class.java,
+													)
+												}.first(),
 										nickname =
 											etc
-												.map { it.get(SolvingQuizRecordFieldName.CREATOR_NAME.name, String::class.java) }
-												.first(),
+												.map {
+													it.get(
+														SolvingQuizRecordFieldName.CREATOR_NAME.name,
+														String::class.java,
+													)
+												}.first(),
 										profileImageUrl =
 											etc
 												.map {
@@ -116,7 +124,11 @@ class SolvingQuizMapper {
 								}.map {
 									QuizContributor(
 										id = it.get(SolvingQuizRecordFieldName.CONTRIBUTOR_ID.name, Long::class.java),
-										nickname = it.get(SolvingQuizRecordFieldName.CONTRIBUTOR_NAME.name, String::class.java),
+										nickname =
+											it.get(
+												SolvingQuizRecordFieldName.CONTRIBUTOR_NAME.name,
+												String::class.java,
+											),
 										profileImageUrl =
 											it.get(
 												SolvingQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name,

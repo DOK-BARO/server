@@ -38,16 +38,18 @@ include::{snippets}/solving-quiz/grade-result/http-response.adoc[]
 include::{snippets}/solving-quiz/grade-result/response-fields.adoc[]
 
 == 내가 푼 퀴즈 목록 보기 조회
+
 === HTTP request
 
 include::{snippets}/solving-quiz/my-solved/http-request.adoc[]
-\
+
 === HTTP response
 
 include::{snippets}/solving-quiz/my-solved/http-response.adoc[]
 include::{snippets}/solving-quiz/my-solved/response-fields.adoc[]
 
 == 스터디 그룹에서 내가 푼 퀴즈 목록 보기 조회
+
 === HTTP request
 
 include::{snippets}/solving-quiz/study-group-my-solved/http-request.adoc[]

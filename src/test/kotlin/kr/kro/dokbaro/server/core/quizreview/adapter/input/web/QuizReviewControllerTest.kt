@@ -36,9 +36,11 @@ class QuizReviewControllerTest : RestDocsTest() {
 	@MockkBean
 	lateinit var findQuizReviewSummaryUseCase: FindQuizReviewSummaryUseCase
 
-	@MockkBean lateinit var updateQuizReviewUseCase: UpdateQuizReviewUseCase
+	@MockkBean
+	lateinit var updateQuizReviewUseCase: UpdateQuizReviewUseCase
 
-	@MockkBean lateinit var deleteQuizReviewUseCase: DeleteQuizReviewUseCase
+	@MockkBean
+	lateinit var deleteQuizReviewUseCase: DeleteQuizReviewUseCase
 
 	init {
 		"퀴즈 후기를 생성한다" {

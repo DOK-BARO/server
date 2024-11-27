@@ -52,7 +52,10 @@ class TermsOfServiceControllerTest : RestDocsTest() {
 						responseFields(
 							fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("이용 약관 ID"),
 							fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목"),
-							fieldWithPath("[].subTitle").type(JsonFieldType.STRING).description("부제목 (optional)").optional(),
+							fieldWithPath("[].subTitle")
+								.type(JsonFieldType.STRING)
+								.description("부제목 (optional)")
+								.optional(),
 							fieldWithPath("[].hasDetail").type(JsonFieldType.BOOLEAN).description("상세 내용 존재 여부"),
 							fieldWithPath("[].primary").type(JsonFieldType.BOOLEAN).description("필수 여부"),
 						),

@@ -179,7 +179,10 @@ class BookQuizMapper {
 						title = quiz.title,
 						creator =
 							QuizCreator(
-								id = other.map { it.get(BookQuizRecordFieldName.CREATOR_ID.name, Long::class.java) }.first(),
+								id =
+									other
+										.map { it.get(BookQuizRecordFieldName.CREATOR_ID.name, Long::class.java) }
+										.first(),
 								nickname =
 									other
 										.map { it.get(BookQuizRecordFieldName.CREATOR_NAME.name, String::class.java) }
@@ -204,7 +207,11 @@ class BookQuizMapper {
 								}.map {
 									QuizContributor(
 										id = it.get(BookQuizRecordFieldName.CONTRIBUTOR_ID.name, Long::class.java),
-										nickname = it.get(BookQuizRecordFieldName.CONTRIBUTOR_NAME.name, String::class.java),
+										nickname =
+											it.get(
+												BookQuizRecordFieldName.CONTRIBUTOR_NAME.name,
+												String::class.java,
+											),
 										profileImageUrl =
 											it.get(
 												BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name,

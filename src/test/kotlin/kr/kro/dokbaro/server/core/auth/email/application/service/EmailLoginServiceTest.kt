@@ -18,7 +18,8 @@ class EmailLoginServiceTest :
 		val generateAuthTokenUseCase = mockk<GenerateAuthTokenUseCase>()
 		val passwordEncoder = mockk<PasswordEncoder>()
 
-		val emailLoginService = EmailLoginService(loadEmailCertificatedAccountPort, generateAuthTokenUseCase, passwordEncoder)
+		val emailLoginService =
+			EmailLoginService(loadEmailCertificatedAccountPort, generateAuthTokenUseCase, passwordEncoder)
 
 		"email을 통한 로그인을 수행한다" {
 			every { loadEmailCertificatedAccountPort.findByEmail(any()) } returns emailCertificatedAccountFixture()

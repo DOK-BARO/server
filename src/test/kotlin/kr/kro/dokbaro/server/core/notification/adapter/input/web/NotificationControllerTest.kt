@@ -20,11 +20,14 @@ import java.time.LocalDateTime
 
 @WebMvcTest(NotificationController::class)
 class NotificationControllerTest : RestDocsTest() {
-	@MockkBean lateinit var checkAllNotificationUseCase: CheckAllNotificationUseCase
+	@MockkBean
+	lateinit var checkAllNotificationUseCase: CheckAllNotificationUseCase
 
-	@MockkBean lateinit var disableNotificationUseCase: DisableNotificationUseCase
+	@MockkBean
+	lateinit var disableNotificationUseCase: DisableNotificationUseCase
 
-	@MockkBean lateinit var findAllNotificationUseCase: FindAllNotificationUseCase
+	@MockkBean
+	lateinit var findAllNotificationUseCase: FindAllNotificationUseCase
 
 	init {
 
@@ -84,10 +87,18 @@ class NotificationControllerTest : RestDocsTest() {
 							fieldWithPath("[].trigger")
 								.type(JsonFieldType.STRING)
 								.description("알림의 발생 원인 (NEW_STUDY_GROUP_MEMBER, NEW_QUIZ, NEW_QUIZ_REVIEW, UPDATE_QUIZ,)"),
-							fieldWithPath("[].imageUrl").type(JsonFieldType.STRING).description("알림에 포함된 이미지 URL (optional)").optional(),
-							fieldWithPath("[].linkedId").type(JsonFieldType.NUMBER).description("연결된 항목의 고유 ID (optional)").optional(),
+							fieldWithPath("[].imageUrl")
+								.type(JsonFieldType.STRING)
+								.description("알림에 포함된 이미지 URL (optional)")
+								.optional(),
+							fieldWithPath("[].linkedId")
+								.type(JsonFieldType.NUMBER)
+								.description("연결된 항목의 고유 ID (optional)")
+								.optional(),
 							fieldWithPath("[].checked").type(JsonFieldType.BOOLEAN).description("알림 확인 여부"),
-							fieldWithPath("[].createdAt").type(JsonFieldType.STRING).description("알림 생성 일시 (ISO-8601 형식)"),
+							fieldWithPath("[].createdAt")
+								.type(JsonFieldType.STRING)
+								.description("알림 생성 일시 (ISO-8601 형식)"),
 						),
 					),
 				)

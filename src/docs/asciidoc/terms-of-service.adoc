@@ -23,7 +23,6 @@ include::{snippets}/terms-of-service/find-detail/path-parameters.adoc[]
 include::{snippets}/terms-of-service/find-detail/http-response.adoc[]
 include::{snippets}/terms-of-service/find-detail/response-fields.adoc[]
 
-
 == 이용약관 동의
 
 === HTTP request
@@ -34,7 +33,6 @@ include::{snippets}/terms-of-service/agree/request-fields.adoc[]
 === HTTP response
 
 include::{snippets}/terms-of-service/agree/http-response.adoc[]
-
 
 == 필수 동의 여부 전체 동의 여부 조회
 

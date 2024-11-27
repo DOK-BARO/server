@@ -13,13 +13,11 @@ import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortOption
 import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
-import org.jooq.Record8
 import org.jooq.Result
 import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JQuizReview
 import org.jooq.generated.tables.records.QuizReviewRecord
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 class QuizReviewQueryRepository(

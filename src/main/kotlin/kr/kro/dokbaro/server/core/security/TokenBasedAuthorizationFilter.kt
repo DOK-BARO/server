@@ -29,7 +29,11 @@ class TokenBasedAuthorizationFilter(
 		if (accessToken == null && refreshToken != null) {
 			val (newAccess: String, newRefresh: String) = reGenerateAuthTokenUseCase.reGenerate(refreshToken)
 
-			val (accessCookie: String, refreshCookie: String) = jwtCookiePairGenerator.getJwtCookiePair(newAccess, newRefresh)
+			val (accessCookie: String, refreshCookie: String) =
+				jwtCookiePairGenerator.getJwtCookiePair(
+					newAccess,
+					newRefresh,
+				)
 			response.addHeader(HttpHeaders.SET_COOKIE, accessCookie)
 			response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie)
 

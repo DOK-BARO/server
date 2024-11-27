@@ -23,7 +23,7 @@ class NotificationPersistenceQueryAdapterTest(
 		extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
 
 		val memberRepository = MemberRepository(dslContext, MemberMapper())
-	
+
 		val notificationRepository = NotificationRepository(dslContext)
 		val notificationQueryRepository = NotificationQueryRepository(dslContext, NotificationMapper())
 		val notificationVisibilityRepository = NotificationVisibilityRepository(dslContext, NotificationMapper())

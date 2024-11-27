@@ -5,6 +5,7 @@
 === HTTP request
 
 include::{snippets}/token/refresh/http-request.adoc[]
+
 === HTTP response
 
 include::{snippets}/token/refresh/http-response.adoc[]

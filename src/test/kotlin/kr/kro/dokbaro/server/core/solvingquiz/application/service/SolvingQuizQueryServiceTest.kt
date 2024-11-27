@@ -61,8 +61,14 @@ class SolvingQuizQueryServiceTest :
 					id = 1,
 					questions =
 						listOf(
-							quizQuestionFixture(id = 1, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O")))),
-							quizQuestionFixture(id = 2, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X")))),
+							quizQuestionFixture(
+								id = 1,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O"))),
+							),
+							quizQuestionFixture(
+								id = 2,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X"))),
+							),
 						),
 				)
 

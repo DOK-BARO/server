@@ -77,7 +77,10 @@ class BookQuizTest :
 				bookQuizFixture(
 					questions =
 						listOf(
-							quizQuestionFixture(id = 1, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O")))),
+							quizQuestionFixture(
+								id = 1,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O"))),
+							),
 						),
 				)
 
@@ -90,7 +93,10 @@ class BookQuizTest :
 				bookQuizFixture(
 					questions =
 						listOf(
-							quizQuestionFixture(id = 1, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O")))),
+							quizQuestionFixture(
+								id = 1,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O"))),
+							),
 						),
 				)
 
@@ -104,8 +110,14 @@ class BookQuizTest :
 				bookQuizFixture(
 					questions =
 						listOf(
-							quizQuestionFixture(id = 1, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O")))),
-							quizQuestionFixture(id = 2, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X")))),
+							quizQuestionFixture(
+								id = 1,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O"))),
+							),
+							quizQuestionFixture(
+								id = 2,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X"))),
+							),
 						),
 				)
 
@@ -122,8 +134,14 @@ class BookQuizTest :
 				bookQuizFixture(
 					questions =
 						listOf(
-							quizQuestionFixture(id = 1, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O")))),
-							quizQuestionFixture(id = 2, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X")))),
+							quizQuestionFixture(
+								id = 1,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O"))),
+							),
+							quizQuestionFixture(
+								id = 2,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X"))),
+							),
 						),
 				)
 
@@ -151,8 +169,14 @@ class BookQuizTest :
 				bookQuizFixture(
 					questions =
 						listOf(
-							quizQuestionFixture(id = 1, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O")))),
-							quizQuestionFixture(id = 2, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X")))),
+							quizQuestionFixture(
+								id = 1,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O"))),
+							),
+							quizQuestionFixture(
+								id = 2,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X"))),
+							),
 						),
 				)
 
@@ -171,8 +195,14 @@ class BookQuizTest :
 				bookQuizFixture(
 					questions =
 						listOf(
-							quizQuestionFixture(id = 1, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O")))),
-							quizQuestionFixture(id = 2, answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X")))),
+							quizQuestionFixture(
+								id = 1,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O"))),
+							),
+							quizQuestionFixture(
+								id = 2,
+								answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X"))),
+							),
 						),
 				)
 
