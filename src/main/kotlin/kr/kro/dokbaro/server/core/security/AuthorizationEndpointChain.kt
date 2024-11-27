@@ -21,6 +21,7 @@ object AuthorizationEndpointChain {
 
 	private fun permitAllAnyRequests() =
 		arrayOf(
+			"/docs/**",
 			"/auth/**",
 			"/email-authentications/**",
 			"/terms-of-services/**",
