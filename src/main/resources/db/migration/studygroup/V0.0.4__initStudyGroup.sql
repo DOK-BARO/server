@@ -7,7 +7,7 @@ CREATE TABLE study_group
 	invite_code       varchar(30) NOT NULL,
 	created_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted           tinyint(1)  NOT NULL DEFAULT '0',
+	deleted           boolean     NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY study_group_pk (invite_code)
 ) ENGINE = InnoDB
@@ -22,7 +22,7 @@ CREATE TABLE study_group_member
 	member_role    varchar(20) NOT NULL,
 	created_at     datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at     datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted        tinyint(1)  NOT NULL DEFAULT '0',
+	deleted        boolean     NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY study_group_member_pk (study_group_id, member_id),
 	CONSTRAINT study_group_member_member_id_fk FOREIGN KEY (member_id) REFERENCES member (id),

@@ -5,7 +5,7 @@ CREATE TABLE terms_of_service_detail
 	content             blob     NOT NULL,
 	created_at          datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at          datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted             tinyint  NOT NULL DEFAULT '0',
+	deleted             boolean  NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY terms_of_service_detail_pk (terms_of_service_id)
 ) ENGINE=InnoDB
@@ -19,7 +19,7 @@ CREATE TABLE agree_terms_of_service
 	member_id           bigint   NOT NULL,
 	created_at          datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at          datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted             tinyint(1)  NOT NULL DEFAULT '0',
+	deleted             boolean  NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY terms_of_service_detail_pk (member_id,terms_of_service_id),
 	CONSTRAINT terms_of_service_detail_member_id_fk FOREIGN KEY (member_id) REFERENCES member (id) ON DELETE CASCADE

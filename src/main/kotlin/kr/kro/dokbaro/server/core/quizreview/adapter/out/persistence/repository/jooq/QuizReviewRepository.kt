@@ -1,6 +1,5 @@
 package kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq
 
-import kr.kro.dokbaro.server.common.constant.Constants
 import kr.kro.dokbaro.server.core.quizreview.domain.QuizReview
 import org.jooq.DSLContext
 import org.jooq.generated.tables.JQuizReview
@@ -45,7 +44,7 @@ class QuizReviewRepository(
 	fun deleteBy(id: Long) {
 		dslContext
 			.update(QUIZ_REVIEW)
-			.set(QUIZ_REVIEW.DELETED, Constants.DELETED)
+			.set(QUIZ_REVIEW.DELETED, true)
 			.where(QUIZ_REVIEW.ID.eq(id))
 			.execute()
 	}

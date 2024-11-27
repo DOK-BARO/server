@@ -71,7 +71,7 @@ class BookQuizQueryRepository(
 				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.leftJoin(BOOK_QUIZ_SELECT_OPTION)
 				.on(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
-				.where(BOOK_QUIZ.ID.eq(quizId))
+				.where(BOOK_QUIZ.ID.eq(quizId).and(BOOK_QUIZ.DELETED.eq(false)))
 				.fetch()
 
 		return bookQuizMapper.recordToBookQuizQuestions(record)
@@ -99,7 +99,7 @@ class BookQuizQueryRepository(
 		dslContext
 			.selectCount()
 			.from(BOOK_QUIZ)
-			.where(BOOK_QUIZ.BOOK_ID.eq(bookId))
+			.where(BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.eq(false)))
 			.fetchOneInto(Long::class.java)!!
 
 	fun findAllBookQuizSummary(
@@ -130,7 +130,7 @@ class BookQuizQueryRepository(
 				.on(BOOK_QUIZ.CREATOR_ID.eq(MEMBER.ID))
 				.leftJoin(QUIZ_REVIEW)
 				.on(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID))
-				.where(BOOK_QUIZ.BOOK_ID.eq(bookId))
+				.where(BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.eq(false)))
 				.groupBy(BOOK_QUIZ)
 				.orderBy(toOrderQuery(sortOption))
 				.limit(pageOption.limit)
@@ -197,7 +197,7 @@ class BookQuizQueryRepository(
 									.from(SOLVING_QUIZ)
 									.where(SOLVING_QUIZ.MEMBER_ID.eq(memberId)),
 							),
-						),
+						).and(BOOK_QUIZ.DELETED.eq(false)),
 				).fetchGroups(BOOK_QUIZ)
 
 		return bookQuizMapper.toUnsolvedGroupBookQuizSummary(record)
@@ -214,7 +214,7 @@ class BookQuizQueryRepository(
 				).from(BOOK_QUIZ)
 				.join(BOOK)
 				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
-				.where(BOOK_QUIZ.CREATOR_ID.eq(memberId))
+				.where(BOOK_QUIZ.CREATOR_ID.eq(memberId).and(BOOK_QUIZ.DELETED.eq(false)))
 				.fetch()
 
 		return bookQuizMapper.toMyBookQuiz(record)

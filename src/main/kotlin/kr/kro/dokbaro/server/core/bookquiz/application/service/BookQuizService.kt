@@ -2,11 +2,13 @@ package kr.kro.dokbaro.server.core.bookquiz.application.service
 
 import kr.kro.dokbaro.server.common.constant.Constants
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.DeleteBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizByQuestionIdUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.DeleteBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.InsertBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.LoadBookQuizByQuestionIdPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.LoadBookQuizPort
@@ -32,11 +34,13 @@ class BookQuizService(
 	private val loadBookQuizPort: LoadBookQuizPort,
 	private val updateBookQuizPort: UpdateBookQuizPort,
 	private val loadBookQuizByQuestionIdPort: LoadBookQuizByQuestionIdPort,
+	private val deleteBookQuizPort: DeleteBookQuizPort,
 	private val eventPublisher: ApplicationEventPublisher,
 ) : CreateBookQuizUseCase,
 	UpdateBookQuizUseCase,
 	FindBookQuizUseCase,
-	FindBookQuizByQuestionIdUseCase {
+	FindBookQuizByQuestionIdUseCase,
+	DeleteBookQuizUseCase {
 	override fun create(command: CreateBookQuizCommand): Long {
 		val loginUser = findCertificatedMemberUseCase.getByCertificationId(command.creatorAuthId)
 
@@ -127,4 +131,8 @@ class BookQuizService(
 
 	override fun findByQuestionId(questionId: Long): BookQuiz =
 		loadBookQuizByQuestionIdPort.loadByQuestionId(questionId) ?: throw NotFoundQuizException(questionId)
+
+	override fun deleteBy(id: Long) {
+		deleteBookQuizPort.deleteBy(id)
+	}
 }

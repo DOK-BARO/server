@@ -8,7 +8,7 @@ CREATE TABLE quiz_review
 	quiz_id          bigint   NOT NULL,
 	created_at       datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at       datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted          tinyint  NOT NULL DEFAULT '0',
+	deleted          boolean  NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY quiz_review_pk (quiz_id, member_id),
 	CONSTRAINT quiz_review_member_id_fk FOREIGN KEY (member_id) REFERENCES member (id),
