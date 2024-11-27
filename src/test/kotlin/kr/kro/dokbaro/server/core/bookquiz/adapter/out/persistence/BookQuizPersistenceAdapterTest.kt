@@ -122,4 +122,23 @@ class BookQuizPersistenceAdapterTest(
 
 			adapter.loadByQuestionId(anyQuestion.id)?.id shouldBe savedQuizId
 		}
+
+		"삭제를 수행한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val bookId = bookRepository.insertBook(bookFixture())
+			val studyGroupId =
+				studyGroupRepository.insert(
+					studyGroupFixture(
+						studyMembers = mutableSetOf(StudyMember(memberId, StudyMemberRole.LEADER)),
+					),
+				)
+			val savedQuizId: Long =
+				adapter.insert(
+					bookQuizFixture(bookId = bookId, creatorId = memberId, studyGroupId = studyGroupId),
+				)
+
+			adapter.deleteBy(savedQuizId)
+
+			adapter.load(savedQuizId) shouldBe null
+		}
 	})

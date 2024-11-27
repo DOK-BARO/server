@@ -9,6 +9,7 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.CreateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.DeleteBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
@@ -65,6 +66,9 @@ class BookQuizControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var findMyBookQuizUseCase: FindMyBookQuizUseCase
+
+	@MockkBean
+	lateinit var deleteBookQuizUseCase: DeleteBookQuizUseCase
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
@@ -554,6 +558,21 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("[].bookImageUrl").optional().description("책의 이미지 URL (optional)"),
 							fieldWithPath("[].title").description("책의 제목"),
 							fieldWithPath("[].updatedAt").description("마지막으로 업데이트된 시간 (ISO 8601 형식)"),
+						),
+					),
+				)
+		}
+
+		"퀴즈를 삭제한다" {
+			every { deleteBookQuizUseCase.deleteBy(any()) } returns Unit
+
+			performDelete(Path("/book-quizzes/{id}", "1"))
+				.andExpect(status().isNoContent)
+				.andDo(
+					print(
+						"book-quiz/delete",
+						pathParameters(
+							parameterWithName("id").description("book quiz id"),
 						),
 					),
 				)

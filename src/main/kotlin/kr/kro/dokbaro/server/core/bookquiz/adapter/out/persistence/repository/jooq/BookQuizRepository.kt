@@ -310,4 +310,12 @@ class BookQuizRepository(
 
 		return bookQuizMapper.toBookQuiz(record)
 	}
+
+	fun deleteBy(id: Long) {
+		dslContext
+			.update(BOOK_QUIZ)
+			.set(BOOK_QUIZ.DELETED, true)
+			.where(BOOK_QUIZ.ID.eq(id))
+			.execute()
+	}
 }
