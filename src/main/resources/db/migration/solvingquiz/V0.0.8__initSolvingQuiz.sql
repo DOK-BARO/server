@@ -5,7 +5,7 @@ CREATE TABLE solving_quiz
 	quiz_id    bigint   NOT NULL,
 	created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted    tinyint  NOT NULL DEFAULT '0',
+	deleted    boolean  NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT solving_quiz_member_id_fk FOREIGN KEY (member_id) REFERENCES member (id),
 	CONSTRAINT solving_quiz_quiz_id_fk FOREIGN KEY (quiz_id) REFERENCES book_quiz (id)
@@ -21,7 +21,7 @@ CREATE TABLE solving_quiz_sheet
 	content         varchar(255) NOT NULL,
 	created_at      datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at      datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted         tinyint      NOT NULL DEFAULT '0',
+	deleted         boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT solving_quiz_sheet_solving_quiz_id_fk FOREIGN KEY (solving_quiz_id) REFERENCES solving_quiz (id),
 	CONSTRAINT solving_quiz_sheet_question_id_fk FOREIGN KEY (question_id) REFERENCES book_quiz_question (id)

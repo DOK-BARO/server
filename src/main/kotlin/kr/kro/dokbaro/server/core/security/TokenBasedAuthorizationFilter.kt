@@ -30,8 +30,8 @@ class TokenBasedAuthorizationFilter(
 			val (newAccess: String, newRefresh: String) = reGenerateAuthTokenUseCase.reGenerate(refreshToken)
 
 			val (accessCookie: String, refreshCookie: String) = jwtCookiePairGenerator.getJwtCookiePair(newAccess, newRefresh)
-			response.setHeader(HttpHeaders.SET_COOKIE, accessCookie)
-			response.setHeader(HttpHeaders.SET_COOKIE, refreshCookie)
+			response.addHeader(HttpHeaders.SET_COOKIE, accessCookie)
+			response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie)
 
 			accessToken = newAccess
 		}

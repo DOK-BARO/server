@@ -7,6 +7,7 @@ import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.CreateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.DeleteBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
@@ -23,6 +24,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -43,6 +45,7 @@ class BookQuizController(
 	private val findBookQuizSummaryUseCase: FindBookQuizSummaryUseCase,
 	private val findUnsolvedGroupBookQuizUseCase: FindUnsolvedGroupBookQuizUseCase,
 	private val findMyBookQuizUseCase: FindMyBookQuizUseCase,
+	private val deleteBookQuizUseCase: DeleteBookQuizUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -118,4 +121,12 @@ class BookQuizController(
 	@GetMapping("/my")
 	fun getMyQuizzes(auth: Authentication): Collection<MyBookQuizSummary> =
 		findMyBookQuizUseCase.findMyBookQuiz(UUIDUtils.stringToUUID(auth.name))
+
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	fun deleteQuiz(
+		@PathVariable id: Long,
+	) {
+		deleteBookQuizUseCase.deleteBy(id)
+	}
 }

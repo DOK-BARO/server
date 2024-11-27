@@ -12,6 +12,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBook
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateQuizQuestionCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateQuizQuestionCommand
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.DeleteBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.InsertBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.LoadBookQuizByQuestionIdPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.LoadBookQuizPort
@@ -33,6 +34,7 @@ class BookQuizServiceTest :
 		val loadBookQuizPort = mockk<LoadBookQuizPort>()
 		val updateBookQuizPort = mockk<UpdateBookQuizPort>()
 		val loadBookQuizByQuestionIdPort = mockk<LoadBookQuizByQuestionIdPort>()
+		val deleteBookQuizPort = mockk<DeleteBookQuizPort>()
 
 		val bookQuizService =
 			BookQuizService(
@@ -41,6 +43,7 @@ class BookQuizServiceTest :
 				loadBookQuizPort,
 				updateBookQuizPort,
 				loadBookQuizByQuestionIdPort,
+				deleteBookQuizPort,
 				EventPublisherDummy(),
 			)
 
@@ -200,5 +203,13 @@ class BookQuizServiceTest :
 			shouldThrow<NotFoundQuizException> {
 				bookQuizService.findByQuestionId(1)
 			}
+		}
+
+		"퀴즈 삭제를 수행한다" {
+			every { deleteBookQuizPort.deleteBy(any()) } returns Unit
+
+			bookQuizService.deleteBy(1)
+
+			verify { deleteBookQuizPort.deleteBy(any()) }
 		}
 	})

@@ -10,7 +10,7 @@ CREATE TABLE book_quiz
 	edit_scope        varchar(31)  NOT NULL,
 	created_at        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted           tinyint(1)   NOT NULL DEFAULT '0',
+	deleted           boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT book_quiz___fk FOREIGN KEY (creator_id) REFERENCES member (id),
 	CONSTRAINT book_quiz_book_id_fk FOREIGN KEY (book_id) REFERENCES book (id)
@@ -28,7 +28,7 @@ CREATE TABLE book_quiz_question
 	active           tinyint(1)  NOT NULL DEFAULT '1',
 	created_at       datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at       datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted          tinyint(1)  NOT NULL DEFAULT '0',
+	deleted          boolean     NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT book_quiz_question_book_quiz_id_fk FOREIGN KEY (book_quiz_id) REFERENCES book_quiz (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
@@ -43,7 +43,7 @@ CREATE TABLE book_quiz_select_option
 	book_quiz_question_id bigint     NOT NULL,
 	created_at            datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at            datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted               tinyint(1) NOT NULL DEFAULT '0',
+	deleted               boolean    NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY book_quiz_select_option_pk (book_quiz_question_id, seq),
 	CONSTRAINT book_quiz_select_option_book_quiz_question_id_fk FOREIGN KEY (book_quiz_question_id) REFERENCES book_quiz_question (id) ON DELETE CASCADE
@@ -58,7 +58,7 @@ CREATE TABLE book_quiz_answer
 	book_quiz_question_id bigint       NOT NULL,
 	created_at            datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at            datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted               tinyint(1)   NOT NULL DEFAULT '0',
+	deleted               boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT book_quiz_answer___fk FOREIGN KEY (book_quiz_question_id) REFERENCES book_quiz_question (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
@@ -72,7 +72,7 @@ CREATE TABLE study_group_quiz
 	book_quiz_id   bigint     NOT NULL,
 	created_at     datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at     datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted        tinyint(1) NOT NULL DEFAULT '0',
+	deleted        boolean    NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY study_group_quiz_pk (study_group_id, book_quiz_id),
 	CONSTRAINT study_group_quiz___fk FOREIGN KEY (book_quiz_id) REFERENCES book_quiz (id),
@@ -88,7 +88,7 @@ CREATE TABLE book_quiz_answer_explain_image
 	image_url             varchar(255) NOT NULL,
 	created_at            datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at            datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted               tinyint(1)   NOT NULL DEFAULT '0',
+	deleted               boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT book_quiz_answer_explain_image___fk FOREIGN KEY (book_quiz_question_id) REFERENCES book_quiz_question (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
@@ -103,7 +103,7 @@ CREATE TABLE book_quiz_contributor
 	member_id    bigint     NOT NULL,
 	created_at   datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at   datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted      tinyint(1) NOT NULL DEFAULT '0',
+	deleted      boolean    NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY (book_quiz_id, member_id),
 	CONSTRAINT book_quiz_contributor_book_quiz_id___fk FOREIGN KEY (book_quiz_id) REFERENCES book_quiz (id) ON DELETE CASCADE,
