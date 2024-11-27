@@ -1,6 +1,5 @@
 package kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq
 
-import kr.kro.dokbaro.server.common.constant.Constants
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.option.SortOption
@@ -70,7 +69,7 @@ class QuizReviewQueryRepository(
 				.on(QUIZ_REVIEW.MEMBER_ID.eq(MEMBER.ID))
 				.where(
 					QUIZ_REVIEW.QUIZ_ID.eq(condition.quizId).and(
-						QUIZ_REVIEW.DELETED.eq(Constants.NOT_DELETED),
+						QUIZ_REVIEW.DELETED.eq(false),
 					),
 				).orderBy(toOrderByQuery(sortOption))
 				.limit(pageOption.limit)
@@ -105,7 +104,7 @@ class QuizReviewQueryRepository(
 					QUIZ_REVIEW.QUIZ_ID,
 					QUIZ_REVIEW.ID,
 				).from(QUIZ_REVIEW)
-				.where(QUIZ_REVIEW.ID.eq(id).and(QUIZ_REVIEW.DELETED.eq(Constants.NOT_DELETED)))
+				.where(QUIZ_REVIEW.ID.eq(id).and(QUIZ_REVIEW.DELETED.eq(false)))
 				.fetchOneInto(QUIZ_REVIEW)
 
 		return quizReviewMapper.toQuizReview(record)
