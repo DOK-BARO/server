@@ -74,7 +74,7 @@ class BookQuizRepository(
 				BOOK_QUIZ.EDIT_SCOPE,
 			).values(
 				bookQuiz.title,
-				bookQuiz.description.toByteArray(),
+				bookQuiz.description,
 				bookQuiz.creatorId,
 				bookQuiz.bookId,
 				bookQuiz.timeLimitSecond,
@@ -97,8 +97,8 @@ class BookQuizRepository(
 					BOOK_QUIZ_QUESTION.ACTIVE,
 					BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID,
 				).values(
-					question.content.toByteArray(),
-					question.answer.explanationContent.toByteArray(),
+					question.content,
+					question.answer.explanationContent,
 					question.quizType.name,
 					question.active,
 					bookQuizId,
@@ -129,7 +129,7 @@ class BookQuizRepository(
 
 		val optionInsertQuery =
 			question.selectOptions
-				.map { it.content.toByteArray() }
+				.map { it.content }
 				.mapIndexed { index, value ->
 					dslContext
 						.insertInto(
@@ -186,7 +186,7 @@ class BookQuizRepository(
 		dslContext
 			.update(BOOK_QUIZ)
 			.set(BOOK_QUIZ.TITLE, bookQuiz.title)
-			.set(BOOK_QUIZ.DESCRIPTION, bookQuiz.description.toByteArray())
+			.set(BOOK_QUIZ.DESCRIPTION, bookQuiz.description)
 			.set(BOOK_QUIZ.BOOK_ID, bookQuiz.bookId)
 			.set(BOOK_QUIZ.TIME_LIMIT_SECOND, bookQuiz.timeLimitSecond)
 			.set(BOOK_QUIZ.VIEW_SCOPE, bookQuiz.viewScope.name)
@@ -243,8 +243,8 @@ class BookQuizRepository(
 		dslContext
 			.update(BOOK_QUIZ_QUESTION)
 			.set(BOOK_QUIZ_QUESTION.DELETED, false)
-			.set(BOOK_QUIZ_QUESTION.QUESTION_CONTENT, question.content.toByteArray())
-			.set(BOOK_QUIZ_QUESTION.EXPLANATION, question.answer.explanationContent.toByteArray())
+			.set(BOOK_QUIZ_QUESTION.QUESTION_CONTENT, question.content)
+			.set(BOOK_QUIZ_QUESTION.EXPLANATION, question.answer.explanationContent)
 			.set(BOOK_QUIZ_QUESTION.QUESTION_TYPE, question.quizType.name)
 			.set(BOOK_QUIZ_QUESTION.ACTIVE, question.active)
 			.set(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID, quizId)

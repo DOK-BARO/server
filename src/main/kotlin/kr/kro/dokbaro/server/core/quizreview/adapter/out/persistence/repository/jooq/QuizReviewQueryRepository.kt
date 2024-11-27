@@ -12,6 +12,7 @@ import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortOption
 import org.jooq.DSLContext
 import org.jooq.OrderField
+import org.jooq.Record
 import org.jooq.Record8
 import org.jooq.Result
 import org.jooq.generated.tables.JMember
@@ -53,7 +54,7 @@ class QuizReviewQueryRepository(
 		pageOption: PageOption,
 		sortOption: SortOption<QuizReviewSummarySortOption>,
 	): Collection<QuizReviewSummary> {
-		val record: Result<Record8<Long, Long, Int, Int, Long, String, ByteArray, LocalDateTime>> =
+		val record: Result<out Record> =
 			dslContext
 				.select(
 					QUIZ_REVIEW.ID,

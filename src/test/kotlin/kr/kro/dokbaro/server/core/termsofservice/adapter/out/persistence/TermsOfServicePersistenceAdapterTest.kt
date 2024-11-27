@@ -43,7 +43,7 @@ class TermsOfServicePersistenceAdapterTest(
 		"상세 내용을 조회한다" {
 			val target: Long = 1
 			termsOfServiceDetailDao.insert(
-				TermsOfServiceDetail(1, target, "내용".toByteArray(), LocalDateTime.now(), LocalDateTime.now(), false),
+				TermsOfServiceDetail(1, target, "내용", LocalDateTime.now(), LocalDateTime.now(), false),
 			)
 
 			adapter.getDetail(target) shouldNotBe null

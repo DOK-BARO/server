@@ -28,7 +28,7 @@ class StudyGroupMapper {
 			.map { (group, members) ->
 				StudyGroup(
 					name = group.name,
-					introduction = group.introduction?.toString(Charsets.UTF_8),
+					introduction = group.introduction,
 					profileImageUrl = group.profileImageUrl,
 					studyMembers =
 						members
@@ -70,7 +70,7 @@ class StudyGroupMapper {
 			.map { (studyGroup, members) ->
 				StudyGroupDetail(
 					name = studyGroup.name,
-					introduction = studyGroup.introduction.toString(Charsets.UTF_8),
+					introduction = studyGroup.introduction,
 					profileImageUrl = studyGroup.profileImageUrl,
 					studyMembers =
 						members.map {

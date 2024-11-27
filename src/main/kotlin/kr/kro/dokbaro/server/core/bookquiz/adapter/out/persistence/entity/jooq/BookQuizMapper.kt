@@ -24,7 +24,6 @@ import kr.kro.dokbaro.server.core.bookquiz.query.QuizCreator
 import kr.kro.dokbaro.server.core.bookquiz.query.QuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import org.jooq.Record
-import org.jooq.Record3
 import org.jooq.Result
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
@@ -63,7 +62,7 @@ class BookQuizMapper {
 							.groupBy {
 								Triple(
 									it.get(BOOK_QUIZ_QUESTION.ID),
-									it.get(BOOK_QUIZ_QUESTION.QUESTION_CONTENT).toString(Charsets.UTF_8),
+									it.get(BOOK_QUIZ_QUESTION.QUESTION_CONTENT),
 									QuizType.valueOf(it.get(BOOK_QUIZ_QUESTION.QUESTION_TYPE)),
 								)
 							}.map { (question, options) ->
@@ -73,7 +72,7 @@ class BookQuizMapper {
 									question.third,
 									options.distinctBy { v -> v.get(BOOK_QUIZ_SELECT_OPTION.ID) }.map { v ->
 										SelectOption(
-											v.get(BOOK_QUIZ_SELECT_OPTION.CONTENT).toString(Charsets.UTF_8),
+											v.get(BOOK_QUIZ_SELECT_OPTION.CONTENT),
 										)
 									},
 								)
@@ -86,7 +85,7 @@ class BookQuizMapper {
 			.map { (quiz, etc) ->
 				BookQuiz(
 					title = quiz.title,
-					description = quiz.description.toString(Charsets.UTF_8),
+					description = quiz.description,
 					bookId = quiz.bookId,
 					creatorId = quiz.creatorId,
 					questions = toQuestions(etc),
@@ -104,9 +103,9 @@ class BookQuizMapper {
 				.groupBy {
 					QuestionBasic(
 						it.get(BOOK_QUIZ_QUESTION.ID),
-						it.get(BOOK_QUIZ_QUESTION.QUESTION_CONTENT).toString(Charsets.UTF_8),
+						it.get(BOOK_QUIZ_QUESTION.QUESTION_CONTENT),
 						it.get(BOOK_QUIZ_QUESTION.ACTIVE),
-						it.get(BOOK_QUIZ_QUESTION.EXPLANATION).toString(Charsets.UTF_8),
+						it.get(BOOK_QUIZ_QUESTION.EXPLANATION),
 						QuizType.valueOf(it.get(BOOK_QUIZ_QUESTION.QUESTION_TYPE)),
 					)
 				}.map { (questionBasic, elements) ->
@@ -115,7 +114,7 @@ class BookQuizMapper {
 						selectOptions =
 							elements
 								.map {
-									SelectOption(it.get(BOOK_QUIZ_SELECT_OPTION.CONTENT).toString(Charsets.UTF_8))
+									SelectOption(it.get(BOOK_QUIZ_SELECT_OPTION.CONTENT))
 								}.distinct(),
 						answer =
 							QuestionAnswer(
@@ -136,9 +135,9 @@ class BookQuizMapper {
 				}.toMutableList(),
 		)
 
-	fun toBookQuizAnswer(record: Result<Record3<String, ByteArray, String>>): BookQuizAnswer? =
+	fun toBookQuizAnswer(record: Result<out Record>): BookQuizAnswer? =
 		record
-			.groupBy { it.get(BOOK_QUIZ_QUESTION.EXPLANATION).toString(Charsets.UTF_8) }
+			.groupBy { it.get(BOOK_QUIZ_QUESTION.EXPLANATION) }
 			.map { (explanation, record) ->
 				BookQuizAnswer(
 					record.map { it.get(BOOK_QUIZ_ANSWER.CONTENT) },

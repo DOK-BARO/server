@@ -38,7 +38,7 @@ class BookRepository(
 					book.publisher,
 					book.publishedAt,
 					book.price,
-					book.description?.toByteArray(),
+					book.description,
 					book.imageUrl,
 				).returningResult(BOOK.ID)
 				.fetchOneInto(Long::class.java)!!

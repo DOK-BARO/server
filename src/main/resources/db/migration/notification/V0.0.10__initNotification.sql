@@ -1,7 +1,7 @@
 CREATE TABLE notification
 (
 	id                   bigint      NOT NULL AUTO_INCREMENT,
-	content              blob        NOT NULL,
+	content              text        NOT NULL,
 	notification_trigger varchar(63) NOT NULL,
 	linked_id            bigint               DEFAULT NULL,
 	image_url            varchar(255)         DEFAULT NULL,

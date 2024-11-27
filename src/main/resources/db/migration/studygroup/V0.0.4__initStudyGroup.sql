@@ -2,7 +2,7 @@ CREATE TABLE study_group
 (
 	id                bigint      NOT NULL AUTO_INCREMENT,
 	name              varchar(50) NOT NULL,
-	introduction      blob                 DEFAULT NULL,
+	introduction      text                 DEFAULT NULL,
 	profile_image_url varchar(255)         DEFAULT NULL,
 	invite_code       varchar(30) NOT NULL,
 	created_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,

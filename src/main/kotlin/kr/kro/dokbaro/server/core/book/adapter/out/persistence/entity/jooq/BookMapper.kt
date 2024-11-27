@@ -94,8 +94,7 @@ class BookMapper {
 					it.value.getValues(BOOK.PUBLISHER).first(),
 					it.value
 						.getValues(BOOK.DESCRIPTION)
-						.firstOrNull()
-						?.toString(Charsets.UTF_8),
+						.firstOrNull(),
 					it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
 					toBookCategorySingles(categoriesRecord),
 					it.value.getValues(BOOK_AUTHOR.NAME).distinct(),

@@ -3,7 +3,7 @@ CREATE TABLE quiz_review_report
 	id               bigint     NOT NULL AUTO_INCREMENT,
 	report_member_id bigint     NOT NULL,
 	quiz_review_id   bigint     NOT NULL,
-	content          blob       NOT NULL,
+	content          text       NOT NULL,
 	used             boolean    NOT NULL DEFAULT false,
 	created_at       datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at       datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

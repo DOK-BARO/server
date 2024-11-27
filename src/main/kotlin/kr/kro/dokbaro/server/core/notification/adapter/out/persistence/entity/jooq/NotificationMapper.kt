@@ -45,7 +45,7 @@ class NotificationMapper {
 	fun toNotificationResult(record: Result<out Record>): Collection<NotificationResult> =
 		record.map {
 			NotificationResult(
-				it.get(NOTIFICATION.CONTENT).toString(Charsets.UTF_8),
+				it.get(NOTIFICATION.CONTENT),
 				NotificationTrigger.valueOf(it.get(NOTIFICATION.NOTIFICATION_TRIGGER)),
 				it.get(NOTIFICATION.IMAGE_URL),
 				it.get(NOTIFICATION.LINKED_ID),

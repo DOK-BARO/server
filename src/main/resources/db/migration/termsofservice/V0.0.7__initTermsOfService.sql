@@ -2,7 +2,7 @@ CREATE TABLE terms_of_service_detail
 (
 	id                  bigint   NOT NULL AUTO_INCREMENT,
 	terms_of_service_id bigint   NOT NULL,
-	content             blob     NOT NULL,
+	content             text     NOT NULL,
 	created_at          datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at          datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted             boolean  NOT NULL DEFAULT false,

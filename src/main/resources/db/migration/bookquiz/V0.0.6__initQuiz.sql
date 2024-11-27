@@ -2,7 +2,7 @@ CREATE TABLE book_quiz
 (
 	id                bigint       NOT NULL AUTO_INCREMENT,
 	title             varchar(127) NOT NULL,
-	description       blob,
+	description       text,
 	creator_id        bigint       NOT NULL,
 	book_id           bigint       NOT NULL,
 	time_limit_second int,
@@ -21,10 +21,10 @@ CREATE TABLE book_quiz
 CREATE TABLE book_quiz_question
 (
 	id               bigint      NOT NULL AUTO_INCREMENT,
-	question_content blob        NOT NULL,
+	question_content text        NOT NULL,
 	book_quiz_id     bigint      NOT NULL,
 	question_type    varchar(31) NOT NULL,
-	explanation      blob        NOT NULL,
+	explanation      text        NOT NULL,
 	active           tinyint(1)  NOT NULL DEFAULT '1',
 	created_at       datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at       datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -38,7 +38,7 @@ CREATE TABLE book_quiz_question
 CREATE TABLE book_quiz_select_option
 (
 	id                    bigint     NOT NULL AUTO_INCREMENT,
-	content               blob       NOT NULL,
+	content               text       NOT NULL,
 	seq                   int        NOT NULL,
 	book_quiz_question_id bigint     NOT NULL,
 	created_at            datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -22,7 +22,7 @@ class NotificationRepository(
 				NOTIFICATION.IMAGE_URL,
 				NOTIFICATION.LINKED_ID,
 			).values(
-				notification.content.toByteArray(),
+				notification.content,
 				notification.trigger.name,
 				notification.imageUrl,
 				notification.linkedId,

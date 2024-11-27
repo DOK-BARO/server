@@ -54,7 +54,7 @@ class BookQuizQueryRepository(
 	}
 
 	fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? {
-		val record: Result<Record9<Long, String, Int, Long, ByteArray, String, Long, ByteArray, Int>> =
+		val record: Result<out Record> =
 			dslContext
 				.select(
 					BOOK_QUIZ.ID,
@@ -78,7 +78,7 @@ class BookQuizQueryRepository(
 	}
 
 	fun findBookQuizAnswerBy(questionId: Long): BookQuizAnswer? {
-		val record: Result<Record3<String, ByteArray, String>> =
+		val record: Result<out Record> =
 			dslContext
 				.select(
 					BOOK_QUIZ_ANSWER.CONTENT,
