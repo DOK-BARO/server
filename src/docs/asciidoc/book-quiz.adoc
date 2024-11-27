@@ -83,3 +83,14 @@ include::{snippets}/book-quiz/get-my-quiz/http-request.adoc[]
 
 include::{snippets}/book-quiz/get-my-quiz/http-response.adoc[]
 include::{snippets}/book-quiz/get-my-quiz/response-fields.adoc[]
+
+== 퀴즈 삭제
+
+=== HTTP request
+
+include::{snippets}/book-quiz/delete/http-request.adoc[]
+include::{snippets}/book-quiz/delete/path-parameters.adoc[]
+
+=== HTTP response
+
+include::{snippets}/book-quiz/delete/http-response.adoc[]
