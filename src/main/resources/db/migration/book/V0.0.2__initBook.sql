@@ -1,16 +1,16 @@
 CREATE TABLE book
 (
-	id           bigint      NOT NULL AUTO_INCREMENT,
-	isbn         char(14)    NOT NULL,
-	title        varchar(70) NOT NULL,
-	publisher    varchar(30) NOT NULL,
-	published_at date        NOT NULL,
-	price        int         NOT NULL,
+	id           bigint       NOT NULL AUTO_INCREMENT,
+	isbn         char(14)     NOT NULL,
+	title        varchar(255) NOT NULL,
+	publisher    varchar(100) NOT NULL,
+	published_at date         NOT NULL,
+	price        int          NOT NULL,
 	description  text,
-	image_url    varchar(255)         DEFAULT NULL,
-	created_at   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted      boolean     NOT NULL DEFAULT false,
+	image_url    varchar(255)          DEFAULT NULL,
+	created_at   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted      boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY isbn (isbn)
 ) ENGINE = InnoDB
