@@ -42,6 +42,12 @@ class QuizReviewReportPersistenceAdapterTest(
 			val quizReviewId: Long =
 				quizReviewRepository.insert(quizReviewFixture(memberId = memberId, quizId = bookQuizId))
 
-			adapter.insert(QuizReviewReport(quizReviewId, memberId, "hello")) shouldNotBe null
+			adapter.insert(
+				QuizReviewReport(
+					quizReviewId = quizReviewId,
+					reporterId = memberId,
+					content = "hello",
+				),
+			) shouldNotBe null
 		}
 	})

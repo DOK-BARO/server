@@ -7,10 +7,10 @@ data class BookQuizSummary(
 	val averageDifficultyLevel: Double,
 	val questionCount: Int,
 	val creator: Creator,
-)
-
-data class Creator(
-	val id: Long,
-	val nickname: String,
-	val profileUrl: String?,
-)
+) {
+	data class Creator(
+		val id: Long,
+		val nickname: String,
+		val profileUrl: String?,
+	)
+}

@@ -51,11 +51,12 @@ class ReGenerateAuthTokenService(
 			accessToken =
 				accessTokenGenerator.generate(
 					TokenClaims(
-						UUIDUtils.uuidToString(certificateId),
-						findCertificatedMemberUseCase
-							.getByCertificationId(certificateId)
-							.roles
-							.map { it.name },
+						id = UUIDUtils.uuidToString(certificateId),
+						role =
+							findCertificatedMemberUseCase
+								.getByCertificationId(certificateId)
+								.roles
+								.map { it.name },
 					),
 				),
 			refreshToken = newToken.token,

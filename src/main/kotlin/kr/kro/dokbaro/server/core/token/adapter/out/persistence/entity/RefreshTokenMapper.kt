@@ -10,10 +10,10 @@ class RefreshTokenMapper {
 	fun toRefreshToken(record: RefreshTokenRecord?): RefreshToken? =
 		record?.let {
 			RefreshToken(
-				it.tokenValue,
-				UUIDUtils.byteArrayToUUID(it.memberCertificationId),
-				it.expiredAt,
-				it.used,
+				token = it.tokenValue,
+				certificateId = UUIDUtils.byteArrayToUUID(it.memberCertificationId),
+				expiredAt = it.expiredAt,
+				used = it.used,
 			)
 		}
 }

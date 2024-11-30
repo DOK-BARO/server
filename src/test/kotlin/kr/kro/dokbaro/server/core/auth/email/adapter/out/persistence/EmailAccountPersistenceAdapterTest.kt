@@ -35,7 +35,13 @@ class EmailAccountPersistenceAdapterTest(
 
 		"저장을 수행한다" {
 			val savedMember: Member = memberRepository.insert(member)
-			val savedId = adapter.insert(AccountPassword("password", savedMember.id))
+			val savedId =
+				adapter.insert(
+					AccountPassword(
+						password = "password",
+						memberId = savedMember.id,
+					),
+				)
 
 			savedId shouldNotBe null
 		}
@@ -43,7 +49,12 @@ class EmailAccountPersistenceAdapterTest(
 		"email을 통한 조회를 수행한다" {
 			val savedMember: Member = memberRepository.insert(member)
 			val password = "password"
-			adapter.insert(AccountPassword(password, savedMember.id))
+			adapter.insert(
+				AccountPassword(
+					password = password,
+					memberId = savedMember.id,
+				),
+			)
 
 			val result = adapter.findByEmail(savedMember.email.address)
 			result shouldNotBe null

@@ -21,7 +21,7 @@ class NotificationController(
 ) {
 	@PostMapping("/check")
 	fun checkAll(auth: Authentication) {
-		checkAllNotificationUseCase.checkAll(UUIDUtils.stringToUUID(auth.name))
+		checkAllNotificationUseCase.checkAll(authId = UUIDUtils.stringToUUID(auth.name))
 	}
 
 	@PostMapping("/{id}/disable")
@@ -29,10 +29,13 @@ class NotificationController(
 		@PathVariable id: Long,
 		auth: Authentication,
 	) {
-		disableNotificationUseCase.disableBy(id, UUIDUtils.stringToUUID(auth.name))
+		disableNotificationUseCase.disableBy(
+			notificationId = id,
+			authId = UUIDUtils.stringToUUID(auth.name),
+		)
 	}
 
 	@GetMapping
 	fun findAll(auth: Authentication): Collection<NotificationResult> =
-		findAllNotificationUseCase.findAllBy(UUIDUtils.stringToUUID(auth.name))
+		findAllNotificationUseCase.findAllBy(authId = UUIDUtils.stringToUUID(auth.name))
 }

@@ -53,7 +53,7 @@ class QuizReviewService(
 
 	override fun update(command: UpdateQuizReviewCommand) {
 		val quizReview: QuizReview =
-			loadQuizReviewPort.findBy(command.id) ?: throw NotFoundQuizReviewException(command.id)
+			loadQuizReviewPort.findBy(id = command.id) ?: throw NotFoundQuizReviewException(command.id)
 
 		quizReview.changeReview(
 			starRating = command.starRating,

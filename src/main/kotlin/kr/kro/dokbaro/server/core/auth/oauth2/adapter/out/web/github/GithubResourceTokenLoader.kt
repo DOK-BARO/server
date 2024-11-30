@@ -12,17 +12,17 @@ class GithubResourceTokenLoader(
 	@Value("\${oauth2.github.client.id}") private val clientId: String,
 	@Value("\${oauth2.github.client.secret}") private val clientSecret: String,
 ) : ProviderResourceTokenLoader {
-	override fun get(
+	override fun getResource(
 		authorizationToken: String,
 		redirectUrl: String,
 	): String {
 		val token: GithubAuthorizationTokenResponse =
 			authorizationClient
 				.getAuthorizationToken(
-					authorizationToken,
-					clientId,
-					redirectUrl,
-					clientSecret,
+					code = authorizationToken,
+					clientId = clientId,
+					redirectUri = redirectUrl,
+					clientSecret = clientSecret,
 				)
 
 		return "${token.tokenType} ${token.accessToken}"

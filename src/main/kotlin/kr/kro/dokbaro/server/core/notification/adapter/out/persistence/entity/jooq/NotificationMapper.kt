@@ -22,11 +22,11 @@ class NotificationMapper {
 	): Collection<NotificationVisibility> =
 		record.map {
 			NotificationVisibility(
-				it.get(NOTIFICATION_VISIBILITY.NOTIFICATION_ID),
-				it.get(NOTIFICATION_VISIBILITY.MEMBER_ID),
-				it.get(NOTIFICATION_VISIBILITY.CHECKED),
-				it.get(NOTIFICATION_VISIBILITY.DISABLED),
-				it.get(NOTIFICATION_VISIBILITY.ID),
+				id = it[NOTIFICATION_VISIBILITY.ID],
+				notificationId = it[NOTIFICATION_VISIBILITY.NOTIFICATION_ID],
+				memberId = it[NOTIFICATION_VISIBILITY.MEMBER_ID],
+				checked = it[NOTIFICATION_VISIBILITY.CHECKED],
+				disabled = it[NOTIFICATION_VISIBILITY.DISABLED],
 			)
 		}
 
@@ -34,24 +34,24 @@ class NotificationMapper {
 		record
 			.map {
 				NotificationVisibility(
-					it.get(NOTIFICATION_VISIBILITY.NOTIFICATION_ID),
-					it.get(NOTIFICATION_VISIBILITY.MEMBER_ID),
-					it.get(NOTIFICATION_VISIBILITY.CHECKED),
-					it.get(NOTIFICATION_VISIBILITY.DISABLED),
-					it.get(NOTIFICATION_VISIBILITY.ID),
+					id = it[NOTIFICATION_VISIBILITY.ID],
+					notificationId = it[NOTIFICATION_VISIBILITY.NOTIFICATION_ID],
+					memberId = it[NOTIFICATION_VISIBILITY.MEMBER_ID],
+					checked = it[NOTIFICATION_VISIBILITY.CHECKED],
+					disabled = it[NOTIFICATION_VISIBILITY.DISABLED],
 				)
 			}.firstOrNull()
 
 	fun toNotificationResult(record: Result<out Record>): Collection<NotificationResult> =
 		record.map {
 			NotificationResult(
-				it.get(NOTIFICATION.CONTENT),
-				NotificationTrigger.valueOf(it.get(NOTIFICATION.NOTIFICATION_TRIGGER)),
-				it.get(NOTIFICATION.IMAGE_URL),
-				it.get(NOTIFICATION.LINKED_ID),
-				it.get(NOTIFICATION_VISIBILITY.CHECKED),
-				it.get(NOTIFICATION.CREATED_AT),
-				it.get(NOTIFICATION.ID),
+				id = it[NOTIFICATION.ID],
+				content = it[NOTIFICATION.CONTENT],
+				trigger = NotificationTrigger.valueOf(it[NOTIFICATION.NOTIFICATION_TRIGGER]),
+				imageUrl = it[NOTIFICATION.IMAGE_URL],
+				linkedId = it[NOTIFICATION.LINKED_ID],
+				checked = it[NOTIFICATION_VISIBILITY.CHECKED],
+				createdAt = it[NOTIFICATION.CREATED_AT],
 			)
 		}
 }

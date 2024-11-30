@@ -29,12 +29,12 @@ class StudyGroupService(
 		val creator: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.creatorAuthId)
 
 		return insertStudyGroupPort.insert(
-			StudyGroup(
-				command.name,
-				command.introduction,
-				command.profileImageUrl,
-				creator.id,
-				inviteCodeGenerator.generate(),
+			StudyGroup.of(
+				name = command.name,
+				introduction = command.introduction,
+				profileImageUrl = command.profileImageUrl,
+				creatorId = creator.id,
+				inviteCode = inviteCodeGenerator.generate(),
 			),
 		)
 	}

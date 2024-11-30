@@ -14,8 +14,8 @@ class RefreshTokenGenerator(
 ) {
 	fun generate(certificateId: UUID): RefreshToken =
 		RefreshToken(
-			UUID.randomUUID().toString(),
-			certificateId,
-			LocalDateTime.now(clock).plusDays(limitRefreshDays),
+			token = UUID.randomUUID().toString(),
+			certificateId = certificateId,
+			expiredAt = LocalDateTime.now(clock).plusDays(limitRefreshDays),
 		)
 }

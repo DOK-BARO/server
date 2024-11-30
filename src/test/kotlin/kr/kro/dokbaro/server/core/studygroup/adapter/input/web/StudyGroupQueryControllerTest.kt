@@ -7,7 +7,6 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindAllMyStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindStudyGroupDetailUseCase
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
-import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetailMember
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
@@ -29,9 +28,9 @@ class StudyGroupQueryControllerTest : RestDocsTest() {
 		"로그인한 사용자의 그룹 참여 목록을 보여준다" {
 			every { findAllMyStudyGroupUseCase.findAll(any()) } returns
 				listOf(
-					StudyGroupSummary("C 스터디", "ccc.png", 1),
-					StudyGroupSummary("JAVA 스터디", "ccc.png", 1),
-					StudyGroupSummary("모각코 합시다", "ccc.png", 1),
+					StudyGroupSummary(1, "C 스터디", "ccc.png"),
+					StudyGroupSummary(2, "JAVA 스터디", "ccc.png"),
+					StudyGroupSummary(3, "모각코 합시다", "ccc.png"),
 				)
 
 			performGet(Path("/study-groups/my"))
@@ -56,19 +55,19 @@ class StudyGroupQueryControllerTest : RestDocsTest() {
 					profileImageUrl = "https://example.com/group-profile.jpg",
 					studyMembers =
 						listOf(
-							StudyGroupDetailMember(
+							StudyGroupDetail.StudyMember(
 								id = 1L,
 								nickname = "철수",
 								profileImageUrl = "https://example.com/member1-profile.jpg",
 								role = "LEADER",
 							),
-							StudyGroupDetailMember(
+							StudyGroupDetail.StudyMember(
 								id = 2L,
 								nickname = "영희",
 								profileImageUrl = "https://example.com/member2-profile.jpg",
 								role = "MEMBER",
 							),
-							StudyGroupDetailMember(
+							StudyGroupDetail.StudyMember(
 								id = 3L,
 								nickname = "민수",
 								profileImageUrl = null,

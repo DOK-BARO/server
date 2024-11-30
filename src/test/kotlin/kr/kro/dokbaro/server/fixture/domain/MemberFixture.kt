@@ -7,20 +7,20 @@ import kr.kro.dokbaro.server.core.member.domain.Role
 import java.util.UUID
 
 fun memberFixture(
+	id: Long = 0,
 	nickName: String = "testNick",
 	email: Email = Email("example@gmail.com"),
 	profileImage: String? = "hello.png",
 	certificationId: UUID = UUID.randomUUID(),
 	roles: Set<Role> = setOf(Role.GUEST),
-	id: Long = 0,
 ): Member =
 	Member(
+		id,
 		nickName,
 		email,
 		profileImage,
 		certificationId,
 		roles,
-		id,
 	)
 
 fun certificatedMemberFixture(

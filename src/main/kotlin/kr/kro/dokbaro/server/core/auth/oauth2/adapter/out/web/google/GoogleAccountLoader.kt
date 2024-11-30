@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component
 class GoogleAccountLoader(
 	private val resourceClient: GoogleResourceClient,
 ) : ProviderAccountLoader {
-	override fun get(accessToken: String): OAuth2ProviderAccount {
+	override fun getAccount(accessToken: String): OAuth2ProviderAccount {
 		val account: GoogleAccount = resourceClient.getUserProfiles(accessToken)
 
 		return OAuth2ProviderAccount(
-			AuthProvider.GOOGLE,
-			account.id,
-			account.name ?: throw NickNameNotExistException(),
-			account.email ?: throw EmailNotExistException(),
-			account.picture,
+			provider = AuthProvider.GOOGLE,
+			id = account.id,
+			name = account.name ?: throw NickNameNotExistException(),
+			email = account.email ?: throw EmailNotExistException(),
+			profileImage = account.picture,
 		)
 	}
 }
