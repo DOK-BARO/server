@@ -16,16 +16,16 @@ class MemberMapper {
 		private val MEMBER_ROLE = JMemberRole.MEMBER_ROLE
 	}
 
-	fun mapTo(recordMap: Map<MemberRecord, Result<Record>>): Member? =
+	fun toMember(recordMap: Map<MemberRecord, Result<Record>>): Member? =
 		recordMap
 			.map { record ->
 				Member(
-					record.key.nickname,
-					Email(record.key.email),
-					record.key.profileImageUrl,
-					UUIDUtils.byteArrayToUUID(record.key.certificationId),
-					record.value.map { Role.valueOf(it.getValue(MEMBER_ROLE.NAME)) }.toSet(),
-					record.key.id,
+					id = record.key.id,
+					nickName = record.key.nickname,
+					email = Email(record.key.email),
+					profileImage = record.key.profileImageUrl,
+					certificationId = UUIDUtils.byteArrayToUUID(record.key.certificationId),
+					roles = record.value.map { Role.valueOf(it.getValue(MEMBER_ROLE.NAME)) }.toSet(),
 				)
 			}.firstOrNull()
 }

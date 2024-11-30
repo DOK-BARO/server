@@ -13,9 +13,9 @@ class BookCategoryService(
 	override fun create(command: CreateBookCategoryCommand): Long =
 		insertBookCategoryPort.insert(
 			BookCategory(
-				command.koreanName,
-				command.englishName,
-				command.parentId,
+				koreanName = command.koreanName,
+				englishName = command.englishName,
+				parentId = command.parentId,
 			),
 		)
 }

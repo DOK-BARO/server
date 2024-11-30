@@ -35,7 +35,7 @@ class BookController(
 	@ResponseStatus(HttpStatus.CREATED)
 	fun create(
 		@RequestBody body: CreateBookCommand,
-	): IdResponse<Long> = IdResponse(createBookUseCase.create(body))
+	): IdResponse<Long> = IdResponse(id = createBookUseCase.create(body))
 
 	@GetMapping
 	fun findAll(
@@ -51,14 +51,14 @@ class BookController(
 		findAllBookUseCase
 			.findAllBy(
 				FindAllBookCommand(
-					title,
-					authorName,
-					description,
-					category,
-					page,
-					size,
-					sort,
-					direction,
+					title = title,
+					authorName = authorName,
+					description = description,
+					category = category,
+					page = page,
+					size = size,
+					sort = sort,
+					direction = direction,
 				),
 			)
 
@@ -72,5 +72,10 @@ class BookController(
 		@RequestParam size: Long,
 		@RequestParam keyword: String,
 		@RequestParam lastId: Long?,
-	): Collection<IntegratedBook> = findIntegratedBookUseCase.findAllIntegratedBooks(size, keyword, lastId)
+	): Collection<IntegratedBook> =
+		findIntegratedBookUseCase.findAllIntegratedBooks(
+			size = size,
+			keyword = keyword,
+			lastId = lastId,
+		)
 }

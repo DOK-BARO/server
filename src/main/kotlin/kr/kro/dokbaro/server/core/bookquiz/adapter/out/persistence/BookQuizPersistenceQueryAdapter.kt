@@ -41,12 +41,21 @@ class BookQuizPersistenceQueryAdapter(
 		bookId: Long,
 		pageOption: PageOption,
 		sortOption: SortOption<BookQuizSummarySortOption>,
-	): Collection<BookQuizSummary> = bookQuizQueryRepository.findAllBookQuizSummary(bookId, pageOption, sortOption)
+	): Collection<BookQuizSummary> =
+		bookQuizQueryRepository.findAllBookQuizSummary(
+			bookId = bookId,
+			pageOption = pageOption,
+			sortOption = sortOption,
+		)
 
 	override fun findAllUnsolvedQuizzes(
 		memberId: Long,
 		studyGroupId: Long,
-	): Collection<UnsolvedGroupBookQuizSummary> = bookQuizQueryRepository.findAllUnsolvedQuizzes(memberId, studyGroupId)
+	): Collection<UnsolvedGroupBookQuizSummary> =
+		bookQuizQueryRepository.findAllUnsolvedQuizzes(
+			memberId = memberId,
+			studyGroupId = studyGroupId,
+		)
 
 	override fun findAllMyBookQuiz(memberId: Long): Collection<MyBookQuizSummary> =
 		bookQuizQueryRepository.findAllMyBookQuizzes(memberId)

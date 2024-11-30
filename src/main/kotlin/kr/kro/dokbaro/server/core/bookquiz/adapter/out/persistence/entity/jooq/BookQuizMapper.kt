@@ -16,13 +16,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.BookSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.Creator
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.Question
-import kr.kro.dokbaro.server.core.bookquiz.query.QuizContributor
-import kr.kro.dokbaro.server.core.bookquiz.query.QuizCreator
-import kr.kro.dokbaro.server.core.bookquiz.query.QuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import org.jooq.Record
 import org.jooq.Result
@@ -49,10 +43,14 @@ class BookQuizMapper {
 		private val BOOK = JBook.BOOK
 	}
 
-	fun recordToBookQuizQuestions(record: Result<out Record>): BookQuizQuestions? =
+	fun toBookQuizQuestions(record: Result<out Record>): BookQuizQuestions? =
 		record
 			.groupBy {
-				Triple(it.get(BOOK_QUIZ.ID), it.get(BOOK_QUIZ.TITLE), it.get(BOOK_QUIZ.TIME_LIMIT_SECOND))
+				Triple(
+					it[BOOK_QUIZ.ID],
+					it[BOOK_QUIZ.TITLE],
+					it[BOOK_QUIZ.TIME_LIMIT_SECOND],
+				)
 			}.map { (book, questions) ->
 				BookQuizQuestions(
 					id = book.first,
@@ -62,18 +60,18 @@ class BookQuizMapper {
 						questions
 							.groupBy {
 								Triple(
-									it.get(BOOK_QUIZ_QUESTION.ID),
-									it.get(BOOK_QUIZ_QUESTION.QUESTION_CONTENT),
-									QuizType.valueOf(it.get(BOOK_QUIZ_QUESTION.QUESTION_TYPE)),
+									it[BOOK_QUIZ_QUESTION.ID],
+									it[BOOK_QUIZ_QUESTION.QUESTION_CONTENT],
+									QuizType.valueOf(it[BOOK_QUIZ_QUESTION.QUESTION_TYPE]),
 								)
 							}.map { (question, options) ->
-								Question(
+								BookQuizQuestions.Question(
 									question.first,
 									question.second,
 									question.third,
-									options.distinctBy { v -> v.get(BOOK_QUIZ_SELECT_OPTION.ID) }.map { v ->
+									options.distinctBy { v -> v[BOOK_QUIZ_SELECT_OPTION.ID] }.map { v ->
 										SelectOption(
-											v.get(BOOK_QUIZ_SELECT_OPTION.CONTENT),
+											v[BOOK_QUIZ_SELECT_OPTION.CONTENT],
 										)
 									},
 								)
@@ -103,11 +101,11 @@ class BookQuizMapper {
 			etc
 				.groupBy {
 					QuestionBasic(
-						it.get(BOOK_QUIZ_QUESTION.ID),
-						it.get(BOOK_QUIZ_QUESTION.QUESTION_CONTENT),
-						it.get(BOOK_QUIZ_QUESTION.ACTIVE),
-						it.get(BOOK_QUIZ_QUESTION.EXPLANATION),
-						QuizType.valueOf(it.get(BOOK_QUIZ_QUESTION.QUESTION_TYPE)),
+						id = it[BOOK_QUIZ_QUESTION.ID],
+						content = it[BOOK_QUIZ_QUESTION.QUESTION_CONTENT],
+						active = it[BOOK_QUIZ_QUESTION.ACTIVE],
+						answerExplanation = it[BOOK_QUIZ_QUESTION.EXPLANATION],
+						quizType = QuizType.valueOf(it[BOOK_QUIZ_QUESTION.QUESTION_TYPE]),
 					)
 				}.map { (questionBasic, elements) ->
 					QuizQuestion(
@@ -115,19 +113,19 @@ class BookQuizMapper {
 						selectOptions =
 							elements
 								.map {
-									SelectOption(it.get(BOOK_QUIZ_SELECT_OPTION.CONTENT))
+									SelectOption(it[BOOK_QUIZ_SELECT_OPTION.CONTENT])
 								}.distinct(),
 						answer =
 							QuestionAnswer(
 								gradeSheet =
 									GradeSheetFactory.create(
 										questionBasic.quizType,
-										AnswerSheet(elements.map { it.get(BOOK_QUIZ_ANSWER.CONTENT) }.distinct()),
+										AnswerSheet(elements.map { it[BOOK_QUIZ_ANSWER.CONTENT] }.distinct()),
 									),
 								explanationContent = questionBasic.answerExplanation,
 								explanationImages =
 									elements
-										.map { it.get(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL) }
+										.map { it[BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL] }
 										.distinct(),
 							),
 						active = questionBasic.active,
@@ -138,28 +136,29 @@ class BookQuizMapper {
 
 	fun toBookQuizAnswer(record: Result<out Record>): BookQuizAnswer? =
 		record
-			.groupBy { it.get(BOOK_QUIZ_QUESTION.EXPLANATION) }
+			.groupBy { it[BOOK_QUIZ_QUESTION.EXPLANATION] }
 			.map { (explanation, record) ->
 				BookQuizAnswer(
-					record.map { it.get(BOOK_QUIZ_ANSWER.CONTENT) },
-					explanation,
-					record.map { it.get(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL) },
+					correctAnswer = record.map { it[BOOK_QUIZ_ANSWER.CONTENT] },
+					explanation = explanation,
+					explanationImages = record.map { it[BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL] },
 				)
 			}.firstOrNull()
 
 	fun toBookQuizSummary(record: Result<out Record>): Collection<BookQuizSummary> =
 		record.map {
 			BookQuizSummary(
-				it.get(BOOK_QUIZ.ID),
-				it.get(BOOK_QUIZ.TITLE),
-				it.get(BookQuizRecordFieldName.AVERAGE_STAR_RATING.name, Double::class.java),
-				it.get(BookQuizRecordFieldName.AVERAGE_DIFFICULTY_LEVEL.name, Double::class.java),
-				it.get(BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT.name, Int::class.java),
-				Creator(
-					it.get(MEMBER.ID),
-					it.get(MEMBER.NICKNAME),
-					it.get(MEMBER.PROFILE_IMAGE_URL),
-				),
+				id = it[BOOK_QUIZ.ID],
+				title = it[BOOK_QUIZ.TITLE],
+				averageStarRating = it[BookQuizRecordFieldName.AVERAGE_STAR_RATING.name, Double::class.java],
+				averageDifficultyLevel = it[BookQuizRecordFieldName.AVERAGE_DIFFICULTY_LEVEL.name, Double::class.java],
+				questionCount = it[BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT.name, Int::class.java],
+				creator =
+					BookQuizSummary.Creator(
+						id = it[MEMBER.ID],
+						nickname = it[MEMBER.NICKNAME],
+						profileUrl = it[MEMBER.PROFILE_IMAGE_URL],
+					),
 			)
 		}
 
@@ -169,55 +168,55 @@ class BookQuizMapper {
 		record.map { (quiz, other) ->
 			UnsolvedGroupBookQuizSummary(
 				book =
-					BookSummary(
-						id = other.map { it.get(BOOK.ID) }.first(),
-						title = other.map { it.get(BOOK.TITLE) }.first(),
-						imageUrl = other.map { it.get(BOOK.IMAGE_URL) }.first(),
+					UnsolvedGroupBookQuizSummary.Book(
+						id = other.map { it[BOOK.ID] }.first(),
+						title = other.map { it[BOOK.TITLE] }.first(),
+						imageUrl = other.map { it[BOOK.IMAGE_URL] }.first(),
 					),
 				quiz =
-					QuizSummary(
+					UnsolvedGroupBookQuizSummary.Quiz(
 						id = quiz.id,
 						title = quiz.title,
 						creator =
-							QuizCreator(
+							UnsolvedGroupBookQuizSummary.Creator(
 								id =
 									other
-										.map { it.get(BookQuizRecordFieldName.CREATOR_ID.name, Long::class.java) }
+										.map { it[BookQuizRecordFieldName.CREATOR_ID.name, Long::class.java] }
 										.first(),
 								nickname =
 									other
-										.map { it.get(BookQuizRecordFieldName.CREATOR_NAME.name, String::class.java) }
+										.map { it[BookQuizRecordFieldName.CREATOR_NAME.name, String::class.java] }
 										.first(),
 								profileImageUrl =
 									other
 										.map {
-											it.get(
+											it[
 												BookQuizRecordFieldName.CREATOR_IMAGE_URL.name,
 												String::class.java,
-											)
+											]
 										}.first(),
 							),
 						createdAt = quiz.createdAt,
 						contributors =
 							other
 								.filter {
-									it.get(
+									it[
 										BookQuizRecordFieldName.CONTRIBUTOR_ID.name,
 										Long::class.java,
-									) != Constants.UNSAVED_ID
+									] != Constants.UNSAVED_ID
 								}.map {
-									QuizContributor(
-										id = it.get(BookQuizRecordFieldName.CONTRIBUTOR_ID.name, Long::class.java),
+									UnsolvedGroupBookQuizSummary.Contributor(
+										id = it[BookQuizRecordFieldName.CONTRIBUTOR_ID.name, Long::class.java],
 										nickname =
-											it.get(
+											it[
 												BookQuizRecordFieldName.CONTRIBUTOR_NAME.name,
 												String::class.java,
-											),
+											],
 										profileImageUrl =
-											it.get(
+											it[
 												BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name,
 												String::class.java,
-											),
+											],
 									)
 								},
 					),
@@ -227,10 +226,10 @@ class BookQuizMapper {
 	fun toMyBookQuiz(record: Result<out Record>): Collection<MyBookQuizSummary> =
 		record.map {
 			MyBookQuizSummary(
-				id = it.get(BOOK_QUIZ.ID),
-				bookImageUrl = it.get(BOOK.IMAGE_URL),
-				title = it.get(BOOK_QUIZ.TITLE),
-				updatedAt = it.get(BOOK_QUIZ.UPDATED_AT),
+				id = it[BOOK_QUIZ.ID],
+				bookImageUrl = it[BOOK.IMAGE_URL],
+				title = it[BOOK_QUIZ.TITLE],
+				updatedAt = it[BOOK_QUIZ.UPDATED_AT],
 			)
 		}
 
@@ -256,12 +255,12 @@ class BookQuizMapper {
 						),
 				)
 			}.firstOrNull()
-}
 
-data class QuestionBasic(
-	val id: Long,
-	val content: String,
-	val active: Boolean,
-	val answerExplanation: String,
-	val quizType: QuizType,
-)
+	data class QuestionBasic(
+		val id: Long,
+		val content: String,
+		val active: Boolean,
+		val answerExplanation: String,
+		val quizType: QuizType,
+	)
+}

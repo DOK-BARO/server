@@ -9,5 +9,5 @@ class FeignClientErrorDecoder : ErrorDecoder {
 	override fun decode(
 		methodKey: String?,
 		response: Response?,
-	): Exception = throw FeignClientBadRequestException(response?.request()?.url())
+	): Exception = throw FeignClientBadRequestException(url = response?.request()?.url())
 }

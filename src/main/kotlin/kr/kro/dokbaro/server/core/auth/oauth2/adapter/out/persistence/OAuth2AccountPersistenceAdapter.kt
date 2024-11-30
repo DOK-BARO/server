@@ -20,12 +20,20 @@ class OAuth2AccountPersistenceAdapter(
 	override fun existBy(
 		socialId: String,
 		provider: AuthProvider,
-	): Boolean = queryRepository.existBy(socialId, provider)
+	): Boolean =
+		queryRepository.existBy(
+			socialId = socialId,
+			provider = provider,
+		)
 
 	override fun insert(oAuth2Account: OAuth2Account): Long = repository.insert(oAuth2Account)
 
 	override fun findBy(
 		socialId: String,
 		provider: AuthProvider,
-	): OAuth2CertificatedAccount? = queryRepository.findBy(socialId, provider)
+	): OAuth2CertificatedAccount? =
+		queryRepository.findBy(
+			socialId = socialId,
+			provider = provider,
+		)
 }

@@ -27,9 +27,9 @@ class OAuth2LoginController(
 		val (accessToken: String, refreshToken: String) =
 			loginUseCase.login(
 				LoadProviderAccountCommand(
-					provider,
-					body.token,
-					body.redirectUrl,
+					provider = provider,
+					token = body.token,
+					redirectUrl = body.redirectUrl,
 				),
 			)
 

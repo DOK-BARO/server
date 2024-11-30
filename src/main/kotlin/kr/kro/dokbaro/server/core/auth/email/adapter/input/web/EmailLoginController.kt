@@ -23,7 +23,9 @@ class EmailLoginController(
 		val (accessToken: String, refreshToken: String) = emailLoginUseCase.login(body)
 
 		return jwtResponseEntityGenerator
-			.getResponseBuilder(accessToken, refreshToken)
-			.body(MessageResponse("Login Success / set cookie"))
+			.getResponseBuilder(
+				accessToken = accessToken,
+				refreshToken = refreshToken,
+			).body(MessageResponse(message = "Login Success / set cookie"))
 	}
 }

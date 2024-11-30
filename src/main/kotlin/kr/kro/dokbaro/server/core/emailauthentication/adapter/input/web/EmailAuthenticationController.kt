@@ -25,19 +25,23 @@ class EmailAuthenticationController(
 	fun create(
 		@RequestBody createEmailRequest: CreateEmailRequest,
 	) {
-		createEmailAuthenticationUseCase.create(createEmailRequest.email)
+		createEmailAuthenticationUseCase.create(email = createEmailRequest.email)
 	}
 
 	@PostMapping("/match-code")
 	fun matchCode(
 		@RequestBody matchEmailCodeRequest: MatchEmailCodeRequest,
-	): MatchResponse = matchCodeUseCase.match(matchEmailCodeRequest.email, matchEmailCodeRequest.code)
+	): MatchResponse =
+		matchCodeUseCase.match(
+			email = matchEmailCodeRequest.email,
+			code = matchEmailCodeRequest.code,
+		)
 
 	@PostMapping("/recreate")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	fun recreate(
 		@RequestBody createEmailRequest: CreateEmailRequest,
 	) {
-		recreateEmailAuthenticationUseCase.recreate(createEmailRequest.email)
+		recreateEmailAuthenticationUseCase.recreate(email = createEmailRequest.email)
 	}
 }

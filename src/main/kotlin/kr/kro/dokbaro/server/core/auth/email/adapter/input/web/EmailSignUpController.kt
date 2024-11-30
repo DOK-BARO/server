@@ -23,7 +23,9 @@ class EmailSignUpController(
 		val (accessToken: String, refreshToken: String) = emailSignUpUseCase.signUp(body)
 
 		return jwtResponseEntityGenerator
-			.getResponseBuilder(accessToken, refreshToken)
-			.body(MessageResponse("SignUp Success / set cookie"))
+			.getResponseBuilder(
+				accessToken = accessToken,
+				refreshToken = refreshToken,
+			).body(MessageResponse(message = "SignUp Success / set cookie"))
 	}
 }

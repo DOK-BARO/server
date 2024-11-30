@@ -9,12 +9,12 @@ import org.jooq.generated.tables.records.MemberRoleRecord
 
 @Mapper
 class OAuth2AccountMapper {
-	fun mapTo(record: Map<MemberRecord, Result<MemberRoleRecord>>): OAuth2CertificatedAccount? =
+	fun toOAuthCertificatedAccount(record: Map<MemberRecord, Result<MemberRoleRecord>>): OAuth2CertificatedAccount? =
 		record
 			.map {
 				OAuth2CertificatedAccount(
-					UUIDUtils.byteArrayToUUID(it.key.certificationId),
-					it.value.map { v -> v.name }.toSet(),
+					certificationId = UUIDUtils.byteArrayToUUID(it.key.certificationId),
+					role = it.value.map { v -> v.name }.toSet(),
 				)
 			}.firstOrNull()
 }

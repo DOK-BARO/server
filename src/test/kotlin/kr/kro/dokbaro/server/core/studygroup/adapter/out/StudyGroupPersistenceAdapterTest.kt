@@ -41,10 +41,10 @@ class StudyGroupPersistenceAdapterTest(
 			val savedMember =
 				memberRepository.insert(
 					Member(
-						"nick",
-						Email("www@gmail.com"),
-						"aaa.png",
-						UUID.randomUUID(),
+						nickName = "nick",
+						email = Email("www@gmail.com"),
+						profileImage = "aaa.png",
+						certificationId = UUID.randomUUID(),
 					),
 				)
 			val studyGroup =
@@ -61,10 +61,10 @@ class StudyGroupPersistenceAdapterTest(
 			val savedMember =
 				memberRepository.insert(
 					Member(
-						"nick",
-						Email("www@gmail.com"),
-						"aaa.png",
-						UUID.randomUUID(),
+						nickName = "nick",
+						email = Email("www@gmail.com"),
+						profileImage = "aaa.png",
+						certificationId = UUID.randomUUID(),
 					),
 				)
 			val targetCode = "ABC123"
@@ -85,10 +85,10 @@ class StudyGroupPersistenceAdapterTest(
 			val savedMember =
 				memberRepository.insert(
 					Member(
-						"nick",
-						Email("www@gmail.com"),
-						"aaa.png",
-						UUID.randomUUID(),
+						nickName = "nick",
+						email = Email("www@gmail.com"),
+						profileImage = "aaa.png",
+						certificationId = UUID.randomUUID(),
 					),
 				)
 			val studyGroup =
@@ -99,10 +99,10 @@ class StudyGroupPersistenceAdapterTest(
 			val savedMember2 =
 				memberRepository.insert(
 					Member(
-						"nick2",
-						Email("www2@gmail.com"),
-						"aaa.png",
-						UUID.randomUUID(),
+						nickName = "nick2",
+						email = Email("www2@gmail.com"),
+						profileImage = "aaa.png",
+						certificationId = UUID.randomUUID(),
 					),
 				)
 			val newName = "new name"
@@ -116,12 +116,12 @@ class StudyGroupPersistenceAdapterTest(
 
 			val newGroup =
 				studyGroupFixture(
+					id,
 					newName,
 					newIntro,
 					null,
 					newMembers,
 					InviteCode(newCode),
-					id,
 				)
 
 			adapter.update(newGroup)
@@ -135,12 +135,12 @@ class StudyGroupPersistenceAdapterTest(
 
 			val updated2 =
 				studyGroupFixture(
+					id,
 					newName,
 					null,
 					null,
 					newMembers,
 					InviteCode(newCode),
-					id,
 				)
 			adapter.update(updated2)
 

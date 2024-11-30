@@ -16,49 +16,70 @@ class ExceptionControllerAdvice {
 	@ExceptionHandler(BadRequestException::class)
 	fun badRequest(e: BadRequestException) =
 		ResponseEntity(
-			ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.message),
+			ErrorResponse(
+				status = HttpStatus.BAD_REQUEST.value(),
+				message = e.message,
+			),
 			HttpStatus.BAD_REQUEST,
 		)
 
 	@ExceptionHandler(ForbiddenException::class)
 	fun forbidden(e: ForbiddenException) =
 		ResponseEntity(
-			ErrorResponse(HttpStatus.FORBIDDEN.value(), e.message),
+			ErrorResponse(
+				status = HttpStatus.FORBIDDEN.value(),
+				message = e.message,
+			),
 			HttpStatus.FORBIDDEN,
 		)
 
 	@ExceptionHandler(NotFoundException::class)
 	fun notFound(e: NotFoundException) =
 		ResponseEntity(
-			ErrorResponse(HttpStatus.NOT_FOUND.value(), e.message),
+			ErrorResponse(
+				status = HttpStatus.NOT_FOUND.value(),
+				message = e.message,
+			),
 			HttpStatus.NOT_FOUND,
 		)
 
 	@ExceptionHandler(UnauthorizedException::class)
 	fun unauthorized(e: UnauthorizedException) =
 		ResponseEntity(
-			ErrorResponse(HttpStatus.UNAUTHORIZED.value(), e.message),
+			ErrorResponse(
+				status = HttpStatus.UNAUTHORIZED.value(),
+				message = e.message,
+			),
 			HttpStatus.UNAUTHORIZED,
 		)
 
 	@ExceptionHandler(InternalServerException::class)
 	fun internalServerError(e: InternalServerException) =
 		ResponseEntity(
-			ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.message),
+			ErrorResponse(
+				status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+				message = e.message,
+			),
 			HttpStatus.INTERNAL_SERVER_ERROR,
 		)
 
 	@ExceptionHandler(NotImplementedException::class)
 	fun notImplemented(e: NotImplementedException) =
 		ResponseEntity(
-			ErrorResponse(HttpStatus.NOT_IMPLEMENTED.value(), e.message),
+			ErrorResponse(
+				status = HttpStatus.NOT_IMPLEMENTED.value(),
+				message = e.message,
+			),
 			HttpStatus.NOT_IMPLEMENTED,
 		)
 
 	@ExceptionHandler(RuntimeException::class)
 	fun runtimeException(e: RuntimeException) =
 		ResponseEntity(
-			ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.message),
+			ErrorResponse(
+				status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+				message = e.message,
+			),
 			HttpStatus.INTERNAL_SERVER_ERROR,
 		)
 }

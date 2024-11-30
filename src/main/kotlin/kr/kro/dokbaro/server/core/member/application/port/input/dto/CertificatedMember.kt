@@ -5,19 +5,19 @@ import kr.kro.dokbaro.server.core.member.domain.Role
 import java.util.UUID
 
 data class CertificatedMember(
+	val id: Long,
 	var nickName: String,
 	var email: String,
 	var profileImage: String?,
 	val certificationId: UUID,
 	val roles: Set<Role>,
-	val id: Long,
 ) {
 	constructor(member: Member) : this(
-		member.nickName,
-		member.email.address,
-		member.profileImage,
-		member.certificationId,
-		member.roles,
-		member.id,
+		id = member.id,
+		nickName = member.nickName,
+		email = member.email.address,
+		profileImage = member.profileImage,
+		certificationId = member.certificationId,
+		roles = member.roles,
 	)
 }

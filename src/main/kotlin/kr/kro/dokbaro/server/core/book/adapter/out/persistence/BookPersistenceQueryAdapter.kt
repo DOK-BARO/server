@@ -25,7 +25,12 @@ class BookPersistenceQueryAdapter(
 		condition: ReadBookCollectionCondition,
 		pageOption: PageOption,
 		sortOption: SortOption<BookSummarySortOption>,
-	): Collection<BookSummary> = bookRepository.findAllBookBy(condition, pageOption, sortOption)
+	): Collection<BookSummary> =
+		bookRepository.findAllBookBy(
+			condition = condition,
+			pageOption = pageOption,
+			sortOption = sortOption,
+		)
 
 	override fun findBy(id: Long): BookDetail? = bookRepository.findById(id)
 
@@ -33,7 +38,12 @@ class BookPersistenceQueryAdapter(
 		size: Long,
 		keyword: String,
 		lastId: Long?,
-	): Collection<IntegratedBook> = bookRepository.findAllIntegratedBook(size, keyword, lastId)
+	): Collection<IntegratedBook> =
+		bookRepository.findAllIntegratedBook(
+			size = size,
+			keyword = keyword,
+			lastId = lastId,
+		)
 
 	override fun countBy(condition: ReadBookCollectionCondition): Long = bookRepository.countBy(condition)
 }

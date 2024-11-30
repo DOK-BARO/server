@@ -65,7 +65,7 @@ class SolvingQuizServiceTest :
 				solvingQuizService.solve(command)
 			}
 
-			every { loadSolvingQuizPort.findById(any()) } returns SolvingQuiz(1, 2)
+			every { loadSolvingQuizPort.findById(any()) } returns SolvingQuiz(playerId = 1, quizId = 2)
 			every { updateSolvingQuizPort.update(any()) } returns Unit
 			every { findBookQuizByQuestionIdUseCase.findByQuestionId(any()) } returns bookQuizFixture()
 

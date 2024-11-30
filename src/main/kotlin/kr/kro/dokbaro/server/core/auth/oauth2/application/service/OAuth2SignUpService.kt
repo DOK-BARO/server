@@ -26,24 +26,31 @@ class OAuth2SignUpService(
 	override fun signUp(command: LoadProviderAccountCommand): AuthToken {
 		val providerAccount: OAuth2ProviderAccount = accountLoader.getAccount(command)
 
-		if (existOAuth2AccountPort.existBy(providerAccount.id, providerAccount.provider)) {
-			throw AlreadyExistAccountException(providerAccount.id, providerAccount.provider)
+		if (existOAuth2AccountPort.existBy(
+				socialId = providerAccount.id,
+				provider = providerAccount.provider,
+			)
+		) {
+			throw AlreadyExistAccountException(
+				id = providerAccount.id,
+				provider = providerAccount.provider,
+			)
 		}
 
 		val member: Member =
 			registerMemberUseCase.register(
 				RegisterMemberCommand(
-					providerAccount.name + providerAccount.id,
-					providerAccount.email,
-					providerAccount.profileImage,
+					nickName = providerAccount.name,
+					email = providerAccount.email,
+					profileImage = providerAccount.profileImage,
 				),
 			)
 
 		insertOAuth2AccountPort.insert(
 			OAuth2Account(
-				providerAccount.id,
-				providerAccount.provider,
-				member.id,
+				socialId = providerAccount.id,
+				provider = providerAccount.provider,
+				memberId = member.id,
 			),
 		)
 

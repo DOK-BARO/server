@@ -21,13 +21,15 @@ class OAuth2LoginService(
 	override fun login(command: LoadProviderAccountCommand): AuthToken {
 		val providerAccount: OAuth2ProviderAccount = accountLoader.getAccount(command)
 		val account: OAuth2CertificatedAccount =
-			loadOAuth2CertificatedAccountPort.findBy(providerAccount.id, providerAccount.provider)
-				?: throw NotFoundAccountException()
+			loadOAuth2CertificatedAccountPort.findBy(
+				socialId = providerAccount.id,
+				provider = providerAccount.provider,
+			) ?: throw NotFoundAccountException()
 
 		return generateAuthTokenUseCase.generate(
 			TokenClaims(
-				UUIDUtils.uuidToString(account.certificationId),
-				account.role,
+				id = UUIDUtils.uuidToString(account.certificationId),
+				role = account.role,
 			),
 		)
 	}

@@ -27,9 +27,9 @@ class OAuth2SignUpController(
 		val (accessToken: String, refreshToken: String) =
 			oAuth2SignUpUseCase.signUp(
 				LoadProviderAccountCommand(
-					provider,
-					body.token,
-					body.redirectUrl,
+					provider = provider,
+					token = body.token,
+					redirectUrl = body.redirectUrl,
 				),
 			)
 

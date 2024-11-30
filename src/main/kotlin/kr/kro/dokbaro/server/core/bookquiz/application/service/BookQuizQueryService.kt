@@ -63,12 +63,16 @@ class BookQuizQueryService(
 		val data: Collection<BookQuizSummary> =
 			readBookQuizSummaryPort
 				.findAllBookQuizSummary(
-					bookId,
-					PageOption.of(page, size),
-					SortOption(sort, direction),
+					bookId = bookId,
+					pageOption = PageOption.of(page, size),
+					sortOption = SortOption(sort, direction),
 				)
 
-		return PageResponse.of(count, page, data)
+		return PageResponse.of(
+			totalElementCount = count,
+			pageSize = page,
+			data = data,
+		)
 	}
 
 	override fun findAllUnsolvedQuizzes(
@@ -77,7 +81,10 @@ class BookQuizQueryService(
 	): Collection<UnsolvedGroupBookQuizSummary> {
 		val memberId: Long = findCertificatedMemberUseCase.getByCertificationId(memberAuthId).id
 
-		return findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(memberId, studyGroupId)
+		return findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(
+			memberId = memberId,
+			studyGroupId = studyGroupId,
+		)
 	}
 
 	override fun findMyBookQuiz(authId: UUID): Collection<MyBookQuizSummary> {

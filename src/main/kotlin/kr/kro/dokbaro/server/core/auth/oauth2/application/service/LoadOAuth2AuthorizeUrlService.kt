@@ -12,5 +12,9 @@ class LoadOAuth2AuthorizeUrlService(
 	override fun getUrl(
 		provider: AuthProvider,
 		redirectUrl: String,
-	): String = loadUrlPort.getUrl(provider, redirectUrl)
+	): String =
+		loadUrlPort.getUrl(
+			provider = provider,
+			redirectUrl = redirectUrl,
+		)
 }
