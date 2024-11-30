@@ -20,12 +20,12 @@ CREATE TABLE book
 
 CREATE TABLE book_author
 (
-	id         bigint      NOT NULL AUTO_INCREMENT,
-	book_id    bigint      NOT NULL,
+	id         bigint       NOT NULL AUTO_INCREMENT,
+	book_id    bigint       NOT NULL,
 	name       varchar(127) NOT NULL,
-	created_at datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted    boolean     NOT NULL DEFAULT false,
+	created_at datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted    boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT book_author_book_id_fk FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
