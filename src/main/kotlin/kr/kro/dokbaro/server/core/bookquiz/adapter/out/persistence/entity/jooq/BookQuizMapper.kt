@@ -13,6 +13,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookSummary
@@ -232,6 +233,29 @@ class BookQuizMapper {
 				updatedAt = it.get(BOOK_QUIZ.UPDATED_AT),
 			)
 		}
+
+	fun toBookQuizExplanation(record: Result<out Record>): BookQuizExplanation? =
+		record
+			.map {
+				BookQuizExplanation(
+					id = it[BOOK_QUIZ.ID],
+					title = it[BOOK_QUIZ.TITLE],
+					description = it[BOOK_QUIZ.DESCRIPTION],
+					createdAt = it[BOOK_QUIZ.CREATED_AT],
+					creator =
+						BookQuizExplanation.Creator(
+							id = it[MEMBER.ID],
+							nickname = it[MEMBER.NICKNAME],
+							profileImageUrl = it[MEMBER.PROFILE_IMAGE_URL],
+						),
+					book =
+						BookQuizExplanation.Book(
+							id = it[BOOK.ID],
+							title = it[BOOK.TITLE],
+							imageUrl = it[BOOK.IMAGE_URL],
+						),
+				)
+			}.firstOrNull()
 }
 
 data class QuestionBasic(

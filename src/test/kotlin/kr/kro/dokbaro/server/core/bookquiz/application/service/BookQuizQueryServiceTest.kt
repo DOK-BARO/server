@@ -8,6 +8,7 @@ import io.mockk.mockk
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.CountBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizAnswerPort
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizExplanationPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizQuestionPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizSummaryPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadMyBookQuizSummaryPort
@@ -16,6 +17,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoun
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.NotFoundQuestionException
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
@@ -35,6 +37,7 @@ class BookQuizQueryServiceTest :
 		val findCertificatedMemberUseCase = mockk<FindCertificatedMemberUseCase>()
 		val findUnsolvedGroupBookQuizPort = mockk<ReadUnsolvedGroupBookQuizPort>()
 		val readMyBookQuizSummaryPort = mockk<ReadMyBookQuizSummaryPort>()
+		val readBookQuizExplanationPort = mockk<ReadBookQuizExplanationPort>()
 
 		val bookQuizQueryService =
 			BookQuizQueryService(
@@ -45,6 +48,7 @@ class BookQuizQueryServiceTest :
 				findCertificatedMemberUseCase,
 				findUnsolvedGroupBookQuizPort,
 				readMyBookQuizSummaryPort,
+				readBookQuizExplanationPort,
 			)
 
 		"퀴즈를 조회한다" {
@@ -125,5 +129,35 @@ class BookQuizQueryServiceTest :
 				)
 
 			bookQuizQueryService.findMyBookQuiz(UUID.randomUUID()) shouldNotBe null
+		}
+
+		"퀴즈 설명을 조회한다" {
+			every { readBookQuizExplanationPort.findExplanationBy(any()) } returns null
+
+			shouldThrow<NotFoundQuizException> {
+				bookQuizQueryService.findExplanationBy(1)
+			}
+
+			every { readBookQuizExplanationPort.findExplanationBy(any()) } returns
+				BookQuizExplanation(
+					id = 1L,
+					title = "Sample Quiz Explanation",
+					description = "This is a detailed explanation for a sample book quiz.",
+					createdAt = LocalDateTime.now(),
+					creator =
+						BookQuizExplanation.Creator(
+							id = 101L,
+							nickname = "QuizMaster",
+							profileImageUrl = "https://example.com/profile.jpg",
+						),
+					book =
+						BookQuizExplanation.Book(
+							id = 201L,
+							title = "Effective Kotlin",
+							imageUrl = "https://example.com/book.jpg",
+						),
+				)
+
+			bookQuizQueryService.findExplanationBy(1) shouldNotBe null
 		}
 	})

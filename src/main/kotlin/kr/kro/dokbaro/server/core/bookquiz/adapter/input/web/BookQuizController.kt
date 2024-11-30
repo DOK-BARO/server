@@ -9,6 +9,7 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizR
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.DeleteBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizExplanationUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindMyBookQuizUseCase
@@ -17,6 +18,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
@@ -46,6 +48,7 @@ class BookQuizController(
 	private val findUnsolvedGroupBookQuizUseCase: FindUnsolvedGroupBookQuizUseCase,
 	private val findMyBookQuizUseCase: FindMyBookQuizUseCase,
 	private val deleteBookQuizUseCase: DeleteBookQuizUseCase,
+	private val findBookQuizExplanationUseCase: FindBookQuizExplanationUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -129,4 +132,9 @@ class BookQuizController(
 	) {
 		deleteBookQuizUseCase.deleteBy(id)
 	}
+
+	@GetMapping("/{id}/explanation")
+	fun getBookQuizExplanation(
+		@PathVariable id: Long,
+	): BookQuizExplanation = findBookQuizExplanationUseCase.findExplanationBy(id)
 }
