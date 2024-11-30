@@ -438,20 +438,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>SOLVING_QUIZ</h1>
-<div class="details">
-<span id="revnumber">version 3.19.5</span>
-</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_북_퀴즈_풀기_시작">북 퀴즈 풀기 시작</h2>
+<h2 id="_solving_quiz">SOLVING_QUIZ</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request">HTTP request</h3>
+<h3 id="_북_퀴즈_풀기_시작">북 퀴즈 풀기 시작</h3>
+<div class="sect3">
+<h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /solving-quiz/start?_csrf=1cIbgmjwYuQXalgcoh_fAhSwVs8FaSbySOjKvMp9uqFk4Fkr4aN45lvBV4A6Dj0rwzLrZCyIe649Wx7fK9GpivJOjcICgz0e HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /solving-quiz/start?_csrf=ZiSJc5zn0VaCoCOkCa-l0EBbKWHMJWVOCVY5OsH1BXkdDm1jA0DvFq_QsGSvlBadMYKR43ViBFiqRgFjbzcKDPXCM00uO1kG HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 18
 Host: localhost:8080
@@ -483,8 +481,8 @@ Host: localhost:8080
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -528,15 +526,13 @@ Content-Length: 14
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_북_퀴즈_문제_풀기_제출">북 퀴즈 문제 풀기 제출</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_2">HTTP request</h3>
+<h3 id="_북_퀴즈_문제_풀기_제출">북 퀴즈 문제 풀기 제출</h3>
+<div class="sect3">
+<h4 id="_http_request_2">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /solving-quiz/1/sheets?_csrf=47ZDVgNZ-ND-itPnggNDweO8eNCgOFdMvEdIG3DbjPA_x3wC29QnYWY_mePTu-HQsi538dXZVbKQDjJhiH5wLkK9vscM8Uwx HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /solving-quiz/1/sheets?_csrf=uAlwaZXbyEmuQLZSf6RpakF8AolS3dM44lory4Chjkhrw8UTjT4WW6Do-HiDeIQ3TIldWXVLL7Bi6eoV0m4SreWZ6ytZ-6dw HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 64
 Host: localhost:8080
@@ -593,8 +589,8 @@ Host: localhost:8080
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response_2">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_2">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -680,12 +676,10 @@ Content-Length: 281
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_푼_퀴즈_결과_보기_조회">푼 퀴즈 결과 보기 조회</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_3">HTTP request</h3>
+<h3 id="_푼_퀴즈_결과_보기_조회">푼 퀴즈 결과 보기 조회</h3>
+<div class="sect3">
+<h4 id="_http_request_3">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /solving-quiz/1/grade-result HTTP/1.1
@@ -712,8 +706,8 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response_3">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_3">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -781,12 +775,10 @@ Content-Length: 105
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_내가_푼_퀴즈_목록_보기_조회">내가 푼 퀴즈 목록 보기 조회</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_4">HTTP request</h3>
+<h3 id="_내가_푼_퀴즈_목록_보기_조회">내가 푼 퀴즈 목록 보기 조회</h3>
+<div class="sect3">
+<h4 id="_http_request_4">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /solving-quiz/my HTTP/1.1
@@ -794,8 +786,8 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response_4">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_4">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -878,12 +870,10 @@ Content-Length: 337
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_스터디_그룹에서_내가_푼_퀴즈_목록_보기_조회">스터디 그룹에서 내가 푼 퀴즈 목록 보기 조회</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_5">HTTP request</h3>
+<h3 id="_스터디_그룹에서_내가_푼_퀴즈_목록_보기_조회">스터디 그룹에서 내가 푼 퀴즈 목록 보기 조회</h3>
+<div class="sect3">
+<h4 id="_http_request_5">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /solving-quiz/study-groups/1/my HTTP/1.1
@@ -910,8 +900,8 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response_5">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_5">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -1094,10 +1084,11 @@ Content-Length: 1323
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-11-30 13:28:41 +0900
+Last updated 2024-11-30 14:57:52 +0900
 </div>
 </div>
 </body>

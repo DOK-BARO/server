@@ -438,20 +438,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>MEMBER</h1>
-<div class="details">
-<span id="revnumber">version 3.19.5</span>
-</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_modify_login_member">modify login member</h2>
+<h2 id="_member">MEMBER</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request">HTTP request</h3>
+<h3 id="_modify_login_member">modify login member</h3>
+<div class="sect3">
+<h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /members/login-user?_csrf=cq5ueANuU0VbuN2hSa-a1jd_DToiQvbXDt3EgTkVVjG_qElAFstZGmFZNyZ2gL6VcYKu4AJPIFtGJMX6a-ih4FghMgKPkC94 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /members/login-user?_csrf=BZC2HqeL9xo03MO0AxIJfCNIEFNiHplJuG2HNJ3bqDWTME86NvHVepG5wnkZ6_XQND89SEJxPWpTKKxkj1u-A__onAKhCXYL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 92
 Host: localhost:8080
@@ -495,8 +493,8 @@ Host: localhost:8080
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content
@@ -513,12 +511,10 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_get_login_member">get login member</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_2">HTTP request</h3>
+<h3 id="_get_login_member">get login member</h3>
+<div class="sect3">
+<h4 id="_http_request_2">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /members/login-user HTTP/1.1
@@ -526,8 +522,8 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response_2">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_2">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -547,9 +543,9 @@ Content-Length: 208
   "nickName" : "nickname",
   "email" : "asdf@gmail.com",
   "profileImage" : "image.png",
-  "certificationId" : "33938040-fc2c-4c3a-9924-bf597bd533e4",
+  "certificationId" : "6685e5f3-bb19-4577-b9c9-0ce2a0ed93d4",
   "roles" : [ "GUEST" ],
-  "id" : 1334292317168854002
+  "id" : 7897407729636040287
 }</code></pre>
 </div>
 </div>
@@ -603,10 +599,11 @@ Content-Length: 208
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-11-30 13:28:41 +0900
+Last updated 2024-11-30 14:56:57 +0900
 </div>
 </div>
 </body>

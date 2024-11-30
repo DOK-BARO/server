@@ -438,17 +438,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>TERMS-OF-SERVICE</h1>
-<div class="details">
-<span id="revnumber">version 3.19.5</span>
-</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_이용약관_조회">이용약관 조회</h2>
+<h2 id="_terms_of_service">TERMS-OF-SERVICE</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request">HTTP request</h3>
+<h3 id="_이용약관_조회">이용약관 조회</h3>
+<div class="sect3">
+<h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /terms-of-services HTTP/1.1
@@ -456,8 +454,8 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -537,12 +535,10 @@ Content-Length: 462
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_이용약관_상세_내용_조회">이용약관 상세 내용 조회</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_2">HTTP request</h3>
+<h3 id="_이용약관_상세_내용_조회">이용약관 상세 내용 조회</h3>
+<div class="sect3">
+<h4 id="_http_request_2">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /terms-of-services/1/detail HTTP/1.1
@@ -569,8 +565,8 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response_2">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_2">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -614,15 +610,13 @@ Content-Length: 52
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_이용약관_동의">이용약관 동의</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_3">HTTP request</h3>
+<h3 id="_이용약관_동의">이용약관 동의</h3>
+<div class="sect3">
+<h4 id="_http_request_3">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /terms-of-services/agree?_csrf=5mvviz74ZfnMhVBiMDXuDTVlILtEFxrHmiLWG1wO_J_PI51G0Q3ZugvNBM3h4DZWABjaO1ZQDdlzJy3qoxHmKG89yKj6Ffwg HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /terms-of-services/agree?_csrf=M3ulDeHTAQ2KIn6iBdLeEsW1G5B7ZbbJdEUTero23vKdds0hBkPGbtjkNDqnQEmWZP_qc_DXNqgZVYXkQnx2Q4MEuMukEKkR HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 27
 Host: localhost:8080
@@ -654,8 +648,8 @@ Host: localhost:8080
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response_3">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_3">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -672,12 +666,10 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_필수_동의_여부_전체_동의_여부_조회">필수 동의 여부 전체 동의 여부 조회</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_4">HTTP request</h3>
+<h3 id="_필수_동의_여부_전체_동의_여부_조회">필수 동의 여부 전체 동의 여부 조회</h3>
+<div class="sect3">
+<h4 id="_http_request_4">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /terms-of-services/member-agree/required HTTP/1.1
@@ -685,8 +677,8 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response_4">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_4">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -732,10 +724,11 @@ Content-Length: 23
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-11-30 13:28:41 +0900
+Last updated 2024-11-30 14:58:20 +0900
 </div>
 </div>
 </body>
