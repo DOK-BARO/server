@@ -1,35 +1,35 @@
-= EMAIL-AUTHENTICATION
+== EMAIL-AUTHENTICATION
 
-== create email authentication
+=== create email authentication
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/email-authentication/create-email-authentication/http-request.adoc[]
 include::{snippets}/email-authentication/create-email-authentication/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/email-authentication/create-email-authentication/http-response.adoc[]
 
-== 이메일 인증코드 일치 여부 확인
+=== 이메일 인증코드 일치 여부 확인
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/email-authentication/match-email-code/http-request.adoc[]
 include::{snippets}/email-authentication/match-email-code/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/email-authentication/match-email-code/http-response.adoc[]
 include::{snippets}/email-authentication/match-email-code/response-fields.adoc[]
 
-== 이메일 인증코드 재생성
+=== 이메일 인증코드 재생성
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/email-authentication/recreate-email-authentication/http-request.adoc[]
 include::{snippets}/email-authentication/recreate-email-authentication/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/email-authentication/recreate-email-authentication/http-response.adoc[]

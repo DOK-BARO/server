@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.bookquiz.domain
 import kr.kro.dokbaro.server.common.constant.Constants
 
 data class BookQuiz(
+	val id: Long = Constants.UNSAVED_ID,
 	var title: String,
 	var description: String,
 	var bookId: Long,
@@ -13,7 +14,6 @@ data class BookQuiz(
 	var timeLimitSecond: Int? = null,
 	var viewScope: AccessScope = AccessScope.EVERYONE,
 	var editScope: AccessScope = AccessScope.CREATOR,
-	val id: Long = Constants.UNSAVED_ID,
 ) {
 	fun updateBasicOption(
 		title: String = this.title,

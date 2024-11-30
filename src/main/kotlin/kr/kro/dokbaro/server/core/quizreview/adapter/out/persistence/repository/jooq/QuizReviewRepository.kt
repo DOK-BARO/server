@@ -25,7 +25,7 @@ class QuizReviewRepository(
 			).values(
 				quizReview.starRating,
 				quizReview.difficultyLevel,
-				quizReview.comment?.toByteArray(),
+				quizReview.comment,
 				quizReview.memberId,
 				quizReview.quizId,
 			).returningResult(QUIZ_REVIEW.ID)
@@ -36,7 +36,7 @@ class QuizReviewRepository(
 			.update(QUIZ_REVIEW)
 			.set(QUIZ_REVIEW.STAR_RATING, quizReview.starRating)
 			.set(QUIZ_REVIEW.DIFFICULTY_LEVEL, quizReview.difficultyLevel)
-			.set(QUIZ_REVIEW.COMMENT, quizReview.comment?.toByteArray())
+			.set(QUIZ_REVIEW.COMMENT, quizReview.comment)
 			.where(QUIZ_REVIEW.ID.eq(quizReview.id))
 			.execute()
 	}

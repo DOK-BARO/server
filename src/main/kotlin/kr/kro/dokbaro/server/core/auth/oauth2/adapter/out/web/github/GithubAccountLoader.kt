@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component
 class GithubAccountLoader(
 	private val resourceClient: GithubResourceClient,
 ) : ProviderAccountLoader {
-	override fun get(accessToken: String): OAuth2ProviderAccount {
+	override fun getAccount(accessToken: String): OAuth2ProviderAccount {
 		val account: GithubAccount = resourceClient.getUserProfiles(accessToken)
 
 		return OAuth2ProviderAccount(
-			AuthProvider.GITHUB,
-			account.id.toString(),
-			account.name ?: throw NickNameNotExistException(),
-			account.email ?: throw EmailNotExistException(),
-			account.avatarUrl,
+			provider = AuthProvider.GITHUB,
+			id = account.id.toString(),
+			name = account.name ?: throw NickNameNotExistException(),
+			email = account.email ?: throw EmailNotExistException(),
+			profileImage = account.avatarUrl,
 		)
 	}
 }

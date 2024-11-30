@@ -17,11 +17,16 @@ class LocalImageStorage(
 	): String {
 		val fileName =
 			fileNameStrategy.generateName(
-				file.originalFilename
-					?: throw InvalidFileNameException(file.originalFilename),
+				originName =
+					file.originalFilename
+						?: throw InvalidFileNameException(file.originalFilename),
 			)
 
-		val totalPath = combinePath(locationPath, middlePath)
+		val totalPath =
+			combinePath(
+				rootPath = locationPath,
+				middlePath = middlePath,
+			)
 		val newFile = File(totalPath, fileName)
 		newFile.mkdirs()
 		file.transferTo(newFile)

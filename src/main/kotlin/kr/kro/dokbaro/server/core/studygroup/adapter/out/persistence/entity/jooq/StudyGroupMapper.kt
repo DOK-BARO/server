@@ -6,11 +6,9 @@ import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
-import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetailMember
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import org.jooq.Record
-import org.jooq.Record5
 import org.jooq.Result
 import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JStudyGroupMember
@@ -28,14 +26,14 @@ class StudyGroupMapper {
 			.map { (group, members) ->
 				StudyGroup(
 					name = group.name,
-					introduction = group.introduction?.toString(Charsets.UTF_8),
+					introduction = group.introduction,
 					profileImageUrl = group.profileImageUrl,
 					studyMembers =
 						members
 							.map {
 								StudyMember(
-									it.getValue(STUDY_GROUP_MEMBER.MEMBER_ID),
-									StudyMemberRole.valueOf(it.getValue(STUDY_GROUP_MEMBER.MEMBER_ROLE)),
+									memberId = it.getValue(STUDY_GROUP_MEMBER.MEMBER_ID),
+									role = StudyMemberRole.valueOf(it.getValue(STUDY_GROUP_MEMBER.MEMBER_ROLE)),
 								)
 							}.toMutableSet(),
 					inviteCode = InviteCode(group.inviteCode),
@@ -46,22 +44,20 @@ class StudyGroupMapper {
 	fun toStudyGroupSummary(record: Result<StudyGroupRecord>): Collection<StudyGroupSummary> =
 		record.map {
 			StudyGroupSummary(
-				it.name,
-				it.profileImageUrl,
-				it.id,
+				id = it.id,
+				name = it.name,
+				profileImageUrl = it.profileImageUrl,
 			)
 		}
 
-	fun toStudyGroupMemberResult(
-		record: Result<Record5<Long, Long, Long, String, String>>,
-	): Collection<StudyGroupMemberResult> =
+	fun toStudyGroupMemberResult(record: Result<out Record>): Collection<StudyGroupMemberResult> =
 		record.map {
 			StudyGroupMemberResult(
-				it.get(STUDY_GROUP_MEMBER.STUDY_GROUP_ID),
-				it.get(STUDY_GROUP_MEMBER.ID),
-				it.get(STUDY_GROUP_MEMBER.MEMBER_ID),
-				it.get(MEMBER.NICKNAME),
-				StudyMemberRole.valueOf(it.get(STUDY_GROUP_MEMBER.MEMBER_ROLE)),
+				it[STUDY_GROUP_MEMBER.STUDY_GROUP_ID],
+				it[STUDY_GROUP_MEMBER.ID],
+				it[STUDY_GROUP_MEMBER.MEMBER_ID],
+				it[MEMBER.NICKNAME],
+				StudyMemberRole.valueOf(it[STUDY_GROUP_MEMBER.MEMBER_ROLE]),
 			)
 		}
 
@@ -69,20 +65,20 @@ class StudyGroupMapper {
 		record
 			.map { (studyGroup, members) ->
 				StudyGroupDetail(
+					id = studyGroup.id,
 					name = studyGroup.name,
-					introduction = studyGroup.introduction.toString(Charsets.UTF_8),
+					introduction = studyGroup.introduction,
 					profileImageUrl = studyGroup.profileImageUrl,
 					studyMembers =
 						members.map {
-							StudyGroupDetailMember(
-								id = it.get(STUDY_GROUP_MEMBER.MEMBER_ID),
-								nickname = it.get(MEMBER.NICKNAME),
-								profileImageUrl = it.get(MEMBER.PROFILE_IMAGE_URL),
-								role = it.get(STUDY_GROUP_MEMBER.MEMBER_ROLE),
+							StudyGroupDetail.StudyMember(
+								id = it[STUDY_GROUP_MEMBER.MEMBER_ID],
+								nickname = it[MEMBER.NICKNAME],
+								profileImageUrl = it[MEMBER.PROFILE_IMAGE_URL],
+								role = it[STUDY_GROUP_MEMBER.MEMBER_ROLE],
 							)
 						},
 					inviteCode = studyGroup.inviteCode,
-					id = studyGroup.id,
 				)
 			}.firstOrNull()
 }

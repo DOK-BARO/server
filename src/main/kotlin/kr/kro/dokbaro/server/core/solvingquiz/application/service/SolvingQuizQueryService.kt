@@ -57,6 +57,9 @@ class SolvingQuizQueryService(
 	): Collection<StudyGroupSolveSummary> {
 		val memberId: Long = findCertificatedMemberUseCase.getByCertificationId(authId).id
 
-		return readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(memberId, studyGroupId)
+		return readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(
+			memberId = memberId,
+			studyGroupId = studyGroupId,
+		)
 	}
 }

@@ -39,10 +39,15 @@ class QuizNotificationService(
 				),
 			)
 
-		val studyGroupMembers = findAllStudyGroupMembersUseCase.findAllStudyGroupMembers(command.studyGroupId)
+		val studyGroupMembers = findAllStudyGroupMembersUseCase.findAllStudyGroupMembers(id = command.studyGroupId)
 
 		insertNotificationVisibilityPort.insertAll(
-			studyGroupMembers.map { NotificationVisibility(savedNotificationId, it.memberId) },
+			studyGroupMembers.map {
+				NotificationVisibility(
+					notificationId = savedNotificationId,
+					memberId = it.memberId,
+				)
+			},
 		)
 	}
 
@@ -57,7 +62,12 @@ class QuizNotificationService(
 			)
 
 		insertNotificationVisibilityPort.insertAll(
-			listOf(NotificationVisibility(savedNotificationId, command.quizCreatorId)),
+			listOf(
+				NotificationVisibility(
+					notificationId = savedNotificationId,
+					memberId = command.quizCreatorId,
+				),
+			),
 		)
 	}
 
@@ -72,7 +82,12 @@ class QuizNotificationService(
 			)
 
 		insertNotificationVisibilityPort.insertAll(
-			listOf(NotificationVisibility(savedNotificationId, command.quizCreatorId)),
+			listOf(
+				NotificationVisibility(
+					notificationId = savedNotificationId,
+					memberId = command.quizCreatorId,
+				),
+			),
 		)
 	}
 }

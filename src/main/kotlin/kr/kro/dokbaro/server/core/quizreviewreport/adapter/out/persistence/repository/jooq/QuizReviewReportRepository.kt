@@ -23,7 +23,7 @@ class QuizReviewReportRepository(
 			).values(
 				quizReviewReport.quizReviewId,
 				quizReviewReport.reporterId,
-				quizReviewReport.content.toByteArray(),
+				quizReviewReport.content,
 			).returningResult(QUIZ_REVIEW_REPORT.ID)
 			.fetchOneInto(Long::class.java)!!
 }

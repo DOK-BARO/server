@@ -23,7 +23,7 @@ class EmailSignUpService(
 	private val generateAuthTokenUseCase: GenerateAuthTokenUseCase,
 ) : EmailSignUpUseCase {
 	override fun signUp(command: EmailSignUpCommand): AuthToken {
-		useAuthenticatedEmailUseCase.useEmail(command.email)
+		useAuthenticatedEmailUseCase.useEmail(email = command.email)
 
 		val savedMember: Member =
 			registerMemberUseCase.register(
@@ -36,8 +36,8 @@ class EmailSignUpService(
 
 		insertEmailAccountPort.insert(
 			AccountPassword(
-				passwordEncoder.encode(command.password),
-				savedMember.id,
+				password = passwordEncoder.encode(command.password),
+				memberId = savedMember.id,
 			),
 		)
 

@@ -20,8 +20,8 @@ class OAuth2AuthorizeUrlController(
 		@RequestParam redirectUrl: String,
 	) = AuthorizeUrlResponse(
 		findOauth2AuthorizeUrlUseCase.getUrl(
-			provider,
-			redirectUrl,
+			provider = provider,
+			redirectUrl = redirectUrl,
 		),
 	)
 }

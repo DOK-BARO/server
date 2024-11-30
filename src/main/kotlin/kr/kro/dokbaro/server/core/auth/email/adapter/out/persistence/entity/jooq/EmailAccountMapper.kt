@@ -16,15 +16,16 @@ class EmailAccountMapper {
 		private val MEMBER_ROLE = JMemberRole.MEMBER_ROLE
 	}
 
-	fun recordToEmailCertificatedAccount(record: Map<MemberRecord, Result<Record>>): EmailCertificatedAccount? =
+	fun toEmailCertificatedAccount(record: Map<MemberRecord, Result<Record>>): EmailCertificatedAccount? =
 		record
 			.map {
 				EmailCertificatedAccount(
-					it.value.getValues(ACCOUNT_PASSWORD.PASSWORD).first(),
-					UUIDUtils.byteArrayToUUID(it.key.certificationId),
-					it.value
-						.getValues(MEMBER_ROLE.NAME)
-						.toSet(),
+					password = it.value.getValues(ACCOUNT_PASSWORD.PASSWORD).first(),
+					certificationId = UUIDUtils.byteArrayToUUID(byteArray = it.key.certificationId),
+					role =
+						it.value
+							.getValues(MEMBER_ROLE.NAME)
+							.toSet(),
 				)
 			}.firstOrNull()
 }

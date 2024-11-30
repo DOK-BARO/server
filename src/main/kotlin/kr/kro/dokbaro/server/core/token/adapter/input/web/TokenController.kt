@@ -20,10 +20,10 @@ class TokenController(
 	fun refreshToken(
 		@CookieValue(value = "\${jwt.refresh-header-name}") refreshToken: String,
 	): ResponseEntity<MessageResponse> {
-		val reGenerateToken: AuthToken = reGenerateAuthTokenUseCase.reGenerate(refreshToken)
+		val reGenerateToken: AuthToken = reGenerateAuthTokenUseCase.reGenerate(refreshToken = refreshToken)
 
 		return jwtResponseEntityGenerator
-			.getResponseBuilder(reGenerateToken.accessToken, reGenerateToken.refreshToken)
+			.getResponseBuilder(accessToken = reGenerateToken.accessToken, refreshToken = reGenerateToken.refreshToken)
 			.body(MessageResponse("refresh Success / set cookie"))
 	}
 }

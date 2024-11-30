@@ -14,7 +14,7 @@ class NotificationPersistenceAdapterTest(
 	private val dslContext: DSLContext,
 ) : StringSpec({
 		extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
-	
+
 		val notificationRepository = NotificationRepository(dslContext)
 
 		val adapter = NotificationPersistenceAdapter(notificationRepository)

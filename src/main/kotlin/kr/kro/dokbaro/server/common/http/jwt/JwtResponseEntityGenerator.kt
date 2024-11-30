@@ -12,7 +12,11 @@ class JwtResponseEntityGenerator(
 		accessToken: String,
 		refreshToken: String,
 	): ResponseEntity.BodyBuilder {
-		val cookiePair: JwtCookiePair = jwtCookiePairGenerator.getJwtCookiePair(accessToken, refreshToken)
+		val cookiePair: JwtCookiePair =
+			jwtCookiePairGenerator.getJwtCookiePair(
+				accessToken = accessToken,
+				refreshToken = refreshToken,
+			)
 
 		return ResponseEntity
 			.ok()

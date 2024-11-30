@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.AfterThrowing
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 
 private val log = KotlinLogging.logger { }
 
@@ -19,6 +20,7 @@ class LogAdviser {
 			 !execution(* kr.kro.dokbaro.server.core..adapter.input..*(..))
 		""",
 	)
+	@Profile("!prod")
 	fun debugLog(joinPoint: ProceedingJoinPoint): Any? {
 		log.debug { "===> ${toRequestFormat(joinPoint)}" }
 		val result = joinPoint.proceed()

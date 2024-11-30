@@ -8,11 +8,11 @@ data class BookQuizQuestions(
 	val title: String,
 	val timeLimitSecond: Int? = null,
 	val questions: Collection<Question>,
-)
-
-data class Question(
-	val id: Long,
-	val content: String,
-	val type: QuizType,
-	val selectOptions: Collection<SelectOption>,
-)
+) {
+	data class Question(
+		val id: Long,
+		val content: String,
+		val type: QuizType,
+		val selectOptions: Collection<SelectOption>,
+	)
+}

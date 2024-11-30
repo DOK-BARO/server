@@ -20,7 +20,7 @@ class EmailLoginService(
 	override fun login(command: EmailLoginCommand): AuthToken {
 		val account: EmailCertificatedAccount =
 			loadEmailCertificatedAccountPort.findByEmail(command.email)
-				?: throw NotFoundEmailCertificatedAccountException(command.email)
+				?: throw NotFoundEmailCertificatedAccountException(email = command.email)
 
 		if (!passwordEncoder.matches(command.password, account.password)) {
 			throw PasswordNotMatchException()
@@ -28,8 +28,8 @@ class EmailLoginService(
 
 		return generateAuthTokenUseCase.generate(
 			TokenClaims(
-				UUIDUtils.uuidToString(account.certificationId),
-				account.role,
+				id = UUIDUtils.uuidToString(uuid = account.certificationId),
+				role = account.role,
 			),
 		)
 	}

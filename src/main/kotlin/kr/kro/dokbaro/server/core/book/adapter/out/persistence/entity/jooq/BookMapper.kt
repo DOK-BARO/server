@@ -24,23 +24,23 @@ class BookMapper {
 	fun toSummaryCollection(record: Map<Long, Result<out Record>>): Collection<BookSummary> =
 		record.map {
 			BookSummary(
-				it.key,
-				it.value.getValues(BOOK.TITLE).first(),
-				it.value.getValues(BOOK.PUBLISHER).first(),
-				it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
-				it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
-				it.value.getValues(BookRecordFieldName.QUIZ_COUNT.name, Long::class.java).first(),
+				id = it.key,
+				title = it.value.getValues(BOOK.TITLE).first(),
+				publisher = it.value.getValues(BOOK.PUBLISHER).first(),
+				imageUrl = it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
+				authors = it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
+				quizCount = it.value.getValues(BookRecordFieldName.QUIZ_COUNT.name, Long::class.java).first(),
 			)
 		}
 
 	fun toIntegratedBookCollection(record: Map<Long, Result<out Record>>): Collection<IntegratedBook> =
 		record.map {
 			IntegratedBook(
-				it.key,
-				it.value.getValues(BOOK.TITLE).first(),
-				it.value.getValues(BOOK.PUBLISHER).first(),
-				it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
-				it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
+				id = it.key,
+				title = it.value.getValues(BOOK.TITLE).first(),
+				publisher = it.value.getValues(BOOK.PUBLISHER).first(),
+				imageUrl = it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
+				authors = it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
 			)
 		}
 
@@ -63,7 +63,11 @@ class BookMapper {
 			categoryMap[it.parentId]?.add(it.id)
 		}
 
-		return generateCategoryWithDetails(categoryMap, recordMap, headId)
+		return generateCategoryWithDetails(
+			categoryMap = categoryMap,
+			recordMap = recordMap,
+			headId = headId,
+		)
 	}
 
 	private fun generateCategoryWithDetails(
@@ -74,10 +78,17 @@ class BookMapper {
 		val targetRecord: BookCategoryRecord = recordMap[headId]!!
 
 		return BookCategoryTree(
-			targetRecord.id,
-			targetRecord.koreanName,
-			categoryMap[headId]!!
-				.map { generateCategoryWithDetails(categoryMap, recordMap, it) },
+			id = targetRecord.id,
+			name = targetRecord.koreanName,
+			details =
+				categoryMap[headId]!!
+					.map {
+						generateCategoryWithDetails(
+							categoryMap = categoryMap,
+							recordMap = recordMap,
+							headId = it,
+						)
+					},
 		)
 	}
 
@@ -88,17 +99,17 @@ class BookMapper {
 		bookRecord
 			.map {
 				BookDetail(
-					it.key,
-					it.value.getValues(BOOK.ISBN).first(),
-					it.value.getValues(BOOK.TITLE).first(),
-					it.value.getValues(BOOK.PUBLISHER).first(),
-					it.value
-						.getValues(BOOK.DESCRIPTION)
-						.firstOrNull()
-						?.toString(Charsets.UTF_8),
-					it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
-					toBookCategorySingles(categoriesRecord),
-					it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
+					id = it.key,
+					isbn = it.value.getValues(BOOK.ISBN).first(),
+					title = it.value.getValues(BOOK.TITLE).first(),
+					publisher = it.value.getValues(BOOK.PUBLISHER).first(),
+					description =
+						it.value
+							.getValues(BOOK.DESCRIPTION)
+							.firstOrNull(),
+					imageUrl = it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
+					categories = toBookCategorySingles(categoriesRecord = categoriesRecord),
+					authors = it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
 				)
 			}.firstOrNull()
 
@@ -135,9 +146,9 @@ class BookMapper {
 			target.id,
 			target.koreanName,
 			toBookCategorySingleParents(
-				categoriesRecord,
-				target.parentId,
-				visited,
+				categoriesRecord = categoriesRecord,
+				id = target.parentId,
+				visited = visited,
 			),
 		)
 	}

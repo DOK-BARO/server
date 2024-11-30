@@ -12,7 +12,6 @@ import kr.kro.dokbaro.server.core.studygroup.application.port.out.ReadStudyGroup
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
-import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetailMember
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
@@ -37,9 +36,9 @@ class StudyGroupQueryServiceTest :
 			every { findAllMyStudyGroupUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			every { readStudyGroupCollectionPort.findAllByStudyMemberId(any()) } returns
 				listOf(
-					StudyGroupSummary("C 스터디", "ccc.png", 1),
-					StudyGroupSummary("JAVA 스터디", "ccc.png", 1),
-					StudyGroupSummary("모각코 합시다", "ccc.png", 1),
+					StudyGroupSummary(1, "C 스터디", "ccc.png"),
+					StudyGroupSummary(2, "JAVA 스터디", "ccc.png"),
+					StudyGroupSummary(3, "모각코 합시다", "ccc.png"),
 				)
 
 			studyGroupQueryService.findAll(UUID.randomUUID()) shouldNotBe null
@@ -64,19 +63,19 @@ class StudyGroupQueryServiceTest :
 					profileImageUrl = "https://example.com/group-profile.jpg",
 					studyMembers =
 						listOf(
-							StudyGroupDetailMember(
+							StudyGroupDetail.StudyMember(
 								id = 1L,
 								nickname = "철수",
 								profileImageUrl = "https://example.com/member1-profile.jpg",
 								role = "LEADER",
 							),
-							StudyGroupDetailMember(
+							StudyGroupDetail.StudyMember(
 								id = 2L,
 								nickname = "영희",
 								profileImageUrl = "https://example.com/member2-profile.jpg",
 								role = "MEMBER",
 							),
-							StudyGroupDetailMember(
+							StudyGroupDetail.StudyMember(
 								id = 3L,
 								nickname = "민수",
 								profileImageUrl = null,

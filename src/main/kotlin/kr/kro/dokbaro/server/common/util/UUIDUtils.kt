@@ -20,5 +20,5 @@ object UUIDUtils {
 
 	fun uuidToString(uuid: UUID): String = uuid.toString()
 
-	fun stringToUUID(string: String): UUID = UUID.fromString(string)
+	fun stringToUUID(str: String): UUID = UUID.fromString(str)
 }

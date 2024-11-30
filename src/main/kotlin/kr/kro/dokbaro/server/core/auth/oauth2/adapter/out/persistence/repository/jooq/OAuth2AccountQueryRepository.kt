@@ -48,7 +48,7 @@ class OAuth2AccountQueryRepository(
 					MEMBER_ROLE,
 				)
 
-		return oAuth2AccountMapper.mapTo(record)
+		return oAuth2AccountMapper.toOAuthCertificatedAccount(record)
 	}
 
 	fun existBy(

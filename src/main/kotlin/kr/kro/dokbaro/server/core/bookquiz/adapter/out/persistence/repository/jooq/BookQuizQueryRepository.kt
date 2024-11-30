@@ -5,6 +5,7 @@ import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
@@ -13,8 +14,6 @@ import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
-import org.jooq.Record3
-import org.jooq.Record9
 import org.jooq.Result
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
@@ -54,7 +53,7 @@ class BookQuizQueryRepository(
 	}
 
 	fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? {
-		val record: Result<Record9<Long, String, Int, Long, ByteArray, String, Long, ByteArray, Int>> =
+		val record: Result<out Record> =
 			dslContext
 				.select(
 					BOOK_QUIZ.ID,
@@ -74,11 +73,11 @@ class BookQuizQueryRepository(
 				.where(BOOK_QUIZ.ID.eq(quizId).and(BOOK_QUIZ.DELETED.eq(false)))
 				.fetch()
 
-		return bookQuizMapper.recordToBookQuizQuestions(record)
+		return bookQuizMapper.toBookQuizQuestions(record)
 	}
 
 	fun findBookQuizAnswerBy(questionId: Long): BookQuizAnswer? {
-		val record: Result<Record3<String, ByteArray, String>> =
+		val record: Result<out Record> =
 			dslContext
 				.select(
 					BOOK_QUIZ_ANSWER.CONTENT,
@@ -218,5 +217,30 @@ class BookQuizQueryRepository(
 				.fetch()
 
 		return bookQuizMapper.toMyBookQuiz(record)
+	}
+
+	fun findBookQuizExplanationBy(id: Long): BookQuizExplanation? {
+		val record: Result<out Record> =
+			dslContext
+				.select(
+					BOOK_QUIZ.ID,
+					BOOK_QUIZ.TITLE,
+					BOOK_QUIZ.DESCRIPTION,
+					BOOK_QUIZ.CREATED_AT,
+					MEMBER.ID,
+					MEMBER.NICKNAME,
+					MEMBER.PROFILE_IMAGE_URL,
+					BOOK.ID,
+					BOOK.TITLE,
+					BOOK.IMAGE_URL,
+				).from(BOOK_QUIZ)
+				.join(BOOK)
+				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
+				.join(MEMBER)
+				.on(MEMBER.ID.eq(BOOK_QUIZ.CREATOR_ID))
+				.where(BOOK_QUIZ.ID.eq(id))
+				.fetch()
+
+		return bookQuizMapper.toBookQuizExplanation(record)
 	}
 }

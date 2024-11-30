@@ -1,62 +1,61 @@
-= AUTH
+== AUTH
 
-== get OAUTH2 provider authorize url
+=== get OAUTH2 provider authorize url
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/auth/get-provider-authorize-url/http-request.adoc[]
 include::{snippets}/auth/get-provider-authorize-url/query-parameters.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/auth/get-provider-authorize-url/http-response.adoc[]
 include::{snippets}/auth/get-provider-authorize-url/response-fields.adoc[]
 
-== OAUTH2 signup
+=== OAUTH2 signup
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/auth/oauth2-signup/http-request.adoc[]
 include::{snippets}/auth/oauth2-signup/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/auth/oauth2-signup/http-response.adoc[]
 include::{snippets}/auth/oauth2-signup/response-fields.adoc[]
 
-== OAUTH2 login
+=== OAUTH2 login
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/auth/oauth2-login/http-request.adoc[]
 include::{snippets}/auth/oauth2-login/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/auth/oauth2-login/http-response.adoc[]
 include::{snippets}/auth/oauth2-login/response-fields.adoc[]
 
-== 이메일 회원가입
+=== 이메일 회원가입
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/auth/email-signup/http-request.adoc[]
 include::{snippets}/auth/email-signup/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/auth/email-signup/http-response.adoc[]
 include::{snippets}/auth/email-signup/response-fields.adoc[]
 
-== 이메일 로그인
+=== 이메일 로그인
 
-
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/auth/email-login/http-request.adoc[]
 include::{snippets}/auth/email-login/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/auth/email-signup/http-response.adoc[]
 include::{snippets}/auth/email-signup/response-fields.adoc[]

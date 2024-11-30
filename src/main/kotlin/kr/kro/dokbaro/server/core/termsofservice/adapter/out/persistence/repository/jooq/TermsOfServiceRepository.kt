@@ -24,7 +24,7 @@ class TermsOfServiceRepository(
 				.where(TERMS_OF_SERVICE_DETAIL.TERMS_OF_SERVICE_ID.eq(id))
 				.fetchOne()
 
-		return record?.let { TermsOfServiceDetail(it.content.toString(Charsets.UTF_8)) }
+		return record?.let { TermsOfServiceDetail(it.content) }
 	}
 
 	fun insertAgreeTermsOfService(agreeTermsOfService: AgreeTermsOfService) {

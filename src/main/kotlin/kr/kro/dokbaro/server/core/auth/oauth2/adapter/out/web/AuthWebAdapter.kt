@@ -18,12 +18,15 @@ class AuthWebAdapter(
 		redirectUrl: String,
 	): String =
 		resourceTokenLoaders["${provider.name.lowercase()}ResourceTokenLoader"]!!
-			.get(authorizationToken, redirectUrl)
+			.getResource(
+				authorizationToken = authorizationToken,
+				redirectUrl = redirectUrl,
+			)
 
 	override fun getProviderAccount(
 		provider: AuthProvider,
 		accessToken: String,
 	): OAuth2ProviderAccount =
 		accountLoaders["${provider.name.lowercase()}AccountLoader"]!!
-			.get(accessToken)
+			.getAccount(accessToken = accessToken)
 }

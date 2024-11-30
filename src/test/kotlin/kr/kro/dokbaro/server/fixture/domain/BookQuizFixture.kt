@@ -13,6 +13,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 
 fun bookQuizFixture(
+	id: Long = 0,
 	title: String = "title",
 	description: String = "description",
 	bookId: Long = 0,
@@ -20,8 +21,8 @@ fun bookQuizFixture(
 	contributorIds: MutableSet<Long> = mutableSetOf(),
 	questions: Collection<QuizQuestion> = listOf(quizQuestionFixture()),
 	studyGroupId: Long? = null,
-	id: Long = 0,
 ) = BookQuiz(
+	id = id,
 	title = title,
 	description = description,
 	bookId = bookId,
@@ -29,10 +30,10 @@ fun bookQuizFixture(
 	contributorIds = contributorIds,
 	questions = QuizQuestions(questions.toMutableList()),
 	studyGroupId = studyGroupId,
-	id = id,
 )
 
 fun quizQuestionFixture(
+	id: Long = Constants.UNSAVED_ID,
 	content: String = "content",
 	selectOptions: Collection<SelectOption> = listOf(SelectOption("selectOption1"), SelectOption("selectOption2")),
 	answerExplanation: String = "answer_explanation",
@@ -42,8 +43,8 @@ fun quizQuestionFixture(
 			QuizType.MULTIPLE_CHOICE,
 			AnswerSheet(listOf("2", "4")),
 		),
-	id: Long = Constants.UNSAVED_ID,
 ) = QuizQuestion(
+	id = id,
 	content = content,
 	selectOptions = selectOptions,
 	answer =
@@ -52,7 +53,6 @@ fun quizQuestionFixture(
 			explanationImages = answerExplanationImages,
 			gradeSheet = answer,
 		),
-	id = id,
 )
 
 fun bookQuizAnswerFixture(

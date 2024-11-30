@@ -1,22 +1,23 @@
-= MEMBER
+== MEMBER
 
-== modify login member
+=== modify login member
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/member/modify-login-user/http-request.adoc[]
 include::{snippets}/member/modify-login-user/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/member/modify-login-user/http-response.adoc[]
 
-== get login member
+=== get login member
 
-=== HTTP request
+==== HTTP request
+
 include::{snippets}/member/get-login-user/http-request.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/member/get-login-user/http-response.adoc[]
 include::{snippets}/member/get-login-user/response-fields.adoc[]

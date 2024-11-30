@@ -20,15 +20,15 @@ class JwtCookiePairGenerator(
 		JwtCookiePair(
 			accessTokenCookie =
 				cookieGenerator.generate(
-					accessHeaderName,
-					accessToken,
-					Duration.ofMinutes(accessTokenLimitMinute),
+					name = accessHeaderName,
+					value = accessToken,
+					age = Duration.ofMinutes(accessTokenLimitMinute),
 				),
 			refreshTokenCookie =
 				cookieGenerator.generate(
-					refreshHeaderName,
-					refreshToken,
-					Duration.ofDays(refreshLimitDays),
+					name = refreshHeaderName,
+					value = refreshToken,
+					age = Duration.ofDays(refreshLimitDays),
 				),
 		)
 }

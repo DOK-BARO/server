@@ -3,11 +3,11 @@ package kr.kro.dokbaro.server.core.emailauthentication.domain
 import kr.kro.dokbaro.server.common.constant.Constants
 
 class EmailAuthentication(
+	val id: Long = Constants.UNSAVED_ID,
 	val address: String,
 	var code: String,
 	var authenticated: Boolean = false,
 	var used: Boolean = false,
-	val id: Long = Constants.UNSAVED_ID,
 ) {
 	fun use() {
 		if (!authenticated) {

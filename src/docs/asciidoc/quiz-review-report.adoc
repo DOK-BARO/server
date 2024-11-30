@@ -1,13 +1,13 @@
-= QUIZ_REVIEW_REPORT
+== QUIZ_REVIEW_REPORT
 
-== 퀴즈 리뷰 신고하기
+=== 퀴즈 리뷰 신고하기
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/quiz-review-report/create/http-request.adoc[]
 include::{snippets}/quiz-review-report/create/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/quiz-review-report/create/http-response.adoc[]
 include::{snippets}/quiz-review-report/create/response-fields.adoc[]

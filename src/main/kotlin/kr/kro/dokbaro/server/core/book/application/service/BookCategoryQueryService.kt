@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service
 class BookCategoryQueryService(
 	private val readBookCategoryPort: ReadBookCategoryPort,
 ) : FindAllBookCategoryUseCase {
-	override fun getTree(id: Long?): BookCategoryTree = readBookCategoryPort.findTreeBy(id ?: BookCategory.ROOT_ID)
+	override fun getTree(id: Long?): BookCategoryTree = readBookCategoryPort.findTreeBy(id = id ?: BookCategory.ROOT_ID)
 }

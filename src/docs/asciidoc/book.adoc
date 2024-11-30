@@ -1,73 +1,73 @@
-= BOOK
+== BOOK
 
-== 책 생성
+=== 책 생성
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/book/create-book/http-request.adoc[]
 include::{snippets}/book/create-book/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/book/create-book/http-response.adoc[]
 include::{snippets}/book/create-book/response-fields.adoc[]
 
-== 책 목록(필터링) 조회
+=== 책 목록(필터링) 조회
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/book/find-book-collection/http-request.adoc[]
 include::{snippets}/book/find-book-collection/query-parameters.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/book/find-book-collection/http-response.adoc[]
 include::{snippets}/book/find-book-collection/response-fields.adoc[]
 
-== 책 상세 조회
+=== 책 상세 조회
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/book/find-book/http-request.adoc[]
 include::{snippets}/book/find-book/path-parameters.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/book/find-book/http-response.adoc[]
 include::{snippets}/book/find-book/response-fields.adoc[]
 
-== 책 카테고리 생성
+=== 책 카테고리 생성
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/book/create-book-category/http-request.adoc[]
 include::{snippets}/book/create-book-category/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/book/create-book-category/http-response.adoc[]
 include::{snippets}/book/create-book-category/response-fields.adoc[]
 
-== 책 카테고리 조회
+=== 책 카테고리 조회
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/book/find-book-category/http-request.adoc[]
 include::{snippets}/book/find-book-category/query-parameters.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/book/find-book-category/http-response.adoc[]
 include::{snippets}/book/find-book-category/response-fields.adoc[]
 
-== 책 통합 조회
+=== 책 통합 조회
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/book/find-integrated-book-collection/http-request.adoc[]
 include::{snippets}/book/find-integrated-book-collection/query-parameters.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/book/find-integrated-book-collection/http-response.adoc[]
 include::{snippets}/book/find-integrated-book-collection/response-fields.adoc[]

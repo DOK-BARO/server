@@ -8,6 +8,9 @@ data class PageOption(
 		fun of(
 			page: Long,
 			size: Long,
-		) = PageOption((page - 1) * size, size)
+		) = PageOption(
+			offset = (page - 1) * size,
+			limit = size,
+		)
 	}
 }

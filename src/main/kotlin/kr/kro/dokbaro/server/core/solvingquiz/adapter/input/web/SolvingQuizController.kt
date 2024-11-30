@@ -40,8 +40,8 @@ class SolvingQuizController(
 		IdResponse(
 			startSolvingQuizUseCase.start(
 				StartSolvingQuizCommand(
-					UUIDUtils.stringToUUID(auth.name),
-					body.quizId,
+					authId = UUIDUtils.stringToUUID(auth.name),
+					quizId = body.quizId,
 				),
 			),
 		)
@@ -53,9 +53,9 @@ class SolvingQuizController(
 	): SolveResult =
 		solveQuestionUseCase.solve(
 			SolveQuestionCommand(
-				id,
-				body.questionId,
-				body.answers,
+				solvingQuizId = id,
+				questionId = body.questionId,
+				answers = body.answers,
 			),
 		)
 

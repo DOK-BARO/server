@@ -5,7 +5,7 @@ endif::[]
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 4
+:toclevels: 2
 :sectlinks:
 = DOKBARO
 
@@ -34,4 +34,6 @@ include::terms-of-service.adoc[]
 include::token.adoc[]
 
 include::quiz-review.adoc[]
+
+include::quiz-review-report.adoc[]
 

@@ -26,6 +26,9 @@ class GenerateAuthTokenService(
 		deleteRefreshTokenPort.deleteBy(certificateId)
 		insertRefreshTokenPort.insert(refreshToken)
 
-		return AuthToken(accessToken, refreshToken.token)
+		return AuthToken(
+			accessToken = accessToken,
+			refreshToken = refreshToken.token,
+		)
 	}
 }

@@ -15,7 +15,7 @@ class BookCategoryPersistenceAdapterTest(
 	private val dslContext: DSLContext,
 ) : StringSpec({
 		extensions(SpringTestExtension(SpringTestLifecycleMode.Root))
-	
+
 		val bookRepository = BookRepository(dslContext)
 		val adapter = BookCategoryPersistenceAdapter(bookRepository)
 

@@ -29,7 +29,7 @@ class EmailAuthenticationQueryRepository(
 				.where(buildCondition(condition))
 				.fetchOne()
 
-		return emailAuthenticationMapper.recordToEmailAuthentication(record)
+		return emailAuthenticationMapper.toEmailAuthentication(record)
 	}
 
 	private fun buildCondition(condition: SearchEmailAuthenticationCondition): Condition {

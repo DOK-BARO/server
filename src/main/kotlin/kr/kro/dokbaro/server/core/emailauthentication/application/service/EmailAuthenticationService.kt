@@ -40,8 +40,13 @@ class EmailAuthenticationService(
 		}
 
 		val code: String = emailCodeGenerator.generate()
-		insertEmailAuthenticationPort.insert(EmailAuthentication(email, code))
-		sendEmailAuthenticationCodePort.sendEmail(email, code)
+		insertEmailAuthenticationPort.insert(
+			EmailAuthentication(
+				address = email,
+				code = code,
+			),
+		)
+		sendEmailAuthenticationCodePort.sendEmail(email = email, code = code)
 	}
 
 	override fun match(
@@ -80,7 +85,7 @@ class EmailAuthenticationService(
 		emailAuthentication.changeCode(newCode)
 
 		updateEmailAuthenticationPort.update(emailAuthentication)
-		sendEmailAuthenticationCodePort.sendEmail(email, newCode)
+		sendEmailAuthenticationCodePort.sendEmail(email = email, code = newCode)
 	}
 
 	override fun useEmail(email: String) {

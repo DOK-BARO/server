@@ -1,16 +1,16 @@
 CREATE TABLE book
 (
-	id           bigint      NOT NULL AUTO_INCREMENT,
-	isbn         char(14)    NOT NULL,
-	title        varchar(70) NOT NULL,
-	publisher    varchar(30) NOT NULL,
-	published_at date        NOT NULL,
-	price        int         NOT NULL,
-	description  blob,
-	image_url    varchar(255)         DEFAULT NULL,
-	created_at   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted      boolean     NOT NULL DEFAULT false,
+	id           bigint       NOT NULL AUTO_INCREMENT,
+	isbn         char(14)     NOT NULL,
+	title        varchar(255) NOT NULL,
+	publisher    varchar(127) NOT NULL,
+	published_at date         NOT NULL,
+	price        int          NOT NULL,
+	description  text,
+	image_url    varchar(255)          DEFAULT NULL,
+	created_at   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted      boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY isbn (isbn)
 ) ENGINE = InnoDB
@@ -20,12 +20,12 @@ CREATE TABLE book
 
 CREATE TABLE book_author
 (
-	id         bigint      NOT NULL AUTO_INCREMENT,
-	book_id    bigint      NOT NULL,
-	name       varchar(50) NOT NULL,
-	created_at datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted    boolean     NOT NULL DEFAULT false,
+	id         bigint       NOT NULL AUTO_INCREMENT,
+	book_id    bigint       NOT NULL,
+	name       varchar(127) NOT NULL,
+	created_at datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted    boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT book_author_book_id_fk FOREIGN KEY (book_id) REFERENCES book (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
@@ -48,7 +48,8 @@ CREATE TABLE book_category
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
-INSERT INTO book_category(id, english_name, korean_name) VALUES (1, 'ROOT', 'ROOT');
+INSERT INTO book_category(id, english_name, korean_name)
+VALUES (1, 'ROOT', 'ROOT');
 
 CREATE TABLE book_category_group
 (

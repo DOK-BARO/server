@@ -34,6 +34,7 @@ object AuthorizationEndpointChain {
 			"/book-categories",
 			"/books/**",
 			"/book-quizzes",
+			"/book-quizzes/{id:\\d+}/explanation",
 			"/images",
 			"/quiz-reviews/**",
 		)

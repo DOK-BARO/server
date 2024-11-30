@@ -6,7 +6,7 @@ import org.jooq.generated.tables.records.EmailAuthenticationRecord
 
 @Mapper
 class EmailAuthenticationMapper {
-	fun recordToEmailAuthentication(record: EmailAuthenticationRecord?): EmailAuthentication? =
+	fun toEmailAuthentication(record: EmailAuthenticationRecord?): EmailAuthentication? =
 		record?.let {
 			EmailAuthentication(
 				address = it.address,

@@ -11,6 +11,7 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizR
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.DeleteBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizExplanationUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindMyBookQuizUseCase
@@ -21,16 +22,11 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
-import kr.kro.dokbaro.server.core.bookquiz.query.BookSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.Creator
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.Question
-import kr.kro.dokbaro.server.core.bookquiz.query.QuizContributor
-import kr.kro.dokbaro.server.core.bookquiz.query.QuizCreator
-import kr.kro.dokbaro.server.core.bookquiz.query.QuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -69,6 +65,9 @@ class BookQuizControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var deleteBookQuizUseCase: DeleteBookQuizUseCase
+
+	@MockkBean
+	lateinit var bookQuizExplanationUseCase: FindBookQuizExplanationUseCase
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
@@ -173,7 +172,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					"java 정석 1차",
 					60,
 					listOf(
-						Question(
+						BookQuizQuestions.Question(
 							1,
 							"조정석의 아내 이름은?",
 							QuizType.MULTIPLE_CHOICE,
@@ -350,7 +349,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								averageDifficultyLevel = 3.2,
 								questionCount = 10,
 								creator =
-									Creator(
+									BookQuizSummary.Creator(
 										id = 1001L,
 										nickname = "quizMaster01",
 										profileUrl = "https://example.com/profiles/quizMaster01",
@@ -363,7 +362,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								averageDifficultyLevel = 4.0,
 								questionCount = 15,
 								creator =
-									Creator(
+									BookQuizSummary.Creator(
 										id = 1002L,
 										nickname = "javaExpert99",
 										profileUrl = "https://example.com/profiles/javaExpert99",
@@ -376,7 +375,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								averageDifficultyLevel = 2.5,
 								questionCount = 8,
 								creator =
-									Creator(
+									BookQuizSummary.Creator(
 										id = 1003L,
 										nickname = "pythonGuru",
 										profileUrl = null,
@@ -435,17 +434,17 @@ class BookQuizControllerTest : RestDocsTest() {
 				listOf(
 					UnsolvedGroupBookQuizSummary(
 						book =
-							BookSummary(
+							UnsolvedGroupBookQuizSummary.Book(
 								id = 1L,
 								title = "The Great Adventure",
 								imageUrl = "https://example.com/the_great_adventure.jpg",
 							),
 						quiz =
-							QuizSummary(
+							UnsolvedGroupBookQuizSummary.Quiz(
 								id = 101L,
 								title = "Adventure Quiz",
 								creator =
-									QuizCreator(
+									UnsolvedGroupBookQuizSummary.Creator(
 										id = 1001L,
 										nickname = "quizMaster",
 										profileImageUrl = "https://example.com/profile_quizmaster.jpg",
@@ -453,12 +452,12 @@ class BookQuizControllerTest : RestDocsTest() {
 								createdAt = LocalDateTime.of(2024, 5, 10, 14, 30, 0, 0),
 								contributors =
 									listOf(
-										QuizContributor(
+										UnsolvedGroupBookQuizSummary.Contributor(
 											id = 2001L,
 											nickname = "contributorOne",
 											profileImageUrl = "https://example.com/profile_contributorone.jpg",
 										),
-										QuizContributor(
+										UnsolvedGroupBookQuizSummary.Contributor(
 											id = 2002L,
 											nickname = "contributorTwo",
 											profileImageUrl = "https://example.com/profile_contributortwo.jpg",
@@ -468,17 +467,17 @@ class BookQuizControllerTest : RestDocsTest() {
 					),
 					UnsolvedGroupBookQuizSummary(
 						book =
-							BookSummary(
+							UnsolvedGroupBookQuizSummary.Book(
 								id = 2L,
 								title = "Mystery of the Lost City",
 								imageUrl = "https://example.com/mystery_lost_city.jpg",
 							),
 						quiz =
-							QuizSummary(
+							UnsolvedGroupBookQuizSummary.Quiz(
 								id = 102L,
 								title = "Mystery Quiz",
 								creator =
-									QuizCreator(
+									UnsolvedGroupBookQuizSummary.Creator(
 										id = 1002L,
 										nickname = "mysterySolver",
 										profileImageUrl = "https://example.com/profile_mysterysolver.jpg",
@@ -486,7 +485,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								createdAt = LocalDateTime.of(2024, 6, 15, 10, 0, 0, 0),
 								contributors =
 									listOf(
-										QuizContributor(
+										UnsolvedGroupBookQuizSummary.Contributor(
 											id = 2003L,
 											nickname = "mysteryFan",
 											profileImageUrl = "https://example.com/profile_mysteryfan.jpg",
@@ -573,6 +572,55 @@ class BookQuizControllerTest : RestDocsTest() {
 						"book-quiz/delete",
 						pathParameters(
 							parameterWithName("id").description("book quiz id"),
+						),
+					),
+				)
+		}
+
+		"퀴즈 설명을 조회한다" {
+			every { bookQuizExplanationUseCase.findExplanationBy(any()) } returns
+				BookQuizExplanation(
+					id = 1L,
+					title = "Sample Quiz Explanation",
+					description = "This is a detailed explanation for a sample book quiz.",
+					createdAt = LocalDateTime.now(),
+					creator =
+						BookQuizExplanation.Creator(
+							id = 101L,
+							nickname = "QuizMaster",
+							profileImageUrl = "https://example.com/profile.jpg",
+						),
+					book =
+						BookQuizExplanation.Book(
+							id = 201L,
+							title = "Effective Kotlin",
+							imageUrl = "https://example.com/book.jpg",
+						),
+				)
+
+			performGet(Path("/book-quizzes/{id}/explanation", "1"))
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"book-quiz/explanation",
+						pathParameters(
+							parameterWithName("id").description("book quiz id"),
+						),
+						responseFields(
+							fieldWithPath("id").description("퀴즈 설명의 고유 ID"),
+							fieldWithPath("title").description("퀴즈 설명의 제목"),
+							fieldWithPath("description").description("퀴즈 설명의 내용"),
+							fieldWithPath("createdAt").description("퀴즈 설명이 생성된 날짜 및 시간 (ISO 8601 형식)"),
+							fieldWithPath("creator").description("퀴즈 설명을 생성한 사용자의 정보"),
+							fieldWithPath("creator.id").description("생성자의 고유 ID"),
+							fieldWithPath("creator.nickname").description("생성자의 닉네임"),
+							fieldWithPath("creator.profileImageUrl")
+								.description("생성자의 프로필 이미지 URL (optional)")
+								.optional(),
+							fieldWithPath("book").description("퀴즈가 참조하는 책의 정보"),
+							fieldWithPath("book.id").description("책의 고유 ID"),
+							fieldWithPath("book.title").description("책의 제목"),
+							fieldWithPath("book.imageUrl").description("책의 이미지 URL (optional)").optional(),
 						),
 					),
 				)

@@ -12,6 +12,7 @@ import java.time.LocalDate
 import kotlin.random.Random
 
 fun bookFixture(
+	id: Long = Constants.UNSAVED_ID,
 	isbn: String = Random.nextLong(10000000000).toString(),
 	title: String = "Effective Kotlin",
 	publisher: String = "Manning",
@@ -21,32 +22,31 @@ fun bookFixture(
 	imageUrl: String? = "https://example.com/effective_kotlin.jpg",
 	categories: Set<Long> = setOf(BookCategory.ROOT_ID),
 	authors: Collection<String> = listOf("조영호"),
-	id: Long = Constants.UNSAVED_ID,
 ): Book =
 	Book(
-		isbn,
-		title,
-		publisher,
-		publishedAt,
-		price,
-		description,
-		imageUrl,
-		categories,
-		authors.map { BookAuthor(it) },
-		id,
+		id = id,
+		isbn = isbn,
+		title = title,
+		publisher = publisher,
+		publishedAt = publishedAt,
+		price = price,
+		description = description,
+		imageUrl = imageUrl,
+		categories = categories,
+		authors = authors.map { BookAuthor(it) },
 	)
 
 fun bookCategoryFixture(
+	id: Long = BookCategory.ROOT_ID,
 	koreanName: String = "ROOT",
 	englishName: String = "ROOT",
 	parentId: Long? = null,
-	id: Long = BookCategory.ROOT_ID,
 ): BookCategory =
 	BookCategory(
+		id,
 		koreanName,
 		englishName,
 		parentId,
-		id,
 	)
 
 fun bookDetailFixture(

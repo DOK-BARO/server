@@ -4,12 +4,12 @@ import kr.kro.dokbaro.server.common.constant.Constants
 import java.util.UUID
 
 data class Member(
+	val id: Long = Constants.UNSAVED_ID,
 	var nickName: String,
 	var email: Email,
 	var profileImage: String?,
 	val certificationId: UUID,
 	val roles: Set<Role> = setOf(Role.GUEST),
-	val id: Long = Constants.UNSAVED_ID,
 ) {
 	fun modify(
 		nickName: String?,

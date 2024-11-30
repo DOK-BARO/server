@@ -3,7 +3,7 @@ CREATE TABLE quiz_review
 	id               bigint   NOT NULL AUTO_INCREMENT,
 	star_rating      int      NOT NULL,
 	difficulty_level int      NOT NULL,
-	comment          blob,
+	comment          text,
 	member_id        bigint   NOT NULL,
 	quiz_id          bigint   NOT NULL,
 	created_at       datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

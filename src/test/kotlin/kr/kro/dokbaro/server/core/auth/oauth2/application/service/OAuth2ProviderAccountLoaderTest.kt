@@ -26,7 +26,12 @@ class OAuth2ProviderAccountLoaderTest :
 
 		"provider에 해당하는 account를 가져온다" {
 			every { loadProviderResourceTokenPort.getToken(targetProvider, any(), any()) } returns "token"
-			every { loadProviderAccountPort.getProviderAccount(targetProvider, any()) } returns oAuth2ProviderAccountFixture()
+			every {
+				loadProviderAccountPort.getProviderAccount(
+					targetProvider,
+					any(),
+				)
+			} returns oAuth2ProviderAccountFixture()
 			val result: OAuth2ProviderAccount =
 				accountLoader.getAccount(
 					LoadProviderAccountCommand(

@@ -190,4 +190,17 @@ class BookQuizPersistenceQueryAdapterTest(
 
 			adapter.findAllMyBookQuiz(memberId).size shouldBe 1
 		}
+
+		"퀴즈 설명을 조회한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val bookId = bookRepository.insertBook(bookFixture())
+			val bookQuiz = bookQuizFixture(creatorId = memberId, bookId = bookId)
+			val bookQuizId: Long = bookQuizRepository.insert(bookQuiz)
+
+			val result = adapter.findExplanationBy(bookQuizId)
+
+			result shouldNotBe null
+			result!!.book.id shouldBe bookId
+			result.creator.id shouldBe memberId
+		}
 	})

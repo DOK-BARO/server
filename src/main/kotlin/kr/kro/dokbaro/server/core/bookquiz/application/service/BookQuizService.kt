@@ -62,7 +62,11 @@ class BookQuizService(
 											QuestionAnswer(
 												explanationContent = it.answerExplanationContent,
 												explanationImages = it.answerExplanationImages,
-												gradeSheet = GradeSheetFactory.create(it.answerType, AnswerSheet(it.answers)),
+												gradeSheet =
+													GradeSheetFactory.create(
+														type = it.answerType,
+														sheet = AnswerSheet(it.answers),
+													),
 											),
 									)
 								}.toMutableList(),
@@ -109,7 +113,11 @@ class BookQuizService(
 						QuestionAnswer(
 							explanationContent = it.answerExplanationContent,
 							explanationImages = it.answerExplanationImages,
-							gradeSheet = GradeSheetFactory.create(it.answerType, AnswerSheet(it.answers)),
+							gradeSheet =
+								GradeSheetFactory.create(
+									type = it.answerType,
+									sheet = AnswerSheet(it.answers),
+								),
 						),
 				)
 			},

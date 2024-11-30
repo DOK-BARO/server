@@ -65,8 +65,8 @@ class EmailAuthenticationPersistenceAdapterTest(
 			val code = "ADSFGH"
 			val emailAuthentication =
 				EmailAuthentication(
-					address,
-					code,
+					address = address,
+					code = code,
 					authenticated = true,
 					used = false,
 				)
@@ -113,8 +113,8 @@ class EmailAuthenticationPersistenceAdapterTest(
 			val code = "ADSFGH"
 			val emailAuthentication =
 				EmailAuthentication(
-					address,
-					code,
+					address = address,
+					code = code,
 					authenticated = true,
 					used = false,
 				)

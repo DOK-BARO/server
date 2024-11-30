@@ -13,7 +13,6 @@ import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizRevi
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.UpdateQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
-import kr.kro.dokbaro.server.core.quizreview.query.TotalDifficultyScore
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -36,9 +35,11 @@ class QuizReviewControllerTest : RestDocsTest() {
 	@MockkBean
 	lateinit var findQuizReviewSummaryUseCase: FindQuizReviewSummaryUseCase
 
-	@MockkBean lateinit var updateQuizReviewUseCase: UpdateQuizReviewUseCase
+	@MockkBean
+	lateinit var updateQuizReviewUseCase: UpdateQuizReviewUseCase
 
-	@MockkBean lateinit var deleteQuizReviewUseCase: DeleteQuizReviewUseCase
+	@MockkBean
+	lateinit var deleteQuizReviewUseCase: DeleteQuizReviewUseCase
 
 	init {
 		"퀴즈 후기를 생성한다" {
@@ -87,9 +88,9 @@ class QuizReviewControllerTest : RestDocsTest() {
 					1,
 					4.5,
 					mapOf(
-						1 to TotalDifficultyScore(4, 0.5),
-						2 to TotalDifficultyScore(2, 0.33),
-						3 to TotalDifficultyScore(1, 0.17),
+						1 to QuizReviewTotalScore.DifficultyScore(4, 0.5),
+						2 to QuizReviewTotalScore.DifficultyScore(2, 0.33),
+						3 to QuizReviewTotalScore.DifficultyScore(1, 0.17),
 					),
 				)
 			val param = mapOf("quizId" to "1")

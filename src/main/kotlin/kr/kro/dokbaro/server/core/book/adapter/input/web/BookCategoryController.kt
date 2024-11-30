@@ -24,10 +24,10 @@ class BookCategoryController(
 	@ResponseStatus(HttpStatus.CREATED)
 	fun createBookCategory(
 		@RequestBody body: CreateBookCategoryCommand,
-	): IdResponse<Long> = IdResponse(createBookCategoryUseCase.create(body))
+	): IdResponse<Long> = IdResponse(id = createBookCategoryUseCase.create(body))
 
 	@GetMapping
 	fun getCategories(
 		@RequestParam(required = false) targetId: Long?,
-	): BookCategoryTree = findAllBookCategoryUseCase.getTree(targetId)
+	): BookCategoryTree = findAllBookCategoryUseCase.getTree(id = targetId)
 }

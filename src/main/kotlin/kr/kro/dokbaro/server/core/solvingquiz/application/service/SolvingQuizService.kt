@@ -30,7 +30,12 @@ class SolvingQuizService(
 	override fun start(command: StartSolvingQuizCommand): Long {
 		val memberId = findCertificatedMemberUseCase.getByCertificationId(command.authId).id
 
-		return insertSolvingQuizPort.insert(SolvingQuiz(memberId, command.quizId))
+		return insertSolvingQuizPort.insert(
+			SolvingQuiz(
+				playerId = memberId,
+				quizId = command.quizId,
+			),
+		)
 	}
 
 	override fun solve(command: SolveQuestionCommand): SolveResult {
@@ -39,12 +44,19 @@ class SolvingQuizService(
 				?: throw NotFoundSolvingQuizException(command.solvingQuizId)
 		val sheet = AnswerSheet(command.answers)
 
-		solvingQuiz.addSheet(command.questionId, sheet)
+		solvingQuiz.addSheet(
+			questionId = command.questionId,
+			sheet = sheet,
+		)
 		updateSolvingQuizPort.update(solvingQuiz)
 
 		val bookQuiz: BookQuiz = findBookQuizByQuestionIdUseCase.findByQuestionId(command.questionId)
 
-		val gradeResult: GradeResult = bookQuiz.grade(command.questionId, sheet)
+		val gradeResult: GradeResult =
+			bookQuiz.grade(
+				questionId = command.questionId,
+				sheet = sheet,
+			)
 		val answer: QuestionAnswer = bookQuiz.getAnswer(command.questionId)
 
 		return SolveResult(

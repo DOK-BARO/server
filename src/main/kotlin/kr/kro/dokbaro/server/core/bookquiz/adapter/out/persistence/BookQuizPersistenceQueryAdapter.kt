@@ -6,11 +6,13 @@ import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.CountBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizAnswerPort
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizExplanationPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizQuestionPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizSummaryPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadMyBookQuizSummaryPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadUnsolvedGroupBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
@@ -25,7 +27,8 @@ class BookQuizPersistenceQueryAdapter(
 	CountBookQuizPort,
 	ReadBookQuizSummaryPort,
 	ReadUnsolvedGroupBookQuizPort,
-	ReadMyBookQuizSummaryPort {
+	ReadMyBookQuizSummaryPort,
+	ReadBookQuizExplanationPort {
 	override fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? =
 		bookQuizQueryRepository.findBookQuizQuestionsBy(quizId)
 
@@ -38,13 +41,24 @@ class BookQuizPersistenceQueryAdapter(
 		bookId: Long,
 		pageOption: PageOption,
 		sortOption: SortOption<BookQuizSummarySortOption>,
-	): Collection<BookQuizSummary> = bookQuizQueryRepository.findAllBookQuizSummary(bookId, pageOption, sortOption)
+	): Collection<BookQuizSummary> =
+		bookQuizQueryRepository.findAllBookQuizSummary(
+			bookId = bookId,
+			pageOption = pageOption,
+			sortOption = sortOption,
+		)
 
 	override fun findAllUnsolvedQuizzes(
 		memberId: Long,
 		studyGroupId: Long,
-	): Collection<UnsolvedGroupBookQuizSummary> = bookQuizQueryRepository.findAllUnsolvedQuizzes(memberId, studyGroupId)
+	): Collection<UnsolvedGroupBookQuizSummary> =
+		bookQuizQueryRepository.findAllUnsolvedQuizzes(
+			memberId = memberId,
+			studyGroupId = studyGroupId,
+		)
 
 	override fun findAllMyBookQuiz(memberId: Long): Collection<MyBookQuizSummary> =
 		bookQuizQueryRepository.findAllMyBookQuizzes(memberId)
+
+	override fun findExplanationBy(id: Long): BookQuizExplanation? = bookQuizQueryRepository.findBookQuizExplanationBy(id)
 }

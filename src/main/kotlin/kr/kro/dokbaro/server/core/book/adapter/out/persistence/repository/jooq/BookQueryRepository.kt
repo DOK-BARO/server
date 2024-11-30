@@ -15,7 +15,6 @@ import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
-import org.jooq.Record6
 import org.jooq.Result
 import org.jooq.Table
 import org.jooq.generated.tables.JBook
@@ -154,6 +153,7 @@ class BookQueryRepository(
 					),
 				)
 		}
+
 		return result
 	}
 
@@ -193,7 +193,7 @@ class BookQueryRepository(
 				.from(name(hierarchyTable))
 				.fetchInto(BOOK_CATEGORY)
 
-		return bookMapper.toCategoryTree(result, id)
+		return bookMapper.toCategoryTree(record = result, headId = id)
 	}
 
 	fun findById(id: Long): BookDetail? {
@@ -217,9 +217,9 @@ class BookQueryRepository(
 				.where(BOOK.ID.eq(id))
 				.fetchGroups(BOOK.ID)
 
-		val categoriesRecord: Result<BookCategoryRecord> = findCategoriesOfBook(id)
+		val categoriesRecord: Result<BookCategoryRecord> = findCategoriesOfBook(bookId = id)
 
-		return bookMapper.toBookDetail(bookRecord, categoriesRecord)
+		return bookMapper.toBookDetail(bookRecord = bookRecord, categoriesRecord = categoriesRecord)
 	}
 
 	private fun findCategoriesOfBook(bookId: Long): Result<BookCategoryRecord> {
@@ -290,9 +290,7 @@ class BookQueryRepository(
 		return bookMapper.toIntegratedBookCollection(record)
 	}
 
-	private fun getSummaryRecord(
-		books: Table<out Record>,
-	): Map<Long, Result<Record6<Long, String, String, String, String, Long>>> =
+	private fun getSummaryRecord(books: Table<out Record>): Map<Long, Result<out Record>> =
 		dslContext
 			.select(
 				BOOK.ID,

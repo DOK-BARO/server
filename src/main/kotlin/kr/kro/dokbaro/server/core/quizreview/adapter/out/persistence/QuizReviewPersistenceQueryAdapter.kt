@@ -29,5 +29,9 @@ class QuizReviewPersistenceQueryAdapter(
 		pageOption: PageOption,
 		sortOption: SortOption<QuizReviewSummarySortOption>,
 	): Collection<QuizReviewSummary> =
-		quizReviewQueryRepository.findAllQuizReviewSummaryBy(condition, pageOption, sortOption)
+		quizReviewQueryRepository.findAllQuizReviewSummaryBy(
+			condition = condition,
+			pageOption = pageOption,
+			sortOption = sortOption,
+		)
 }

@@ -74,7 +74,7 @@ class MemberRepository(
 				.where(MEMBER.ID.eq(id))
 				.fetchGroups(MEMBER)
 
-		return memberMapper.mapTo(record)
+		return memberMapper.toMember(record)
 	}
 
 	fun update(member: Member) {
@@ -91,6 +91,6 @@ class MemberRepository(
 			.where(MEMBER_ROLE.MEMBER_ID.eq(member.id))
 			.execute()
 
-		insertRoles(member.roles, member.id)
+		insertRoles(roles = member.roles, memberId = member.id)
 	}
 }

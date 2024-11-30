@@ -31,10 +31,10 @@ class StudyGroupController(
 		IdResponse(
 			createStudyGroupUseCase.create(
 				CreateStudyGroupCommand(
-					body.name,
-					body.introduction,
-					body.profileImageUrl,
-					UUIDUtils.stringToUUID(auth.name),
+					name = body.name,
+					introduction = body.introduction,
+					profileImageUrl = body.profileImageUrl,
+					creatorAuthId = UUIDUtils.stringToUUID(auth.name),
 				),
 			),
 		)
@@ -46,8 +46,8 @@ class StudyGroupController(
 	) {
 		joinStudyGroupUseCase.join(
 			JoinStudyGroupCommand(
-				body.inviteCode,
-				UUIDUtils.stringToUUID(auth.name),
+				inviteCode = body.inviteCode,
+				participantAuthId = UUIDUtils.stringToUUID(auth.name),
 			),
 		)
 	}

@@ -3,12 +3,12 @@ package kr.kro.dokbaro.server.core.quizreview.domain
 import kr.kro.dokbaro.server.common.constant.Constants
 
 data class QuizReview(
+	val id: Long = Constants.UNSAVED_ID,
 	var starRating: Int,
 	var difficultyLevel: Int,
 	var comment: String? = null,
 	val memberId: Long,
 	val quizId: Long,
-	val id: Long = Constants.UNSAVED_ID,
 ) {
 	fun changeReview(
 		starRating: Int,

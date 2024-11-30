@@ -1,13 +1,13 @@
 CREATE TABLE study_group
 (
-	id                bigint      NOT NULL AUTO_INCREMENT,
-	name              varchar(50) NOT NULL,
-	introduction      blob                 DEFAULT NULL,
-	profile_image_url varchar(255)         DEFAULT NULL,
-	invite_code       varchar(30) NOT NULL,
-	created_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted           boolean     NOT NULL DEFAULT false,
+	id                bigint       NOT NULL AUTO_INCREMENT,
+	name              varchar(127) NOT NULL,
+	introduction      text                  DEFAULT NULL,
+	profile_image_url varchar(255)          DEFAULT NULL,
+	invite_code       varchar(63)  NOT NULL,
+	created_at        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted           boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY study_group_pk (invite_code)
 ) ENGINE = InnoDB

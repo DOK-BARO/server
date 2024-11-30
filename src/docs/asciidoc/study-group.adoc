@@ -1,48 +1,47 @@
-= STUDY-GROUP
+== STUDY-GROUP
 
-== 스터디 그룹 생성
+=== 스터디 그룹 생성
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/study-group/create/http-request.adoc[]
 include::{snippets}/study-group/create/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/study-group/create/http-response.adoc[]
 include::{snippets}/study-group/create/response-fields.adoc[]
 
-== 스터디 그룹 참여
+=== 스터디 그룹 참여
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/study-group/join/http-request.adoc[]
 include::{snippets}/study-group/join/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/study-group/join/http-response.adoc[]
 
+=== 로그인한 사용자가 속한 스터디 그룹 목록
 
-== 로그인한 사용자가 속한 스터디 그룹 목록
-
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/study-group/get-my-study-group-list/http-request.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/study-group/get-my-study-group-list/http-response.adoc[]
 include::{snippets}/study-group/get-my-study-group-list/response-fields.adoc[]
 
-== 스터디 그룹 상세 조회
+=== 스터디 그룹 상세 조회
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/study-group/get-study-group-detail/http-request.adoc[]
 include::{snippets}/study-group/get-study-group-detail/path-parameters.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/study-group/get-study-group-detail/http-response.adoc[]
 include::{snippets}/study-group/get-study-group-detail/response-fields.adoc[]

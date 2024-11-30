@@ -22,7 +22,11 @@ class StudyGroupNotificationService(
 		val savedNotificationId =
 			insertNotificationPort.insert(
 				Notification(
-					content = NewStudyGroupMemberNotificationContent(command.studyGroupName, command.memberName).getContent(),
+					content =
+						NewStudyGroupMemberNotificationContent(
+							studyGroupName = command.studyGroupName,
+							memberName = command.memberName,
+						).getContent(),
 					trigger = NotificationTrigger.NEW_STUDY_GROUP_MEMBER,
 					linkedId = command.studyGroupId,
 				),
@@ -34,7 +38,12 @@ class StudyGroupNotificationService(
 			)
 
 		insertNotificationVisibilityPort.insertAll(
-			studyGroupMembers.map { NotificationVisibility(savedNotificationId, it.memberId) },
+			studyGroupMembers.map {
+				NotificationVisibility(
+					notificationId = savedNotificationId,
+					memberId = it.memberId,
+				)
+			},
 		)
 	}
 }

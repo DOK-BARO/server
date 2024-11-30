@@ -3,12 +3,11 @@ package kr.kro.dokbaro.server.core.notification.adapter.out.persistence.reposito
 import kr.kro.dokbaro.server.core.notification.adapter.out.persistence.entity.jooq.NotificationMapper
 import kr.kro.dokbaro.server.core.notification.query.NotificationResult
 import org.jooq.DSLContext
-import org.jooq.Record7
+import org.jooq.Record
 import org.jooq.Result
 import org.jooq.generated.tables.JNotification
 import org.jooq.generated.tables.JNotificationVisibility
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 class NotificationQueryRepository(
@@ -21,7 +20,7 @@ class NotificationQueryRepository(
 	}
 
 	fun findAllBy(memberId: Long): Collection<NotificationResult> {
-		val record: Result<Record7<Long, ByteArray, String, Long, LocalDateTime, String, Boolean>> =
+		val record: Result<out Record> =
 			dslContext
 				.select(
 					NOTIFICATION.ID,

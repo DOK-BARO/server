@@ -30,20 +30,24 @@ class BookQueryService(
 	override fun findAllBy(command: FindAllBookCommand): PageResponse<BookSummary> {
 		val condition =
 			ReadBookCollectionCondition(
-				command.title,
-				command.authorName,
-				command.description,
-				command.category,
+				title = command.title,
+				authorName = command.authorName,
+				description = command.description,
+				categoryId = command.category,
 			)
 		val count = countBookPort.countBy(condition)
 		val data =
 			readBookCollectionPort.getAllBook(
-				condition,
-				PageOption.of(command.page, command.size),
-				SortOption(command.sort, command.direction),
+				condition = condition,
+				pageOption = PageOption.of(command.page, command.size),
+				sortOption = SortOption(command.sort, command.direction),
 			)
 
-		return PageResponse.of(count, command.size, data)
+		return PageResponse.of(
+			totalElementCount = count,
+			pageSize = command.size,
+			data = data,
+		)
 	}
 
 	override fun getBy(id: Long): BookDetail = readBookPort.findBy(id) ?: throw BookNotFoundException(id)

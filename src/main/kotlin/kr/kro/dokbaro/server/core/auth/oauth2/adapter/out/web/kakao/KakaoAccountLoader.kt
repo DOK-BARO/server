@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component
 class KakaoAccountLoader(
 	private val resourceClient: KakaoResourceClient,
 ) : ProviderAccountLoader {
-	override fun get(accessToken: String): OAuth2ProviderAccount {
+	override fun getAccount(accessToken: String): OAuth2ProviderAccount {
 		val account: KakaoAccount = resourceClient.getUserProfiles(accessToken)
 
 		return OAuth2ProviderAccount(
-			AuthProvider.KAKAO,
-			account.id.toString(),
-			account.kakaoAccount.profile.nickname ?: throw NickNameNotExistException(),
-			account.kakaoAccount.email ?: throw EmailNotExistException(),
-			account.kakaoAccount.profile.profileImageUrl,
+			provider = AuthProvider.KAKAO,
+			id = account.id.toString(),
+			name = account.kakaoAccount.profile.nickname ?: throw NickNameNotExistException(),
+			email = account.kakaoAccount.email ?: throw EmailNotExistException(),
+			profileImage = account.kakaoAccount.profile.profileImageUrl,
 		)
 	}
 }

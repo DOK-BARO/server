@@ -1,7 +1,7 @@
 CREATE TABLE notification
 (
 	id                   bigint      NOT NULL AUTO_INCREMENT,
-	content              blob        NOT NULL,
+	content              text        NOT NULL,
 	notification_trigger varchar(63) NOT NULL,
 	linked_id            bigint               DEFAULT NULL,
 	image_url            varchar(255)         DEFAULT NULL,
@@ -15,14 +15,14 @@ CREATE TABLE notification
 
 CREATE TABLE notification_visibility
 (
-	id              bigint     NOT NULL AUTO_INCREMENT,
-	notification_id bigint     NOT NULL,
-	member_id       bigint     NOT NULL,
-	checked         boolean    NOT NULL DEFAULT false,
-	disabled        boolean    NOT NULL DEFAULT false,
-	created_at      datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at      datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted         boolean    NOT NULL DEFAULT false,
+	id              bigint   NOT NULL AUTO_INCREMENT,
+	notification_id bigint   NOT NULL,
+	member_id       bigint   NOT NULL,
+	checked         boolean  NOT NULL DEFAULT false,
+	disabled        boolean  NOT NULL DEFAULT false,
+	created_at      datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at      datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted         boolean  NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY notification_visibility_pk (member_id, notification_id),
 	CONSTRAINT notification_visibility___fk FOREIGN KEY (notification_id) REFERENCES notification (id),

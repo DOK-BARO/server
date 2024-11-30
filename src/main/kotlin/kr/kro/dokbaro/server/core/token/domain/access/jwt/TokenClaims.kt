@@ -8,8 +8,8 @@ data class TokenClaims(
 		@Suppress("UNCHECKED_CAST")
 		fun from(attributes: Map<String, Any>): TokenClaims =
 			TokenClaims(
-				attributes["id"] as String,
-				attributes["role"] as ArrayList<String>,
+				id = attributes["id"] as String,
+				role = attributes["role"] as ArrayList<String>,
 			)
 	}
 }

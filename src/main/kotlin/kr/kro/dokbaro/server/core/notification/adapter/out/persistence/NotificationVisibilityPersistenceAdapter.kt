@@ -25,7 +25,11 @@ class NotificationVisibilityPersistenceAdapter(
 	override fun findBy(
 		notificationId: Long,
 		memberId: Long,
-	): NotificationVisibility? = notificationVisibilityRepository.findBy(notificationId, memberId)
+	): NotificationVisibility? =
+		notificationVisibilityRepository.findBy(
+			notificationId = notificationId,
+			memberId = memberId,
+		)
 
 	override fun update(notificationVisibility: NotificationVisibility) =
 		notificationVisibilityRepository.update(notificationVisibility)
