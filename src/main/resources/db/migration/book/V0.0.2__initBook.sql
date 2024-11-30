@@ -3,7 +3,7 @@ CREATE TABLE book
 	id           bigint       NOT NULL AUTO_INCREMENT,
 	isbn         char(14)     NOT NULL,
 	title        varchar(255) NOT NULL,
-	publisher    varchar(100) NOT NULL,
+	publisher    varchar(127) NOT NULL,
 	published_at date         NOT NULL,
 	price        int          NOT NULL,
 	description  text,
@@ -22,7 +22,7 @@ CREATE TABLE book_author
 (
 	id         bigint      NOT NULL AUTO_INCREMENT,
 	book_id    bigint      NOT NULL,
-	name       varchar(50) NOT NULL,
+	name       varchar(127) NOT NULL,
 	created_at datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted    boolean     NOT NULL DEFAULT false,

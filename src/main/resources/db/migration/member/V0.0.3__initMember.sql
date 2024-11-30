@@ -1,13 +1,13 @@
 CREATE TABLE member
 (
-	id                bigint      NOT NULL AUTO_INCREMENT,
-	certification_id  binary(16)  NOT NULL,
-	nickname          varchar(63) NOT NULL,
-	email             varchar(31) NOT NULL,
-	profile_image_url varchar(255)         DEFAULT NULL,
-	created_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at        datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted           boolean     NOT NULL DEFAULT false,
+	id                bigint       NOT NULL AUTO_INCREMENT,
+	certification_id  binary(16)   NOT NULL,
+	nickname          varchar(127) NOT NULL,
+	email             varchar(63)  NOT NULL,
+	profile_image_url varchar(255)          DEFAULT NULL,
+	created_at        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted           boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	UNIQUE KEY member_pk (certification_id),
 	UNIQUE KEY member_pk_2 (email)
@@ -30,7 +30,7 @@ CREATE TABLE member_role
 (
 	id         bigint   NOT NULL AUTO_INCREMENT,
 	member_id  bigint   NOT NULL,
-	name       varchar(10)       DEFAULT NULL,
+	name       varchar(15)       DEFAULT NULL,
 	created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted    boolean  NOT NULL DEFAULT false,

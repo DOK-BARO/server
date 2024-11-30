@@ -1,7 +1,7 @@
 CREATE TABLE email_authentication
 (
 	id            bigint      NOT NULL AUTO_INCREMENT,
-	address       varchar(31) NOT NULL,
+	address       varchar(63) NOT NULL,
 	code          varchar(16) NOT NULL,
 	authenticated boolean     NOT NULL DEFAULT false,
 	used          boolean     NOT NULL DEFAULT false,

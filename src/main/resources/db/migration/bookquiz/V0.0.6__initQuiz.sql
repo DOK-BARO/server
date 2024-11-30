@@ -53,12 +53,12 @@ CREATE TABLE book_quiz_select_option
 
 CREATE TABLE book_quiz_answer
 (
-	id                    bigint       NOT NULL AUTO_INCREMENT,
-	content               varchar(255) NOT NULL,
-	book_quiz_question_id bigint       NOT NULL,
-	created_at            datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at            datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	deleted               boolean      NOT NULL DEFAULT false,
+	id                    bigint   NOT NULL AUTO_INCREMENT,
+	content               text     NOT NULL,
+	book_quiz_question_id bigint   NOT NULL,
+	created_at            datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at            datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted               boolean  NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT book_quiz_answer___fk FOREIGN KEY (book_quiz_question_id) REFERENCES book_quiz_question (id) ON DELETE CASCADE
 ) ENGINE = InnoDB
