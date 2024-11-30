@@ -15,6 +15,6 @@ class NotificationQueryService(
 	override fun findAllBy(authId: UUID): Collection<NotificationResult> {
 		val loginMember = findCertificatedMemberUseCase.getByCertificationId(authId)
 
-		return readNotificationResultCollectionPort.findAllBy(loginMember.id)
+		return readNotificationResultCollectionPort.findAllBy(memberId = loginMember.id)
 	}
 }

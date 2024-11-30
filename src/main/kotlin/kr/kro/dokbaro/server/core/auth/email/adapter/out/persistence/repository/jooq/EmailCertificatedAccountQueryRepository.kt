@@ -34,6 +34,6 @@ class EmailCertificatedAccountQueryRepository(
 				.where(MEMBER.EMAIL.eq(email))
 				.fetchGroups(MEMBER)
 
-		return emailAccountMapper.recordToEmailCertificatedAccount(record)
+		return emailAccountMapper.toEmailCertificatedAccount(record)
 	}
 }

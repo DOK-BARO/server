@@ -32,7 +32,7 @@ class MemberQueryRepository(
 				.where(MEMBER.CERTIFICATION_ID.eq(UUIDUtils.uuidToByteArray(certificationId)))
 				.fetchGroups(MEMBER)
 
-		return memberMapper.mapTo(record)
+		return memberMapper.toMember(record)
 	}
 
 	fun existByEmail(email: String): Boolean = dslContext.fetchExists(MEMBER.where(MEMBER.EMAIL.eq(email)))

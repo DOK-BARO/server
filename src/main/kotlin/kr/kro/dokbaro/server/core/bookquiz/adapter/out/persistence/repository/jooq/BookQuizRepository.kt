@@ -34,8 +34,7 @@ class BookQuizRepository(
 	}
 
 	fun insert(bookQuiz: BookQuiz): Long {
-		val bookQuizId: Long =
-			insertBookQuiz(bookQuiz)
+		val bookQuizId: Long = insertBookQuiz(bookQuiz)
 
 		bookQuiz.questions.getQuestions().forEach { question ->
 			insertBookQuizQuestion(question, bookQuizId)
@@ -105,7 +104,10 @@ class BookQuizRepository(
 				).returningResult(BOOK_QUIZ_QUESTION.ID)
 				.fetchOneInto(Long::class.java)!!
 
-		insertQuestionAnswerAndOptions(question, questionId)
+		insertQuestionAnswerAndOptions(
+			question = question,
+			questionId = questionId,
+		)
 	}
 
 	private fun insertQuestionAnswerAndOptions(

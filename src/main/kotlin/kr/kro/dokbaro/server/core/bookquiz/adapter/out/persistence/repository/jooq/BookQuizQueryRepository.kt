@@ -73,7 +73,7 @@ class BookQuizQueryRepository(
 				.where(BOOK_QUIZ.ID.eq(quizId).and(BOOK_QUIZ.DELETED.eq(false)))
 				.fetch()
 
-		return bookQuizMapper.recordToBookQuizQuestions(record)
+		return bookQuizMapper.toBookQuizQuestions(record)
 	}
 
 	fun findBookQuizAnswerBy(questionId: Long): BookQuizAnswer? {

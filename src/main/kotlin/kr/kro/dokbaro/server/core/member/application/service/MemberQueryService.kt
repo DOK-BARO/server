@@ -12,6 +12,8 @@ class MemberQueryService(
 ) : FindCertificatedMemberUseCase {
 	override fun getByCertificationId(certificationId: UUID): CertificatedMember =
 		CertificatedMember(
-			loadMemberByCertificationIdPort.findByCertificationId(certificationId) ?: throw NotFoundMemberException(),
+			member =
+				loadMemberByCertificationIdPort.findByCertificationId(certificationId)
+					?: throw NotFoundMemberException(),
 		)
 }

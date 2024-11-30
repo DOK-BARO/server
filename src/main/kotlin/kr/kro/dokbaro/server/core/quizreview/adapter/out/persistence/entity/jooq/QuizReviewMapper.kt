@@ -30,26 +30,26 @@ class QuizReviewMapper {
 	fun recordToSummary(record: Result<out Record>): Collection<QuizReviewSummary> =
 		record.map {
 			QuizReviewSummary(
-				it.get(QUIZ_REVIEW.ID),
-				it.get(QUIZ_REVIEW.QUIZ_ID),
-				it.get(QUIZ_REVIEW.STAR_RATING),
-				it.get(QUIZ_REVIEW.DIFFICULTY_LEVEL),
-				it.get(QUIZ_REVIEW.MEMBER_ID),
-				it.get(MEMBER.NICKNAME),
-				it.get(QUIZ_REVIEW.COMMENT),
-				TimeUtils.timeToInstant(it.get(QUIZ_REVIEW.CREATED_AT)),
+				id = it[QUIZ_REVIEW.ID],
+				quizId = it[QUIZ_REVIEW.QUIZ_ID],
+				starRating = it[QUIZ_REVIEW.STAR_RATING],
+				difficultyLevel = it[QUIZ_REVIEW.DIFFICULTY_LEVEL],
+				writerId = it[QUIZ_REVIEW.MEMBER_ID],
+				writerNickname = it[MEMBER.NICKNAME],
+				comment = it[QUIZ_REVIEW.COMMENT],
+				createdAt = TimeUtils.timeToInstant(it[QUIZ_REVIEW.CREATED_AT]),
 			)
 		}
 
 	fun toQuizReview(record: QuizReviewRecord?): QuizReview? =
 		record?.map {
 			QuizReview(
-				starRating = it.get(QUIZ_REVIEW.STAR_RATING),
-				difficultyLevel = it.get(QUIZ_REVIEW.DIFFICULTY_LEVEL),
-				comment = it.get(QUIZ_REVIEW.COMMENT),
-				memberId = it.get(QUIZ_REVIEW.MEMBER_ID),
-				quizId = it.get(QUIZ_REVIEW.QUIZ_ID),
-				id = it.get(QUIZ_REVIEW.ID),
+				starRating = it[QUIZ_REVIEW.STAR_RATING],
+				difficultyLevel = it[QUIZ_REVIEW.DIFFICULTY_LEVEL],
+				comment = it[QUIZ_REVIEW.COMMENT],
+				memberId = it[QUIZ_REVIEW.MEMBER_ID],
+				quizId = it[QUIZ_REVIEW.QUIZ_ID],
+				id = it[QUIZ_REVIEW.ID],
 			)
 		}
 }

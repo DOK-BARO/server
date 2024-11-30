@@ -43,19 +43,21 @@ class BookRepository(
 				).returningResult(BOOK.ID)
 				.fetchOneInto(Long::class.java)!!
 
-		book.authors.forEach {
-			dslContext
-				.insertInto(
-					BOOK_AUTHOR,
-					BOOK_AUTHOR.BOOK_ID,
-					BOOK_AUTHOR.NAME,
-				).values(
-					savedId,
-					it.name,
-				).execute()
-		}
+		val insertAuthorQuery =
+			book.authors.map {
+				dslContext
+					.insertInto(
+						BOOK_AUTHOR,
+						BOOK_AUTHOR.BOOK_ID,
+						BOOK_AUTHOR.NAME,
+					).values(
+						savedId,
+						it.name,
+					)
+			}
+		dslContext.batch(insertAuthorQuery).execute()
 
-		val insertQuery =
+		val insertCategoryQuery =
 			book.categories.map {
 				dslContext
 					.insertInto(
@@ -65,7 +67,7 @@ class BookRepository(
 					).values(savedId, it)
 			}
 
-		dslContext.batch(insertQuery).execute()
+		dslContext.batch(insertCategoryQuery).execute()
 
 		return savedId
 	}

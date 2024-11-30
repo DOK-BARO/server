@@ -13,18 +13,18 @@ class NaverResourceTokenLoader(
 	@Value("\${oauth2.naver.client.id}") private val clientId: String,
 	@Value("\${oauth2.naver.client.secret}") private val clientSecret: String,
 ) : ProviderResourceTokenLoader {
-	override fun get(
+	override fun getResource(
 		authorizationToken: String,
 		redirectUrl: String,
 	): String {
 		val token: NaverAuthorizationTokenResponse =
 			authorizationClient
 				.getAuthorizationToken(
-					authorizationToken,
-					grantType,
-					clientId,
-					redirectUrl,
-					clientSecret,
+					code = authorizationToken,
+					grantType = grantType,
+					clientId = clientId,
+					redirectUri = redirectUrl,
+					clientSecret = clientSecret,
 				)
 
 		return "${token.tokenType} ${token.accessToken}"
