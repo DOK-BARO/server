@@ -201,6 +201,6 @@ class BookQuizPersistenceQueryAdapterTest(
 
 			result shouldNotBe null
 			result!!.book.id shouldBe bookId
-			result!!.creator.id shouldBe memberId
+			result.creator.id shouldBe memberId
 		}
 	})

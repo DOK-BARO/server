@@ -26,13 +26,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
-import kr.kro.dokbaro.server.core.bookquiz.query.BookSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.Creator
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.Question
-import kr.kro.dokbaro.server.core.bookquiz.query.QuizContributor
-import kr.kro.dokbaro.server.core.bookquiz.query.QuizCreator
-import kr.kro.dokbaro.server.core.bookquiz.query.QuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -178,7 +172,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					"java 정석 1차",
 					60,
 					listOf(
-						Question(
+						BookQuizQuestions.Question(
 							1,
 							"조정석의 아내 이름은?",
 							QuizType.MULTIPLE_CHOICE,
@@ -355,7 +349,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								averageDifficultyLevel = 3.2,
 								questionCount = 10,
 								creator =
-									Creator(
+									BookQuizSummary.Creator(
 										id = 1001L,
 										nickname = "quizMaster01",
 										profileUrl = "https://example.com/profiles/quizMaster01",
@@ -368,7 +362,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								averageDifficultyLevel = 4.0,
 								questionCount = 15,
 								creator =
-									Creator(
+									BookQuizSummary.Creator(
 										id = 1002L,
 										nickname = "javaExpert99",
 										profileUrl = "https://example.com/profiles/javaExpert99",
@@ -381,7 +375,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								averageDifficultyLevel = 2.5,
 								questionCount = 8,
 								creator =
-									Creator(
+									BookQuizSummary.Creator(
 										id = 1003L,
 										nickname = "pythonGuru",
 										profileUrl = null,
@@ -440,17 +434,17 @@ class BookQuizControllerTest : RestDocsTest() {
 				listOf(
 					UnsolvedGroupBookQuizSummary(
 						book =
-							BookSummary(
+							UnsolvedGroupBookQuizSummary.Book(
 								id = 1L,
 								title = "The Great Adventure",
 								imageUrl = "https://example.com/the_great_adventure.jpg",
 							),
 						quiz =
-							QuizSummary(
+							UnsolvedGroupBookQuizSummary.Quiz(
 								id = 101L,
 								title = "Adventure Quiz",
 								creator =
-									QuizCreator(
+									UnsolvedGroupBookQuizSummary.Creator(
 										id = 1001L,
 										nickname = "quizMaster",
 										profileImageUrl = "https://example.com/profile_quizmaster.jpg",
@@ -458,12 +452,12 @@ class BookQuizControllerTest : RestDocsTest() {
 								createdAt = LocalDateTime.of(2024, 5, 10, 14, 30, 0, 0),
 								contributors =
 									listOf(
-										QuizContributor(
+										UnsolvedGroupBookQuizSummary.Contributor(
 											id = 2001L,
 											nickname = "contributorOne",
 											profileImageUrl = "https://example.com/profile_contributorone.jpg",
 										),
-										QuizContributor(
+										UnsolvedGroupBookQuizSummary.Contributor(
 											id = 2002L,
 											nickname = "contributorTwo",
 											profileImageUrl = "https://example.com/profile_contributortwo.jpg",
@@ -473,17 +467,17 @@ class BookQuizControllerTest : RestDocsTest() {
 					),
 					UnsolvedGroupBookQuizSummary(
 						book =
-							BookSummary(
+							UnsolvedGroupBookQuizSummary.Book(
 								id = 2L,
 								title = "Mystery of the Lost City",
 								imageUrl = "https://example.com/mystery_lost_city.jpg",
 							),
 						quiz =
-							QuizSummary(
+							UnsolvedGroupBookQuizSummary.Quiz(
 								id = 102L,
 								title = "Mystery Quiz",
 								creator =
-									QuizCreator(
+									UnsolvedGroupBookQuizSummary.Creator(
 										id = 1002L,
 										nickname = "mysterySolver",
 										profileImageUrl = "https://example.com/profile_mysterysolver.jpg",
@@ -491,7 +485,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								createdAt = LocalDateTime.of(2024, 6, 15, 10, 0, 0, 0),
 								contributors =
 									listOf(
-										QuizContributor(
+										UnsolvedGroupBookQuizSummary.Contributor(
 											id = 2003L,
 											nickname = "mysteryFan",
 											profileImageUrl = "https://example.com/profile_mysteryfan.jpg",
@@ -620,7 +614,9 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("creator").description("퀴즈 설명을 생성한 사용자의 정보"),
 							fieldWithPath("creator.id").description("생성자의 고유 ID"),
 							fieldWithPath("creator.nickname").description("생성자의 닉네임"),
-							fieldWithPath("creator.profileImageUrl").description("생성자의 프로필 이미지 URL (optional)").optional(),
+							fieldWithPath("creator.profileImageUrl")
+								.description("생성자의 프로필 이미지 URL (optional)")
+								.optional(),
 							fieldWithPath("book").description("퀴즈가 참조하는 책의 정보"),
 							fieldWithPath("book.id").description("책의 고유 ID"),
 							fieldWithPath("book.title").description("책의 제목"),

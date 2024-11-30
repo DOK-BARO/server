@@ -6,7 +6,6 @@ import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import org.jooq.DSLContext
 import org.jooq.Record
-import org.jooq.Record5
 import org.jooq.Result
 import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JStudyGroup
@@ -47,7 +46,7 @@ class StudyGroupQueryRepository(
 	}
 
 	fun findAllStudyGroupMembers(id: Long): Collection<StudyGroupMemberResult> {
-		val record: Result<Record5<Long, Long, Long, String, String>> =
+		val record: Result<out Record> =
 			dslContext
 				.select(
 					STUDY_GROUP_MEMBER.ID,

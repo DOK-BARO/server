@@ -16,12 +16,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMySolveSu
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMyStudyGroupSolveSummaryPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.service.exception.NotFoundSolvingQuizException
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
-import kr.kro.dokbaro.server.core.solvingquiz.query.BookSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
-import kr.kro.dokbaro.server.core.solvingquiz.query.MySolvingQuizSummary
-import kr.kro.dokbaro.server.core.solvingquiz.query.QuizContributor
-import kr.kro.dokbaro.server.core.solvingquiz.query.QuizCreator
-import kr.kro.dokbaro.server.core.solvingquiz.query.QuizSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
@@ -98,7 +93,7 @@ class SolvingQuizQueryServiceTest :
 						solvedAt = LocalDateTime.of(2024, 11, 8, 10, 0),
 						bookImageUrl = "https://example.com/book1.jpg",
 						quiz =
-							MySolvingQuizSummary(
+							MySolveSummary.Quiz(
 								id = 101L,
 								title = "Math Quiz",
 							),
@@ -108,7 +103,7 @@ class SolvingQuizQueryServiceTest :
 						solvedAt = LocalDateTime.of(2024, 11, 8, 15, 30),
 						bookImageUrl = "https://example.com/book2.jpg",
 						quiz =
-							MySolvingQuizSummary(
+							MySolveSummary.Quiz(
 								id = 102L,
 								title = "Science Quiz",
 							),
@@ -126,17 +121,17 @@ class SolvingQuizQueryServiceTest :
 						id = 1L,
 						solvedAt = LocalDateTime.of(2024, 11, 8, 10, 0),
 						book =
-							BookSummary(
+							StudyGroupSolveSummary.Book(
 								id = 1L,
 								title = "Mathematics Essentials",
 								imageUrl = "https://example.com/book1.jpg",
 							),
 						quiz =
-							QuizSummary(
+							StudyGroupSolveSummary.Quiz(
 								id = 101L,
 								title = "Algebra Quiz",
 								creator =
-									QuizCreator(
+									StudyGroupSolveSummary.Creator(
 										id = 1L,
 										nickname = "MathGuru",
 										profileImageUrl = "https://example.com/profile1.jpg",
@@ -144,12 +139,12 @@ class SolvingQuizQueryServiceTest :
 								createdAt = LocalDateTime.of(2024, 10, 1, 8, 30),
 								contributors =
 									listOf(
-										QuizContributor(
+										StudyGroupSolveSummary.Contributor(
 											id = 2L,
 											nickname = "AlgebraAce",
 											profileImageUrl = "https://example.com/profile2.jpg",
 										),
-										QuizContributor(
+										StudyGroupSolveSummary.Contributor(
 											id = 3L,
 											nickname = "GeometryGeek",
 											profileImageUrl = null,
@@ -161,17 +156,17 @@ class SolvingQuizQueryServiceTest :
 						id = 2L,
 						solvedAt = LocalDateTime.of(2024, 11, 8, 15, 30),
 						book =
-							BookSummary(
+							StudyGroupSolveSummary.Book(
 								id = 2L,
 								title = "Science Basics",
 								imageUrl = "https://example.com/book2.jpg",
 							),
 						quiz =
-							QuizSummary(
+							StudyGroupSolveSummary.Quiz(
 								id = 102L,
 								title = "Physics Quiz",
 								creator =
-									QuizCreator(
+									StudyGroupSolveSummary.Creator(
 										id = 2L,
 										nickname = "ScienceSage",
 										profileImageUrl = "https://example.com/profile3.jpg",
@@ -179,12 +174,12 @@ class SolvingQuizQueryServiceTest :
 								createdAt = LocalDateTime.of(2024, 9, 25, 14, 45),
 								contributors =
 									listOf(
-										QuizContributor(
+										StudyGroupSolveSummary.Contributor(
 											id = 4L,
 											nickname = "PhysicsFan",
 											profileImageUrl = "https://example.com/profile4.jpg",
 										),
-										QuizContributor(
+										StudyGroupSolveSummary.Contributor(
 											id = 5L,
 											nickname = "ChemistryChamp",
 											profileImageUrl = "https://example.com/profile5.jpg",

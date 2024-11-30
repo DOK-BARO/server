@@ -21,7 +21,6 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.Question
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
@@ -58,7 +57,7 @@ class BookQuizQueryServiceTest :
 					"java 정석 1차",
 					60,
 					listOf(
-						Question(
+						BookQuizQuestions.Question(
 							1,
 							"조정석의 아내 이름은?",
 							QuizType.MULTIPLE_CHOICE,
