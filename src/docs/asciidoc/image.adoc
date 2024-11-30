@@ -1,8 +1,8 @@
-= IMAGE
+== IMAGE
 
-== upload image
+=== upload image
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/image/upload/http-request.adoc[]
 
@@ -12,7 +12,7 @@ include::{snippets}/image/upload/http-request.adoc[]
 * STUDY_GROUP_PROFILE : study group 프로필
 * BOOK_QUIZ_ANSWER : book quiz 해설 이미지
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/image/upload/http-response.adoc[]
 include::{snippets}/image/upload/response-fields.adoc[]

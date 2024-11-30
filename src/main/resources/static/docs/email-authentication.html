@@ -438,20 +438,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>EMAIL-AUTHENTICATION</h1>
-<div class="details">
-<span id="revnumber">version 3.19.5</span>
-</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_create_email_authentication">create email authentication</h2>
+<h2 id="_email_authentication">EMAIL-AUTHENTICATION</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request">HTTP request</h3>
+<h3 id="_create_email_authentication">create email authentication</h3>
+<div class="sect3">
+<h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /email-authentications?_csrf=sHFqau3KH4fiLErF_aTiWDz7u6wMqwnwGPtkW1oXdfOFrODy0kALXY_5LLXPTiynzInWPQTKlpRuyW_dfJhXa24mQcq3noOX HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /email-authentications?_csrf=_uS101WxSM_gO1mme2SytOT4ts8o-jA7rEibCw3N2A3rmTiBm4bU5DGFKvnNCT-TSEmG0ILKm_cZmFIWyXmraTquuz-Iqw2w HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
 Host: localhost:8080
@@ -483,8 +481,8 @@ Host: localhost:8080
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
@@ -501,15 +499,13 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_이메일_인증코드_일치_여부_확인">이메일 인증코드 일치 여부 확인</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_2">HTTP request</h3>
+<h3 id="_이메일_인증코드_일치_여부_확인">이메일 인증코드 일치 여부 확인</h3>
+<div class="sect3">
+<h4 id="_http_request_2">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /email-authentications/match-code?_csrf=KSwelyi3vUw6bma6BTh4OfneDvk3vxAztt3Q-m8lRSt1EIHQTB4npEqPiygXCFffMxVMAZruI5sHjSYe0rnmwglAdEpBduLg HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /email-authentications/match-code?_csrf=c3atnLRHOIgWm1OpmREc3xSDpmvvCZqkSKp0LHRZ9So4J8StRRXLq4J3Dr87-GaZqjwovSG2iwnWPf-JeJgRSBdqlEkNEfyf HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
 Host: localhost:8080
@@ -547,8 +543,8 @@ Host: localhost:8080
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response_2">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_2">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -592,15 +588,13 @@ Content-Length: 21
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_이메일_인증코드_재생성">이메일 인증코드 재생성</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_3">HTTP request</h3>
+<h3 id="_이메일_인증코드_재생성">이메일 인증코드 재생성</h3>
+<div class="sect3">
+<h4 id="_http_request_3">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /email-authentications/recreate?_csrf=JD130wPsJqXdEMX15JKrSbhn7eDPT8rd7xIwOKA2YuFxJoBGQQoW5TfcEpXwIv2Xgb-fL4oGwIGrLP3w2yQAWZlQUIBAH-Z0 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /email-authentications/recreate?_csrf=iZA8IYfY5O8WbpTzRN8qy1g78Lz4T4bffryv51XpWCUPTQBb7_EIROG71Y47X_KSfPIe-2sK3YTJLeXySYqcgTeMaxxsfzg6 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
 Host: localhost:8080
@@ -632,8 +626,8 @@ Host: localhost:8080
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response_3">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_3">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content
@@ -652,10 +646,11 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-09-09 12:40:12 +0900
+Last updated 2024-11-30 14:56:25 +0900
 </div>
 </div>
 </body>

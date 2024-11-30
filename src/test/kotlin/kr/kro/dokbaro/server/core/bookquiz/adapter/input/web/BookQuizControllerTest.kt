@@ -11,6 +11,7 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizR
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.DeleteBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizExplanationUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindMyBookQuizUseCase
@@ -21,6 +22,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
@@ -69,6 +71,9 @@ class BookQuizControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var deleteBookQuizUseCase: DeleteBookQuizUseCase
+
+	@MockkBean
+	lateinit var bookQuizExplanationUseCase: FindBookQuizExplanationUseCase
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
@@ -573,6 +578,53 @@ class BookQuizControllerTest : RestDocsTest() {
 						"book-quiz/delete",
 						pathParameters(
 							parameterWithName("id").description("book quiz id"),
+						),
+					),
+				)
+		}
+
+		"퀴즈 설명을 조회한다" {
+			every { bookQuizExplanationUseCase.findExplanationBy(any()) } returns
+				BookQuizExplanation(
+					id = 1L,
+					title = "Sample Quiz Explanation",
+					description = "This is a detailed explanation for a sample book quiz.",
+					createdAt = LocalDateTime.now(),
+					creator =
+						BookQuizExplanation.Creator(
+							id = 101L,
+							nickname = "QuizMaster",
+							profileImageUrl = "https://example.com/profile.jpg",
+						),
+					book =
+						BookQuizExplanation.Book(
+							id = 201L,
+							title = "Effective Kotlin",
+							imageUrl = "https://example.com/book.jpg",
+						),
+				)
+
+			performGet(Path("/book-quizzes/{id}/explanation", "1"))
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"book-quiz/explanation",
+						pathParameters(
+							parameterWithName("id").description("book quiz id"),
+						),
+						responseFields(
+							fieldWithPath("id").description("퀴즈 설명의 고유 ID"),
+							fieldWithPath("title").description("퀴즈 설명의 제목"),
+							fieldWithPath("description").description("퀴즈 설명의 내용"),
+							fieldWithPath("createdAt").description("퀴즈 설명이 생성된 날짜 및 시간 (ISO 8601 형식)"),
+							fieldWithPath("creator").description("퀴즈 설명을 생성한 사용자의 정보"),
+							fieldWithPath("creator.id").description("생성자의 고유 ID"),
+							fieldWithPath("creator.nickname").description("생성자의 닉네임"),
+							fieldWithPath("creator.profileImageUrl").description("생성자의 프로필 이미지 URL (optional)").optional(),
+							fieldWithPath("book").description("퀴즈가 참조하는 책의 정보"),
+							fieldWithPath("book.id").description("책의 고유 ID"),
+							fieldWithPath("book.title").description("책의 제목"),
+							fieldWithPath("book.imageUrl").description("책의 이미지 URL (optional)").optional(),
 						),
 					),
 				)

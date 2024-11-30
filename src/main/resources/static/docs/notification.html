@@ -438,17 +438,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>NOTIFICATION</h1>
-<div class="details">
-<span id="revnumber">version 3.19.5</span>
-</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_알림_체크">알림 체크</h2>
+<h2 id="_notification">NOTIFICATION</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request">HTTP request</h3>
+<h3 id="_알림_체크">알림 체크</h3>
+<div class="sect3">
+<h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /notifications/check HTTP/1.1
@@ -457,8 +455,8 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -475,12 +473,10 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_알림_비활성화">알림 비활성화</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_2">HTTP request</h3>
+<h3 id="_알림_비활성화">알림 비활성화</h3>
+<div class="sect3">
+<h4 id="_http_request_2">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /notifications/1/disable HTTP/1.1
@@ -508,8 +504,8 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_http_response_2">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_2">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -526,12 +522,10 @@ X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_알림_목록_조회">알림 목록 조회</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_http_request_3">HTTP request</h3>
+<h3 id="_알림_목록_조회">알림 목록 조회</h3>
+<div class="sect3">
+<h4 id="_http_request_3">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /notifications HTTP/1.1
@@ -539,8 +533,8 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_http_response_3">HTTP response</h3>
+<div class="sect3">
+<h4 id="_http_response_3">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -554,7 +548,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 466
+Content-Length: 467
 
 [ {
   "content" : "새로운 알림 내용입니다.",
@@ -562,7 +556,7 @@ Content-Length: 466
   "imageUrl" : "http://example.com/image.png",
   "linkedId" : 1234,
   "checked" : false,
-  "createdAt" : "2024-11-30T14:05:28.159869",
+  "createdAt" : "2024-11-30T15:45:24.629204",
   "id" : 0
 }, {
   "content" : "새로운 알림 내용입니다.",
@@ -570,7 +564,7 @@ Content-Length: 466
   "imageUrl" : "http://example.com/image.png",
   "linkedId" : 1234,
   "checked" : true,
-  "createdAt" : "2024-11-30T14:05:28.15989",
+  "createdAt" : "2024-11-30T15:45:24.629231",
   "id" : 0
 } ]</code></pre>
 </div>
@@ -635,10 +629,11 @@ Content-Length: 466
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-11-03 20:41:58 +0900
+Last updated 2024-11-30 14:57:11 +0900
 </div>
 </div>
 </body>

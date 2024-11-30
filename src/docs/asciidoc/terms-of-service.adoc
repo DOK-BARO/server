@@ -1,46 +1,46 @@
-= TERMS-OF-SERVICE
+== TERMS-OF-SERVICE
 
-== 이용약관 조회
+=== 이용약관 조회
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/terms-of-service/find-all/http-request.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/terms-of-service/find-all/http-response.adoc[]
 include::{snippets}/terms-of-service/find-all/response-fields.adoc[]
 
-== 이용약관 상세 내용 조회
+=== 이용약관 상세 내용 조회
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/terms-of-service/find-detail/http-request.adoc[]
 include::{snippets}/terms-of-service/find-detail/path-parameters.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/terms-of-service/find-detail/http-response.adoc[]
 include::{snippets}/terms-of-service/find-detail/response-fields.adoc[]
 
-== 이용약관 동의
+=== 이용약관 동의
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/terms-of-service/agree/http-request.adoc[]
 include::{snippets}/terms-of-service/agree/request-fields.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/terms-of-service/agree/http-response.adoc[]
 
-== 필수 동의 여부 전체 동의 여부 조회
+=== 필수 동의 여부 전체 동의 여부 조회
 
-=== HTTP request
+==== HTTP request
 
 include::{snippets}/terms-of-service/get-member-agree-required/http-request.adoc[]
 
-=== HTTP response
+==== HTTP response
 
 include::{snippets}/terms-of-service/get-member-agree-required/http-response.adoc[]
 include::{snippets}/terms-of-service/get-member-agree-required/response-fields.adoc[]
