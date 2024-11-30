@@ -35,3 +35,5 @@ include::token.adoc[]
 
 include::quiz-review.adoc[]
 
+include::quiz-review-report.adoc[]
+
