@@ -2,6 +2,7 @@ package kr.kro.dokbaro.server.core.member.application.service
 
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
+import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.RegisterMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
@@ -20,7 +21,8 @@ class MemberService(
 	private val existMemberEmailPort: ExistMemberByEmailPort,
 	private val loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
 ) : RegisterMemberUseCase,
-	ModifyMemberUseCase {
+	ModifyMemberUseCase,
+	WithdrawMemberUseCase {
 	override fun register(command: RegisterMemberCommand): Member {
 		val certificationId = UUID.randomUUID()
 
@@ -48,6 +50,16 @@ class MemberService(
 			email = command.email?.let { Email(it) },
 			profileImage = command.profileImage,
 		)
+
+		updateMemberPort.update(member)
+	}
+
+	override fun withdrawBy(authId: UUID) {
+		val member: Member =
+			loadMemberByCertificationIdPort.findByCertificationId(authId)
+				?: throw NotFoundMemberException()
+
+		member.withdraw()
 
 		updateMemberPort.update(member)
 	}

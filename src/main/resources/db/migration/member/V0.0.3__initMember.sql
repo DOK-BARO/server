@@ -5,6 +5,7 @@ CREATE TABLE member
 	nickname          varchar(127) NOT NULL,
 	email             varchar(63)  NOT NULL,
 	profile_image_url varchar(255)          DEFAULT NULL,
+	withdraw          boolean      NOT NULL DEFAULT false,
 	created_at        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted           boolean      NOT NULL DEFAULT false,

@@ -501,6 +501,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_modify_login_member">modify login member</a></li>
 <li><a href="#_get_login_member">get login member</a></li>
+<li><a href="#_withdraw_member">withdraw member</a></li>
 </ul>
 </li>
 <li><a href="#_notification">NOTIFICATION</a>
@@ -641,7 +642,7 @@ Content-Length: 145
 <h4 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/signup/KAKAO?_csrf=WnympOmyVeVqDdY5xyS-53mcW4EgxqJY8AQls1_Is7MgwB-kO02ewt-DN9NHPrUPogmK0h34duNCoJR1xWYWhW_6gIsT8Xuc HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/signup/KAKAO?_csrf=G77RVbJh77k_JGWgAESE9bYPmmMPwSB4LxqfWRhYjk2shwjued2wYNBQ3okSQV2RNWmwl4Q6t1s7okRVGSv9Py08uHqUtjyL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 94
 Host: localhost:8080
@@ -732,7 +733,7 @@ Content-Length: 47
 <h4 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/KAKAO?_csrf=jFVA0sZHzsdIkbCTvspzDTJ9A7GInHvMQemCZH76Yt80owjYuG0h4fV--KNlpNSljedHNABNLoiw-kzhJ42xBhiYVexRxTru HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/oauth2/login/KAKAO?_csrf=EZn225uxfuF3nJor_pKJIogw2ab3oqYLGTZg7t_RiWb7kwAvKPvP7avSR4Va-ascz7-9Rr8H9J6UksUmLQZWiLmy61_Iq2JN HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 94
 Host: localhost:8080
@@ -823,7 +824,7 @@ Content-Length: 46
 <h4 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/email/signup?_csrf=iwk_gF5L1TvZbcpNB9PMlGvTREyO9teSeDAV8BidLYDaZqPsuzpdtm9y4Fr0Wq57Pv74rV23aS23wOW_SgItlH2qTLa-VMfe HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/email/signup?_csrf=AElZtBe-k38Godi2ff4ee1rVwCXaV9P6tOTcRgTLPxQd4WjAMnBvgiaPo0YrwumGGNMqGWLn7US-Z7bXhty-czH8XSV71Q30 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 119
 Host: localhost:8080
@@ -926,7 +927,7 @@ Content-Length: 47
 <h4 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/email/login?_csrf=WSP6gY7ti3dTbbflXG4E2kwZwj_6tsc8tfyb8eHLOvfeEJKZYRrMs73Zu05-XIXWbUMw6H18712f0PIRg82olNX-DJHucfD6 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /auth/email/login?_csrf=Ovu6xewEvGaQdTv6vPQZUatvkGhJyWSWHwGosv4BqmBvbl8ZWMmK9ttmigC9QQnKjtktZspYvQkr-gG7eTnL05tnnAReWWgt HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 58
 Host: localhost:8080
@@ -1022,7 +1023,7 @@ Content-Length: 47
 <h4 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /books?_csrf=Z-8ht1uios78IQr-ZwXrhOdCqbUd3jZuD-mRluO5KUWQxTMhBYoX1TmTxvvREW6YVCjfsIQhhI14vQ9DPY3w84aKEHCmpwND HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /books?_csrf=2wJqhykHsOHXodSWjcN33Q7yOxb_bIO8dESiN7Vq3QN420WS7mdf4hhl1tH6ku30vO5DuTnGFnfKX7KRESaWANZevzIe7HKi HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 368
 Host: localhost:8080
@@ -1031,7 +1032,7 @@ Host: localhost:8080
   "isbn" : "9783161484100",
   "title" : "Effective Kotlin",
   "publisher" : "TechBooks",
-  "publishedAt" : "2024-11-30",
+  "publishedAt" : "2024-12-01",
   "price" : 45000,
   "description" : "A comprehensive guide to writing high-quality Kotlin code.",
   "imageUrl" : "https://example.com/images/effective-kotlin.jpg",
@@ -1447,7 +1448,7 @@ Content-Length: 588
 <h4 id="_http_request_9"><a class="link" href="#_http_request_9">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-categories?_csrf=KoPdwzJesQx-eWrc5NhLdfNwDqSRLdQyTNUj4WL2jTP7NQlqEuHt9QBv0jxTSVm5hfV_QcpII8bwS-wfL-IW0gDCuVbJUz9Y HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-categories?_csrf=7-oLDD2CiqI4QQZbcjFKS-wHqUtHymPAspJ6VbAOcNM6YOihiog8Pg-zs5oVIzE4ERx-ettihCok_lvt1PYfY4JtErUOWdnE HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 78
 Host: localhost:8080
@@ -1765,7 +1766,7 @@ Content-Length: 309
 <h4 id="_http_request_12"><a class="link" href="#_http_request_12">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-quizzes?_csrf=mLP150qHBALRI_AjMOOiSGhMqu0sW0aA9L7DNRXObebCjt3E_oGW0C61MzX8EsITAc6Wewsvh4xNbHCtwIfwU3D5X9T6t7vz HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-quizzes?_csrf=E0m7d3qO_vIKyZqUXQ6u4DcCpdYrLmCLNo1M4vaE9tCH1n0jIH3YFki2zMcn8fjwbyOa2A42iO8ZGFCmBrV10cGwwuCy4Ekb HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 891
 Host: localhost:8080
@@ -2058,7 +2059,7 @@ Content-Length: 328
 <h4 id="_http_request_14"><a class="link" href="#_http_request_14">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /book-quizzes/1?_csrf=BncRYv0UvBMTbwhbxrPTh_s5lQyz4vTV3_AntXXTQS3HcN93N0UpUsQhhXY-XW1o8Z7n4Z8AuG2L18b4usND1BfndU6kSLlE HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /book-quizzes/1?_csrf=P3MVriko2YIVcOwHBREYH0qbEmOdfGhF48NcDNOfvMDWoRSxD0dzmRBM6uc4QdxjMjwsLn_6P1uvGFBo1qZpNef6ifHgmCSJ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 920
 Host: localhost:8080
@@ -2696,12 +2697,12 @@ Content-Length: 306
   "id" : 1,
   "bookImageUrl" : "https://example.com/book_image1.jpg",
   "title" : "Effective Kotlin",
-  "updatedAt" : "2024-11-28T15:45:20.406056"
+  "updatedAt" : "2024-11-29T16:01:56.689227"
 }, {
   "id" : 2,
   "bookImageUrl" : "https://example.com/book_image2.jpg",
   "title" : "Kotlin in Action",
-  "updatedAt" : "2024-11-25T15:45:20.406096"
+  "updatedAt" : "2024-11-26T16:01:56.689263"
 } ]</code></pre>
 </div>
 </div>
@@ -2843,7 +2844,7 @@ Content-Length: 417
   "id" : 1,
   "title" : "Sample Quiz Explanation",
   "description" : "This is a detailed explanation for a sample book quiz.",
-  "createdAt" : "2024-11-30T15:45:20.474436",
+  "createdAt" : "2024-12-01T16:01:56.753455",
   "creator" : {
     "id" : 101,
     "nickname" : "QuizMaster",
@@ -2946,7 +2947,7 @@ Content-Length: 417
 <h4 id="_http_request_21"><a class="link" href="#_http_request_21">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=_uS101WxSM_gO1mme2SytOT4ts8o-jA7rEibCw3N2A3rmTiBm4bU5DGFKvnNCT-TSEmG0ILKm_cZmFIWyXmraTquuz-Iqw2w HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=tbcP6eEyQ1noii-LJ5Uv7kRLuN3WZztmBBuR4rTAz91w7z-7jNY62dJWcGjFvB6yF7gbjSJ-leTjAQNLMC330431rblD2V7d HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
 Host: localhost:8080
@@ -3002,7 +3003,7 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_22"><a class="link" href="#_http_request_22">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=c3atnLRHOIgWm1OpmREc3xSDpmvvCZqkSKp0LHRZ9So4J8StRRXLq4J3Dr87-GaZqjwovSG2iwnWPf-JeJgRSBdqlEkNEfyf HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=lqW46hyLr39NLrcdt9mDxj3H3_rscAG_iEfJzg5JPOvuLni_pcGJiSvtl0ZgHNQqgfS38F-h8sLdQzGSuCL8qjt_XdrfHhre HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
 Host: localhost:8080
@@ -3091,7 +3092,7 @@ Content-Length: 21
 <h4 id="_http_request_23"><a class="link" href="#_http_request_23">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=iZA8IYfY5O8WbpTzRN8qy1g78Lz4T4bffryv51XpWCUPTQBb7_EIROG71Y47X_KSfPIe-2sK3YTJLeXySYqcgTeMaxxsfzg6 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=Cak3UKw1rSeVSB4f8VIlACVCTchsOLk6kllmAubfYlulH_Cza51UM88BnRK4LisuwH8RZRAmYKlYWosX8WheZNDuAGqcJ8eH HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
 Host: localhost:8080
@@ -3312,7 +3313,7 @@ Content-Length: 64
 <h4 id="_http_request_27"><a class="link" href="#_http_request_27">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=BZC2HqeL9xo03MO0AxIJfCNIEFNiHplJuG2HNJ3bqDWTME86NvHVepG5wnkZ6_XQND89SEJxPWpTKKxkj1u-A__onAKhCXYL HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=pfgBzKX5fPYRtMPyH8DY724fYV7pWRVx5di6O-CaXLqKi4uenZ45_MOaTME8jKfDKO3s11p9TGbdOixc0ryIDYH-Zd-4u7-p HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 92
 Host: localhost:8080
@@ -3400,15 +3401,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 208
+Content-Length: 209
 
 {
+  "id" : -7501442779949303464,
   "nickName" : "nickname",
   "email" : "asdf@gmail.com",
   "profileImage" : "image.png",
-  "certificationId" : "6685e5f3-bb19-4577-b9c9-0ce2a0ed93d4",
-  "roles" : [ "GUEST" ],
-  "id" : 7897407729636040287
+  "certificationId" : "6cc0aceb-e63f-4940-92c1-c841f2338d1e",
+  "roles" : [ "GUEST" ]
 }</code></pre>
 </div>
 </div>
@@ -3460,6 +3461,46 @@ Content-Length: 208
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_withdraw_member"><a class="link" href="#_withdraw_member">withdraw member</a></h3>
+<div class="sect3">
+<h4 id="_http_request_29"><a class="link" href="#_http_request_29">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /members/login-user HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response_29"><a class="link" href="#_http_response_29">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 209
+
+{
+  "id" : -7501442779949303464,
+  "nickName" : "nickname",
+  "email" : "asdf@gmail.com",
+  "profileImage" : "image.png",
+  "certificationId" : "6cc0aceb-e63f-4940-92c1-c841f2338d1e",
+  "roles" : [ "GUEST" ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3468,7 +3509,7 @@ Content-Length: 208
 <div class="sect2">
 <h3 id="_알림_체크"><a class="link" href="#_알림_체크">알림 체크</a></h3>
 <div class="sect3">
-<h4 id="_http_request_29"><a class="link" href="#_http_request_29">HTTP request</a></h4>
+<h4 id="_http_request_30"><a class="link" href="#_http_request_30">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /notifications/check HTTP/1.1
@@ -3478,7 +3519,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_29"><a class="link" href="#_http_response_29">HTTP response</a></h4>
+<h4 id="_http_response_30"><a class="link" href="#_http_response_30">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3498,7 +3539,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_알림_비활성화"><a class="link" href="#_알림_비활성화">알림 비활성화</a></h3>
 <div class="sect3">
-<h4 id="_http_request_30"><a class="link" href="#_http_request_30">HTTP request</a></h4>
+<h4 id="_http_request_31"><a class="link" href="#_http_request_31">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /notifications/1/disable HTTP/1.1
@@ -3527,7 +3568,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_30"><a class="link" href="#_http_response_30">HTTP response</a></h4>
+<h4 id="_http_response_31"><a class="link" href="#_http_response_31">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3547,7 +3588,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_알림_목록_조회"><a class="link" href="#_알림_목록_조회">알림 목록 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_31"><a class="link" href="#_http_request_31">HTTP request</a></h4>
+<h4 id="_http_request_32"><a class="link" href="#_http_request_32">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /notifications HTTP/1.1
@@ -3556,7 +3597,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_31"><a class="link" href="#_http_response_31">HTTP response</a></h4>
+<h4 id="_http_response_32"><a class="link" href="#_http_response_32">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3573,21 +3614,21 @@ X-Frame-Options: DENY
 Content-Length: 467
 
 [ {
+  "id" : 0,
   "content" : "새로운 알림 내용입니다.",
   "trigger" : "UPDATE_QUIZ",
   "imageUrl" : "http://example.com/image.png",
   "linkedId" : 1234,
   "checked" : false,
-  "createdAt" : "2024-11-30T15:45:24.629204",
-  "id" : 0
+  "createdAt" : "2024-12-01T16:02:01.514577"
 }, {
+  "id" : 0,
   "content" : "새로운 알림 내용입니다.",
   "trigger" : "NEW_QUIZ_REVIEW",
   "imageUrl" : "http://example.com/image.png",
   "linkedId" : 1234,
   "checked" : true,
-  "createdAt" : "2024-11-30T15:45:24.629231",
-  "id" : 0
+  "createdAt" : "2024-12-01T16:02:01.514603"
 } ]</code></pre>
 </div>
 </div>
@@ -3657,10 +3698,10 @@ Content-Length: 467
 <div class="sect2">
 <h3 id="_북_퀴즈_풀기_시작"><a class="link" href="#_북_퀴즈_풀기_시작">북 퀴즈 풀기 시작</a></h3>
 <div class="sect3">
-<h4 id="_http_request_32"><a class="link" href="#_http_request_32">HTTP request</a></h4>
+<h4 id="_http_request_33"><a class="link" href="#_http_request_33">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/start?_csrf=ZiSJc5zn0VaCoCOkCa-l0EBbKWHMJWVOCVY5OsH1BXkdDm1jA0DvFq_QsGSvlBadMYKR43ViBFiqRgFjbzcKDPXCM00uO1kG HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/start?_csrf=arFACekNPxIL1VHvZOMIZYxvlqWy4UQukLWb11yRHK3r4X5EXIUhP4g7WnQmsWPcVs48V7wKu8eC0yYDp9GitTqpLpjbg0lz HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 18
 Host: localhost:8080
@@ -3693,7 +3734,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_32"><a class="link" href="#_http_response_32">HTTP response</a></h4>
+<h4 id="_http_response_33"><a class="link" href="#_http_response_33">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3740,10 +3781,10 @@ Content-Length: 14
 <div class="sect2">
 <h3 id="_북_퀴즈_문제_풀기_제출"><a class="link" href="#_북_퀴즈_문제_풀기_제출">북 퀴즈 문제 풀기 제출</a></h3>
 <div class="sect3">
-<h4 id="_http_request_33"><a class="link" href="#_http_request_33">HTTP request</a></h4>
+<h4 id="_http_request_34"><a class="link" href="#_http_request_34">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/1/sheets?_csrf=uAlwaZXbyEmuQLZSf6RpakF8AolS3dM44lory4Chjkhrw8UTjT4WW6Do-HiDeIQ3TIldWXVLL7Bi6eoV0m4SreWZ6ytZ-6dw HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/1/sheets?_csrf=WJQ-HnVZAUmhH0cmQ5DM1NAxbPZu0yrvXqSQWEIf4mYnKUyJbKZbLhdgM3uMe3MUcb347bRXQc5X50vCaJGgbnR9hgMWHC2- HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 64
 Host: localhost:8080
@@ -3801,7 +3842,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_33"><a class="link" href="#_http_response_33">HTTP response</a></h4>
+<h4 id="_http_response_34"><a class="link" href="#_http_response_34">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3890,7 +3931,7 @@ Content-Length: 281
 <div class="sect2">
 <h3 id="_푼_퀴즈_결과_보기_조회"><a class="link" href="#_푼_퀴즈_결과_보기_조회">푼 퀴즈 결과 보기 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_34"><a class="link" href="#_http_request_34">HTTP request</a></h4>
+<h4 id="_http_request_35"><a class="link" href="#_http_request_35">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/1/grade-result HTTP/1.1
@@ -3918,7 +3959,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_34"><a class="link" href="#_http_response_34">HTTP response</a></h4>
+<h4 id="_http_response_35"><a class="link" href="#_http_response_35">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -3989,7 +4030,7 @@ Content-Length: 105
 <div class="sect2">
 <h3 id="_내가_푼_퀴즈_목록_보기_조회"><a class="link" href="#_내가_푼_퀴즈_목록_보기_조회">내가 푼 퀴즈 목록 보기 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_35"><a class="link" href="#_http_request_35">HTTP request</a></h4>
+<h4 id="_http_request_36"><a class="link" href="#_http_request_36">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/my HTTP/1.1
@@ -3998,7 +4039,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_35"><a class="link" href="#_http_response_35">HTTP response</a></h4>
+<h4 id="_http_response_36"><a class="link" href="#_http_response_36">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4084,7 +4125,7 @@ Content-Length: 337
 <div class="sect2">
 <h3 id="_스터디_그룹에서_내가_푼_퀴즈_목록_보기_조회"><a class="link" href="#_스터디_그룹에서_내가_푼_퀴즈_목록_보기_조회">스터디 그룹에서 내가 푼 퀴즈 목록 보기 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_36"><a class="link" href="#_http_request_36">HTTP request</a></h4>
+<h4 id="_http_request_37"><a class="link" href="#_http_request_37">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/study-groups/1/my HTTP/1.1
@@ -4112,7 +4153,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_36"><a class="link" href="#_http_response_36">HTTP response</a></h4>
+<h4 id="_http_response_37"><a class="link" href="#_http_response_37">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4301,10 +4342,10 @@ Content-Length: 1323
 <div class="sect2">
 <h3 id="_스터디_그룹_생성"><a class="link" href="#_스터디_그룹_생성">스터디 그룹 생성</a></h3>
 <div class="sect3">
-<h4 id="_http_request_37"><a class="link" href="#_http_request_37">HTTP request</a></h4>
+<h4 id="_http_request_38"><a class="link" href="#_http_request_38">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups?_csrf=juO6yD9bo5q7AAbPDpC-AUdjCGlCAcdDGPFGeYubJoD5fBHc7IGK_AZslqqWZDb_P72KZHIHJQghNfduKZR0QbqtHrGaHSDu HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups?_csrf=JF83_gVN7VSF683Q9MqeOC2vnyPq7te-AZ7W0-aDF9Orey1FEz4BnTQoi2eoiKvlwueqCB2XskLf17STMavisoO2LuLPGhwh HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 125
 Host: localhost:8080
@@ -4349,7 +4390,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_37"><a class="link" href="#_http_response_37">HTTP response</a></h4>
+<h4 id="_http_response_38"><a class="link" href="#_http_response_38">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -4396,10 +4437,10 @@ Content-Length: 14
 <div class="sect2">
 <h3 id="_스터디_그룹_참여"><a class="link" href="#_스터디_그룹_참여">스터디 그룹 참여</a></h3>
 <div class="sect3">
-<h4 id="_http_request_38"><a class="link" href="#_http_request_38">HTTP request</a></h4>
+<h4 id="_http_request_39"><a class="link" href="#_http_request_39">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/join?_csrf=92YLYKAbaB4sUmzQo5JjEyC-4a79UDBkAhgQ6_sYOY1zCvE9k1I7AsMiWX8BM1_nkL9XK0LYzJaeNQRJZnlx2J8uDO5AOMQP HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/join?_csrf=TRcRqCn2NV151XymfBQsxKjY9sfvNOcoHv8WLIVaWheughHVf3MnmhrHAjtUtEqVSTkYp5Dr2_-KAIUFLcgnHOFqOCCatiKx HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 29
 Host: localhost:8080
@@ -4432,7 +4473,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_38"><a class="link" href="#_http_response_38">HTTP response</a></h4>
+<h4 id="_http_response_39"><a class="link" href="#_http_response_39">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4452,7 +4493,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_로그인한_사용자가_속한_스터디_그룹_목록"><a class="link" href="#_로그인한_사용자가_속한_스터디_그룹_목록">로그인한 사용자가 속한 스터디 그룹 목록</a></h3>
 <div class="sect3">
-<h4 id="_http_request_39"><a class="link" href="#_http_request_39">HTTP request</a></h4>
+<h4 id="_http_request_40"><a class="link" href="#_http_request_40">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /study-groups/my HTTP/1.1
@@ -4461,7 +4502,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_39"><a class="link" href="#_http_response_39">HTTP response</a></h4>
+<h4 id="_http_response_40"><a class="link" href="#_http_response_40">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4478,17 +4519,17 @@ X-Frame-Options: DENY
 Content-Length: 238
 
 [ {
+  "id" : 1,
   "name" : "C 스터디",
-  "profileImageUrl" : "ccc.png",
-  "id" : 1
+  "profileImageUrl" : "ccc.png"
 }, {
+  "id" : 2,
   "name" : "JAVA 스터디",
-  "profileImageUrl" : "ccc.png",
-  "id" : 1
+  "profileImageUrl" : "ccc.png"
 }, {
+  "id" : 3,
   "name" : "모각코 합시다",
-  "profileImageUrl" : "ccc.png",
-  "id" : 1
+  "profileImageUrl" : "ccc.png"
 } ]</code></pre>
 </div>
 </div>
@@ -4528,7 +4569,7 @@ Content-Length: 238
 <div class="sect2">
 <h3 id="_스터디_그룹_상세_조회"><a class="link" href="#_스터디_그룹_상세_조회">스터디 그룹 상세 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_40"><a class="link" href="#_http_request_40">HTTP request</a></h4>
+<h4 id="_http_request_41"><a class="link" href="#_http_request_41">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /study-groups/1 HTTP/1.1
@@ -4556,7 +4597,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_40"><a class="link" href="#_http_response_40">HTTP response</a></h4>
+<h4 id="_http_response_41"><a class="link" href="#_http_response_41">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4573,6 +4614,7 @@ X-Frame-Options: DENY
 Content-Length: 638
 
 {
+  "id" : 101,
   "name" : "AI 연구 스터디",
   "introduction" : "인공지능과 머신러닝에 대해 함께 공부하는 스터디입니다.",
   "profileImageUrl" : "https://example.com/group-profile.jpg",
@@ -4592,8 +4634,7 @@ Content-Length: 638
     "profileImageUrl" : null,
     "role" : "MEMBER"
   } ],
-  "inviteCode" : "ABC123",
-  "id" : 101
+  "inviteCode" : "ABC123"
 }</code></pre>
 </div>
 </div>
@@ -4673,7 +4714,7 @@ Content-Length: 638
 <div class="sect2">
 <h3 id="_이용약관_조회"><a class="link" href="#_이용약관_조회">이용약관 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_41"><a class="link" href="#_http_request_41">HTTP request</a></h4>
+<h4 id="_http_request_42"><a class="link" href="#_http_request_42">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services HTTP/1.1
@@ -4682,7 +4723,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_41"><a class="link" href="#_http_response_41">HTTP response</a></h4>
+<h4 id="_http_response_42"><a class="link" href="#_http_response_42">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4765,7 +4806,7 @@ Content-Length: 462
 <div class="sect2">
 <h3 id="_이용약관_상세_내용_조회"><a class="link" href="#_이용약관_상세_내용_조회">이용약관 상세 내용 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_42"><a class="link" href="#_http_request_42">HTTP request</a></h4>
+<h4 id="_http_request_43"><a class="link" href="#_http_request_43">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services/1/detail HTTP/1.1
@@ -4793,7 +4834,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_42"><a class="link" href="#_http_response_42">HTTP response</a></h4>
+<h4 id="_http_response_43"><a class="link" href="#_http_response_43">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4840,10 +4881,10 @@ Content-Length: 52
 <div class="sect2">
 <h3 id="_이용약관_동의"><a class="link" href="#_이용약관_동의">이용약관 동의</a></h3>
 <div class="sect3">
-<h4 id="_http_request_43"><a class="link" href="#_http_request_43">HTTP request</a></h4>
+<h4 id="_http_request_44"><a class="link" href="#_http_request_44">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /terms-of-services/agree?_csrf=M3ulDeHTAQ2KIn6iBdLeEsW1G5B7ZbbJdEUTero23vKdds0hBkPGbtjkNDqnQEmWZP_qc_DXNqgZVYXkQnx2Q4MEuMukEKkR HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /terms-of-services/agree?_csrf=1sNMukVCqMNBRf4370an_QP1cSfLpzy_bCxZukoJhJfh2Bj676d4jCdzkaBsJ84Ai2uTxTXFXB6uwwySW08_iHNrvfGDvHzP HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 27
 Host: localhost:8080
@@ -4876,7 +4917,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_43"><a class="link" href="#_http_response_43">HTTP response</a></h4>
+<h4 id="_http_response_44"><a class="link" href="#_http_response_44">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4896,7 +4937,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_필수_동의_여부_전체_동의_여부_조회"><a class="link" href="#_필수_동의_여부_전체_동의_여부_조회">필수 동의 여부 전체 동의 여부 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_44"><a class="link" href="#_http_request_44">HTTP request</a></h4>
+<h4 id="_http_request_45"><a class="link" href="#_http_request_45">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services/member-agree/required HTTP/1.1
@@ -4905,7 +4946,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_44"><a class="link" href="#_http_response_44">HTTP response</a></h4>
+<h4 id="_http_response_45"><a class="link" href="#_http_response_45">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4957,7 +4998,7 @@ Content-Length: 23
 <div class="sect2">
 <h3 id="_refresh_token"><a class="link" href="#_refresh_token">refresh token</a></h3>
 <div class="sect3">
-<h4 id="_http_request_45"><a class="link" href="#_http_request_45">HTTP request</a></h4>
+<h4 id="_http_request_46"><a class="link" href="#_http_request_46">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /token/refresh HTTP/1.1
@@ -4968,7 +5009,7 @@ Cookie: Refresh=refresh-token</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_45"><a class="link" href="#_http_response_45">HTTP response</a></h4>
+<h4 id="_http_response_46"><a class="link" href="#_http_response_46">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -5022,10 +5063,10 @@ Content-Length: 48
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_생성"><a class="link" href="#_퀴즈_리뷰_생성">퀴즈 리뷰 생성</a></h3>
 <div class="sect3">
-<h4 id="_http_request_46"><a class="link" href="#_http_request_46">HTTP request</a></h4>
+<h4 id="_http_request_47"><a class="link" href="#_http_request_47">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-reviews?_csrf=KBN7gfHqUtmMcCYf1Zt-DGOMozw68MnOGkaUY3u7ViElmcMgGyVN4pOPZbihSRMp4LZKNFDojl5fxvzjLHKtAh-LMkNDrPUW HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-reviews?_csrf=_4UdW1gkQfxdGyHDNMqSqX6idt0W7buSyvCo0Du83Iece2uenbUpbjsTdMxwLRf7UOemyBuSW7931N2_-JOY5QqI7uaqGQj8 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 100
 Host: localhost:8080
@@ -5076,7 +5117,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_46"><a class="link" href="#_http_response_46">HTTP response</a></h4>
+<h4 id="_http_response_47"><a class="link" href="#_http_response_47">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -5123,7 +5164,7 @@ Content-Length: 14
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_총평별점_난이도_조회"><a class="link" href="#_퀴즈_리뷰_총평별점_난이도_조회">퀴즈 리뷰 총평(별점, 난이도) 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_47"><a class="link" href="#_http_request_47">HTTP request</a></h4>
+<h4 id="_http_request_48"><a class="link" href="#_http_request_48">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /quiz-reviews/total-score?quizId=1 HTTP/1.1
@@ -5150,7 +5191,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_47"><a class="link" href="#_http_response_47">HTTP response</a></h4>
+<h4 id="_http_response_48"><a class="link" href="#_http_response_48">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -5237,7 +5278,7 @@ Content-Length: 279
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_요약_목록_조회"><a class="link" href="#_퀴즈_리뷰_요약_목록_조회">퀴즈 리뷰 요약 목록 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_48"><a class="link" href="#_http_request_48">HTTP request</a></h4>
+<h4 id="_http_request_49"><a class="link" href="#_http_request_49">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /quiz-reviews?page=1&amp;size=10&amp;quizId=12345&amp;sort=CREATED_AT HTTP/1.1
@@ -5280,7 +5321,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_48"><a class="link" href="#_http_response_48">HTTP response</a></h4>
+<h4 id="_http_response_49"><a class="link" href="#_http_response_49">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -5391,10 +5432,10 @@ Content-Length: 495
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_수정"><a class="link" href="#_퀴즈_리뷰_수정">퀴즈 리뷰 수정</a></h3>
 <div class="sect3">
-<h4 id="_http_request_49"><a class="link" href="#_http_request_49">HTTP request</a></h4>
+<h4 id="_http_request_50"><a class="link" href="#_http_request_50">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /quiz-reviews/1?_csrf=6ZfRpgVbMI6QZ4VrC3uFAjRW03__I-pnkW8Zl79QvEtNSFG92qeylWZoBr-9VrUIPlaxMFBm_h6eEtlKpQktpdw2jnx9LGmO HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /quiz-reviews/1?_csrf=_X0zw_Rx86u3izWaFlwbeYcOtkRRaBnLIM1MuYFpLPtbs58uzxxS9pEQwp2avFasJ3EvTrc8myYzCijmQf142LNdScNug_0e HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 136
 Host: localhost:8080
@@ -5464,7 +5505,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_49"><a class="link" href="#_http_response_49">HTTP response</a></h4>
+<h4 id="_http_response_50"><a class="link" href="#_http_response_50">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -5484,7 +5525,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_삭제"><a class="link" href="#_퀴즈_리뷰_삭제">퀴즈 리뷰 삭제</a></h3>
 <div class="sect3">
-<h4 id="_http_request_50"><a class="link" href="#_http_request_50">HTTP request</a></h4>
+<h4 id="_http_request_51"><a class="link" href="#_http_request_51">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /quiz-reviews/1 HTTP/1.1
@@ -5513,7 +5554,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_50"><a class="link" href="#_http_response_50">HTTP response</a></h4>
+<h4 id="_http_response_51"><a class="link" href="#_http_response_51">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -5538,10 +5579,10 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_신고하기"><a class="link" href="#_퀴즈_리뷰_신고하기">퀴즈 리뷰 신고하기</a></h3>
 <div class="sect3">
-<h4 id="_http_request_51"><a class="link" href="#_http_request_51">HTTP request</a></h4>
+<h4 id="_http_request_52"><a class="link" href="#_http_request_52">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-review-reports?_csrf=c2Bl4BXxkw_YidU9ZgG3mTAhkK_lobgWa_4NZOh-LuvGPAzpQFEB0SPCpzf1urRfAyyDqgdEvZbQkos7WZo4XdkdHY_2XWjY HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-review-reports?_csrf=6TEWGDM30odHAl6UcXf5x0xCAv-31LHnmgqZ9MPBWgeSZPwNiwFwe1BV57NqY2fySFrNoy0gL8fVt4jK_DirwaejODPzV55u HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 107
 Host: localhost:8080
@@ -5580,7 +5621,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_51"><a class="link" href="#_http_response_51">HTTP response</a></h4>
+<h4 id="_http_response_52"><a class="link" href="#_http_response_52">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -5630,7 +5671,7 @@ Content-Length: 14
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-11-30 14:58:33 +0900
+Last updated 2024-12-01 00:36:08 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

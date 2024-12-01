@@ -6,6 +6,7 @@ import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberRequest
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
+import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.member.domain.Role
@@ -25,6 +26,9 @@ class MemberControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var findCertificatedMemberUseCase: FindCertificatedMemberUseCase
+
+	@MockkBean
+	lateinit var withdrawMemberUseCase: WithdrawMemberUseCase
 
 	init {
 		"login한 member 정보를 수정을 수행한다" {
@@ -95,6 +99,18 @@ class MemberControllerTest : RestDocsTest() {
 								.type(JsonFieldType.NUMBER)
 								.description("seq ID"),
 						),
+					),
+				)
+		}
+
+		"회원 탈퇴를 진행한다" {
+			every { withdrawMemberUseCase.withdrawBy(any()) } returns Unit
+
+			performPost(Path("/members/withdraw"))
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"member/withdraw",
 					),
 				)
 		}

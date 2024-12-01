@@ -28,7 +28,7 @@ class EmailCertificatedAccountQueryRepository(
 				.select()
 				.from(MEMBER)
 				.join(ACCOUNT_PASSWORD)
-				.on(ACCOUNT_PASSWORD.MEMBER_ID.eq(MEMBER.ID))
+				.on(ACCOUNT_PASSWORD.MEMBER_ID.eq(MEMBER.ID).and(MEMBER.WITHDRAW.eq(false)))
 				.join(MEMBER_ROLE)
 				.on(MEMBER_ROLE.MEMBER_ID.eq(MEMBER.ID))
 				.where(MEMBER.EMAIL.eq(email))

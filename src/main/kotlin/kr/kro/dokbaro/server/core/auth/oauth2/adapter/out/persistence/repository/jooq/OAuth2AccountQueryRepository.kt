@@ -38,7 +38,7 @@ class OAuth2AccountQueryRepository(
 						ACCOUNT.MEMBER_ID,
 					),
 				).join(MEMBER_ROLE)
-				.on(MEMBER_ROLE.MEMBER_ID.eq(MEMBER.ID))
+				.on(MEMBER_ROLE.MEMBER_ID.eq(MEMBER.ID).and(MEMBER.WITHDRAW.eq(false)))
 				.where(
 					ACCOUNT.SOCIAL_ID
 						.eq(socialId)

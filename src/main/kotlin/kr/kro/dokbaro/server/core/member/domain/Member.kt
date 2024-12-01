@@ -10,6 +10,7 @@ data class Member(
 	var profileImage: String?,
 	val certificationId: UUID,
 	val roles: Set<Role> = setOf(Role.GUEST),
+	var withdraw: Boolean = false,
 ) {
 	fun modify(
 		nickName: String?,
@@ -19,5 +20,9 @@ data class Member(
 		this.nickName = nickName ?: this.nickName
 		this.email = email ?: this.email
 		this.profileImage = profileImage ?: this.profileImage
+	}
+
+	fun withdraw() {
+		withdraw = true
 	}
 }
