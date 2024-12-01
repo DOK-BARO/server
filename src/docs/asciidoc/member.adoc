@@ -21,3 +21,13 @@ include::{snippets}/member/get-login-user/http-request.adoc[]
 
 include::{snippets}/member/get-login-user/http-response.adoc[]
 include::{snippets}/member/get-login-user/response-fields.adoc[]
+
+=== withdraw member
+
+==== HTTP request
+
+include::{snippets}/member/get-login-user/http-request.adoc[]
+
+==== HTTP response
+
+include::{snippets}/member/get-login-user/http-response.adoc[]

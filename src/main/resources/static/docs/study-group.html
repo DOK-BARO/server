@@ -449,7 +449,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups?_csrf=juO6yD9bo5q7AAbPDpC-AUdjCGlCAcdDGPFGeYubJoD5fBHc7IGK_AZslqqWZDb_P72KZHIHJQghNfduKZR0QbqtHrGaHSDu HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups?_csrf=JF83_gVN7VSF683Q9MqeOC2vnyPq7te-AZ7W0-aDF9Orey1FEz4BnTQoi2eoiKvlwueqCB2XskLf17STMavisoO2LuLPGhwh HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 125
 Host: localhost:8080
@@ -544,7 +544,7 @@ Content-Length: 14
 <h4 id="_http_request_2">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups/join?_csrf=92YLYKAbaB4sUmzQo5JjEyC-4a79UDBkAhgQ6_sYOY1zCvE9k1I7AsMiWX8BM1_nkL9XK0LYzJaeNQRJZnlx2J8uDO5AOMQP HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups/join?_csrf=TRcRqCn2NV151XymfBQsxKjY9sfvNOcoHv8WLIVaWheughHVf3MnmhrHAjtUtEqVSTkYp5Dr2_-KAIUFLcgnHOFqOCCatiKx HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 29
 Host: localhost:8080
@@ -623,17 +623,17 @@ X-Frame-Options: DENY
 Content-Length: 238
 
 [ {
+  "id" : 1,
   "name" : "C 스터디",
-  "profileImageUrl" : "ccc.png",
-  "id" : 1
+  "profileImageUrl" : "ccc.png"
 }, {
+  "id" : 2,
   "name" : "JAVA 스터디",
-  "profileImageUrl" : "ccc.png",
-  "id" : 1
+  "profileImageUrl" : "ccc.png"
 }, {
+  "id" : 3,
   "name" : "모각코 합시다",
-  "profileImageUrl" : "ccc.png",
-  "id" : 1
+  "profileImageUrl" : "ccc.png"
 } ]</code></pre>
 </div>
 </div>
@@ -718,6 +718,7 @@ X-Frame-Options: DENY
 Content-Length: 638
 
 {
+  "id" : 101,
   "name" : "AI 연구 스터디",
   "introduction" : "인공지능과 머신러닝에 대해 함께 공부하는 스터디입니다.",
   "profileImageUrl" : "https://example.com/group-profile.jpg",
@@ -737,8 +738,7 @@ Content-Length: 638
     "profileImageUrl" : null,
     "role" : "MEMBER"
   } ],
-  "inviteCode" : "ABC123",
-  "id" : 101
+  "inviteCode" : "ABC123"
 }</code></pre>
 </div>
 </div>
@@ -816,7 +816,7 @@ Content-Length: 638
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-11-30 14:58:06 +0900
+Last updated 2024-12-01 00:36:08 +0900
 </div>
 </div>
 </body>
