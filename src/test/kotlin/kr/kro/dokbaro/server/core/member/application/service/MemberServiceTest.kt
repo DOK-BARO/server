@@ -13,6 +13,7 @@ import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertif
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.fixture.FixtureBuilder
+import kr.kro.dokbaro.server.fixture.domain.memberFixture
 import java.util.UUID
 import kotlin.random.Random
 
@@ -131,5 +132,19 @@ class MemberServiceTest :
 			shouldThrow<NotFoundMemberException> {
 				memberService.modify(FixtureBuilder.give<ModifyMemberCommand>().sample())
 			}
+		}
+
+		"회원 탈퇴를 수행한다" {
+			every { loadMemberByCertificationIdPort.findByCertificationId(any()) } returns null
+
+			shouldThrow<NotFoundMemberException> {
+				memberService.withdrawBy(UUID.randomUUID())
+			}
+
+			every { loadMemberByCertificationIdPort.findByCertificationId(any()) } returns memberFixture()
+
+			memberService.withdrawBy(UUID.randomUUID())
+
+			updateMemberPort.storage!!.withdraw shouldBe true
 		}
 	})
