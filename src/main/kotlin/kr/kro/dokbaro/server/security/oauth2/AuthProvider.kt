@@ -1,4 +1,4 @@
-package kr.kro.dokbaro.server.common.type
+package kr.kro.dokbaro.server.security.oauth2
 
 enum class AuthProvider {
 	GOOGLE,

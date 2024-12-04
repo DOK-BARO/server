@@ -191,7 +191,7 @@ kover {
 				classes("kr.kro.dokbaro.server.**.*Config")
 				classes("kr.kro.dokbaro.server.common.**")
 				classes("kr.kro.dokbaro.server.log.**")
-				classes("kr.kro.dokbaro.server.core.security.**")
+				classes("kr.kro.dokbaro.server.security.**")
 				classes("kr.kro.dokbaro.server.core.emailauthentication.adapter.out.web.SMTPEmailCodeSender")
 				classes("kr.kro.dokbaro.server.core.image.**")
 				classes("kr.kro.dokbaro.server.core.**.adapter.input.event.*EventListener")
