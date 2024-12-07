@@ -1,17 +1,5 @@
 == AUTH
 
-=== get OAUTH2 provider authorize url
-
-==== HTTP request
-
-include::{snippets}/auth/get-provider-authorize-url/http-request.adoc[]
-include::{snippets}/auth/get-provider-authorize-url/query-parameters.adoc[]
-
-==== HTTP response
-
-include::{snippets}/auth/get-provider-authorize-url/http-response.adoc[]
-include::{snippets}/auth/get-provider-authorize-url/response-fields.adoc[]
-
 === OAUTH2 signup
 
 ==== HTTP request
@@ -24,17 +12,6 @@ include::{snippets}/auth/oauth2-signup/request-fields.adoc[]
 include::{snippets}/auth/oauth2-signup/http-response.adoc[]
 include::{snippets}/auth/oauth2-signup/response-fields.adoc[]
 
-=== OAUTH2 login
-
-==== HTTP request
-
-include::{snippets}/auth/oauth2-login/http-request.adoc[]
-include::{snippets}/auth/oauth2-login/request-fields.adoc[]
-
-==== HTTP response
-
-include::{snippets}/auth/oauth2-login/http-response.adoc[]
-include::{snippets}/auth/oauth2-login/response-fields.adoc[]
 
 === 이메일 회원가입
 
@@ -48,14 +25,3 @@ include::{snippets}/auth/email-signup/request-fields.adoc[]
 include::{snippets}/auth/email-signup/http-response.adoc[]
 include::{snippets}/auth/email-signup/response-fields.adoc[]
 
-=== 이메일 로그인
-
-==== HTTP request
-
-include::{snippets}/auth/email-login/http-request.adoc[]
-include::{snippets}/auth/email-login/request-fields.adoc[]
-
-==== HTTP response
-
-include::{snippets}/auth/email-signup/http-response.adoc[]
-include::{snippets}/auth/email-signup/response-fields.adoc[]

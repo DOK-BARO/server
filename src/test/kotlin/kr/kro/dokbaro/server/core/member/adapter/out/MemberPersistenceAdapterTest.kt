@@ -37,7 +37,7 @@ class MemberPersistenceAdapterTest(
 		val email = "hello@gmail.com"
 		val member =
 			Member(
-				nickName = "nickname",
+				nickname = "nickname",
 				email = Email(email),
 				profileImage = "image.png",
 				certificationId = uuid,
@@ -48,7 +48,7 @@ class MemberPersistenceAdapterTest(
 
 			savedMember.id shouldNotBe null
 			savedMember.roles.shouldNotBeEmpty()
-			savedMember.nickName shouldBe member.nickName
+			savedMember.nickname shouldBe member.nickname
 			savedMember.email.address shouldBe member.email.address
 			savedMember.profileImage shouldBe member.profileImage
 			savedMember.certificationId shouldBe uuid
@@ -58,7 +58,7 @@ class MemberPersistenceAdapterTest(
 			val savedMember = adapter.insert(member)
 			val targetMember =
 				Member(
-					nickName = "newNickName",
+					nickname = "newNickName",
 					email = Email("newEmail@gmail.com"),
 					profileImage = "new.png",
 					certificationId = savedMember.certificationId,
@@ -69,14 +69,14 @@ class MemberPersistenceAdapterTest(
 
 			val result = memberDao.findById(targetMember.id)!!
 
-			result.nickname shouldBe targetMember.nickName
+			result.nickname shouldBe targetMember.nickname
 			UUIDUtils.byteArrayToUUID(result.certificationId) shouldBe targetMember.certificationId
 		}
 
 		"certificationId를 통한 조회를 수행한다" {
 			val savedMember = adapter.insert(member)
 
-			val result: Member = adapter.findByCertificationId(savedMember.certificationId)!!
+			val result: Member = adapter.findBy(savedMember.certificationId)!!
 
 			result shouldBe savedMember
 		}

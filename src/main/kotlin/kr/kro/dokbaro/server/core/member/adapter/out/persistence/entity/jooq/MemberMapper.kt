@@ -21,7 +21,7 @@ class MemberMapper {
 			.map { record ->
 				Member(
 					id = record.key.id,
-					nickName = record.key.nickname,
+					nickname = record.key.nickname,
 					email = Email(record.key.email),
 					profileImage = record.key.profileImageUrl,
 					certificationId = UUIDUtils.byteArrayToUUID(record.key.certificationId),

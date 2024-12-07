@@ -41,7 +41,7 @@ class StudyGroupPersistenceAdapterTest(
 			val savedMember =
 				memberRepository.insert(
 					Member(
-						nickName = "nick",
+						nickname = "nick",
 						email = Email("www@gmail.com"),
 						profileImage = "aaa.png",
 						certificationId = UUID.randomUUID(),
@@ -61,7 +61,7 @@ class StudyGroupPersistenceAdapterTest(
 			val savedMember =
 				memberRepository.insert(
 					Member(
-						nickName = "nick",
+						nickname = "nick",
 						email = Email("www@gmail.com"),
 						profileImage = "aaa.png",
 						certificationId = UUID.randomUUID(),
@@ -85,7 +85,7 @@ class StudyGroupPersistenceAdapterTest(
 			val savedMember =
 				memberRepository.insert(
 					Member(
-						nickName = "nick",
+						nickname = "nick",
 						email = Email("www@gmail.com"),
 						profileImage = "aaa.png",
 						certificationId = UUID.randomUUID(),
@@ -99,7 +99,7 @@ class StudyGroupPersistenceAdapterTest(
 			val savedMember2 =
 				memberRepository.insert(
 					Member(
-						nickName = "nick2",
+						nickname = "nick2",
 						email = Email("www2@gmail.com"),
 						profileImage = "aaa.png",
 						certificationId = UUID.randomUUID(),
