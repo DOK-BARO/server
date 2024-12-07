@@ -3,11 +3,10 @@ package kr.kro.dokbaro.server.core.member.application.service
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.ModifyMemberCommand
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.RegisterMemberCommand
+import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.ModifyMemberCommand
+import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.RegisterMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
 import kr.kro.dokbaro.server.core.member.application.port.out.InsertMemberPort
-import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
 import kr.kro.dokbaro.server.core.member.application.port.out.UpdateMemberPort
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
@@ -19,7 +18,6 @@ class MemberService(
 	private val insertMemberPort: InsertMemberPort,
 	private val updateMemberPort: UpdateMemberPort,
 	private val existMemberEmailPort: ExistMemberByEmailPort,
-	private val loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
 ) : RegisterMemberUseCase,
 	ModifyMemberUseCase,
 	WithdrawMemberUseCase {
@@ -32,7 +30,7 @@ class MemberService(
 
 		return insertMemberPort.insert(
 			Member(
-				nickName = command.nickName,
+				nickname = command.nickname,
 				email = Email(command.email),
 				profileImage = command.profileImage,
 				certificationId = certificationId,
@@ -42,11 +40,11 @@ class MemberService(
 
 	override fun modify(command: ModifyMemberCommand) {
 		val member: Member =
-			loadMemberByCertificationIdPort.findByCertificationId(command.certificationId)
+			loadMemberPort.findBy(command.certificationId)
 				?: throw NotFoundMemberException()
 
 		member.modify(
-			nickName = command.nickName,
+			nickName = command.nickname,
 			email = command.email?.let { Email(it) },
 			profileImage = command.profileImage,
 		)
@@ -56,7 +54,7 @@ class MemberService(
 
 	override fun withdrawBy(authId: UUID) {
 		val member: Member =
-			loadMemberByCertificationIdPort.findByCertificationId(authId)
+			loadMemberPort.findBy(authId)
 				?: throw NotFoundMemberException()
 
 		member.withdraw()

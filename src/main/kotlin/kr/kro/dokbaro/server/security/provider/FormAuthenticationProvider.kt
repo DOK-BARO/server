@@ -5,7 +5,9 @@ import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
 
 @CustomAuthenticationProvider
-class FormAuthenticationProvider : AuthenticationProvider {
+class FormAuthenticationProvider(
+	private val formAuthenticationProvider: FormAuthenticationProvider,
+) : AuthenticationProvider {
 	override fun authenticate(authentication: Authentication): Authentication {
 		TODO("Not yet implemented")
 	}

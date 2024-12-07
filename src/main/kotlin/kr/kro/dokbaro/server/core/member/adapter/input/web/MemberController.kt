@@ -4,8 +4,8 @@ import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberRequest
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
+import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
@@ -33,7 +33,7 @@ class MemberController(
 		modifyMemberUseCase.modify(
 			ModifyMemberCommand(
 				certificationId = UUIDUtils.stringToUUID(auth.name),
-				nickName = request.nickName,
+				nickname = request.nickname,
 				email = request.email,
 				profileImage = request.profileImage,
 			),

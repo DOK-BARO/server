@@ -10,7 +10,7 @@ class MemberTest :
 		"수정을 수행한다" {
 			val member =
 				Member(
-					nickName = "asdf",
+					nickname = "asdf",
 					email = Email("asdf@example.com"),
 					profileImage = "kk.png",
 					certificationId = UUID.randomUUID(),
@@ -25,7 +25,7 @@ class MemberTest :
 				profileImage = newImage,
 			)
 
-			member.nickName shouldBe newNickName
+			member.nickname shouldBe newNickName
 			member.email shouldBe newEmail
 			member.profileImage shouldBe newImage
 		}
@@ -37,7 +37,7 @@ class MemberTest :
 
 			val member =
 				Member(
-					nickName = beforeNickName,
+					nickname = beforeNickName,
 					email = beforeEmail,
 					profileImage = beforeImage,
 					certificationId = UUID.randomUUID(),
@@ -49,7 +49,7 @@ class MemberTest :
 				profileImage = null,
 			)
 
-			member.nickName shouldBe beforeNickName
+			member.nickname shouldBe beforeNickName
 			member.email shouldBe beforeEmail
 			member.profileImage shouldBe beforeImage
 		}

@@ -36,7 +36,7 @@ class MemberControllerTest : RestDocsTest() {
 
 			val request =
 				ModifyMemberRequest(
-					nickName = "nickname",
+					nickname = "nickname",
 					email = "ddd@example.com",
 					profileImage = "hello.png",
 				)
