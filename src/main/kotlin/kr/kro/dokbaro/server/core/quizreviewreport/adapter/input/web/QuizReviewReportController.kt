@@ -1,12 +1,12 @@
 package kr.kro.dokbaro.server.core.quizreviewreport.adapter.input.web
 
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
-import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.quizreviewreport.adapter.input.web.dto.CreateQuizReviewReportRequest
 import kr.kro.dokbaro.server.core.quizreviewreport.application.port.input.CreateQuizReviewReportUseCase
 import kr.kro.dokbaro.server.core.quizreviewreport.application.port.input.dto.CreateQuizReviewReportCommand
+import kr.kro.dokbaro.server.security.annotation.Login
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
-import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,12 +22,12 @@ class QuizReviewReportController(
 	@ResponseStatus(HttpStatus.CREATED)
 	fun createQuizReviewReport(
 		@RequestBody body: CreateQuizReviewReportRequest,
-		auth: Authentication,
+		@Login user: DokbaroUser,
 	): IdResponse<Long> =
 		IdResponse(
 			createQuizReviewReportUseCase.create(
 				CreateQuizReviewReportCommand(
-					authId = UUIDUtils.stringToUUID(auth.name),
+					reporterId = user.id,
 					quizReviewId = body.quizReviewId,
 					content = body.content,
 				),

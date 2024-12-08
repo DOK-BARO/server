@@ -20,8 +20,8 @@ class StudyGroupQueryService(
 ) : FindAllMyStudyGroupUseCase,
 	FindAllStudyGroupMembersUseCase,
 	FindStudyGroupDetailUseCase {
-	override fun findAll(loginUserId: Long): Collection<StudyGroupSummary> =
-		readStudyGroupCollectionPort.findAllByStudyMemberId(loginUserId)
+	override fun findAll(memberId: Long): Collection<StudyGroupSummary> =
+		readStudyGroupCollectionPort.findAllByStudyMemberId(memberId)
 
 	override fun findAllStudyGroupMembers(id: Long): Collection<StudyGroupMemberResult> =
 		readStudyGroupMemberCollectionPort.findAllStudyGroupMembers(id)

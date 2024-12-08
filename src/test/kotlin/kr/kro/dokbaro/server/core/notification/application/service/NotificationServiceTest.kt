@@ -11,7 +11,6 @@ import kr.kro.dokbaro.server.core.notification.application.port.out.LoadNotifica
 import kr.kro.dokbaro.server.core.notification.application.port.out.LoadNotificationVisibilityPort
 import kr.kro.dokbaro.server.core.notification.application.service.exception.NotFountNotificationVisibilityException
 import kr.kro.dokbaro.server.fixture.domain.notificationVisibilityFixture
-import java.util.UUID
 
 class NotificationServiceTest :
 	StringSpec({
@@ -39,7 +38,7 @@ class NotificationServiceTest :
 					notificationVisibilityFixture(id = 3),
 				)
 
-			notificationService.checkAll(UUID.randomUUID())
+			notificationService.checkAll(1)
 
 			updateNotificationVisibilityPort.storage.size shouldBe 3
 			updateNotificationVisibilityPort.storage.values
@@ -50,7 +49,7 @@ class NotificationServiceTest :
 		"유저 알림에 비활성화를 진행한다" {
 			every { loadNotificationVisibilityPort.findBy(any(), any()) } returns notificationVisibilityFixture(id = 1)
 
-			notificationService.disableBy(1, UUID.randomUUID())
+			notificationService.disableBy(1, 1)
 
 			updateNotificationVisibilityPort.storage.size shouldBe 1
 			updateNotificationVisibilityPort.storage[1]!!.disabled shouldBe true
@@ -60,7 +59,7 @@ class NotificationServiceTest :
 			every { loadNotificationVisibilityPort.findBy(any(), any()) } returns null
 
 			shouldThrow<NotFountNotificationVisibilityException> {
-				notificationService.disableBy(1, UUID.randomUUID())
+				notificationService.disableBy(1, 1)
 			}
 		}
 	})

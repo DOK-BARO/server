@@ -9,9 +9,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
-import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateQuizQuestionCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
-import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateQuizQuestionCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.DeleteBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.InsertBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.LoadBookQuizByQuestionIdPort
@@ -22,7 +20,6 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.dummy.EventPublisherDummy
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
-import java.util.UUID
 
 class BookQuizServiceTest :
 	StringSpec({
@@ -54,9 +51,10 @@ class BookQuizServiceTest :
 					"title",
 					"des",
 					1,
-					UUID.randomUUID(),
+					2,
+					"creator",
 					listOf(
-						CreateQuizQuestionCommand(
+						CreateBookQuizCommand.Question(
 							"다음 중 천만 관객 영화가 아닌 것은?",
 							listOf(
 								"광해",
@@ -94,7 +92,7 @@ class BookQuizServiceTest :
 					studyGroupId = null,
 					questions =
 						listOf(
-							UpdateQuizQuestionCommand(
+							UpdateBookQuizCommand.Question(
 								id = 2,
 								content = "명량에서 이순신 역은 류승룡이 담당했다",
 								answerExplanationContent = "최민식이 담당했다",
@@ -102,7 +100,7 @@ class BookQuizServiceTest :
 								answers = listOf("X"),
 							),
 						),
-					modifierAuthId = UUID.randomUUID(),
+					modifierId = 1,
 				),
 			)
 
@@ -125,7 +123,7 @@ class BookQuizServiceTest :
 						studyGroupId = null,
 						questions =
 							listOf(
-								UpdateQuizQuestionCommand(
+								UpdateBookQuizCommand.Question(
 									id = 2,
 									content = "명량에서 이순신 역은 류승룡이 담당했다",
 									answerExplanationContent = "최민식이 담당했다",
@@ -133,7 +131,7 @@ class BookQuizServiceTest :
 									answers = listOf("X"),
 								),
 							),
-						modifierAuthId = UUID.randomUUID(),
+						modifierId = 1,
 					),
 				)
 			}
@@ -155,14 +153,15 @@ class BookQuizServiceTest :
 					studyGroupId = null,
 					questions =
 						listOf(
-							UpdateQuizQuestionCommand(
+							UpdateBookQuizCommand.Question(
+								id = 2,
 								content = "명량에서 이순신 역은 류승룡이 담당했다",
 								answerExplanationContent = "최민식이 담당했다",
 								answerType = QuizType.OX,
 								answers = listOf("X"),
 							),
 						),
-					modifierAuthId = UUID.randomUUID(),
+					modifierId = 1,
 				),
 			)
 

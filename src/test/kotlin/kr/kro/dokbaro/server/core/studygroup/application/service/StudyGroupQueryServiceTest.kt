@@ -13,7 +13,6 @@ import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
-import java.util.UUID
 
 class StudyGroupQueryServiceTest :
 	StringSpec({
@@ -36,7 +35,7 @@ class StudyGroupQueryServiceTest :
 					StudyGroupSummary(3, "모각코 합시다", "ccc.png"),
 				)
 
-			studyGroupQueryService.findAll(UUID.randomUUID()) shouldNotBe null
+			studyGroupQueryService.findAll(1) shouldNotBe null
 		}
 
 		"해당 그룹의 스터디원들은 탐색한다" {

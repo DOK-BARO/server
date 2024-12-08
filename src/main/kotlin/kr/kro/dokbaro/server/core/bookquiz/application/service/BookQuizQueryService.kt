@@ -73,16 +73,16 @@ class BookQuizQueryService(
 	}
 
 	override fun findAllUnsolvedQuizzes(
-		loginUserId: Long,
+		memberId: Long,
 		studyGroupId: Long,
 	): Collection<UnsolvedGroupBookQuizSummary> =
 		findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(
-			memberId = loginUserId,
+			memberId = memberId,
 			studyGroupId = studyGroupId,
 		)
 
-	override fun findMyBookQuiz(loginUserId: Long): Collection<MyBookQuizSummary> =
-		readMyBookQuizSummaryPort.findAllMyBookQuiz(loginUserId)
+	override fun findMyBookQuiz(memberId: Long): Collection<MyBookQuizSummary> =
+		readMyBookQuizSummaryPort.findAllMyBookQuiz(memberId)
 
 	override fun findExplanationBy(id: Long): BookQuizExplanation =
 		readBookQuizExplanationPort.findExplanationBy(id) ?: throw NotFoundQuizException(id)

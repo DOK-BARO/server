@@ -42,15 +42,15 @@ class SolvingQuizQueryService(
 		)
 	}
 
-	override fun findAllMySolveSummary(loginUserId: Long): Collection<MySolveSummary> =
-		readMySolveSummaryPort.findAllMySolveSummary(loginUserId)
+	override fun findAllMySolveSummary(memberId: Long): Collection<MySolveSummary> =
+		readMySolveSummaryPort.findAllMySolveSummary(memberId)
 
 	override fun findAllMyStudyGroupSolveSummary(
-		loginUserId: Long,
+		memberId: Long,
 		studyGroupId: Long,
 	): Collection<StudyGroupSolveSummary> =
 		readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(
-			memberId = loginUserId,
+			memberId = memberId,
 			studyGroupId = studyGroupId,
 		)
 }

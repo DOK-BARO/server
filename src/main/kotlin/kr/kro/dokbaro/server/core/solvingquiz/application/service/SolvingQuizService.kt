@@ -28,7 +28,7 @@ class SolvingQuizService(
 	override fun start(command: StartSolvingQuizCommand): Long =
 		insertSolvingQuizPort.insert(
 			SolvingQuiz(
-				playerId = command.loginUserId,
+				playerId = command.memberId,
 				quizId = command.quizId,
 			),
 		)

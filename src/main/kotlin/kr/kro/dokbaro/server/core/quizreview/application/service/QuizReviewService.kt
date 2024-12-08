@@ -32,7 +32,7 @@ class QuizReviewService(
 					starRating = command.starRating,
 					difficultyLevel = command.difficultyLevel,
 					comment = command.comment,
-					memberId = command.loginUserId,
+					memberId = command.creatorId,
 					quizId = command.quizId,
 				),
 			)
@@ -41,7 +41,7 @@ class QuizReviewService(
 			CreatedQuizReviewEvent(
 				quizId = command.quizId,
 				reviewId = savedReviewId,
-				quizCreatorId = command.loginUserId,
+				quizCreatorId = command.creatorId,
 			),
 		)
 

@@ -10,7 +10,6 @@ import io.mockk.mockk
 import kr.kro.dokbaro.server.core.termsofservice.application.port.out.InsertAgreeTermsOfServicePersistencePort
 import kr.kro.dokbaro.server.core.termsofservice.application.port.out.LoadTermsOfServiceDetailPort
 import kr.kro.dokbaro.server.core.termsofservice.query.TermsOfServiceDetail
-import java.util.UUID
 
 class TermsOfServiceServiceTest :
 	StringSpec({
@@ -45,14 +44,14 @@ class TermsOfServiceServiceTest :
 			every { insertAgreeTermsOfServicePersistencePort.insertAgree(any()) } returns Unit
 
 			shouldNotThrow<NotFoundTermsOfServiceException> {
-				termsOfServiceService.agree(UUID.randomUUID(), listOf(1, 2, 3))
+				termsOfServiceService.agree(1, listOf(1, 2, 3))
 			}
 		}
 
 		"서비스 이용 약관 동의 시 관리하지 않는 ID에 동의하면 예외를 반환한다" {
 
 			shouldThrow<NotFoundTermsOfServiceException> {
-				termsOfServiceService.agree(UUID.randomUUID(), listOf(1, 2, 3, 7))
+				termsOfServiceService.agree(1, listOf(1, 2, 3, 7))
 			}
 		}
 	})

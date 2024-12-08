@@ -8,7 +8,6 @@ import kr.kro.dokbaro.server.core.notification.application.port.out.ReadNotifica
 import kr.kro.dokbaro.server.core.notification.domain.NotificationTrigger
 import kr.kro.dokbaro.server.core.notification.query.NotificationResult
 import java.time.LocalDateTime
-import java.util.UUID
 
 class NotificationQueryServiceTest :
 	StringSpec({
@@ -31,6 +30,6 @@ class NotificationQueryServiceTest :
 					),
 				)
 
-			notificationQueryService.findAllBy(UUID.randomUUID()) shouldNotBe null
+			notificationQueryService.findAllBy(1) shouldNotBe null
 		}
 	})

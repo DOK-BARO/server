@@ -13,7 +13,7 @@ data class UpdateBookQuizCommand(
 	val editScope: AccessScope,
 	val studyGroupId: Long?,
 	val questions: Collection<Question>,
-	val loginUserId: Long,
+	val modifierId: Long,
 ) {
 	data class Question(
 		val id: Long? = null,

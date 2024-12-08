@@ -17,11 +17,11 @@ class NotificationService(
 	private val updateNotificationVisibilityPort: UpdateNotificationVisibilityPort,
 ) : CheckAllNotificationUseCase,
 	DisableNotificationUseCase {
-	override fun checkAll(loginUserId: Long) {
+	override fun checkAll(memberId: Long) {
 		val unCheckedNotificationVisibility: Collection<NotificationVisibility> =
 			loadNotificationVisibilityCollectionPort.findAllBy(
 				LoadNotificationVisibilityCondition(
-					memberId = loginUserId,
+					memberId = memberId,
 					checked = false,
 					disabled = false,
 				),
@@ -35,10 +35,10 @@ class NotificationService(
 
 	override fun disableBy(
 		notificationId: Long,
-		loginUserId: Long,
+		memberId: Long,
 	) {
 		val notificationVisibility: NotificationVisibility =
-			loadNotificationVisibilityPort.findBy(notificationId = notificationId, memberId = loginUserId)
+			loadNotificationVisibilityPort.findBy(notificationId = notificationId, memberId = memberId)
 				?: throw NotFountNotificationVisibilityException()
 
 		notificationVisibility.disable()

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service
 class NotificationQueryService(
 	private val readNotificationResultCollectionPort: ReadNotificationResultCollectionPort,
 ) : FindAllNotificationUseCase {
-	override fun findAllBy(loginUserId: Long): Collection<NotificationResult> =
-		readNotificationResultCollectionPort.findAllBy(memberId = loginUserId)
+	override fun findAllBy(memberId: Long): Collection<NotificationResult> =
+		readNotificationResultCollectionPort.findAllBy(memberId = memberId)
 }

@@ -6,7 +6,6 @@ import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.quizreviewreport.application.port.input.dto.CreateQuizReviewReportCommand
 import kr.kro.dokbaro.server.core.quizreviewreport.application.port.out.InsertQuizReviewReportPort
-import java.util.UUID
 
 class QuizReviewReportServiceTest :
 	StringSpec({
@@ -19,7 +18,7 @@ class QuizReviewReportServiceTest :
 
 			quizReviewReportService.create(
 				CreateQuizReviewReportCommand(
-					UUID.randomUUID(),
+					1,
 					1,
 					"hello",
 				),

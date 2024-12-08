@@ -28,7 +28,7 @@ class StudyGroupService(
 				name = command.name,
 				introduction = command.introduction,
 				profileImageUrl = command.profileImageUrl,
-				creatorId = command.loginUserId,
+				creatorId = command.creatorId,
 				inviteCode = inviteCodeGenerator.generate(),
 			),
 		)
@@ -39,7 +39,7 @@ class StudyGroupService(
 				command.inviteCode,
 			) ?: throw NotFoundStudyGroupException()
 
-		studyGroup.join(participantId = command.loginUserId)
+		studyGroup.join(participantId = command.memberId)
 
 		updateStudyGroupPort.update(studyGroup)
 
@@ -47,8 +47,8 @@ class StudyGroupService(
 			JoinedStudyGroupMemberEvent(
 				studyGroupId = studyGroup.id,
 				studyGroupName = studyGroup.name,
-				memberId = command.loginUserId,
-				memberName = command.loginUserNickname,
+				memberId = command.memberId,
+				memberName = command.memberNickname,
 			),
 		)
 	}

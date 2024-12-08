@@ -1,13 +1,13 @@
 package kr.kro.dokbaro.server.core.termsofservice.adapter.input.web
 
-import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.termsofservice.application.port.input.AgreeTermsOfServiceUseCase
 import kr.kro.dokbaro.server.core.termsofservice.application.port.input.FindAllTermsOfServiceUseCase
 import kr.kro.dokbaro.server.core.termsofservice.application.port.input.FindTermsOfServiceDetailUseCase
 import kr.kro.dokbaro.server.core.termsofservice.application.port.input.dto.AgreeTermsOfServiceRequest
 import kr.kro.dokbaro.server.core.termsofservice.query.TermsOfServiceDetail
 import kr.kro.dokbaro.server.core.termsofservice.query.TermsOfServiceSummary
-import org.springframework.security.core.Authentication
+import kr.kro.dokbaro.server.security.annotation.Login
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -32,9 +32,9 @@ class TermsOfServiceController(
 
 	@PostMapping("/agree")
 	fun agreeTermsOfService(
-		auth: Authentication,
+		@Login user: DokbaroUser,
 		@RequestBody body: AgreeTermsOfServiceRequest,
 	) {
-		agreeTermsOfServiceUseCase.agree(UUIDUtils.stringToUUID(auth.name), body.items)
+		agreeTermsOfServiceUseCase.agree(memberId = user.id, items = body.items)
 	}
 }

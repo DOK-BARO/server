@@ -4,6 +4,6 @@ data class CreateQuizReviewCommand(
 	val starRating: Int,
 	val difficultyLevel: Int,
 	val comment: String?,
-	val loginUserId: Long,
+	val creatorId: Long,
 	val quizId: Long,
 )

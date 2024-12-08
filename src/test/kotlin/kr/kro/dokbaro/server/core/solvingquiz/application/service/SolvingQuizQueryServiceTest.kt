@@ -21,7 +21,6 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
 import kr.kro.dokbaro.server.fixture.domain.quizQuestionFixture
 import java.time.LocalDateTime
-import java.util.UUID
 
 class SolvingQuizQueryServiceTest :
 	StringSpec({
@@ -105,7 +104,7 @@ class SolvingQuizQueryServiceTest :
 					),
 				)
 
-			solvingQuizQueryService.findAllMySolveSummary(UUID.randomUUID()) shouldNotBe null
+			solvingQuizQueryService.findAllMySolveSummary(1) shouldNotBe null
 		}
 
 		"그룹 내 내가 푼 퀴즈 목록을 조회한다" {
@@ -183,6 +182,6 @@ class SolvingQuizQueryServiceTest :
 					),
 				)
 
-			solvingQuizQueryService.findAllMyStudyGroupSolveSummary(UUID.randomUUID(), 1) shouldNotBe null
+			solvingQuizQueryService.findAllMyStudyGroupSolveSummary(1, 1) shouldNotBe null
 		}
 	})

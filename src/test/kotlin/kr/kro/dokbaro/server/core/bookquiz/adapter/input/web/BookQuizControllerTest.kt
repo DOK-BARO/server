@@ -17,8 +17,8 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSu
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindMyBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindUnsolvedGroupBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
-import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateQuizQuestionCommand
-import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateQuizQuestionCommand
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
@@ -80,7 +80,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					bookId = 56,
 					questions =
 						listOf(
-							CreateQuizQuestionCommand(
+							CreateBookQuizCommand.Question(
 								"다음 중 천만 관객 영화가 아닌 것은?",
 								listOf(
 									"광해",
@@ -94,7 +94,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								QuizType.MULTIPLE_CHOICE,
 								listOf("4"),
 							),
-							CreateQuizQuestionCommand(
+							CreateBookQuizCommand.Question(
 								content = "명량에서 이순신 역은 류승룡이 담당했다",
 								answerExplanationContent = "최민식이 담당했다",
 								answerExplanationImages = listOf("hello.png"),
@@ -225,7 +225,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					bookId = 56,
 					questions =
 						listOf(
-							UpdateQuizQuestionCommand(
+							UpdateBookQuizCommand.Question(
 								id = 1,
 								"다음 중 천만 관객 영화가 아닌 것은?",
 								listOf(
@@ -240,7 +240,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								QuizType.MULTIPLE_CHOICE,
 								listOf("4"),
 							),
-							UpdateQuizQuestionCommand(
+							UpdateBookQuizCommand.Question(
 								id = 2,
 								content = "명량에서 이순신 역은 류승룡이 담당했다",
 								answerExplanationContent = "최민식이 담당했다",

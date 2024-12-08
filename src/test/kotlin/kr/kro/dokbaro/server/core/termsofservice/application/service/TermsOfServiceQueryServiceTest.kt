@@ -6,7 +6,6 @@ import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.termsofservice.application.port.out.ReadMemberAgreeTermsOfServicePort
 import kr.kro.dokbaro.server.core.termsofservice.application.port.out.dto.MemberAgreeTermsOfServiceElement
-import java.util.UUID
 
 class TermsOfServiceQueryServiceTest :
 	StringSpec({
@@ -22,7 +21,7 @@ class TermsOfServiceQueryServiceTest :
 					MemberAgreeTermsOfServiceElement(2),
 				)
 
-			termsOfServiceQueryService.findBy(UUID.randomUUID()).agreeAll shouldBe true
+			termsOfServiceQueryService.findBy(1).agreeAll shouldBe true
 		}
 
 		"member가 필수 목록에 전체 동의를 안했을 시 false 를 반환한다" {
@@ -31,6 +30,6 @@ class TermsOfServiceQueryServiceTest :
 					MemberAgreeTermsOfServiceElement(1),
 				)
 
-			termsOfServiceQueryService.findBy(UUID.randomUUID()).agreeAll shouldBe false
+			termsOfServiceQueryService.findBy(1).agreeAll shouldBe false
 		}
 	})

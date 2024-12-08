@@ -16,7 +16,6 @@ import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.UpdateSolving
 import kr.kro.dokbaro.server.core.solvingquiz.application.service.exception.NotFoundSolvingQuizException
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
-import java.util.UUID
 
 class SolvingQuizServiceTest :
 	StringSpec({
@@ -40,7 +39,7 @@ class SolvingQuizServiceTest :
 
 			solvingQuizService.start(
 				StartSolvingQuizCommand(
-					UUID.randomUUID(),
+					1,
 					1,
 				),
 			) shouldBe 1

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service
 class TermsOfServiceQueryService(
 	private val readMemberAgreeTermsOfServicePort: ReadMemberAgreeTermsOfServicePort,
 ) : FindAgreeAllRequiredTermsOfServiceUseCase {
-	override fun findBy(loginUserId: Long): AgreeAllRequired {
-		val agrees: Collection<MemberAgreeTermsOfServiceElement> = readMemberAgreeTermsOfServicePort.findAll(loginUserId)
+	override fun findBy(memberId: Long): AgreeAllRequired {
+		val agrees: Collection<MemberAgreeTermsOfServiceElement> = readMemberAgreeTermsOfServicePort.findAll(memberId)
 		val requiredTermsOfServiceIds: Collection<Long> = TermsOfService.entries.filter { it.primary }.map { it.id }
 
 		return AgreeAllRequired(agrees.map { it.termsOfServiceId }.containsAll(requiredTermsOfServiceIds))

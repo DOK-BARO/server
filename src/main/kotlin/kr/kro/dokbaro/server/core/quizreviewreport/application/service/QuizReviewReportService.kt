@@ -15,7 +15,7 @@ class QuizReviewReportService(
 			QuizReviewReport(
 				quizReviewId = command.quizReviewId,
 				content = command.content,
-				reporterId = command.loginUserId,
+				reporterId = command.reporterId,
 			),
 		)
 }

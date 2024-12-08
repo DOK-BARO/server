@@ -4,7 +4,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 
 fun interface FindAllMyStudyGroupSolveSummaryUseCase {
 	fun findAllMyStudyGroupSolveSummary(
-		loginUserId: Long,
+		memberId: Long,
 		studyGroupId: Long,
 	): Collection<StudyGroupSolveSummary>
 }

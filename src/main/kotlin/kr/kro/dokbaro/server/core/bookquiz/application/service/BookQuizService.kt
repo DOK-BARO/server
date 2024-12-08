@@ -46,7 +46,7 @@ class BookQuizService(
 					title = command.title,
 					description = command.description,
 					bookId = command.bookId,
-					creatorId = command.loginUserId,
+					creatorId = command.creatorId,
 					questions =
 						QuizQuestions(
 							command.questions
@@ -74,8 +74,8 @@ class BookQuizService(
 		eventPublisher.publishEvent(
 			CreatedQuizEvent(
 				quizId = savedId,
-				creatorId = command.loginUserId,
-				creatorName = command.loginUserNickname,
+				creatorId = command.creatorId,
+				creatorName = command.creatorNickname,
 				studyGroupId = command.studyGroupId,
 			),
 		)
@@ -115,7 +115,7 @@ class BookQuizService(
 						),
 				)
 			},
-			modifierId = command.loginUserId,
+			modifierId = command.modifierId,
 		)
 
 		updateBookQuizPort.update(bookQuiz)

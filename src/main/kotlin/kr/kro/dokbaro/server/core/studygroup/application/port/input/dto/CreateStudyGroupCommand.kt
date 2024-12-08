@@ -4,5 +4,5 @@ data class CreateStudyGroupCommand(
 	val name: String,
 	val introduction: String?,
 	val profileImageUrl: String?,
-	val loginUserId: Long,
+	val creatorId: Long,
 )

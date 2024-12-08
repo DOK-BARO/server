@@ -33,12 +33,12 @@ class TermsOfServiceService(
 		loadTermsOfServiceDetailPort.getDetail(id) ?: throw NotFoundTermsOfServiceException(id)
 
 	override fun agree(
-		loginUserId: Long,
+		memberId: Long,
 		items: Collection<Long>,
 	) {
 		insertAgreeTermsOfServicePersistencePort.insertAgree(
 			AgreeTermsOfService(
-				memberId = loginUserId,
+				memberId = memberId,
 				item =
 					items.map { itemId ->
 						TermsOfService.entries.find { t -> t.id == itemId }

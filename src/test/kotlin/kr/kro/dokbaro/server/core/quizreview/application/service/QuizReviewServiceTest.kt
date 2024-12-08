@@ -14,7 +14,6 @@ import kr.kro.dokbaro.server.core.quizreview.application.port.out.LoadQuizReview
 import kr.kro.dokbaro.server.core.quizreview.application.service.exception.NotFoundQuizReviewException
 import kr.kro.dokbaro.server.dummy.EventPublisherDummy
 import kr.kro.dokbaro.server.fixture.domain.quizReviewFixture
-import java.util.UUID
 
 class QuizReviewServiceTest :
 	StringSpec({
@@ -44,7 +43,7 @@ class QuizReviewServiceTest :
 					1,
 					3,
 					"엄청 어려워요",
-					UUID.randomUUID(),
+					1,
 					4,
 				),
 			) shouldNotBe null

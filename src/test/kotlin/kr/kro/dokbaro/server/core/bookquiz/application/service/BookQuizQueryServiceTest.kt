@@ -23,7 +23,6 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import java.time.LocalDateTime
-import java.util.UUID
 
 class BookQuizQueryServiceTest :
 	StringSpec({
@@ -105,10 +104,9 @@ class BookQuizQueryServiceTest :
 		}
 
 		"스터디 그룹 퀴즈 중 본인이 안 푼 문제 목록을 조회한다" {
-
 			every { findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(any(), any()) } returns listOf()
 
-			bookQuizQueryService.findAllUnsolvedQuizzes(UUID.randomUUID(), 1) shouldNotBe null
+			bookQuizQueryService.findAllUnsolvedQuizzes(3, 1) shouldNotBe null
 		}
 
 		"내가 제작한 퀴즈 목록을 조회한다" {
@@ -122,7 +120,7 @@ class BookQuizQueryServiceTest :
 					),
 				)
 
-			bookQuizQueryService.findMyBookQuiz(UUID.randomUUID()) shouldNotBe null
+			bookQuizQueryService.findMyBookQuiz(1) shouldNotBe null
 		}
 
 		"퀴즈 설명을 조회한다" {
