@@ -1,6 +1,5 @@
 package kr.kro.dokbaro.server.core.termsofservice.application.service
 
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.termsofservice.application.port.input.AgreeTermsOfServiceUseCase
 import kr.kro.dokbaro.server.core.termsofservice.application.port.input.FindAllTermsOfServiceUseCase
 import kr.kro.dokbaro.server.core.termsofservice.application.port.input.FindTermsOfServiceDetailUseCase
@@ -17,7 +16,6 @@ import java.util.UUID
 class TermsOfServiceService(
 	private val loadTermsOfServiceDetailPort: LoadTermsOfServiceDetailPort,
 	private val insertAgreeTermsOfServicePersistencePort: InsertAgreeTermsOfServicePersistencePort,
-	private val certificatedMemberUseCase: FindCertificatedMemberUseCase,
 ) : FindAllTermsOfServiceUseCase,
 	FindTermsOfServiceDetailUseCase,
 	AgreeTermsOfServiceUseCase {
@@ -41,7 +39,7 @@ class TermsOfServiceService(
 	) {
 		insertAgreeTermsOfServicePersistencePort.insertAgree(
 			AgreeTermsOfService(
-				certificatedMemberUseCase.getByCertificationId(authId).id,
+				TODO(),
 				items.map { itemId ->
 					TermsOfService.entries.find { t -> t.id == itemId }
 						?: throw NotFoundTermsOfServiceException(itemId)

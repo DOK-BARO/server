@@ -23,14 +23,12 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.event.CreatedQuizEvent
 import kr.kro.dokbaro.server.core.bookquiz.event.UpdatedQuizEvent
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
 @Service
 class BookQuizService(
 	private val insertBookQuizPort: InsertBookQuizPort,
-	private val findCertificatedMemberUseCase: FindCertificatedMemberUseCase,
 	private val loadBookQuizPort: LoadBookQuizPort,
 	private val updateBookQuizPort: UpdateBookQuizPort,
 	private val loadBookQuizByQuestionIdPort: LoadBookQuizByQuestionIdPort,
@@ -42,7 +40,7 @@ class BookQuizService(
 	FindBookQuizByQuestionIdUseCase,
 	DeleteBookQuizUseCase {
 	override fun create(command: CreateBookQuizCommand): Long {
-		val loginUser = findCertificatedMemberUseCase.getByCertificationId(command.creatorAuthId)
+		val loginUser = TODO()
 
 		val savedId: Long =
 			insertBookQuizPort.insert(
@@ -50,7 +48,7 @@ class BookQuizService(
 					title = command.title,
 					description = command.description,
 					bookId = command.bookId,
-					creatorId = loginUser.id,
+					creatorId = TODO(),
 					questions =
 						QuizQuestions(
 							command.questions
@@ -78,8 +76,8 @@ class BookQuizService(
 		eventPublisher.publishEvent(
 			CreatedQuizEvent(
 				quizId = savedId,
-				creatorId = loginUser.id,
-				creatorName = loginUser.nickName,
+				creatorId = TODO(),
+				creatorName = TODO(),
 				studyGroupId = command.studyGroupId,
 			),
 		)
@@ -91,7 +89,7 @@ class BookQuizService(
 		val bookQuiz: BookQuiz =
 			loadBookQuizPort.load(command.id) ?: throw NotFoundQuizException(command.id)
 
-		val modifierId: Long = findCertificatedMemberUseCase.getByCertificationId(command.modifierAuthId).id
+		val modifierId: Long = TODO()
 
 		bookQuiz.updateBasicOption(
 			title = command.title,

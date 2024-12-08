@@ -29,7 +29,7 @@ class MemberPersistenceAdapterTest(
 		val memberRepository = MemberRepository(dslContext, memberMapper)
 		val memberQueryRepository = MemberQueryRepository(dslContext, memberMapper)
 
-		val adapter = MemberPersistenceAdapter(memberRepository, memberQueryRepository)
+		val adapter = MemberPersistenceAdapter(memberRepository)
 
 		val memberDao = MemberDao(configuration)
 
@@ -71,20 +71,5 @@ class MemberPersistenceAdapterTest(
 
 			result.nickname shouldBe targetMember.nickname
 			UUIDUtils.byteArrayToUUID(result.certificationId) shouldBe targetMember.certificationId
-		}
-
-		"certificationId를 통한 조회를 수행한다" {
-			val savedMember = adapter.insert(member)
-
-			val result: Member = adapter.findBy(savedMember.certificationId)!!
-
-			result shouldBe savedMember
-		}
-
-		"email 등록 여부를 확인한다" {
-			val savedMember = adapter.insert(member)
-
-			adapter.existByEmail(savedMember.email.address) shouldBe true
-			adapter.existByEmail("aaaa@koko.com") shouldBe false
 		}
 	})

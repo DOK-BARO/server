@@ -3,7 +3,6 @@ package kr.kro.dokbaro.server.core.solvingquiz.application.service
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeResult
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMySolveSummaryUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMyStudyGroupSolveSummaryUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllSolveResultUseCase
@@ -22,7 +21,6 @@ import java.util.UUID
 class SolvingQuizQueryService(
 	private val findBookQuizUseCase: FindBookQuizUseCase,
 	private val loadSolvingQuizPort: LoadSolvingQuizPort,
-	private val findCertificatedMemberUseCase: FindCertificatedMemberUseCase,
 	private val readMySolveSummaryPort: ReadMySolveSummaryPort,
 	private val readMyStudyGroupSolveSummaryPort: ReadMyStudyGroupSolveSummaryPort,
 ) : FindAllSolveResultUseCase,
@@ -46,7 +44,7 @@ class SolvingQuizQueryService(
 	}
 
 	override fun findAllMySolveSummary(authId: UUID): Collection<MySolveSummary> {
-		val memberId: Long = findCertificatedMemberUseCase.getByCertificationId(authId).id
+		val memberId: Long = TODO()
 
 		return readMySolveSummaryPort.findAllMySolveSummary(memberId)
 	}
@@ -55,7 +53,7 @@ class SolvingQuizQueryService(
 		authId: UUID,
 		studyGroupId: Long,
 	): Collection<StudyGroupSolveSummary> {
-		val memberId: Long = findCertificatedMemberUseCase.getByCertificationId(authId).id
+		val memberId: Long = TODO()
 
 		return readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(
 			memberId = memberId,

@@ -4,6 +4,7 @@ import kr.kro.dokbaro.server.security.filter.JwtValidationFilter
 import kr.kro.dokbaro.server.security.filter.OAuth2AuthenticationRedirectSetUpFilter
 import kr.kro.dokbaro.server.security.handler.FormAuthenticationFailureHandler
 import kr.kro.dokbaro.server.security.handler.FormAuthenticationSuccessHandler
+import kr.kro.dokbaro.server.security.jwt.JwtTokenReGenerator
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -28,6 +29,7 @@ class WebSecurityConfig(
 	private val formAuthenticationFailureHandler: FormAuthenticationFailureHandler,
 	private val formAuthenticationSuccessHandler: FormAuthenticationSuccessHandler,
 	private val oAuth2AuthenticationSuccessHandler: FormAuthenticationSuccessHandler,
+	private val jwtTokenReGenerator: JwtTokenReGenerator,
 ) {
 	@Bean
 	fun configure(http: HttpSecurity): SecurityFilterChain =
@@ -35,8 +37,10 @@ class WebSecurityConfig(
 			.authorizeHttpRequests {
 				AuthorizationEndpointChain.authorizeHttpRequests(it)
 			}.addFilterBefore(OAuth2AuthenticationRedirectSetUpFilter(), OAuth2AuthorizationRequestRedirectFilter::class.java)
-			.addFilterBefore(JwtValidationFilter(authenticationManager), UsernamePasswordAuthenticationFilter::class.java)
-			.oauth2Login { l ->
+			.addFilterBefore(
+				JwtValidationFilter(authenticationManager, jwtTokenReGenerator),
+				UsernamePasswordAuthenticationFilter::class.java,
+			).oauth2Login { l ->
 				l.authorizationEndpoint { endpoint ->
 					endpoint.baseUri("/auth/login/oauth2")
 				}

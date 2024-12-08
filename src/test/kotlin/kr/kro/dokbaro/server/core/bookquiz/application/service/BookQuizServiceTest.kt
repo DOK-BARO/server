@@ -20,17 +20,14 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.out.UpdateBookQuizPo
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.dummy.EventPublisherDummy
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
-import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
 import java.util.UUID
 
 class BookQuizServiceTest :
 	StringSpec({
 
 		val insertBookQuizPort = mockk<InsertBookQuizPort>()
-		val findCertificatedMemberUseCase = mockk<FindCertificatedMemberUseCase>()
 		val loadBookQuizPort = mockk<LoadBookQuizPort>()
 		val updateBookQuizPort = mockk<UpdateBookQuizPort>()
 		val loadBookQuizByQuestionIdPort = mockk<LoadBookQuizByQuestionIdPort>()
@@ -39,7 +36,6 @@ class BookQuizServiceTest :
 		val bookQuizService =
 			BookQuizService(
 				insertBookQuizPort,
-				findCertificatedMemberUseCase,
 				loadBookQuizPort,
 				updateBookQuizPort,
 				loadBookQuizByQuestionIdPort,
@@ -52,7 +48,6 @@ class BookQuizServiceTest :
 		}
 
 		"북 퀴즈를 생성한다" {
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			every { insertBookQuizPort.insert(any()) } returns 1
 			bookQuizService.create(
 				CreateBookQuizCommand(
@@ -87,7 +82,6 @@ class BookQuizServiceTest :
 			every { loadBookQuizPort.load(any()) } returns bookQuizFixture()
 
 			every { updateBookQuizPort.update(any()) } returns Unit
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			bookQuizService.update(
 				UpdateBookQuizCommand(
 					id = 1,
@@ -117,7 +111,6 @@ class BookQuizServiceTest :
 
 		"book quiz 수정 시 id에 해당하는 값을 찾을 수 없으면 예외를 반환한다" {
 			every { loadBookQuizPort.load(any()) } returns null
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 
 			shouldThrow<NotFoundQuizException> {
 				bookQuizService.update(
@@ -148,7 +141,6 @@ class BookQuizServiceTest :
 
 		"book quiz 수정 시 question id가 없으면 (신규 question 이면) id를 0으로 대체한다" {
 			every { loadBookQuizPort.load(any()) } returns bookQuizFixture()
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			every { updateBookQuizPort.update(any()) } returns Unit
 
 			bookQuizService.update(

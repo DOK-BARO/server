@@ -11,7 +11,7 @@ data class DokbaroUser(
 	val nickname: String,
 	val email: String,
 	val role: Collection<String>,
-	val password: String? = null,
+	private val password: String? = null,
 ) : UserDetails {
 	override fun getAuthorities(): Collection<GrantedAuthority> = role.map { SimpleGrantedAuthority(it) }
 

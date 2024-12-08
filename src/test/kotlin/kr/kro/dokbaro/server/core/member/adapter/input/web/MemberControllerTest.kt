@@ -7,25 +7,17 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberRequest
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
-import kr.kro.dokbaro.server.core.member.domain.Role
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.util.UUID
-import kotlin.random.Random
 
 @WebMvcTest(MemberController::class)
 class MemberControllerTest : RestDocsTest() {
 	@MockkBean
 	lateinit var modifyMemberUseCase: ModifyMemberUseCase
-
-	@MockkBean
-	lateinit var findCertificatedMemberUseCase: FindCertificatedMemberUseCase
 
 	@MockkBean
 	lateinit var withdrawMemberUseCase: WithdrawMemberUseCase
@@ -64,15 +56,6 @@ class MemberControllerTest : RestDocsTest() {
 		}
 
 		"login한 member 정보를 가져온다" {
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns
-				CertificatedMember(
-					nickName = "nickname",
-					email = "asdf@gmail.com",
-					profileImage = "image.png",
-					certificationId = UUID.randomUUID(),
-					roles = setOf(Role.GUEST),
-					id = Random.nextLong(),
-				)
 
 			performGet(Path("/members/login-user"))
 				.andExpect(status().isOk)

@@ -21,9 +21,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
-import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -33,7 +31,6 @@ class BookQuizQueryServiceTest :
 		val readBookQuizAnswerPort = mockk<ReadBookQuizAnswerPort>()
 		val countBookQuizPort = mockk<CountBookQuizPort>()
 		val readBookQuizSummaryPort = mockk<ReadBookQuizSummaryPort>()
-		val findCertificatedMemberUseCase = mockk<FindCertificatedMemberUseCase>()
 		val findUnsolvedGroupBookQuizPort = mockk<ReadUnsolvedGroupBookQuizPort>()
 		val readMyBookQuizSummaryPort = mockk<ReadMyBookQuizSummaryPort>()
 		val readBookQuizExplanationPort = mockk<ReadBookQuizExplanationPort>()
@@ -44,7 +41,6 @@ class BookQuizQueryServiceTest :
 				readBookQuizAnswerPort,
 				countBookQuizPort,
 				readBookQuizSummaryPort,
-				findCertificatedMemberUseCase,
 				findUnsolvedGroupBookQuizPort,
 				readMyBookQuizSummaryPort,
 				readBookQuizExplanationPort,
@@ -109,14 +105,13 @@ class BookQuizQueryServiceTest :
 		}
 
 		"스터디 그룹 퀴즈 중 본인이 안 푼 문제 목록을 조회한다" {
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
+
 			every { findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(any(), any()) } returns listOf()
 
 			bookQuizQueryService.findAllUnsolvedQuizzes(UUID.randomUUID(), 1) shouldNotBe null
 		}
 
 		"내가 제작한 퀴즈 목록을 조회한다" {
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			every { readMyBookQuizSummaryPort.findAllMyBookQuiz(any()) } returns
 				listOf(
 					MyBookQuizSummary(

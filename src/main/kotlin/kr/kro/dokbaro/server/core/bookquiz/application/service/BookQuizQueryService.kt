@@ -26,7 +26,6 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -36,7 +35,6 @@ class BookQuizQueryService(
 	private val readBookQuizAnswerPort: ReadBookQuizAnswerPort,
 	private val countBookQuizPort: CountBookQuizPort,
 	private val readBookQuizSummaryPort: ReadBookQuizSummaryPort,
-	private val findCertificatedMemberUseCase: FindCertificatedMemberUseCase,
 	private val findUnsolvedGroupBookQuizPort: ReadUnsolvedGroupBookQuizPort,
 	private val readMyBookQuizSummaryPort: ReadMyBookQuizSummaryPort,
 	private val readBookQuizExplanationPort: ReadBookQuizExplanationPort,
@@ -79,7 +77,7 @@ class BookQuizQueryService(
 		memberAuthId: UUID,
 		studyGroupId: Long,
 	): Collection<UnsolvedGroupBookQuizSummary> {
-		val memberId: Long = findCertificatedMemberUseCase.getByCertificationId(memberAuthId).id
+		val memberId: Long = TODO()
 
 		return findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(
 			memberId = memberId,
@@ -88,7 +86,7 @@ class BookQuizQueryService(
 	}
 
 	override fun findMyBookQuiz(authId: UUID): Collection<MyBookQuizSummary> {
-		val memberId: Long = findCertificatedMemberUseCase.getByCertificationId(authId).id
+		val memberId: Long = TODO()
 
 		return readMyBookQuizSummaryPort.findAllMyBookQuiz(memberId)
 	}

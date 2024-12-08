@@ -5,8 +5,7 @@ import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberReque
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.ModifyMemberCommand
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
+import kr.kro.dokbaro.server.core.member.query.CertificatedMember
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/members")
 class MemberController(
 	private val modifyMemberUseCase: ModifyMemberUseCase,
-	private val findCertificatedMemberUseCase: FindCertificatedMemberUseCase,
 	private val withdrawMemberUseCase: WithdrawMemberUseCase,
 ) {
 	@PutMapping("/login-user")
@@ -41,8 +39,7 @@ class MemberController(
 	}
 
 	@GetMapping("/login-user")
-	fun getLoginUser(auth: Authentication): CertificatedMember =
-		findCertificatedMemberUseCase.getByCertificationId(UUIDUtils.stringToUUID(auth.name))
+	fun getLoginUser(auth: Authentication): CertificatedMember = TODO()
 
 	@PostMapping("/withdraw")
 	fun withdraw(auth: Authentication) {

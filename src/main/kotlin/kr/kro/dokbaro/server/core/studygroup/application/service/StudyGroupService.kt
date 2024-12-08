@@ -1,7 +1,5 @@
 package kr.kro.dokbaro.server.core.studygroup.application.service
 
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service
 @Service
 class StudyGroupService(
 	private val insertStudyGroupPort: InsertStudyGroupPort,
-	private val findCertificatedMemberUseCase: FindCertificatedMemberUseCase,
 	private val inviteCodeGenerator: InviteCodeGenerator,
 	private val loadStudyGroupByInviteCodePort: LoadStudyGroupByInviteCodePort,
 	private val updateStudyGroupPort: UpdateStudyGroupPort,
@@ -26,14 +23,14 @@ class StudyGroupService(
 ) : CreateStudyGroupUseCase,
 	JoinStudyGroupUseCase {
 	override fun create(command: CreateStudyGroupCommand): Long {
-		val creator: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.creatorAuthId)
+		val creator = TODO()
 
 		return insertStudyGroupPort.insert(
 			StudyGroup.of(
 				name = command.name,
 				introduction = command.introduction,
 				profileImageUrl = command.profileImageUrl,
-				creatorId = creator.id,
+				creatorId = TODO(),
 				inviteCode = inviteCodeGenerator.generate(),
 			),
 		)
@@ -44,9 +41,9 @@ class StudyGroupService(
 			loadStudyGroupByInviteCodePort.findByInviteCode(
 				command.inviteCode,
 			) ?: throw NotFoundStudyGroupException()
-		val member: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.participantAuthId)
+		val member = TODO()
 
-		studyGroup.join(member.id)
+		studyGroup.join(TODO())
 
 		updateStudyGroupPort.update(studyGroup)
 
@@ -54,8 +51,8 @@ class StudyGroupService(
 			JoinedStudyGroupMemberEvent(
 				studyGroupId = studyGroup.id,
 				studyGroupName = studyGroup.name,
-				memberId = member.id,
-				memberName = member.nickName,
+				memberId = TODO(),
+				memberName = TODO(),
 			),
 		)
 	}

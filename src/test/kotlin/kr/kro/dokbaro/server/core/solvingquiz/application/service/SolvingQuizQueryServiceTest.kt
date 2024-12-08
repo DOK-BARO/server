@@ -10,7 +10,6 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizUs
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMySolveSummaryPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMyStudyGroupSolveSummaryPort
@@ -20,7 +19,6 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
-import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
 import kr.kro.dokbaro.server.fixture.domain.quizQuestionFixture
 import java.time.LocalDateTime
 import java.util.UUID
@@ -29,7 +27,6 @@ class SolvingQuizQueryServiceTest :
 	StringSpec({
 		val findBookQuizUseCase = mockk<FindBookQuizUseCase>()
 		val loadSolvingQuizPort = mockk<LoadSolvingQuizPort>()
-		val findCertificatedMemberUseCase = mockk<FindCertificatedMemberUseCase>()
 		val readMySolveSummaryPort = mockk<ReadMySolveSummaryPort>()
 		val readMyStudyGroupSolveSummaryPort = mockk<ReadMyStudyGroupSolveSummaryPort>()
 
@@ -37,7 +34,6 @@ class SolvingQuizQueryServiceTest :
 			SolvingQuizQueryService(
 				findBookQuizUseCase,
 				loadSolvingQuizPort,
-				findCertificatedMemberUseCase,
 				readMySolveSummaryPort,
 				readMyStudyGroupSolveSummaryPort,
 			)
@@ -85,7 +81,6 @@ class SolvingQuizQueryServiceTest :
 		}
 
 		"내가 푼 퀴즈 목록을 조회한다" {
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			every { readMySolveSummaryPort.findAllMySolveSummary(any()) } returns
 				listOf(
 					MySolveSummary(
@@ -114,7 +109,6 @@ class SolvingQuizQueryServiceTest :
 		}
 
 		"그룹 내 내가 푼 퀴즈 목록을 조회한다" {
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			every { readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(any(), any()) } returns
 				listOf(
 					StudyGroupSolveSummary(

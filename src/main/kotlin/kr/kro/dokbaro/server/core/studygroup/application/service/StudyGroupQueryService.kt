@@ -1,6 +1,5 @@
 package kr.kro.dokbaro.server.core.studygroup.application.service
 
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindAllMyStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindAllStudyGroupMembersUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindStudyGroupDetailUseCase
@@ -16,7 +15,6 @@ import java.util.UUID
 
 @Service
 class StudyGroupQueryService(
-	private val findAllMyStudyGroupUseCase: FindCertificatedMemberUseCase,
 	private val readStudyGroupCollectionPort: ReadStudyGroupCollectionPort,
 	private val readStudyGroupMemberCollectionPort: ReadStudyGroupMemberCollectionPort,
 	private val findStudyGroupDetailPort: ReadStudyGroupDetailPort,
@@ -24,7 +22,7 @@ class StudyGroupQueryService(
 	FindAllStudyGroupMembersUseCase,
 	FindStudyGroupDetailUseCase {
 	override fun findAll(certificationId: UUID): Collection<StudyGroupSummary> {
-		val memberId: Long = findAllMyStudyGroupUseCase.getByCertificationId(certificationId).id
+		val memberId: Long = TODO()
 
 		return readStudyGroupCollectionPort.findAllByStudyMemberId(memberId)
 	}
