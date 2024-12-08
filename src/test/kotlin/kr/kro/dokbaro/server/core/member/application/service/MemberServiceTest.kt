@@ -10,6 +10,8 @@ import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.Regi
 import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
 import kr.kro.dokbaro.server.core.member.application.port.out.InsertMemberPort
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberPort
+import kr.kro.dokbaro.server.core.member.application.service.exception.AlreadyRegisteredEmailException
+import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundMemberException
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.fixture.FixtureBuilder

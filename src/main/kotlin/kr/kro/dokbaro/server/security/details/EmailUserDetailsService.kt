@@ -14,7 +14,7 @@ class EmailUserDetailsService(
 		val member: EmailAuthenticationMember =
 			findEmailAuthenticationMemberUseCase.findEmailAuthenticationMember(
 				email = username,
-			)
+			) ?: throw NotFoundEmailUserException()
 
 		return DokbaroUser(
 			id = member.id,

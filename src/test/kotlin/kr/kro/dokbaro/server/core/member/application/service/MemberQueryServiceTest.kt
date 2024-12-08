@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberPort
+import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundMemberException
 import kr.kro.dokbaro.server.fixture.domain.memberFixture
 import org.junit.jupiter.api.assertThrows
 import java.util.UUID
