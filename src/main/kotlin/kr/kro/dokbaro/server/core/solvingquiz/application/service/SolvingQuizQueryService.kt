@@ -15,7 +15,6 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class SolvingQuizQueryService(
@@ -43,21 +42,15 @@ class SolvingQuizQueryService(
 		)
 	}
 
-	override fun findAllMySolveSummary(authId: UUID): Collection<MySolveSummary> {
-		val memberId: Long = TODO()
-
-		return readMySolveSummaryPort.findAllMySolveSummary(memberId)
-	}
+	override fun findAllMySolveSummary(loginUserId: Long): Collection<MySolveSummary> =
+		readMySolveSummaryPort.findAllMySolveSummary(loginUserId)
 
 	override fun findAllMyStudyGroupSolveSummary(
-		authId: UUID,
+		loginUserId: Long,
 		studyGroupId: Long,
-	): Collection<StudyGroupSolveSummary> {
-		val memberId: Long = TODO()
-
-		return readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(
-			memberId = memberId,
+	): Collection<StudyGroupSolveSummary> =
+		readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(
+			memberId = loginUserId,
 			studyGroupId = studyGroupId,
 		)
-	}
 }

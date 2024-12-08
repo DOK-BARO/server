@@ -40,15 +40,13 @@ class BookQuizService(
 	FindBookQuizByQuestionIdUseCase,
 	DeleteBookQuizUseCase {
 	override fun create(command: CreateBookQuizCommand): Long {
-		val loginUser = TODO()
-
 		val savedId: Long =
 			insertBookQuizPort.insert(
 				BookQuiz(
 					title = command.title,
 					description = command.description,
 					bookId = command.bookId,
-					creatorId = TODO(),
+					creatorId = command.loginUserId,
 					questions =
 						QuizQuestions(
 							command.questions
@@ -76,8 +74,8 @@ class BookQuizService(
 		eventPublisher.publishEvent(
 			CreatedQuizEvent(
 				quizId = savedId,
-				creatorId = TODO(),
-				creatorName = TODO(),
+				creatorId = command.loginUserId,
+				creatorName = command.loginUserNickname,
 				studyGroupId = command.studyGroupId,
 			),
 		)
@@ -88,8 +86,6 @@ class BookQuizService(
 	override fun update(command: UpdateBookQuizCommand) {
 		val bookQuiz: BookQuiz =
 			loadBookQuizPort.load(command.id) ?: throw NotFoundQuizException(command.id)
-
-		val modifierId: Long = TODO()
 
 		bookQuiz.updateBasicOption(
 			title = command.title,
@@ -119,7 +115,7 @@ class BookQuizService(
 						),
 				)
 			},
-			modifierId,
+			modifierId = command.loginUserId,
 		)
 
 		updateBookQuizPort.update(bookQuiz)

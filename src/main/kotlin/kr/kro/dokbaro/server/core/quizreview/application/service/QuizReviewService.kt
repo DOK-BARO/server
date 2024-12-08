@@ -26,14 +26,13 @@ class QuizReviewService(
 	UpdateQuizReviewUseCase,
 	DeleteQuizReviewUseCase {
 	override fun create(command: CreateQuizReviewCommand): Long {
-		val memberId = TODO()
 		val savedReviewId =
 			insertQuizReviewPort.insert(
 				QuizReview(
 					starRating = command.starRating,
 					difficultyLevel = command.difficultyLevel,
 					comment = command.comment,
-					memberId = memberId,
+					memberId = command.loginUserId,
 					quizId = command.quizId,
 				),
 			)
@@ -42,7 +41,7 @@ class QuizReviewService(
 			CreatedQuizReviewEvent(
 				quizId = command.quizId,
 				reviewId = savedReviewId,
-				quizCreatorId = memberId,
+				quizCreatorId = command.loginUserId,
 			),
 		)
 

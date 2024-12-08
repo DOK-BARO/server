@@ -10,15 +10,12 @@ import org.springframework.stereotype.Service
 class QuizReviewReportService(
 	private val insertQuizReviewReportPort: InsertQuizReviewReportPort,
 ) : CreateQuizReviewReportUseCase {
-	override fun create(command: CreateQuizReviewReportCommand): Long {
-		val reporterId: Long = TODO()
-
-		return insertQuizReviewReportPort.insert(
+	override fun create(command: CreateQuizReviewReportCommand): Long =
+		insertQuizReviewReportPort.insert(
 			QuizReviewReport(
 				quizReviewId = command.quizReviewId,
 				content = command.content,
-				reporterId = reporterId,
+				reporterId = command.loginUserId,
 			),
 		)
-	}
 }

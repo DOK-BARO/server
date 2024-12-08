@@ -6,6 +6,8 @@ import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMe
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.query.CertificatedMember
+import kr.kro.dokbaro.server.security.annotation.Login
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
@@ -39,7 +41,16 @@ class MemberController(
 	}
 
 	@GetMapping("/login-user")
-	fun getLoginUser(auth: Authentication): CertificatedMember = TODO()
+	fun getLoginUser(
+		@Login user: DokbaroUser,
+	): CertificatedMember =
+		CertificatedMember(
+			id = user.id,
+			certificationId = user.certificationId,
+			nickname = user.nickname,
+			email = user.email,
+			role = user.role,
+		)
 
 	@PostMapping("/withdraw")
 	fun withdraw(auth: Authentication) {

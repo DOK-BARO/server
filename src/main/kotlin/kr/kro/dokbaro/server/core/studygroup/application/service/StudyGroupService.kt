@@ -22,28 +22,24 @@ class StudyGroupService(
 	private val eventPublisher: ApplicationEventPublisher,
 ) : CreateStudyGroupUseCase,
 	JoinStudyGroupUseCase {
-	override fun create(command: CreateStudyGroupCommand): Long {
-		val creator = TODO()
-
-		return insertStudyGroupPort.insert(
+	override fun create(command: CreateStudyGroupCommand): Long =
+		insertStudyGroupPort.insert(
 			StudyGroup.of(
 				name = command.name,
 				introduction = command.introduction,
 				profileImageUrl = command.profileImageUrl,
-				creatorId = TODO(),
+				creatorId = command.loginUserId,
 				inviteCode = inviteCodeGenerator.generate(),
 			),
 		)
-	}
 
 	override fun join(command: JoinStudyGroupCommand) {
 		val studyGroup: StudyGroup =
 			loadStudyGroupByInviteCodePort.findByInviteCode(
 				command.inviteCode,
 			) ?: throw NotFoundStudyGroupException()
-		val member = TODO()
 
-		studyGroup.join(TODO())
+		studyGroup.join(participantId = command.loginUserId)
 
 		updateStudyGroupPort.update(studyGroup)
 
@@ -51,8 +47,8 @@ class StudyGroupService(
 			JoinedStudyGroupMemberEvent(
 				studyGroupId = studyGroup.id,
 				studyGroupName = studyGroup.name,
-				memberId = TODO(),
-				memberName = TODO(),
+				memberId = command.loginUserId,
+				memberName = command.loginUserNickname,
 			),
 		)
 	}

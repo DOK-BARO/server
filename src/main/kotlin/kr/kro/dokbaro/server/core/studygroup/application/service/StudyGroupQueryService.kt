@@ -11,7 +11,6 @@ import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class StudyGroupQueryService(
@@ -21,11 +20,8 @@ class StudyGroupQueryService(
 ) : FindAllMyStudyGroupUseCase,
 	FindAllStudyGroupMembersUseCase,
 	FindStudyGroupDetailUseCase {
-	override fun findAll(certificationId: UUID): Collection<StudyGroupSummary> {
-		val memberId: Long = TODO()
-
-		return readStudyGroupCollectionPort.findAllByStudyMemberId(memberId)
-	}
+	override fun findAll(loginUserId: Long): Collection<StudyGroupSummary> =
+		readStudyGroupCollectionPort.findAllByStudyMemberId(loginUserId)
 
 	override fun findAllStudyGroupMembers(id: Long): Collection<StudyGroupMemberResult> =
 		readStudyGroupMemberCollectionPort.findAllStudyGroupMembers(id)

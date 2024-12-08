@@ -27,7 +27,6 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class BookQuizQueryService(
@@ -74,22 +73,16 @@ class BookQuizQueryService(
 	}
 
 	override fun findAllUnsolvedQuizzes(
-		memberAuthId: UUID,
+		loginUserId: Long,
 		studyGroupId: Long,
-	): Collection<UnsolvedGroupBookQuizSummary> {
-		val memberId: Long = TODO()
-
-		return findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(
-			memberId = memberId,
+	): Collection<UnsolvedGroupBookQuizSummary> =
+		findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(
+			memberId = loginUserId,
 			studyGroupId = studyGroupId,
 		)
-	}
 
-	override fun findMyBookQuiz(authId: UUID): Collection<MyBookQuizSummary> {
-		val memberId: Long = TODO()
-
-		return readMyBookQuizSummaryPort.findAllMyBookQuiz(memberId)
-	}
+	override fun findMyBookQuiz(loginUserId: Long): Collection<MyBookQuizSummary> =
+		readMyBookQuizSummaryPort.findAllMyBookQuiz(loginUserId)
 
 	override fun findExplanationBy(id: Long): BookQuizExplanation =
 		readBookQuizExplanationPort.findExplanationBy(id) ?: throw NotFoundQuizException(id)

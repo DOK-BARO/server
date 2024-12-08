@@ -25,16 +25,13 @@ class SolvingQuizService(
 	private val findBookQuizByQuestionIdUseCase: FindBookQuizByQuestionIdUseCase,
 ) : StartSolvingQuizUseCase,
 	SolveQuestionUseCase {
-	override fun start(command: StartSolvingQuizCommand): Long {
-		val memberId = TODO()
-
-		return insertSolvingQuizPort.insert(
+	override fun start(command: StartSolvingQuizCommand): Long =
+		insertSolvingQuizPort.insert(
 			SolvingQuiz(
-				playerId = memberId,
+				playerId = command.loginUserId,
 				quizId = command.quizId,
 			),
 		)
-	}
 
 	override fun solve(command: SolveQuestionCommand): SolveResult {
 		val solvingQuiz: SolvingQuiz =

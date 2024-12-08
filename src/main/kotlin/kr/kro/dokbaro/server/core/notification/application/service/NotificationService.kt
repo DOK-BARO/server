@@ -9,7 +9,6 @@ import kr.kro.dokbaro.server.core.notification.application.port.out.dto.LoadNoti
 import kr.kro.dokbaro.server.core.notification.application.service.exception.NotFountNotificationVisibilityException
 import kr.kro.dokbaro.server.core.notification.domain.NotificationVisibility
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class NotificationService(
@@ -18,13 +17,11 @@ class NotificationService(
 	private val updateNotificationVisibilityPort: UpdateNotificationVisibilityPort,
 ) : CheckAllNotificationUseCase,
 	DisableNotificationUseCase {
-	override fun checkAll(authId: UUID) {
-		val loginMember = TODO()
-
+	override fun checkAll(loginUserId: Long) {
 		val unCheckedNotificationVisibility: Collection<NotificationVisibility> =
 			loadNotificationVisibilityCollectionPort.findAllBy(
 				LoadNotificationVisibilityCondition(
-					memberId = TODO(),
+					memberId = loginUserId,
 					checked = false,
 					disabled = false,
 				),
@@ -38,12 +35,10 @@ class NotificationService(
 
 	override fun disableBy(
 		notificationId: Long,
-		authId: UUID,
+		loginUserId: Long,
 	) {
-		val loginMember = TODO()
-
 		val notificationVisibility: NotificationVisibility =
-			loadNotificationVisibilityPort.findBy(notificationId, TODO())
+			loadNotificationVisibilityPort.findBy(notificationId = notificationId, memberId = loginUserId)
 				?: throw NotFountNotificationVisibilityException()
 
 		notificationVisibility.disable()
