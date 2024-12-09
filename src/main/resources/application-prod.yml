@@ -1,6 +1,8 @@
 server:
     servlet:
         context-path: /api
+        session:
+            tracking-modes: cookie
 spring:
     application:
         name: server
