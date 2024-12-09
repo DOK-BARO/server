@@ -3,7 +3,6 @@ package kr.kro.dokbaro.server.core.quizreview.adapter.input.web
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
-import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.quizreview.adapter.input.web.dto.CreateQuizReviewRequest
 import kr.kro.dokbaro.server.core.quizreview.adapter.input.web.dto.UpdateQuizReviewRequest
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.CreateQuizReviewUseCase
@@ -17,8 +16,9 @@ import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.UpdateQu
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortOption
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
+import kr.kro.dokbaro.server.security.annotation.Login
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
-import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -43,7 +43,7 @@ class QuizReviewController(
 	@ResponseStatus(HttpStatus.CREATED)
 	fun createQuizReview(
 		@RequestBody body: CreateQuizReviewRequest,
-		auth: Authentication,
+		@Login user: DokbaroUser,
 	): IdResponse<Long> =
 		IdResponse(
 			createQuizReviewUseCase.create(
@@ -51,7 +51,7 @@ class QuizReviewController(
 					starRating = body.starRating,
 					difficultyLevel = body.difficultyLevel,
 					comment = body.comment,
-					authId = UUIDUtils.stringToUUID(auth.name),
+					creatorId = user.id,
 					quizId = body.quizId,
 				),
 			),

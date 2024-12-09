@@ -3,7 +3,6 @@ package kr.kro.dokbaro.server.core.bookquiz.adapter.input.web
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
-import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.CreateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizRequest
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
@@ -24,8 +23,9 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
+import kr.kro.dokbaro.server.security.annotation.Login
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
-import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -54,7 +54,7 @@ class BookQuizController(
 	@ResponseStatus(HttpStatus.CREATED)
 	fun createQuiz(
 		@RequestBody body: CreateBookQuizRequest,
-		auth: Authentication,
+		@Login user: DokbaroUser,
 	): IdResponse<Long> =
 		IdResponse(
 			createBookQuizUseCase.create(
@@ -62,7 +62,8 @@ class BookQuizController(
 					title = body.title,
 					description = body.description,
 					bookId = body.bookId,
-					creatorAuthId = UUIDUtils.stringToUUID(auth.name),
+					creatorId = user.id,
+					creatorNickname = user.nickname,
 					questions = body.questions,
 					timeLimitSecond = body.timeLimitSecond,
 					viewScope = body.viewScope,
@@ -81,7 +82,7 @@ class BookQuizController(
 	fun updateQuiz(
 		@PathVariable id: Long,
 		@RequestBody body: UpdateBookQuizRequest,
-		auth: Authentication,
+		@Login user: DokbaroUser,
 	) {
 		updateBookQuizUseCase.update(
 			UpdateBookQuizCommand(
@@ -94,7 +95,7 @@ class BookQuizController(
 				editScope = body.editScope,
 				studyGroupId = body.studyGroupId,
 				questions = body.questions,
-				modifierAuthId = UUIDUtils.stringToUUID(auth.name),
+				modifierId = user.id,
 			),
 		)
 	}
@@ -117,13 +118,17 @@ class BookQuizController(
 	@GetMapping("/study-groups/{studyGroupId}/unsolved")
 	fun getUnsolvedBookQuizSummary(
 		@PathVariable studyGroupId: Long,
-		auth: Authentication,
+		@Login user: DokbaroUser,
 	): Collection<UnsolvedGroupBookQuizSummary> =
-		findUnsolvedGroupBookQuizUseCase.findAllUnsolvedQuizzes(UUIDUtils.stringToUUID(auth.name), studyGroupId)
+		findUnsolvedGroupBookQuizUseCase.findAllUnsolvedQuizzes(
+			memberId = user.id,
+			studyGroupId = studyGroupId,
+		)
 
 	@GetMapping("/my")
-	fun getMyQuizzes(auth: Authentication): Collection<MyBookQuizSummary> =
-		findMyBookQuizUseCase.findMyBookQuiz(UUIDUtils.stringToUUID(auth.name))
+	fun getMyQuizzes(
+		@Login user: DokbaroUser,
+	): Collection<MyBookQuizSummary> = findMyBookQuizUseCase.findMyBookQuiz(memberId = user.id)
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

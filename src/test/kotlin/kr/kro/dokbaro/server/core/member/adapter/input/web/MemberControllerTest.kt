@@ -7,9 +7,8 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberRequest
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
-import kr.kro.dokbaro.server.core.member.domain.Role
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindMyAvatarUseCase
+import kr.kro.dokbaro.server.core.member.query.MyAvatar
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -17,7 +16,6 @@ import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.util.UUID
-import kotlin.random.Random
 
 @WebMvcTest(MemberController::class)
 class MemberControllerTest : RestDocsTest() {
@@ -25,10 +23,10 @@ class MemberControllerTest : RestDocsTest() {
 	lateinit var modifyMemberUseCase: ModifyMemberUseCase
 
 	@MockkBean
-	lateinit var findCertificatedMemberUseCase: FindCertificatedMemberUseCase
+	lateinit var withdrawMemberUseCase: WithdrawMemberUseCase
 
 	@MockkBean
-	lateinit var withdrawMemberUseCase: WithdrawMemberUseCase
+	lateinit var findMyAvatarUseCase: FindMyAvatarUseCase
 
 	init {
 		"login한 member 정보를 수정을 수행한다" {
@@ -47,7 +45,7 @@ class MemberControllerTest : RestDocsTest() {
 					print(
 						"member/modify-login-user",
 						requestFields(
-							fieldWithPath("nickName")
+							fieldWithPath("nickname")
 								.type(JsonFieldType.STRING)
 								.description("별명 (optional)")
 								.optional(),
@@ -64,14 +62,14 @@ class MemberControllerTest : RestDocsTest() {
 		}
 
 		"login한 member 정보를 가져온다" {
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns
-				CertificatedMember(
-					nickName = "nickname",
-					email = "asdf@gmail.com",
-					profileImage = "image.png",
+			every { findMyAvatarUseCase.findMyAvatar(any()) } returns
+				MyAvatar(
+					id = 12345L,
 					certificationId = UUID.randomUUID(),
-					roles = setOf(Role.GUEST),
-					id = Random.nextLong(),
+					nickname = "CoolCoder",
+					email = "coolcoder@example.com",
+					profileImage = "https://example.com/profile-image.png",
+					role = listOf("USER", "ADMIN"),
 				)
 
 			performGet(Path("/members/login-user"))
@@ -80,7 +78,10 @@ class MemberControllerTest : RestDocsTest() {
 					print(
 						"member/get-login-user",
 						responseFields(
-							fieldWithPath("nickName")
+							fieldWithPath("id")
+								.type(JsonFieldType.NUMBER)
+								.description("seq ID"),
+							fieldWithPath("nickname")
 								.type(JsonFieldType.STRING)
 								.description("닉네임"),
 							fieldWithPath("email")
@@ -92,12 +93,9 @@ class MemberControllerTest : RestDocsTest() {
 							fieldWithPath("certificationId")
 								.type(JsonFieldType.STRING)
 								.description("인증용 Id"),
-							fieldWithPath("roles")
+							fieldWithPath("role")
 								.type(JsonFieldType.ARRAY)
 								.description("권한"),
-							fieldWithPath("id")
-								.type(JsonFieldType.NUMBER)
-								.description("seq ID"),
 						),
 					),
 				)

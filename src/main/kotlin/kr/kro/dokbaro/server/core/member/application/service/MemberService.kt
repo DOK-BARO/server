@@ -7,7 +7,10 @@ import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.Modi
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.RegisterMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
 import kr.kro.dokbaro.server.core.member.application.port.out.InsertMemberPort
+import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
 import kr.kro.dokbaro.server.core.member.application.port.out.UpdateMemberPort
+import kr.kro.dokbaro.server.core.member.application.service.exception.AlreadyRegisteredEmailException
+import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundMemberException
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import org.springframework.stereotype.Service
@@ -17,14 +20,15 @@ import java.util.UUID
 class MemberService(
 	private val insertMemberPort: InsertMemberPort,
 	private val updateMemberPort: UpdateMemberPort,
-	private val existMemberEmailPort: ExistMemberByEmailPort,
+	private val existMemberByEmailPort: ExistMemberByEmailPort,
+	private val loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
 ) : RegisterMemberUseCase,
 	ModifyMemberUseCase,
 	WithdrawMemberUseCase {
 	override fun register(command: RegisterMemberCommand): Member {
 		val certificationId = UUID.randomUUID()
 
-		if (existMemberEmailPort.existByEmail(command.email)) {
+		if (existMemberByEmailPort.existByEmail(command.email)) {
 			throw AlreadyRegisteredEmailException(command.email)
 		}
 
@@ -40,7 +44,7 @@ class MemberService(
 
 	override fun modify(command: ModifyMemberCommand) {
 		val member: Member =
-			loadMemberPort.findBy(command.certificationId)
+			loadMemberByCertificationIdPort.findMemberByCertificationId(command.certificationId)
 				?: throw NotFoundMemberException()
 
 		member.modify(
@@ -54,7 +58,7 @@ class MemberService(
 
 	override fun withdrawBy(authId: UUID) {
 		val member: Member =
-			loadMemberPort.findBy(authId)
+			loadMemberByCertificationIdPort.findMemberByCertificationId(authId)
 				?: throw NotFoundMemberException()
 
 		member.withdraw()

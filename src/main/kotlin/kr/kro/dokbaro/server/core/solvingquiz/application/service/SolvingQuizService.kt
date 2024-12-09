@@ -5,7 +5,6 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeResult
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuestionAnswer
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.SolveQuestionUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.StartSolvingQuizUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.dto.SolveQuestionCommand
@@ -20,23 +19,19 @@ import org.springframework.stereotype.Service
 
 @Service
 class SolvingQuizService(
-	private val findCertificatedMemberUseCase: FindCertificatedMemberUseCase,
 	private val insertSolvingQuizPort: InsertSolvingQuizPort,
 	private val loadSolvingQuizPort: LoadSolvingQuizPort,
 	private val updateSolvingQuizPort: UpdateSolvingQuizPort,
 	private val findBookQuizByQuestionIdUseCase: FindBookQuizByQuestionIdUseCase,
 ) : StartSolvingQuizUseCase,
 	SolveQuestionUseCase {
-	override fun start(command: StartSolvingQuizCommand): Long {
-		val memberId = findCertificatedMemberUseCase.getByCertificationId(command.authId).id
-
-		return insertSolvingQuizPort.insert(
+	override fun start(command: StartSolvingQuizCommand): Long =
+		insertSolvingQuizPort.insert(
 			SolvingQuiz(
-				playerId = memberId,
+				playerId = command.memberId,
 				quizId = command.quizId,
 			),
 		)
-	}
 
 	override fun solve(command: SolveQuestionCommand): SolveResult {
 		val solvingQuiz: SolvingQuiz =

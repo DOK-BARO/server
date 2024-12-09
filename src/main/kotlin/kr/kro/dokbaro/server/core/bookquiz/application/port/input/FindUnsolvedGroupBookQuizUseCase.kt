@@ -1,11 +1,10 @@
 package kr.kro.dokbaro.server.core.bookquiz.application.port.input
 
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
-import java.util.UUID
 
 fun interface FindUnsolvedGroupBookQuizUseCase {
 	fun findAllUnsolvedQuizzes(
-		memberAuthId: UUID,
+		memberId: Long,
 		studyGroupId: Long,
 	): Collection<UnsolvedGroupBookQuizSummary>
 }

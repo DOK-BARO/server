@@ -1,6 +1,5 @@
 package kr.kro.dokbaro.server.core.quizreview.application.service
 
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.CreateQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.DeleteQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.UpdateQuizReviewUseCase
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service
 @Service
 class QuizReviewService(
 	private val insertQuizReviewPort: InsertQuizReviewPort,
-	private val findCertificatedMemberUseCase: FindCertificatedMemberUseCase,
 	private val eventPublisher: ApplicationEventPublisher,
 	private val loadQuizReviewPort: LoadQuizReviewPort,
 	private val updateQuizReviewPort: UpdateQuizReviewPort,
@@ -28,14 +26,13 @@ class QuizReviewService(
 	UpdateQuizReviewUseCase,
 	DeleteQuizReviewUseCase {
 	override fun create(command: CreateQuizReviewCommand): Long {
-		val memberId = findCertificatedMemberUseCase.getByCertificationId(command.authId).id
 		val savedReviewId =
 			insertQuizReviewPort.insert(
 				QuizReview(
 					starRating = command.starRating,
 					difficultyLevel = command.difficultyLevel,
 					comment = command.comment,
-					memberId = memberId,
+					memberId = command.creatorId,
 					quizId = command.quizId,
 				),
 			)
@@ -44,7 +41,7 @@ class QuizReviewService(
 			CreatedQuizReviewEvent(
 				quizId = command.quizId,
 				reviewId = savedReviewId,
-				quizCreatorId = memberId,
+				quizCreatorId = command.creatorId,
 			),
 		)
 

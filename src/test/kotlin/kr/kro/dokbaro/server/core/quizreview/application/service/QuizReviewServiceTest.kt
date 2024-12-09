@@ -6,7 +6,6 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.CreateQuizReviewCommand
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.UpdateQuizReviewCommand
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.DeleteQuizReviewPort
@@ -14,14 +13,11 @@ import kr.kro.dokbaro.server.core.quizreview.application.port.out.InsertQuizRevi
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.LoadQuizReviewPort
 import kr.kro.dokbaro.server.core.quizreview.application.service.exception.NotFoundQuizReviewException
 import kr.kro.dokbaro.server.dummy.EventPublisherDummy
-import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
 import kr.kro.dokbaro.server.fixture.domain.quizReviewFixture
-import java.util.UUID
 
 class QuizReviewServiceTest :
 	StringSpec({
 		val insertQuizReviewPort = mockk<InsertQuizReviewPort>()
-		val findCertificatedMemberUseCase = mockk<FindCertificatedMemberUseCase>()
 		val loadQuizReviewPort = mockk<LoadQuizReviewPort>()
 		val updateQuizReviewPort = UpdateQuizReviewPortStub()
 		val deleteQuizReviewPort = mockk<DeleteQuizReviewPort>()
@@ -29,7 +25,6 @@ class QuizReviewServiceTest :
 		val quizReviewService =
 			QuizReviewService(
 				insertQuizReviewPort,
-				findCertificatedMemberUseCase,
 				EventPublisherDummy(),
 				loadQuizReviewPort,
 				updateQuizReviewPort,
@@ -41,7 +36,6 @@ class QuizReviewServiceTest :
 		}
 
 		"퀴즈를 생성한다" {
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns certificatedMemberFixture()
 			every { insertQuizReviewPort.insert(any()) } returns 1
 
 			quizReviewService.create(
@@ -49,7 +43,7 @@ class QuizReviewServiceTest :
 					1,
 					3,
 					"엄청 어려워요",
-					UUID.randomUUID(),
+					1,
 					4,
 				),
 			) shouldNotBe null

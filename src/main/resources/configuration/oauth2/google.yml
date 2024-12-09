@@ -1,11 +1,10 @@
-oauth2:
-    google:
-        client:
-            id: ${GOOGLE_CLIENT_ID:clientid}
-            secret: ${GOOGLE_CLIENT_SECRET:clientsecret}
-            scope: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
-        provider:
-            grant-type: authorization_code
-            authorization-url: https://accounts.google.com/o/oauth2/v2/auth
-            token-url: https://oauth2.googleapis.com/token
-            resource-url: https://www.googleapis.com/oauth2/v2/userinfo
+spring:
+    security:
+        oauth2:
+            client:
+                registration:
+                    google:
+                        client-id: ${GOOGLE_CLIENT_ID:clientid}
+                        client-secret: ${GOOGLE_CLIENT_SECRET:clientsecret}
+                        redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+                        scope: email, profile

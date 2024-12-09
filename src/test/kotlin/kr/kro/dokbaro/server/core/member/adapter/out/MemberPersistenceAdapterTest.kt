@@ -9,7 +9,6 @@ import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
-import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberQueryRepository
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
@@ -27,9 +26,8 @@ class MemberPersistenceAdapterTest(
 
 		val memberMapper = MemberMapper()
 		val memberRepository = MemberRepository(dslContext, memberMapper)
-		val memberQueryRepository = MemberQueryRepository(dslContext, memberMapper)
 
-		val adapter = MemberPersistenceAdapter(memberRepository, memberQueryRepository)
+		val adapter = MemberPersistenceAdapter(memberRepository)
 
 		val memberDao = MemberDao(configuration)
 
@@ -71,20 +69,5 @@ class MemberPersistenceAdapterTest(
 
 			result.nickname shouldBe targetMember.nickname
 			UUIDUtils.byteArrayToUUID(result.certificationId) shouldBe targetMember.certificationId
-		}
-
-		"certificationId를 통한 조회를 수행한다" {
-			val savedMember = adapter.insert(member)
-
-			val result: Member = adapter.findBy(savedMember.certificationId)!!
-
-			result shouldBe savedMember
-		}
-
-		"email 등록 여부를 확인한다" {
-			val savedMember = adapter.insert(member)
-
-			adapter.existByEmail(savedMember.email.address) shouldBe true
-			adapter.existByEmail("aaaa@koko.com") shouldBe false
 		}
 	})

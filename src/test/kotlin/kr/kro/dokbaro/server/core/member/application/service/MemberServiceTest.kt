@@ -3,13 +3,16 @@ package kr.kro.dokbaro.server.core.member.application.service
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.RegisterMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
 import kr.kro.dokbaro.server.core.member.application.port.out.InsertMemberPort
-import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberPort
+import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
+import kr.kro.dokbaro.server.core.member.application.service.exception.AlreadyRegisteredEmailException
+import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundMemberException
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.fixture.FixtureBuilder
@@ -22,13 +25,14 @@ class MemberServiceTest :
 		val insertMemberPort = mockk<InsertMemberPort>()
 		val updateMemberPort = UpdateMemberPortMock()
 		val existMemberEmailPort = mockk<ExistMemberByEmailPort>()
-		val loadMemberPort = mockk<LoadMemberPort>()
+		val loadMemberByCertificationIdPort = mockk<LoadMemberByCertificationIdPort>()
 
 		val memberService =
-			MemberService(insertMemberPort, updateMemberPort, existMemberEmailPort, loadMemberPort)
+			MemberService(insertMemberPort, updateMemberPort, existMemberEmailPort, loadMemberByCertificationIdPort)
 
 		afterEach {
 			updateMemberPort.clear()
+			clearAllMocks()
 		}
 
 		"저장을 수행한다" {
@@ -71,14 +75,8 @@ class MemberServiceTest :
 		"수정을 수행한다" {
 			val targetUUID = UUID.randomUUID()
 			val resentEmail = Email("dasf@kkk.com")
-			every { loadMemberPort.findBy(targetUUID) } returns
-				Member(
-					nickname = "nickname",
-					email = resentEmail,
-					profileImage = "image.png",
-					certificationId = targetUUID,
-					id = Random.nextLong(),
-				)
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns
+				memberFixture(certificationId = targetUUID, email = resentEmail)
 
 			val command =
 				ModifyMemberCommand(
@@ -100,14 +98,8 @@ class MemberServiceTest :
 		"이메일을 제외하고 수정을 수행한다" {
 			val targetUUID = UUID.randomUUID()
 			val resentEmail = Email("dasf@kkk.com")
-			every { loadMemberPort.findBy(targetUUID) } returns
-				Member(
-					nickname = "nickname",
-					email = resentEmail,
-					profileImage = "image.png",
-					certificationId = targetUUID,
-					id = Random.nextLong(),
-				)
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns
+				memberFixture(certificationId = targetUUID, email = resentEmail)
 
 			val command =
 				ModifyMemberCommand(
@@ -127,7 +119,7 @@ class MemberServiceTest :
 		}
 
 		"수정 시 certificationId를 통한 member가 없으면 예외를 반환한다" {
-			every { loadMemberPort.findBy(any()) } returns null
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns null
 
 			shouldThrow<NotFoundMemberException> {
 				memberService.modify(FixtureBuilder.give<ModifyMemberCommand>().sample())
@@ -135,13 +127,13 @@ class MemberServiceTest :
 		}
 
 		"회원 탈퇴를 수행한다" {
-			every { loadMemberPort.findBy(any()) } returns null
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns null
 
 			shouldThrow<NotFoundMemberException> {
 				memberService.withdrawBy(UUID.randomUUID())
 			}
 
-			every { loadMemberPort.findBy(any()) } returns memberFixture()
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns memberFixture()
 
 			memberService.withdrawBy(UUID.randomUUID())
 

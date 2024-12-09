@@ -1,6 +1,5 @@
 package kr.kro.dokbaro.server.core.notification.application.service
 
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.notification.application.port.input.CheckAllNotificationUseCase
 import kr.kro.dokbaro.server.core.notification.application.port.input.DisableNotificationUseCase
 import kr.kro.dokbaro.server.core.notification.application.port.out.LoadNotificationVisibilityCollectionPort
@@ -10,23 +9,19 @@ import kr.kro.dokbaro.server.core.notification.application.port.out.dto.LoadNoti
 import kr.kro.dokbaro.server.core.notification.application.service.exception.NotFountNotificationVisibilityException
 import kr.kro.dokbaro.server.core.notification.domain.NotificationVisibility
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class NotificationService(
-	private val findCertificatedMemberUseCase: FindCertificatedMemberUseCase,
 	private val loadNotificationVisibilityCollectionPort: LoadNotificationVisibilityCollectionPort,
 	private val loadNotificationVisibilityPort: LoadNotificationVisibilityPort,
 	private val updateNotificationVisibilityPort: UpdateNotificationVisibilityPort,
 ) : CheckAllNotificationUseCase,
 	DisableNotificationUseCase {
-	override fun checkAll(authId: UUID) {
-		val loginMember = findCertificatedMemberUseCase.getByCertificationId(authId)
-
+	override fun checkAll(memberId: Long) {
 		val unCheckedNotificationVisibility: Collection<NotificationVisibility> =
 			loadNotificationVisibilityCollectionPort.findAllBy(
 				LoadNotificationVisibilityCondition(
-					memberId = loginMember.id,
+					memberId = memberId,
 					checked = false,
 					disabled = false,
 				),
@@ -40,12 +35,10 @@ class NotificationService(
 
 	override fun disableBy(
 		notificationId: Long,
-		authId: UUID,
+		memberId: Long,
 	) {
-		val loginMember = findCertificatedMemberUseCase.getByCertificationId(authId)
-
 		val notificationVisibility: NotificationVisibility =
-			loadNotificationVisibilityPort.findBy(notificationId, loginMember.id)
+			loadNotificationVisibilityPort.findBy(notificationId = notificationId, memberId = memberId)
 				?: throw NotFountNotificationVisibilityException()
 
 		notificationVisibility.disable()

@@ -7,23 +7,18 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
-import kr.kro.dokbaro.server.core.member.domain.Role
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupByInviteCodePort
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
 import kr.kro.dokbaro.server.dummy.EventPublisherDummy
-import kr.kro.dokbaro.server.fixture.domain.certificatedMemberFixture
+import kr.kro.dokbaro.server.fixture.domain.memberFixture
 import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
-import java.util.UUID
 
 class StudyGroupServiceTest :
 	StringSpec({
 		val insertStudyGroupPort = mockk<InsertStudyGroupPort>()
-		val findCertificatedMemberUseCase = mockk<FindCertificatedMemberUseCase>()
 		val inviteCodeGenerator = RandomSixDigitInviteCodeGenerator()
 		val loadStudyGroupByInviteCodePort = mockk<LoadStudyGroupByInviteCodePort>()
 		val updateStudyGroupPort = UpdateStudyGroupPortMock()
@@ -31,7 +26,6 @@ class StudyGroupServiceTest :
 		val studyGroupService =
 			StudyGroupService(
 				insertStudyGroupPort,
-				findCertificatedMemberUseCase,
 				inviteCodeGenerator,
 				loadStudyGroupByInviteCodePort,
 				updateStudyGroupPort,
@@ -44,15 +38,6 @@ class StudyGroupServiceTest :
 		}
 
 		"study group을 생성한다" {
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns
-				CertificatedMember(
-					nickName = "test",
-					email = "test@test.com",
-					profileImage = "test.png",
-					certificationId = UUID.randomUUID(),
-					roles = setOf(Role.GUEST),
-					id = 1,
-				)
 
 			every { insertStudyGroupPort.insert(any()) } returns 1
 
@@ -61,7 +46,7 @@ class StudyGroupServiceTest :
 					name = "test",
 					introduction = "test",
 					profileImageUrl = "profile.png",
-					creatorAuthId = UUID.randomUUID(),
+					creatorId = 1,
 				)
 
 			studyGroupService.create(command) shouldNotBe null
@@ -69,13 +54,13 @@ class StudyGroupServiceTest :
 
 		"study group에 참여한다" {
 			every { loadStudyGroupByInviteCodePort.findByInviteCode(any()) } returns studyGroupFixture()
-			val member = certificatedMemberFixture()
-			every { findCertificatedMemberUseCase.getByCertificationId(any()) } returns member
+			val member = memberFixture()
 
 			studyGroupService.join(
 				JoinStudyGroupCommand(
 					"abc111",
-					UUID.randomUUID(),
+					memberId = member.id,
+					memberNickname = member.nickname,
 				),
 			)
 
@@ -92,7 +77,8 @@ class StudyGroupServiceTest :
 				studyGroupService.join(
 					JoinStudyGroupCommand(
 						"abc111",
-						UUID.randomUUID(),
+						1,
+						"memberNickname",
 					),
 				)
 			}

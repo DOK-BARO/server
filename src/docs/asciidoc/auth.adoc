@@ -1,27 +1,100 @@
 == AUTH
 
-=== OAUTH2 signup
+=== SOCIAL(OAUTH2) SIGNUP / LOGIN
 
 ==== HTTP request
 
-include::{snippets}/auth/oauth2-signup/http-request.adoc[]
-include::{snippets}/auth/oauth2-signup/request-fields.adoc[]
+----
+GET /auth/login/oauth2/{PROVIDER}?redirect-url=https://local.dokbaro.kro.kr/hello
+Content-Type: application/json;charset=UTF-8
+Content-Length: 161
+----
+
+- parameters
+
+[cols=2*]
+|===
+|redirect-url
+|String
+|===
+
+===== provider (소문자로 입력)
+- kakao
+- google
+- naver
+- github
+
+
 
 ==== HTTP response
 
-include::{snippets}/auth/oauth2-signup/http-response.adoc[]
-include::{snippets}/auth/oauth2-signup/response-fields.adoc[]
+----
+HTTP/1.1 302 Found
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: Authorization=access-token
+Set-Cookie: Refresh=refresh-token
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 47
+----
+
+TIP: GET/POST 메서드 둘 다 지원하나, redirect 원활한 처리를 위해 GET 방식을 사용할 것을 추천드립니다.
+
+NOTE: API 호출 시 해당하는 social 인증 로직을 바로 진행합니다. 인증이 완료 후 parameter로 제공된 redirect url로 이동합니다.
+
+NOTE: 서비스 인증/인가에 필요한 JWT를 cookie로 설정합니다.
 
 
-=== 이메일 회원가입
+=== EMAIL LOGIN
 
 ==== HTTP request
 
-include::{snippets}/auth/email-signup/http-request.adoc[]
-include::{snippets}/auth/email-signup/request-fields.adoc[]
+----
+POST /auth/login/email
+Content-Type: application/x-www-form-urlencoded;charset=UTF-8
+Content-Length: 161
+
+email=test@gmail.com&pasword=secret
+----
+
+- body
+
+[cols=2*]
+|===
+|email
+|String
+
+|password
+|String
+|===
+
+TIP: request content type이 application/json이 아닌 application/x-www-form-urlencoded 입니다. 설정에 유의해주시기 바랍니다.
+
 
 ==== HTTP response
+----
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: Authorization=access-token
+Set-Cookie: Refresh=refresh-token
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 47
+----
 
-include::{snippets}/auth/email-signup/http-response.adoc[]
-include::{snippets}/auth/email-signup/response-fields.adoc[]
+NOTE: 서비스 인증/인가에 필요한 JWT를 cookie로 설정합니다.
 

@@ -449,13 +449,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /members/login-user?_csrf=pfgBzKX5fPYRtMPyH8DY724fYV7pWRVx5di6O-CaXLqKi4uenZ45_MOaTME8jKfDKO3s11p9TGbdOixc0ryIDYH-Zd-4u7-p HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /members/login-user?_csrf=AJIPAVNnQmV7h4m8UaV67FjlsfqIn1TPiAlzMaBetJcYtSB_YqI4NmcBclRW47rZNYhO327RnMPqrDXiuDtFAsM4gaB5hURG HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 92
 Host: localhost:8080
 
 {
-  "nickName" : "nickname",
+  "nickname" : "nickname",
   "email" : "ddd@example.com",
   "profileImage" : "hello.png"
 }</code></pre>
@@ -476,7 +476,7 @@ Host: localhost:8080
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">별명 (optional)</p></td>
 </tr>
@@ -537,15 +537,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 209
+Content-Length: 237
 
 {
-  "id" : -7501442779949303464,
-  "nickName" : "nickname",
-  "email" : "asdf@gmail.com",
-  "profileImage" : "image.png",
-  "certificationId" : "6cc0aceb-e63f-4940-92c1-c841f2338d1e",
-  "roles" : [ "GUEST" ]
+  "id" : 12345,
+  "certificationId" : "7c4c9315-5a55-48de-bcf7-08d43e09f19a",
+  "nickname" : "CoolCoder",
+  "email" : "coolcoder@example.com",
+  "profileImage" : "https://example.com/profile-image.png",
+  "role" : [ "USER", "ADMIN" ]
 }</code></pre>
 </div>
 </div>
@@ -564,7 +564,12 @@ Content-Length: 209
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">seq ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
 </tr>
@@ -584,14 +589,9 @@ Content-Length: 209
 <td class="tableblock halign-left valign-top"><p class="tableblock">인증용 Id</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>roles</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>role</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">권한</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">seq ID</p></td>
 </tr>
 </tbody>
 </table>
@@ -623,15 +623,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 209
+Content-Length: 237
 
 {
-  "id" : -7501442779949303464,
-  "nickName" : "nickname",
-  "email" : "asdf@gmail.com",
-  "profileImage" : "image.png",
-  "certificationId" : "6cc0aceb-e63f-4940-92c1-c841f2338d1e",
-  "roles" : [ "GUEST" ]
+  "id" : 12345,
+  "certificationId" : "7c4c9315-5a55-48de-bcf7-08d43e09f19a",
+  "nickname" : "CoolCoder",
+  "email" : "coolcoder@example.com",
+  "profileImage" : "https://example.com/profile-image.png",
+  "role" : [ "USER", "ADMIN" ]
 }</code></pre>
 </div>
 </div>
@@ -643,7 +643,7 @@ Content-Length: 209
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-12-01 15:57:58 +0900
+Last updated 2024-12-01 16:04:32 +0900
 </div>
 </div>
 </body>

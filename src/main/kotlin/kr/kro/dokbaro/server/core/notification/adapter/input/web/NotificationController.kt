@@ -1,11 +1,11 @@
 package kr.kro.dokbaro.server.core.notification.adapter.input.web
 
-import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.notification.application.port.input.CheckAllNotificationUseCase
 import kr.kro.dokbaro.server.core.notification.application.port.input.DisableNotificationUseCase
 import kr.kro.dokbaro.server.core.notification.application.port.input.FindAllNotificationUseCase
 import kr.kro.dokbaro.server.core.notification.query.NotificationResult
-import org.springframework.security.core.Authentication
+import kr.kro.dokbaro.server.security.annotation.Login
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,22 +20,25 @@ class NotificationController(
 	private val findAllNotificationUseCase: FindAllNotificationUseCase,
 ) {
 	@PostMapping("/check")
-	fun checkAll(auth: Authentication) {
-		checkAllNotificationUseCase.checkAll(authId = UUIDUtils.stringToUUID(auth.name))
+	fun checkAll(
+		@Login user: DokbaroUser,
+	) {
+		checkAllNotificationUseCase.checkAll(memberId = user.id)
 	}
 
 	@PostMapping("/{id}/disable")
 	fun disableNotification(
 		@PathVariable id: Long,
-		auth: Authentication,
+		@Login user: DokbaroUser,
 	) {
 		disableNotificationUseCase.disableBy(
 			notificationId = id,
-			authId = UUIDUtils.stringToUUID(auth.name),
+			memberId = user.id,
 		)
 	}
 
 	@GetMapping
-	fun findAll(auth: Authentication): Collection<NotificationResult> =
-		findAllNotificationUseCase.findAllBy(authId = UUIDUtils.stringToUUID(auth.name))
+	fun findAll(
+		@Login user: DokbaroUser,
+	): Collection<NotificationResult> = findAllNotificationUseCase.findAllBy(memberId = user.id)
 }
