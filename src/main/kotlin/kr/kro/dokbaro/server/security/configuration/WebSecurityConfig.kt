@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
@@ -24,8 +22,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 class WebSecurityConfig(
 	private val authenticationManager: AuthenticationManager,
 	@Value("\${spring.security.allow-origins}") private val originPattern: List<String>,
-	@Value("\${jwt.access-header-name}") private val accessTokenKey: String,
-	@Value("\${jwt.refresh-header-name}") private val refreshTokenKey: String,
 	private val formAuthenticationFailureHandler: FormAuthenticationFailureHandler,
 	private val formAuthenticationSuccessHandler: FormAuthenticationSuccessHandler,
 	private val oAuth2AuthenticationSuccessHandler: FormAuthenticationSuccessHandler,
@@ -71,7 +67,4 @@ class WebSecurityConfig(
 		source.registerCorsConfiguration("/**", corsConfiguration)
 		return source
 	}
-
-	@Bean
-	fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 }
