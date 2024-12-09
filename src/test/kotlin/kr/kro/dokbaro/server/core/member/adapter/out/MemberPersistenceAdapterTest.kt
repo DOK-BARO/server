@@ -9,7 +9,6 @@ import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
-import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberQueryRepository
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
@@ -27,7 +26,6 @@ class MemberPersistenceAdapterTest(
 
 		val memberMapper = MemberMapper()
 		val memberRepository = MemberRepository(dslContext, memberMapper)
-		val memberQueryRepository = MemberQueryRepository(dslContext, memberMapper)
 
 		val adapter = MemberPersistenceAdapter(memberRepository)
 
