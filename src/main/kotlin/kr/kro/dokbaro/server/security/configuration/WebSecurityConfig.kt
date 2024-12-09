@@ -36,8 +36,10 @@ class WebSecurityConfig(
 		http
 			.authorizeHttpRequests {
 				AuthorizationEndpointChain.authorizeHttpRequests(it)
-			}.addFilterBefore(OAuth2AuthenticationRedirectSetUpFilter(), OAuth2AuthorizationRequestRedirectFilter::class.java)
-			.addFilterBefore(
+			}.addFilterBefore(
+				OAuth2AuthenticationRedirectSetUpFilter(),
+				OAuth2AuthorizationRequestRedirectFilter::class.java,
+			).addFilterBefore(
 				JwtValidationFilter(authenticationManager, jwtTokenReGenerator),
 				UsernamePasswordAuthenticationFilter::class.java,
 			).oauth2Login { l ->
