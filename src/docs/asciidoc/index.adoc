@@ -9,6 +9,8 @@ endif::[]
 :sectlinks:
 = DOKBARO
 
+include::account.adoc[]
+
 include::auth.adoc[]
 
 include::book.adoc[]
@@ -30,8 +32,6 @@ include::solving-quiz.adoc[]
 include::study-group.adoc[]
 
 include::terms-of-service.adoc[]
-
-include::token.adoc[]
 
 include::quiz-review.adoc[]
 

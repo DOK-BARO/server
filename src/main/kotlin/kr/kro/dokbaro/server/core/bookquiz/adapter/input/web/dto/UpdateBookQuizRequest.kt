@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto
 
-import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateQuizQuestionCommand
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 
 data class UpdateBookQuizRequest(
@@ -11,5 +11,5 @@ data class UpdateBookQuizRequest(
 	val viewScope: AccessScope,
 	val editScope: AccessScope,
 	val studyGroupId: Long?,
-	val questions: Collection<UpdateQuizQuestionCommand>,
+	val questions: Collection<UpdateBookQuizCommand.Question>,
 )

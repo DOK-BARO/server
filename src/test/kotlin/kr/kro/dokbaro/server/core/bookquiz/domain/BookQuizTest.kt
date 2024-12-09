@@ -2,6 +2,8 @@ package kr.kro.dokbaro.server.core.bookquiz.domain
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.IllegalSubmitSheetFormatException
@@ -207,5 +209,64 @@ class BookQuizTest :
 				)
 
 			bookQuiz.getQuestionCount() shouldBe 2
+		}
+
+		"book quiz update 시 본인이 작성한 퀴즈가 아니면 contributor에 기재한다" {
+			val creatorId = 5L
+			val modifierId = 50L
+			val questions =
+				listOf(
+					quizQuestionFixture(
+						id = 1,
+						answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O"))),
+					),
+					quizQuestionFixture(
+						id = 2,
+						answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X"))),
+					),
+				)
+
+			val bookQuiz =
+				bookQuizFixture(
+					creatorId = creatorId,
+					questions =
+					questions,
+				)
+
+			bookQuiz.updateQuestions(
+				newQuestions = questions,
+				modifierId = modifierId,
+			)
+
+			bookQuiz.contributorIds shouldContain modifierId
+		}
+
+		"book quiz update 시 본인이 만든 퀴즈를 업데이트 할 때는 contributor에 기재하지 않는다" {
+			val creatorId = 5L
+			val questions =
+				listOf(
+					quizQuestionFixture(
+						id = 1,
+						answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("O"))),
+					),
+					quizQuestionFixture(
+						id = 2,
+						answer = GradeSheetFactory.create(QuizType.OX, AnswerSheet(listOf("X"))),
+					),
+				)
+
+			val bookQuiz =
+				bookQuizFixture(
+					creatorId = creatorId,
+					questions =
+					questions,
+				)
+
+			bookQuiz.updateQuestions(
+				newQuestions = questions,
+				modifierId = creatorId,
+			)
+
+			bookQuiz.contributorIds.shouldBeEmpty()
 		}
 	})

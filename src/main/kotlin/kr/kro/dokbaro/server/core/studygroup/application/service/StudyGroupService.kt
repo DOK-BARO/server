@@ -1,7 +1,5 @@
 package kr.kro.dokbaro.server.core.studygroup.application.service
 
-import kr.kro.dokbaro.server.core.member.application.port.input.dto.CertificatedMember
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
@@ -18,35 +16,30 @@ import org.springframework.stereotype.Service
 @Service
 class StudyGroupService(
 	private val insertStudyGroupPort: InsertStudyGroupPort,
-	private val findCertificatedMemberUseCase: FindCertificatedMemberUseCase,
 	private val inviteCodeGenerator: InviteCodeGenerator,
 	private val loadStudyGroupByInviteCodePort: LoadStudyGroupByInviteCodePort,
 	private val updateStudyGroupPort: UpdateStudyGroupPort,
 	private val eventPublisher: ApplicationEventPublisher,
 ) : CreateStudyGroupUseCase,
 	JoinStudyGroupUseCase {
-	override fun create(command: CreateStudyGroupCommand): Long {
-		val creator: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.creatorAuthId)
-
-		return insertStudyGroupPort.insert(
+	override fun create(command: CreateStudyGroupCommand): Long =
+		insertStudyGroupPort.insert(
 			StudyGroup.of(
 				name = command.name,
 				introduction = command.introduction,
 				profileImageUrl = command.profileImageUrl,
-				creatorId = creator.id,
+				creatorId = command.creatorId,
 				inviteCode = inviteCodeGenerator.generate(),
 			),
 		)
-	}
 
 	override fun join(command: JoinStudyGroupCommand) {
 		val studyGroup: StudyGroup =
 			loadStudyGroupByInviteCodePort.findByInviteCode(
 				command.inviteCode,
 			) ?: throw NotFoundStudyGroupException()
-		val member: CertificatedMember = findCertificatedMemberUseCase.getByCertificationId(command.participantAuthId)
 
-		studyGroup.join(member.id)
+		studyGroup.join(participantId = command.memberId)
 
 		updateStudyGroupPort.update(studyGroup)
 
@@ -54,8 +47,8 @@ class StudyGroupService(
 			JoinedStudyGroupMemberEvent(
 				studyGroupId = studyGroup.id,
 				studyGroupName = studyGroup.name,
-				memberId = member.id,
-				memberName = member.nickName,
+				memberId = command.memberId,
+				memberName = command.memberNickname,
 			),
 		)
 	}

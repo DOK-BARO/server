@@ -5,19 +5,24 @@ import java.util.UUID
 
 data class Member(
 	val id: Long = Constants.UNSAVED_ID,
-	var nickName: String,
+	var nickname: String,
 	var email: Email,
 	var profileImage: String?,
 	val certificationId: UUID,
 	val roles: Set<Role> = setOf(Role.GUEST),
+	var withdraw: Boolean = false,
 ) {
 	fun modify(
 		nickName: String?,
 		email: Email?,
 		profileImage: String?,
 	) {
-		this.nickName = nickName ?: this.nickName
+		this.nickname = nickName ?: this.nickname
 		this.email = email ?: this.email
 		this.profileImage = profileImage ?: this.profileImage
+	}
+
+	fun withdraw() {
+		withdraw = true
 	}
 }

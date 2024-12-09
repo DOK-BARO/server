@@ -33,7 +33,7 @@ class MemberRepository(
 					MEMBER.PROFILE_IMAGE_URL,
 				).values(
 					UUIDUtils.uuidToByteArray(member.certificationId),
-					member.nickName,
+					member.nickname,
 					member.email.address,
 					member.profileImage,
 				).returningResult(MEMBER.ID)
@@ -80,7 +80,7 @@ class MemberRepository(
 	fun update(member: Member) {
 		dslContext
 			.update(MEMBER)
-			.set(MEMBER.NICKNAME, member.nickName)
+			.set(MEMBER.NICKNAME, member.nickname)
 			.set(MEMBER.EMAIL, member.email.address)
 			.set(MEMBER.PROFILE_IMAGE_URL, member.profileImage)
 			.where(MEMBER.ID.eq(member.id))

@@ -1,11 +1,11 @@
 package kr.kro.dokbaro.server.core.studygroup.adapter.input.web
 
-import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindAllMyStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindStudyGroupDetailUseCase
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
-import org.springframework.security.core.Authentication
+import kr.kro.dokbaro.server.security.annotation.Login
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,8 +18,9 @@ class StudyGroupQueryController(
 	private val findStudyGroupDetailUseCase: FindStudyGroupDetailUseCase,
 ) {
 	@GetMapping("/my")
-	fun getMyStudyGroups(auth: Authentication): Collection<StudyGroupSummary> =
-		findAllMyStudyGroupUseCase.findAll(UUIDUtils.stringToUUID(auth.name))
+	fun getMyStudyGroups(
+		@Login user: DokbaroUser,
+	): Collection<StudyGroupSummary> = findAllMyStudyGroupUseCase.findAll(memberId = user.id)
 
 	@GetMapping("/{id}")
 	fun findStudyGroup(

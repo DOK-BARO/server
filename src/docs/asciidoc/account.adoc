@@ -1,0 +1,12 @@
+== ACCOUNT
+
+=== EMAIL ACCOUNT 등록
+
+==== HTTP request
+
+include::{snippets}/account/register-email-account/http-request.adoc[]
+include::{snippets}/account/register-email-account/request-fields.adoc[]
+
+==== HTTP response
+
+include::{snippets}/account/register-email-account/http-response.adoc[]
