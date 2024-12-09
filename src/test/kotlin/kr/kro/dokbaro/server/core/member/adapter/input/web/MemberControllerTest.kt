@@ -7,12 +7,15 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberRequest
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindMyAvatarUseCase
+import kr.kro.dokbaro.server.core.member.query.MyAvatar
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.util.UUID
 
 @WebMvcTest(MemberController::class)
 class MemberControllerTest : RestDocsTest() {
@@ -21,6 +24,9 @@ class MemberControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var withdrawMemberUseCase: WithdrawMemberUseCase
+
+	@MockkBean
+	lateinit var findMyAvatarUseCase: FindMyAvatarUseCase
 
 	init {
 		"login한 member 정보를 수정을 수행한다" {
@@ -39,7 +45,7 @@ class MemberControllerTest : RestDocsTest() {
 					print(
 						"member/modify-login-user",
 						requestFields(
-							fieldWithPath("nickName")
+							fieldWithPath("nickname")
 								.type(JsonFieldType.STRING)
 								.description("별명 (optional)")
 								.optional(),
@@ -56,6 +62,15 @@ class MemberControllerTest : RestDocsTest() {
 		}
 
 		"login한 member 정보를 가져온다" {
+			every { findMyAvatarUseCase.findMyAvatar(any()) } returns
+				MyAvatar(
+					id = 12345L,
+					certificationId = UUID.randomUUID(), // 고유한 UUID 생성
+					nickname = "CoolCoder",
+					email = "coolcoder@example.com",
+					profileImage = "https://example.com/profile-image.png", // null 가능
+					role = listOf("USER", "ADMIN"), // String의 컬렉션
+				)
 
 			performGet(Path("/members/login-user"))
 				.andExpect(status().isOk)
@@ -63,7 +78,10 @@ class MemberControllerTest : RestDocsTest() {
 					print(
 						"member/get-login-user",
 						responseFields(
-							fieldWithPath("nickName")
+							fieldWithPath("id")
+								.type(JsonFieldType.NUMBER)
+								.description("seq ID"),
+							fieldWithPath("nickname")
 								.type(JsonFieldType.STRING)
 								.description("닉네임"),
 							fieldWithPath("email")
@@ -75,12 +93,9 @@ class MemberControllerTest : RestDocsTest() {
 							fieldWithPath("certificationId")
 								.type(JsonFieldType.STRING)
 								.description("인증용 Id"),
-							fieldWithPath("roles")
+							fieldWithPath("role")
 								.type(JsonFieldType.ARRAY)
 								.description("권한"),
-							fieldWithPath("id")
-								.type(JsonFieldType.NUMBER)
-								.description("seq ID"),
 						),
 					),
 				)

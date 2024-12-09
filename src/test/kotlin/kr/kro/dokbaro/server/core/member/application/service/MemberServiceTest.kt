@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.member.application.service
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.ModifyMemberCommand
@@ -15,6 +16,7 @@ import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundM
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.fixture.FixtureBuilder
+import kr.kro.dokbaro.server.fixture.domain.memberFixture
 import java.util.UUID
 import kotlin.random.Random
 
@@ -30,6 +32,7 @@ class MemberServiceTest :
 
 		afterEach {
 			updateMemberPort.clear()
+			clearAllMocks()
 		}
 
 		"저장을 수행한다" {
@@ -72,6 +75,8 @@ class MemberServiceTest :
 		"수정을 수행한다" {
 			val targetUUID = UUID.randomUUID()
 			val resentEmail = Email("dasf@kkk.com")
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns
+				memberFixture(certificationId = targetUUID, email = resentEmail)
 
 			val command =
 				ModifyMemberCommand(
@@ -93,6 +98,8 @@ class MemberServiceTest :
 		"이메일을 제외하고 수정을 수행한다" {
 			val targetUUID = UUID.randomUUID()
 			val resentEmail = Email("dasf@kkk.com")
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns
+				memberFixture(certificationId = targetUUID, email = resentEmail)
 
 			val command =
 				ModifyMemberCommand(
@@ -112,6 +119,7 @@ class MemberServiceTest :
 		}
 
 		"수정 시 certificationId를 통한 member가 없으면 예외를 반환한다" {
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns null
 
 			shouldThrow<NotFoundMemberException> {
 				memberService.modify(FixtureBuilder.give<ModifyMemberCommand>().sample())
@@ -119,10 +127,13 @@ class MemberServiceTest :
 		}
 
 		"회원 탈퇴를 수행한다" {
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns null
 
 			shouldThrow<NotFoundMemberException> {
 				memberService.withdrawBy(UUID.randomUUID())
 			}
+
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns memberFixture()
 
 			memberService.withdrawBy(UUID.randomUUID())
 

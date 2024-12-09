@@ -1,15 +1,14 @@
 package kr.kro.dokbaro.server.core.member.adapter.input.web
 
-import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberRequest
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.ModifyMemberCommand
-import kr.kro.dokbaro.server.core.member.query.CertificatedMember
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindMyAvatarUseCase
+import kr.kro.dokbaro.server.core.member.query.MyAvatar
 import kr.kro.dokbaro.server.security.annotation.Login
 import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
-import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -23,16 +22,17 @@ import org.springframework.web.bind.annotation.RestController
 class MemberController(
 	private val modifyMemberUseCase: ModifyMemberUseCase,
 	private val withdrawMemberUseCase: WithdrawMemberUseCase,
+	private val findMyAvatarUseCase: FindMyAvatarUseCase,
 ) {
 	@PutMapping("/login-user")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	fun modifyMember(
-		auth: Authentication,
+		@Login user: DokbaroUser,
 		@RequestBody request: ModifyMemberRequest,
 	) {
 		modifyMemberUseCase.modify(
 			ModifyMemberCommand(
-				certificationId = UUIDUtils.stringToUUID(auth.name),
+				certificationId = user.certificationId,
 				nickname = request.nickname,
 				email = request.email,
 				profileImage = request.profileImage,
@@ -43,17 +43,12 @@ class MemberController(
 	@GetMapping("/login-user")
 	fun getLoginUser(
 		@Login user: DokbaroUser,
-	): CertificatedMember =
-		CertificatedMember(
-			id = user.id,
-			certificationId = user.certificationId,
-			nickname = user.nickname,
-			email = user.email,
-			role = user.role,
-		)
+	): MyAvatar = findMyAvatarUseCase.findMyAvatar(user.certificationId)
 
 	@PostMapping("/withdraw")
-	fun withdraw(auth: Authentication) {
-		withdrawMemberUseCase.withdrawBy(UUIDUtils.stringToUUID(auth.name))
+	fun withdraw(
+		@Login user: DokbaroUser,
+	) {
+		withdrawMemberUseCase.withdrawBy(user.certificationId)
 	}
 }
