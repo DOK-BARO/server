@@ -22,8 +22,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 class WebSecurityConfig(
 	private val authenticationManager: AuthenticationManager,
 	@Value("\${spring.security.allow-origins}") private val originPattern: List<String>,
-	@Value("\${jwt.access-header-name}") private val accessTokenKey: String,
-	@Value("\${jwt.refresh-header-name}") private val refreshTokenKey: String,
 	private val formAuthenticationFailureHandler: FormAuthenticationFailureHandler,
 	private val formAuthenticationSuccessHandler: FormAuthenticationSuccessHandler,
 	private val oAuth2AuthenticationSuccessHandler: FormAuthenticationSuccessHandler,
