@@ -154,7 +154,6 @@ class BookQuizServiceTest :
 					questions =
 						listOf(
 							UpdateBookQuizCommand.Question(
-								id = 2,
 								content = "명량에서 이순신 역은 류승룡이 담당했다",
 								answerExplanationContent = "최민식이 담당했다",
 								answerType = QuizType.OX,

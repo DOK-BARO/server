@@ -2,6 +2,7 @@ package kr.kro.dokbaro.server.core.studygroup.application.service
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldNotBe
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -12,6 +13,8 @@ import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGro
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupByInviteCodePort
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
 import kr.kro.dokbaro.server.dummy.EventPublisherDummy
+import kr.kro.dokbaro.server.fixture.domain.memberFixture
+import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 
 class StudyGroupServiceTest :
 	StringSpec({
@@ -47,6 +50,24 @@ class StudyGroupServiceTest :
 				)
 
 			studyGroupService.create(command) shouldNotBe null
+		}
+
+		"study group에 참여한다" {
+			every { loadStudyGroupByInviteCodePort.findByInviteCode(any()) } returns studyGroupFixture()
+			val member = memberFixture()
+
+			studyGroupService.join(
+				JoinStudyGroupCommand(
+					"abc111",
+					memberId = member.id,
+					memberNickname = member.nickname,
+				),
+			)
+
+			updateStudyGroupPort.storage!!
+				.studyMembers
+				.map { it.memberId }
+				.shouldContain(member.id)
 		}
 
 		"스터디 그룹 참여 시 초대코드에 맞는 그룹을 찾을 수 없으면 예외를 발생한다" {

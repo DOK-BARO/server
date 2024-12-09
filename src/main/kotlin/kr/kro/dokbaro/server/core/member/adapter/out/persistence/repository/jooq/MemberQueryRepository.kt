@@ -80,14 +80,12 @@ class MemberQueryRepository(
 		return memberMapper.toMember(record)
 	}
 
-	fun findCertificationIdByEmail(email: String): UUID? {
-		val record =
-			dslContext
-				.select(MEMBER.CERTIFICATION_ID)
-				.from(MEMBER)
-				.where(MEMBER.EMAIL.eq(email))
-				.fetchOneInto(ByteArray::class.java)
-
-		return record?.let { UUIDUtils.byteArrayToUUID(it) }
-	}
+	fun findCertificationIdByEmail(email: String): UUID? =
+		dslContext
+			.select(MEMBER.CERTIFICATION_ID)
+			.from(MEMBER)
+			.where(MEMBER.EMAIL.eq(email))
+			.fetchOne {
+				UUIDUtils.byteArrayToUUID(it.value1())
+			}
 }

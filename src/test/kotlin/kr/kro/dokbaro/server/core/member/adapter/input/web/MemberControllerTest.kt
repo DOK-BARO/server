@@ -65,11 +65,11 @@ class MemberControllerTest : RestDocsTest() {
 			every { findMyAvatarUseCase.findMyAvatar(any()) } returns
 				MyAvatar(
 					id = 12345L,
-					certificationId = UUID.randomUUID(), // 고유한 UUID 생성
+					certificationId = UUID.randomUUID(),
 					nickname = "CoolCoder",
 					email = "coolcoder@example.com",
-					profileImage = "https://example.com/profile-image.png", // null 가능
-					role = listOf("USER", "ADMIN"), // String의 컬렉션
+					profileImage = "https://example.com/profile-image.png",
+					role = listOf("USER", "ADMIN"),
 				)
 
 			performGet(Path("/members/login-user"))
