@@ -34,7 +34,7 @@ class AccountControllerTest : RestDocsTest() {
 				.andExpect(status().isCreated)
 				.andDo(
 					print(
-						"register-email-account",
+						"account/register-email-account",
 						requestFields(
 							fieldWithPath("email")
 								.type(JsonFieldType.STRING)

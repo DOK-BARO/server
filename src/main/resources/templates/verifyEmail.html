@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta charset="UTF-8"/>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 	<title>이메일 인증</title>
 	<style>
 		.email-verification-container {
@@ -81,14 +81,14 @@
 <div class="email-verification-container">
 	<header>
 		<div class="logo">
-			<img src="./logo.svg" alt="DOKBARO 로고" width="72" />
+			<img alt="DOKBARO 로고" src="./logo.svg" width="72"/>
 			<h1>DOKBARO</h1>
 		</div>
 	</header>
 	<main>
 		<p class="instruction">
 			<span th:text="${email}"></span>님 안녕하세요.
-			<br />
+			<br/>
 			회원가입을 위해 인증코드를 가입 페이지에 입력해 주세요.
 		</p>
 		<div class="code-container">
