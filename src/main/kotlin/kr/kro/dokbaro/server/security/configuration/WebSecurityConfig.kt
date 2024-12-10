@@ -4,6 +4,7 @@ import kr.kro.dokbaro.server.security.filter.JwtValidationFilter
 import kr.kro.dokbaro.server.security.filter.OAuth2AuthenticationRedirectSetUpFilter
 import kr.kro.dokbaro.server.security.handler.FormAuthenticationFailureHandler
 import kr.kro.dokbaro.server.security.handler.FormAuthenticationSuccessHandler
+import kr.kro.dokbaro.server.security.handler.OAuth2AuthenticationSuccessHandler
 import kr.kro.dokbaro.server.security.jwt.JwtTokenReGenerator
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -24,7 +25,7 @@ class WebSecurityConfig(
 	@Value("\${spring.security.allow-origins}") private val originPattern: List<String>,
 	private val formAuthenticationFailureHandler: FormAuthenticationFailureHandler,
 	private val formAuthenticationSuccessHandler: FormAuthenticationSuccessHandler,
-	private val oAuth2AuthenticationSuccessHandler: FormAuthenticationSuccessHandler,
+	private val oAuth2AuthenticationSuccessHandler: OAuth2AuthenticationSuccessHandler,
 	private val jwtTokenReGenerator: JwtTokenReGenerator,
 ) {
 	@Bean
