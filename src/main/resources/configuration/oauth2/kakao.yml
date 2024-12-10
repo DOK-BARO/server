@@ -7,7 +7,7 @@ spring:
                         client-id: ${KAKAO_CLIENT_ID:clientid}
                         client-secret: ${KAKAO_CLIENT_SECRET:clientsecret}
                         client-name: Kakao
-                        redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+                        redirect-uri: https://{baseHost}{basePort}{basePath}/login/oauth2/code/{registrationId}
                         client-authentication-method: client_secret_post
                         authorization-grant-type: authorization_code
                         scope: profile_nickname, profile_image

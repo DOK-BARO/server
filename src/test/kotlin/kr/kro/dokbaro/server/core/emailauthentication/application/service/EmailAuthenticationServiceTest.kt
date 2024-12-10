@@ -4,7 +4,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.mockk.clearMocks
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -35,11 +35,7 @@ class EmailAuthenticationServiceTest :
 			)
 
 		afterEach {
-			clearMocks(
-				insertEmailAuthenticationPort,
-				loadEmailAuthenticationPort,
-				sendEmailAuthenticationCodePort,
-			)
+			clearAllMocks()
 
 			updateEmailAuthenticationPort.clear()
 		}
@@ -69,6 +65,8 @@ class EmailAuthenticationServiceTest :
 			emailAuthenticationService.create(email)
 
 			updateEmailAuthenticationPort.storage?.code shouldNotBe code
+
+			verify(exactly = 0) { insertEmailAuthenticationPort.insert(any()) }
 			verify { sendEmailAuthenticationCodePort.sendEmail(email, any()) }
 		}
 
