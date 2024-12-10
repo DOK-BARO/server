@@ -26,6 +26,7 @@ object AuthorizationEndpointChain {
 			"/terms-of-services/**",
 			"/health-check",
 			"/images/**",
+			"/accounts/**",
 		)
 
 	private fun permitAllGetRequests() =
