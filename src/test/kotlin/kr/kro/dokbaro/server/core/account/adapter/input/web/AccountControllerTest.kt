@@ -6,22 +6,33 @@ import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.account.application.port.input.RegisterEmailAccountUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterEmailAccountCommand
+import kr.kro.dokbaro.server.security.jwt.JwtHttpCookieInjector
+import kr.kro.dokbaro.server.security.jwt.JwtResponse
+import kr.kro.dokbaro.server.security.jwt.JwtTokenGenerator
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.util.UUID
 
 @WebMvcTest(AccountController::class)
 class AccountControllerTest : RestDocsTest() {
 	@MockkBean
 	lateinit var registerEmailAccountUseCase: RegisterEmailAccountUseCase
 
+	@MockkBean
+	lateinit var jwtTokenGenerator: JwtTokenGenerator
+
+	@MockkBean
+	lateinit var jwtHttpCookieInjector: JwtHttpCookieInjector
+
 	init {
 
 		"이메일 회원가입을 수행한다" {
-			every { registerEmailAccountUseCase.registerEmailAccount(any()) } returns Unit
-
+			every { registerEmailAccountUseCase.registerEmailAccount(any()) } returns UUID.randomUUID()
+			every { jwtTokenGenerator.generate(any()) } returns JwtResponse("", "")
+			every { jwtHttpCookieInjector.inject(any(), any()) } returns Unit
 			val command =
 				RegisterEmailAccountCommand(
 					email = "example@example.com",

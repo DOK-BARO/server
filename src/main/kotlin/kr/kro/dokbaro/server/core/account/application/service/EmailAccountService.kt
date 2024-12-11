@@ -10,6 +10,7 @@ import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.Regi
 import kr.kro.dokbaro.server.core.member.domain.Member
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class EmailAccountService(
@@ -18,7 +19,7 @@ class EmailAccountService(
 	private val passwordEncoder: PasswordEncoder,
 	private val useAuthenticatedEmailUseCase: UseAuthenticatedEmailUseCase,
 ) : RegisterEmailAccountUseCase {
-	override fun registerEmailAccount(command: RegisterEmailAccountCommand) {
+	override fun registerEmailAccount(command: RegisterEmailAccountCommand): UUID {
 		useAuthenticatedEmailUseCase.useEmail(email = command.email)
 
 		val member: Member =
@@ -38,5 +39,7 @@ class EmailAccountService(
 				password = encryptedPassword,
 			),
 		)
+
+		return member.certificationId
 	}
 }
