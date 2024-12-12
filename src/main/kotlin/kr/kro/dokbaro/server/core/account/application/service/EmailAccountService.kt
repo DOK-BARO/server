@@ -10,6 +10,7 @@ import kr.kro.dokbaro.server.core.account.application.port.out.LoadAccountPasswo
 import kr.kro.dokbaro.server.core.account.application.port.out.SendTemporaryPasswordPort
 import kr.kro.dokbaro.server.core.account.application.port.out.UpdateAccountPasswordPort
 import kr.kro.dokbaro.server.core.account.application.service.exception.AccountNotFoundException
+import kr.kro.dokbaro.server.core.account.application.service.exception.PasswordNotMatchException
 import kr.kro.dokbaro.server.core.account.domain.AccountPassword
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
@@ -60,7 +61,6 @@ class EmailAccountService(
 		val newPassword: String = temporaryPasswordGenerator.generate()
 
 		accountPassword.changePassword(
-			oldPassword = accountPassword.password,
 			newPassword = newPassword,
 			encoder = passwordEncoder,
 		)
@@ -73,8 +73,15 @@ class EmailAccountService(
 		val accountPassword: AccountPassword =
 			loadAccountPasswordPort.findByMemberId(command.memberId) ?: throw AccountNotFoundException()
 
+		if (!accountPassword.match(
+				rawPassword = command.oldPassword,
+				encoder = passwordEncoder,
+			)
+		) {
+			throw PasswordNotMatchException()
+		}
+
 		accountPassword.changePassword(
-			oldPassword = command.oldPassword,
 			newPassword = command.newPassword,
 			encoder = passwordEncoder,
 		)

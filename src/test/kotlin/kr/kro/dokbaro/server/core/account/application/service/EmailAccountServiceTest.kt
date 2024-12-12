@@ -14,6 +14,7 @@ import kr.kro.dokbaro.server.core.account.application.port.out.InsertAccountPass
 import kr.kro.dokbaro.server.core.account.application.port.out.LoadAccountPasswordPort
 import kr.kro.dokbaro.server.core.account.application.port.out.SendTemporaryPasswordPort
 import kr.kro.dokbaro.server.core.account.application.service.exception.AccountNotFoundException
+import kr.kro.dokbaro.server.core.account.application.service.exception.PasswordNotMatchException
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
 import kr.kro.dokbaro.server.fixture.domain.accountPasswordFixture
@@ -114,5 +115,24 @@ class EmailAccountServiceTest :
 				newPassword,
 				updateAccountPasswordPort.storage.first().password,
 			) shouldBe true
+		}
+
+		"비밀번호 변경 시 기존 비밀번호가 일치하지 않으면 예외를 반환한다" {
+			val oldPassword = "old"
+			val newPassword = "new"
+			every { loadAccountPasswordPort.findByMemberId(any()) } returns
+				accountPasswordFixture(
+					password = passwordEncoder.encode(oldPassword),
+				)
+
+			shouldThrow<PasswordNotMatchException> {
+				emailAccountService.changePassword(
+					ChangePasswordCommand(
+						1,
+						"wrong",
+						newPassword,
+					),
+				)
+			}
 		}
 	})

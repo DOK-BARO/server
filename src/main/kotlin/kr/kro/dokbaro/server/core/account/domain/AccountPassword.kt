@@ -1,7 +1,6 @@
 package kr.kro.dokbaro.server.core.account.domain
 
 import kr.kro.dokbaro.server.common.constant.Constants
-import kr.kro.dokbaro.server.core.account.domain.exception.PasswordNotMatchException
 import org.springframework.security.crypto.password.PasswordEncoder
 
 data class AccountPassword(
@@ -21,14 +20,9 @@ data class AccountPassword(
 	}
 
 	fun changePassword(
-		oldPassword: String,
 		newPassword: String,
 		encoder: PasswordEncoder,
 	) {
-		if (!match(oldPassword, encoder)) {
-			throw PasswordNotMatchException()
-		}
-
 		password = encoder.encode(newPassword)
 	}
 
