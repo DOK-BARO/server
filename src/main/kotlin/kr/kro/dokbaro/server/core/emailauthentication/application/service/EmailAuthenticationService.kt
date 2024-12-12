@@ -11,6 +11,7 @@ import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.LoadE
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendEmailAuthenticationCodePort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.UpdateEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.dto.SearchEmailAuthenticationCondition
+import kr.kro.dokbaro.server.core.emailauthentication.application.service.exception.NotFoundEmailAuthenticationException
 import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
 import org.springframework.stereotype.Service
 

@@ -13,6 +13,7 @@ import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.Exist
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.InsertEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.LoadEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendEmailAuthenticationCodePort
+import kr.kro.dokbaro.server.core.emailauthentication.application.service.exception.NotFoundEmailAuthenticationException
 import kr.kro.dokbaro.server.fixture.domain.emailAuthenticationFixture
 
 class EmailAuthenticationServiceTest :
