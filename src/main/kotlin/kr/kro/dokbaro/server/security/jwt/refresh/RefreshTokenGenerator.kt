@@ -9,12 +9,19 @@ import java.util.UUID
 @Component
 class RefreshTokenGenerator(
 	private val clock: Clock,
+	private val refreshTokenRepository: RefreshTokenRepository,
 ) {
-	fun generate(certificationId: UUID): RefreshToken =
-		RefreshToken(
-			tokenValue = UUIDUtils.uuidToString(UUID.randomUUID()),
-			certificationId = certificationId,
-			used = false,
-			expiredAt = LocalDateTime.now(clock),
-		)
+	fun generate(certificationId: UUID): RefreshToken {
+		val refreshToken =
+			RefreshToken(
+				tokenValue = UUIDUtils.uuidToString(UUID.randomUUID()),
+				certificationId = certificationId,
+				used = false,
+				expiredAt = LocalDateTime.now(clock),
+			)
+
+		refreshTokenRepository.insert(refreshToken)
+
+		return refreshToken
+	}
 }
