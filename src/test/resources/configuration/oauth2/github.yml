@@ -6,5 +6,5 @@ spring:
                     github:
                         client-id: ${GITHUB_CLIENT_ID:clientid}
                         client-secret: ${GITHUB_CLIENT_SECRET:clientsecret}
-                        redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+                        redirect-uri: https://{baseHost}{basePort}{basePath}/login/oauth2/code/{registrationId}
                         scope: email, profile

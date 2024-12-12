@@ -10,3 +10,27 @@ include::{snippets}/account/register-email-account/request-fields.adoc[]
 ==== HTTP response
 
 include::{snippets}/account/register-email-account/http-response.adoc[]
+
+NOTE: 회원가입 시 로그인이 자동 적용됩니다. 서비스 인증/인가에 필요한 JWT를 cookie로 설정합니다.
+
+=== 임시 비밀번호 발급
+
+==== HTTP request
+
+include::{snippets}/account/issue-temporary-password/http-request.adoc[]
+include::{snippets}/account/issue-temporary-password/request-fields.adoc[]
+
+==== HTTP response
+
+include::{snippets}/account/issue-temporary-password/http-response.adoc[]
+
+=== 비밀번호 변경
+
+==== HTTP request
+
+include::{snippets}/account/change-password/http-request.adoc[]
+include::{snippets}/account/change-password/request-fields.adoc[]
+
+==== HTTP response
+
+include::{snippets}/account/change-password/http-response.adoc[]

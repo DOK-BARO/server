@@ -5,9 +5,9 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import kr.kro.dokbaro.server.security.SecurityConstants
 import kr.kro.dokbaro.server.security.authentication.JwtUnauthenticatedToken
+import kr.kro.dokbaro.server.security.jwt.JwtHttpCookieInjector
 import kr.kro.dokbaro.server.security.jwt.JwtResponse
 import kr.kro.dokbaro.server.security.jwt.JwtTokenReGenerator
-import kr.kro.dokbaro.server.security.jwt.setUpJwtCookie
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
@@ -15,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 class JwtValidationFilter(
 	private val authenticationManager: AuthenticationManager,
 	private val jwtTokenReGenerator: JwtTokenReGenerator,
+	private val jwtHttpCookieInjector: JwtHttpCookieInjector,
 ) : OncePerRequestFilter() {
 	override fun doFilterInternal(
 		request: HttpServletRequest,
@@ -29,7 +30,7 @@ class JwtValidationFilter(
 
 			accessToken = newToken.accessToken
 
-			response.setUpJwtCookie(newToken)
+			jwtHttpCookieInjector.inject(response, newToken)
 		}
 
 		SecurityContextHolder.getContext().authentication =

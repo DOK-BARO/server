@@ -41,4 +41,12 @@ class AccountRepository(
 				accountPassword.memberId,
 			).execute()
 	}
+
+	fun updateAccountPassword(accountPassword: AccountPassword) {
+		dslContext
+			.update(ACCOUNT_PASSWORD)
+			.set(ACCOUNT_PASSWORD.PASSWORD, accountPassword.password)
+			.where(ACCOUNT_PASSWORD.ID.eq(accountPassword.id))
+			.execute()
+	}
 }

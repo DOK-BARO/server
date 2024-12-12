@@ -6,9 +6,9 @@ import kr.kro.dokbaro.server.core.account.application.port.input.RegisterSocialA
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterSocialAccountCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdByEmailUserCase
 import kr.kro.dokbaro.server.security.SecurityConstants
+import kr.kro.dokbaro.server.security.jwt.JwtHttpCookieInjector
 import kr.kro.dokbaro.server.security.jwt.JwtResponse
 import kr.kro.dokbaro.server.security.jwt.JwtTokenGenerator
-import kr.kro.dokbaro.server.security.jwt.setUpJwtCookie
 import kr.kro.dokbaro.server.security.oauth2.SocialUser
 import kr.kro.dokbaro.server.security.oauth2.SocialUserMapperManager
 import org.springframework.security.core.Authentication
@@ -23,6 +23,7 @@ class OAuth2AuthenticationSuccessHandler(
 	private val registerSocialAccountUseCase: RegisterSocialAccountUseCase,
 	private val socialUserMapperManager: SocialUserMapperManager,
 	private val findCertificationIdByEmailUserCase: FindCertificationIdByEmailUserCase,
+	private val jwtHttpCookieInjector: JwtHttpCookieInjector,
 ) : AuthenticationSuccessHandler {
 	override fun onAuthenticationSuccess(
 		request: HttpServletRequest,
@@ -47,7 +48,8 @@ class OAuth2AuthenticationSuccessHandler(
 
 		val jwtToken: JwtResponse = jwtTokenGenerator.generate(certificationId)
 
-		response.setUpJwtCookie(jwtToken)
+		jwtHttpCookieInjector.inject(response, jwtToken)
+
 		response.sendRedirect(request.session.getAttribute(SecurityConstants.CLIENT_REDIRECT_URL).toString())
 		request.session.removeAttribute(SecurityConstants.CLIENT_REDIRECT_URL)
 	}

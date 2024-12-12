@@ -1,9 +1,13 @@
 package kr.kro.dokbaro.server.security.configuration
 
+import kr.kro.dokbaro.server.security.configuration.exception.AuthenticationFailureEntryPoint
+import kr.kro.dokbaro.server.security.configuration.exception.CustomAccessDeniedHandler
 import kr.kro.dokbaro.server.security.filter.JwtValidationFilter
 import kr.kro.dokbaro.server.security.filter.OAuth2AuthenticationRedirectSetUpFilter
 import kr.kro.dokbaro.server.security.handler.FormAuthenticationFailureHandler
 import kr.kro.dokbaro.server.security.handler.FormAuthenticationSuccessHandler
+import kr.kro.dokbaro.server.security.handler.OAuth2AuthenticationSuccessHandler
+import kr.kro.dokbaro.server.security.jwt.JwtHttpCookieInjector
 import kr.kro.dokbaro.server.security.jwt.JwtTokenReGenerator
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -24,8 +28,11 @@ class WebSecurityConfig(
 	@Value("\${spring.security.allow-origins}") private val originPattern: List<String>,
 	private val formAuthenticationFailureHandler: FormAuthenticationFailureHandler,
 	private val formAuthenticationSuccessHandler: FormAuthenticationSuccessHandler,
-	private val oAuth2AuthenticationSuccessHandler: FormAuthenticationSuccessHandler,
+	private val oAuth2AuthenticationSuccessHandler: OAuth2AuthenticationSuccessHandler,
 	private val jwtTokenReGenerator: JwtTokenReGenerator,
+	private val jwtHttpCookieInjector: JwtHttpCookieInjector,
+	private val authenticationFailureEntryPoint: AuthenticationFailureEntryPoint,
+	private val accessDeniedHandler: CustomAccessDeniedHandler,
 ) {
 	@Bean
 	fun configure(http: HttpSecurity): SecurityFilterChain =
@@ -36,7 +43,7 @@ class WebSecurityConfig(
 				OAuth2AuthenticationRedirectSetUpFilter(),
 				OAuth2AuthorizationRequestRedirectFilter::class.java,
 			).addFilterBefore(
-				JwtValidationFilter(authenticationManager, jwtTokenReGenerator),
+				JwtValidationFilter(authenticationManager, jwtTokenReGenerator, jwtHttpCookieInjector),
 				UsernamePasswordAuthenticationFilter::class.java,
 			).oauth2Login { l ->
 				l.authorizationEndpoint { endpoint ->
@@ -51,6 +58,9 @@ class WebSecurityConfig(
 				it.failureHandler(formAuthenticationFailureHandler)
 			}.sessionManagement {
 				it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			}.exceptionHandling {
+				it.accessDeniedHandler(accessDeniedHandler)
+				it.authenticationEntryPoint(authenticationFailureEntryPoint)
 			}.cors { it.configurationSource(corsConfig()) }
 			.csrf { it.disable() }
 			.httpBasic { it.disable() }

@@ -25,6 +25,8 @@ object AuthorizationEndpointChain {
 			"/email-authentications/**",
 			"/terms-of-services/**",
 			"/health-check",
+			"/images/**",
+			"/accounts/**",
 		)
 
 	private fun permitAllGetRequests() =
@@ -33,7 +35,6 @@ object AuthorizationEndpointChain {
 			"/books/**",
 			"/book-quizzes",
 			"/book-quizzes/{id:\\d+}/explanation",
-			"/images",
 			"/quiz-reviews/**",
 		)
 
