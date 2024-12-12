@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
+/**
+ * 전반적인 exception 상황에 대한 응답처리를 담당합니다.
+ */
 @ControllerAdvice
 class ExceptionControllerAdvice {
 	@ExceptionHandler(BadRequestException::class)
