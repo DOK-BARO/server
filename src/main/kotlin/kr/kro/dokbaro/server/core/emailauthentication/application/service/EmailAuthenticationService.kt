@@ -11,8 +11,10 @@ import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.LoadE
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendEmailAuthenticationCodePort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.UpdateEmailAuthenticationPort
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.dto.SearchEmailAuthenticationCondition
+import kr.kro.dokbaro.server.core.emailauthentication.application.service.exception.AlreadySignUpException
 import kr.kro.dokbaro.server.core.emailauthentication.application.service.exception.NotFoundEmailAuthenticationException
 import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdByEmailUserCase
 import org.springframework.stereotype.Service
 
 @Service
@@ -23,11 +25,14 @@ class EmailAuthenticationService(
 	private val updateEmailAuthenticationPort: UpdateEmailAuthenticationPort,
 	private val emailCodeGenerator: EmailCodeGenerator,
 	private val sendEmailAuthenticationCodePort: SendEmailAuthenticationCodePort,
+	private val findCertificationIdByEmailUserCase: FindCertificationIdByEmailUserCase,
 ) : CreateEmailAuthenticationUseCase,
 	MatchCodeUseCase,
 	RecreateEmailAuthenticationUseCase,
 	UseAuthenticatedEmailUseCase {
 	override fun create(email: String) {
+		checkAlreadySignup(email)
+	
 		if (existEmailAuthenticationPort.existBy(
 				SearchEmailAuthenticationCondition(
 					address = email,
@@ -54,6 +59,8 @@ class EmailAuthenticationService(
 		email: String,
 		code: String,
 	): MatchResponse {
+		checkAlreadySignup(email)
+
 		val emailAuthentication: EmailAuthentication =
 			loadEmailAuthenticationPort.findBy(
 				SearchEmailAuthenticationCondition(
@@ -73,6 +80,8 @@ class EmailAuthenticationService(
 	}
 
 	override fun recreate(email: String) {
+		checkAlreadySignup(email)
+
 		val emailAuthentication: EmailAuthentication =
 			loadEmailAuthenticationPort.findBy(
 				SearchEmailAuthenticationCondition(
@@ -90,6 +99,8 @@ class EmailAuthenticationService(
 	}
 
 	override fun useEmail(email: String) {
+		checkAlreadySignup(email)
+
 		val emailAuthentication: EmailAuthentication =
 			loadEmailAuthenticationPort.findBy(
 				SearchEmailAuthenticationCondition(
@@ -102,5 +113,11 @@ class EmailAuthenticationService(
 		emailAuthentication.use()
 
 		updateEmailAuthenticationPort.update(emailAuthentication)
+	}
+
+	private fun checkAlreadySignup(email: String) {
+		if (findCertificationIdByEmailUserCase.findCertificationIdByEmail(email) != null) {
+			throw AlreadySignUpException()
+		}
 	}
 }
