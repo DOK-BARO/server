@@ -10,7 +10,7 @@ data class RefreshToken(
 	var used: Boolean = false,
 	val expiredAt: LocalDateTime,
 ) {
-	fun isExpired(clock: Clock): Boolean = expiredAt.isAfter(LocalDateTime.now(clock))
+	fun isExpired(clock: Clock): Boolean = expiredAt.isBefore(LocalDateTime.now(clock))
 
 	fun use() {
 		if (used) {
