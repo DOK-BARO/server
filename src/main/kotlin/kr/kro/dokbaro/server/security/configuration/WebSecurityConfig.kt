@@ -4,6 +4,8 @@ import kr.kro.dokbaro.server.security.configuration.exception.AuthenticationFail
 import kr.kro.dokbaro.server.security.configuration.exception.CustomAccessDeniedHandler
 import kr.kro.dokbaro.server.security.filter.JwtValidationFilter
 import kr.kro.dokbaro.server.security.filter.OAuth2AuthenticationRedirectSetUpFilter
+import kr.kro.dokbaro.server.security.handler.CustomLogoutHandler
+import kr.kro.dokbaro.server.security.handler.CustomLogoutSuccessHandler
 import kr.kro.dokbaro.server.security.handler.FormAuthenticationFailureHandler
 import kr.kro.dokbaro.server.security.handler.FormAuthenticationSuccessHandler
 import kr.kro.dokbaro.server.security.handler.OAuth2AuthenticationSuccessHandler
@@ -33,6 +35,8 @@ class WebSecurityConfig(
 	private val jwtHttpCookieInjector: JwtHttpCookieInjector,
 	private val authenticationFailureEntryPoint: AuthenticationFailureEntryPoint,
 	private val accessDeniedHandler: CustomAccessDeniedHandler,
+	private val logoutHandler: CustomLogoutHandler,
+	private val logoutSuccessHandler: CustomLogoutSuccessHandler,
 ) {
 	@Bean
 	fun configure(http: HttpSecurity): SecurityFilterChain =
@@ -61,6 +65,10 @@ class WebSecurityConfig(
 			}.exceptionHandling {
 				it.accessDeniedHandler(accessDeniedHandler)
 				it.authenticationEntryPoint(authenticationFailureEntryPoint)
+			}.logout {
+				it.logoutUrl("/auth/logout")
+				it.logoutHandlers.add(logoutHandler)
+				it.logoutSuccessHandler(logoutSuccessHandler)
 			}.cors { it.configurationSource(corsConfig()) }
 			.csrf { it.disable() }
 			.httpBasic { it.disable() }
