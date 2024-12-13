@@ -1,131 +1,52 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-	<meta charset="UTF-8"/>
-	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-	<title>이메일 인증</title>
-	<style>
-		.email-verification-container {
-			background-color: #fff;
-			width: 100vw;
-			height: 100vh;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			padding: 0 7%;
-		}
-
-		.logo {
-			display: flex;
-			gap: 18px;
-			align-items: center;
-		}
-
-		.logo h1 {
-			font-size: 40px;
-			font-weight: 700;
-		}
-
-		main {
-			margin-top: 100px;
-			color: #000;
-		}
-
-		.instruction {
-			font-size: 32px;
-			line-height: 1.5;
-		}
-
-		.code {
-			font-size: 48px;
-		}
-
-		.line {
-			margin-top: 100px;
-			height: 7px;
-			width: 100%;
-			background-color: #9747ff;
-		}
-
-		.code-container {
-			display: flex;
-			margin-top: 76px;
-			flex-direction: row;
-			align-items: center;
-		}
-
-		.code-copy-button {
-			cursor: pointer;
-			background-color: white;
-			border-radius: 8px;
-			padding: 0px 28px 0px;
-			margin-left: 32px;
-			font-size: 28px;
-			color: #9747FF;
-			font-weight: 600;
-			gap: 8px;
-			height: 64px;
-			border: 2px solid #9747FF;
-		}
-
-		footer p {
-			margin-top: 33px;
-			font-size: 24px;
-			color: #8e8e8e;
-		}
-	</style>
-</head>
-
-<body>
-<div class="email-verification-container">
-	<header>
-		<div class="logo">
-			<img alt="DOKBARO 로고" src="./logo.svg" width="72"/>
-			<h1>DOKBARO</h1>
-		</div>
-	</header>
-	<main>
-		<p class="instruction">
-			<span th:text="${email}"></span>님 안녕하세요.
-			<br/>
-			회원가입을 위해 인증코드를 가입 페이지에 입력해 주세요.
-		</p>
-		<div class="code-container">
-			<p class="code" th:text="${code}"></p>
-			<button class="code-copy-button">복사하기</button>
-		</div>
-		<script>
-			const copyText = document.querySelector('.code-copy-button');
-
-			copyText.addEventListener('click', () => {
-				const range = document.createRange();
-				range.selectNode(copyText);
-
-				const sel = window.getSelection();
-				sel.removeAllRanges();
-				sel.addRange(range);
-
-				try {
-					const successful = document.execCommand('copy');
-					if (successful) {
-						alert('복사되었습니다!');
-					} else {
-						alert('복사 실패!');
-					}
-				} catch (err) {
-					console.error('복사 중 오류 발생:', err);
-				}
-
-				sel.removeAllRanges();
-			});
-		</script>
-	</main>
-	<footer>
-		<div class="line"></div>
-		<p>본 메일은 DOKBARO 서비스에 대한 광고가 아닙니다.</p>
-	</footer>
-</div>
-</body>
-
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>이메일 인증</title>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+		/>
+	</head>
+	<body
+		style="
+			font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+				'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
+				'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+			max-width: 850px;
+			margin: 0 auto;
+		"
+	>
+		<header style="margin-top: 70px">
+			<h1
+				style="
+					position: absolute;
+					width: 1px;
+					height: 1px;
+					padding: 0;
+					margin: -1px;
+					overflow: hidden;
+					clip: rect(0, 0, 0, 0);
+					border: 0;
+				"
+			>
+				DOKBARO
+			</h1>
+			<img src="cid:image" width="210" alt="DOKBARO 로고" />
+		</header>
+		<main style="margin-top: 44.375px; line-height: 1.5; font-weight: 500; color: #000000">
+			<p class="instruction" style="font-size: 20px">
+				<span th:text="${email}"></span>님 안녕하세요.<br />
+				회원가입을 위해 인증코드를 가입페이지에 입력해 주세요.
+			</p>
+			<p class="code" th:text="${code}" style="margin-top: 47.5px; font-size: 30px"></p>
+		</main>
+		<footer>
+			<div class="line" style="margin-top: 50px; height: 4.375px; width: 100%; background-color: #9747ff"></div>
+			<p class="legal-notice" style="margin-top: 20.625px; font-size: 15px; color: #8e8e8e">
+				본 메일은 DOKBARO 서비스에 대한 광고가 아닙니다.
+			</p>
+		</footer>
+	</body>
 </html>
