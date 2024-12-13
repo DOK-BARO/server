@@ -25,7 +25,7 @@ class SMTPTemporaryPasswordSender(
 		mimeMessageHelper.setTo(email)
 		mimeMessageHelper.setSubject("[DOKBARO] 임시비밀번호 전송해드립니다.")
 		mimeMessageHelper.setText(toTemplate(email, password), true) // 메일 본문 내용, HTML 여부
-
+		mimeMessageHelper.addInline("image", new ClassPathResource("static/img/dokbaro-logo.svg"));
 		javaMailSender.send(mimeMessage)
 	}
 
