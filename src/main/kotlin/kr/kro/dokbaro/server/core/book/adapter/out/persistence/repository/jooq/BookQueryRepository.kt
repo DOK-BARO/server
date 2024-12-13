@@ -82,6 +82,8 @@ class BookQueryRepository(
 				BookSummarySortOption.QUIZ_COUNT -> field(BookRecordFieldName.QUIZ_COUNT.name)
 			}
 
+		query.add(BOOK.ID)
+
 		if (sortOption.direction == SortDirection.DESC) {
 			return query.desc()
 		}

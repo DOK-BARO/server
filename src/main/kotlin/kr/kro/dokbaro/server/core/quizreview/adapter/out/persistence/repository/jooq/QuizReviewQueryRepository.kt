@@ -85,6 +85,8 @@ class QuizReviewQueryRepository(
 				QuizReviewSummarySortOption.STAR_RATING -> QUIZ_REVIEW.STAR_RATING
 			}
 
+		query.add(QUIZ_REVIEW.ID)
+
 		if (sortOption.direction == SortDirection.DESC) {
 			return query.desc()
 		}
