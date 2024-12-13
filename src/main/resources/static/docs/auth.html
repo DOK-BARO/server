@@ -634,13 +634,57 @@ Content-Length: 47</pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_logout">LOGOUT</h3>
+<div class="sect3">
+<h4 id="_http_request_3">HTTP request</h4>
+<div class="listingblock">
+<div class="content">
+<pre>POST /auth/logout</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response_3">HTTP response</h4>
+<div class="listingblock">
+<div class="content">
+<pre>HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: Authorization=null
+Set-Cookie: Refresh=null
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 47</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+logout 시 쿠키는 자동 삭제됩니다
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-12-09 17:49:40 +0900
+Last updated 2024-12-13 17:24:08 +0900
 </div>
 </div>
 </body>
