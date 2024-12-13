@@ -146,6 +146,8 @@ class BookQuizQueryRepository(
 				BookQuizSummarySortOption.CREATED_AT -> BOOK_QUIZ.CREATED_AT
 			}
 
+		query.add(BOOK_QUIZ.ID)
+
 		if (sortOption.direction == SortDirection.DESC) {
 			return query.desc()
 		}
