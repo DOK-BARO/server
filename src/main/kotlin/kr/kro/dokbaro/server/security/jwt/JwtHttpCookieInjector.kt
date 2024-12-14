@@ -23,7 +23,7 @@ class JwtHttpCookieInjector(
 			toCookie(
 				name = SecurityConstants.AUTHORIZATION,
 				value = jwt.accessToken,
-				age = Duration.ofMinutes(accessTokenAgeMinute),
+				age = Duration.ofMinutes(accessTokenAgeMinute - 1),
 			),
 		)
 		response.addHeader(
@@ -31,7 +31,7 @@ class JwtHttpCookieInjector(
 			toCookie(
 				name = SecurityConstants.REFRESH,
 				value = jwt.refreshToken,
-				age = Duration.ofDays(refreshTokenAgeDays),
+				age = Duration.ofDays(refreshTokenAgeDays - 1),
 			),
 		)
 	}
