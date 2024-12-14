@@ -64,7 +64,7 @@ class BookQueryRepository(
 				).`as`(BookRecordFieldName.QUIZ_COUNT.name),
 			).from(BOOK)
 				.where(buildCondition(condition))
-				.orderBy(toOrderQuery(sortOption))
+				.orderBy(toOrderQuery(sortOption), BOOK.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
 				.asTable(bookTable)

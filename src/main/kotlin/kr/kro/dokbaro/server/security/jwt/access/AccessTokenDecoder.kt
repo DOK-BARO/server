@@ -15,7 +15,7 @@ class AccessTokenDecoder(
 	fun decode(token: String): UUID {
 		val claims: Claims = parseClaims(token)
 
-		return claims[SecurityConstants.JWT_CLAIM_ID] as UUID
+		return UUID.fromString(claims[SecurityConstants.JWT_CLAIM_ID].toString())
 	}
 
 	private fun parseClaims(token: String): Claims =

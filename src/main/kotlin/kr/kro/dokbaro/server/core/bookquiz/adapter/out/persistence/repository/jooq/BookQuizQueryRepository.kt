@@ -131,7 +131,7 @@ class BookQuizQueryRepository(
 				.on(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.where(BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.eq(false)))
 				.groupBy(BOOK_QUIZ)
-				.orderBy(toOrderQuery(sortOption))
+				.orderBy(toOrderQuery(sortOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
 				.fetch()

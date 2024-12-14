@@ -10,8 +10,8 @@ import kr.kro.dokbaro.server.core.account.application.port.input.dto.ChangePassw
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterEmailAccountCommand
 import kr.kro.dokbaro.server.security.annotation.Login
 import kr.kro.dokbaro.server.security.details.DokbaroUser
-import kr.kro.dokbaro.server.security.jwt.JwtHttpCookieInjector
 import kr.kro.dokbaro.server.security.jwt.JwtTokenGenerator
+import kr.kro.dokbaro.server.security.jwt.cookie.JwtHttpCookieInjector
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping

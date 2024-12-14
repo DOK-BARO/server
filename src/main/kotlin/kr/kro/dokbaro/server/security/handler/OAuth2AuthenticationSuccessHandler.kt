@@ -6,9 +6,9 @@ import kr.kro.dokbaro.server.core.account.application.port.input.RegisterSocialA
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterSocialAccountCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdByEmailUserCase
 import kr.kro.dokbaro.server.security.SecurityConstants
-import kr.kro.dokbaro.server.security.jwt.JwtHttpCookieInjector
 import kr.kro.dokbaro.server.security.jwt.JwtResponse
 import kr.kro.dokbaro.server.security.jwt.JwtTokenGenerator
+import kr.kro.dokbaro.server.security.jwt.cookie.JwtHttpCookieInjector
 import kr.kro.dokbaro.server.security.oauth2.SocialUser
 import kr.kro.dokbaro.server.security.oauth2.SocialUserMapperManager
 import org.springframework.security.core.Authentication

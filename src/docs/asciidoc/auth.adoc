@@ -98,3 +98,31 @@ Content-Length: 47
 
 NOTE: 서비스 인증/인가에 필요한 JWT를 cookie로 설정합니다.
 
+
+=== LOGOUT
+
+==== HTTP request
+
+----
+POST /auth/logout
+----
+
+==== HTTP response
+----
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: Authorization=null
+Set-Cookie: Refresh=null
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 47
+----
+
+NOTE: logout 시 쿠키는 자동 삭제됩니다

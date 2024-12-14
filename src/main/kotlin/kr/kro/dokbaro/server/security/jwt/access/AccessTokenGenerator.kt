@@ -21,7 +21,7 @@ class AccessTokenGenerator(
 		val claims =
 			Jwts
 				.claims()
-				.add(SecurityConstants.JWT_CLAIM_ID, certificationId)
+				.add(SecurityConstants.JWT_CLAIM_ID, certificationId.toString())
 				.build()
 
 		return compact(claims)
