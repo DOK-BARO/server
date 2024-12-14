@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.security.provider
 
 import kr.kro.dokbaro.server.security.annotation.CustomAuthenticationProvider
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import kr.kro.dokbaro.server.security.details.EmailUserDetailsService
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException
@@ -16,13 +17,13 @@ class FormAuthenticationProvider(
 	override fun authenticate(authentication: Authentication): Authentication {
 		val token: UsernamePasswordAuthenticationToken = authentication as UsernamePasswordAuthenticationToken
 
-		val user = userDetailsService.loadUserByUsername(authentication.name)
+		val user = userDetailsService.loadUserByUsername(authentication.name) as DokbaroUser
 
-		if (passwordEncoder.matches(token.credentials.toString(), user.password)) {
+		if (!passwordEncoder.matches(token.credentials.toString(), user.password)) {
 			throw BadCredentialsException("Invalid username or password")
 		}
 
-		return UsernamePasswordAuthenticationToken(user.username, user.password, user.authorities)
+		return UsernamePasswordAuthenticationToken(user.certificationId, user.password, user.authorities)
 	}
 
 	override fun supports(authentication: Class<*>): Boolean =
