@@ -31,7 +31,7 @@ class JwtHttpCookieRemover(
 		path: String = "/",
 	): String =
 		ResponseCookie
-			.from(name, null)
+			.from(name, "")
 			.sameSite("None")
 			.domain(domain)
 			.maxAge(-1)
