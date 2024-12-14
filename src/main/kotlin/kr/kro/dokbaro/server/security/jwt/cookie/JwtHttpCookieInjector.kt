@@ -1,7 +1,8 @@
-package kr.kro.dokbaro.server.security.jwt
+package kr.kro.dokbaro.server.security.jwt.cookie
 
 import jakarta.servlet.http.HttpServletResponse
 import kr.kro.dokbaro.server.security.SecurityConstants
+import kr.kro.dokbaro.server.security.jwt.JwtResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseCookie

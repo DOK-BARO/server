@@ -10,9 +10,9 @@ import kr.kro.dokbaro.server.core.account.application.port.input.ChangePasswordU
 import kr.kro.dokbaro.server.core.account.application.port.input.IssueTemporaryPasswordUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.RegisterEmailAccountUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterEmailAccountCommand
-import kr.kro.dokbaro.server.security.jwt.JwtHttpCookieInjector
 import kr.kro.dokbaro.server.security.jwt.JwtResponse
 import kr.kro.dokbaro.server.security.jwt.JwtTokenGenerator
+import kr.kro.dokbaro.server.security.jwt.cookie.JwtHttpCookieInjector
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath

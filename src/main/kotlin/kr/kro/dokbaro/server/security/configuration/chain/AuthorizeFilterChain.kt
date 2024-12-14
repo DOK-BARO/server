@@ -4,8 +4,8 @@ import kr.kro.dokbaro.server.security.annotation.HttpSecurityChain
 import kr.kro.dokbaro.server.security.configuration.SecurityChain
 import kr.kro.dokbaro.server.security.filter.JwtValidationFilter
 import kr.kro.dokbaro.server.security.filter.OAuth2AuthenticationRedirectSetUpFilter
-import kr.kro.dokbaro.server.security.jwt.JwtHttpCookieInjector
 import kr.kro.dokbaro.server.security.jwt.JwtTokenReGenerator
+import kr.kro.dokbaro.server.security.jwt.cookie.JwtHttpCookieInjector
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter
