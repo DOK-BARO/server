@@ -91,7 +91,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								),
 								"엄복동은 누적 관객 수 17만명을 기록했다.",
 								listOf("hello.png"),
-								QuizType.MULTIPLE_CHOICE,
+								QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
 								listOf("4"),
 							),
 							CreateBookQuizCommand.Question(
@@ -175,7 +175,7 @@ class BookQuizControllerTest : RestDocsTest() {
 						BookQuizQuestions.Question(
 							1,
 							"조정석의 아내 이름은?",
-							QuizType.MULTIPLE_CHOICE,
+							QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
 							listOf(
 								SelectOption("거미"),
 								SelectOption("개미"),
@@ -237,7 +237,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								),
 								"엄복동은 누적 관객 수 17만명을 기록했다.",
 								listOf("hello.png", "world.jpg"),
-								QuizType.MULTIPLE_CHOICE,
+								QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
 								listOf("4"),
 							),
 							UpdateBookQuizCommand.Question(

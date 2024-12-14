@@ -65,7 +65,7 @@ class BookQuizServiceTest :
 							),
 							"엄복동은 누적 관객 수 17만명을 기록했다.",
 							listOf("hello.png"),
-							QuizType.MULTIPLE_CHOICE,
+							QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
 							listOf("4"),
 						),
 					),

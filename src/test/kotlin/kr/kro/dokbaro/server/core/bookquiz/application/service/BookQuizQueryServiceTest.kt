@@ -55,7 +55,7 @@ class BookQuizQueryServiceTest :
 						BookQuizQuestions.Question(
 							1,
 							"조정석의 아내 이름은?",
-							QuizType.MULTIPLE_CHOICE,
+							QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
 							listOf(
 								SelectOption("거미"),
 								SelectOption("개미"),

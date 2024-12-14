@@ -40,7 +40,7 @@ fun quizQuestionFixture(
 	answerExplanationImages: Collection<String> = listOf("hello.png"),
 	answer: Gradable =
 		GradeSheetFactory.create(
-			QuizType.MULTIPLE_CHOICE,
+			QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
 			AnswerSheet(listOf("2", "4")),
 		),
 ) = QuizQuestion(
