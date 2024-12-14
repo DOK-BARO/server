@@ -69,11 +69,14 @@ class BookQuizMapper {
 									question.first,
 									question.second,
 									question.third,
-									options.distinctBy { v -> v[BOOK_QUIZ_SELECT_OPTION.ID] }.map { v ->
-										SelectOption(
-											v[BOOK_QUIZ_SELECT_OPTION.CONTENT],
-										)
-									},
+									options
+										.filter { v -> v[BOOK_QUIZ_SELECT_OPTION.ID] != null }
+										.distinctBy { v -> v[BOOK_QUIZ_SELECT_OPTION.ID] }
+										.map { v ->
+											SelectOption(
+												v[BOOK_QUIZ_SELECT_OPTION.CONTENT],
+											)
+										},
 								)
 							},
 				)

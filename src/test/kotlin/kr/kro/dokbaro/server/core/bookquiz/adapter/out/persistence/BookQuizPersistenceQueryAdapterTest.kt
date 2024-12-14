@@ -14,7 +14,10 @@ import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.B
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
+import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
+import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
+import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
@@ -28,6 +31,7 @@ import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
 import kr.kro.dokbaro.server.fixture.domain.bookFixture
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
 import kr.kro.dokbaro.server.fixture.domain.memberFixture
+import kr.kro.dokbaro.server.fixture.domain.quizQuestionFixture
 import kr.kro.dokbaro.server.fixture.domain.quizReviewFixture
 import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 import org.jooq.DSLContext
@@ -72,6 +76,35 @@ class BookQuizPersistenceQueryAdapterTest(
 			val bookQuiz: BookQuiz = bookQuizRepository.load(bookQuizId)!!
 
 			adapter.findBookQuizAnswerBy(bookQuiz.questions.getQuestions()[0].id) shouldNotBe null
+		}
+
+		"OX 퀴즈 조회시에는 selectOption 이 명시되지 않는다" {
+			val member = memberRepository.insert(memberFixture()).id
+			val book = bookRepository.insertBook(bookFixture())
+			val bookQuizId: Long =
+				bookQuizRepository.insert(
+					bookQuizFixture(
+						creatorId = member,
+						bookId = book,
+						questions =
+							listOf(
+								quizQuestionFixture(
+									selectOptions = listOf(),
+									answer =
+										GradeSheetFactory.create(
+											QuizType.OX,
+											AnswerSheet(listOf("O")),
+										),
+								),
+							),
+					),
+				)
+
+			adapter
+				.findBookQuizQuestionsBy(bookQuizId)!!
+				.questions
+				.toList()[0]
+				.selectOptions.size shouldBe 0
 		}
 
 		"책에 대한 퀴즈의 개수를 조회한다" {
