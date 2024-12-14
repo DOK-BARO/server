@@ -131,7 +131,7 @@ class BookQuizQueryRepository(
 				.on(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.where(BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.eq(false)))
 				.groupBy(BOOK_QUIZ)
-				.orderBy(toOrderQuery(sortOption))
+				.orderBy(toOrderQuery(sortOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
 				.fetch()
@@ -145,8 +145,6 @@ class BookQuizQueryRepository(
 				BookQuizSummarySortOption.STAR_RATING -> field(BookQuizRecordFieldName.AVERAGE_STAR_RATING.name)
 				BookQuizSummarySortOption.CREATED_AT -> BOOK_QUIZ.CREATED_AT
 			}
-
-		query.add(BOOK_QUIZ.ID)
 
 		if (sortOption.direction == SortDirection.DESC) {
 			return query.desc()

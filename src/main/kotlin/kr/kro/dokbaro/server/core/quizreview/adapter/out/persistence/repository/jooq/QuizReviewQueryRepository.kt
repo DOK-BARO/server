@@ -70,7 +70,7 @@ class QuizReviewQueryRepository(
 					QUIZ_REVIEW.QUIZ_ID.eq(condition.quizId).and(
 						QUIZ_REVIEW.DELETED.eq(false),
 					),
-				).orderBy(toOrderByQuery(sortOption))
+				).orderBy(toOrderByQuery(sortOption), QUIZ_REVIEW.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
 				.fetch()
@@ -84,8 +84,6 @@ class QuizReviewQueryRepository(
 				QuizReviewSummarySortOption.CREATED_AT -> QUIZ_REVIEW.CREATED_AT
 				QuizReviewSummarySortOption.STAR_RATING -> QUIZ_REVIEW.STAR_RATING
 			}
-
-		query.add(QUIZ_REVIEW.ID)
 
 		if (sortOption.direction == SortDirection.DESC) {
 			return query.desc()

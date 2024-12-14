@@ -64,7 +64,7 @@ class BookQueryRepository(
 				).`as`(BookRecordFieldName.QUIZ_COUNT.name),
 			).from(BOOK)
 				.where(buildCondition(condition))
-				.orderBy(toOrderQuery(sortOption))
+				.orderBy(toOrderQuery(sortOption), BOOK.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
 				.asTable(bookTable)
@@ -81,8 +81,6 @@ class BookQueryRepository(
 				BookSummarySortOption.TITLE -> BOOK.TITLE
 				BookSummarySortOption.QUIZ_COUNT -> field(BookRecordFieldName.QUIZ_COUNT.name)
 			}
-
-		query.add(BOOK.ID)
 
 		if (sortOption.direction == SortDirection.DESC) {
 			return query.desc()
