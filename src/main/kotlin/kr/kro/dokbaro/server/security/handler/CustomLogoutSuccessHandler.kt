@@ -11,7 +11,7 @@ class CustomLogoutSuccessHandler : LogoutSuccessHandler {
 	override fun onLogoutSuccess(
 		request: HttpServletRequest,
 		response: HttpServletResponse,
-		authentication: Authentication,
+		authentication: Authentication?,
 	) {
 		response.status = HttpServletResponse.SC_OK
 	}

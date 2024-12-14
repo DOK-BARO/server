@@ -13,7 +13,7 @@ class CustomLogoutHandler : LogoutHandler {
 	override fun logout(
 		request: HttpServletRequest,
 		response: HttpServletResponse,
-		authentication: Authentication,
+		authentication: Authentication?,
 	) {
 		response.status
 
