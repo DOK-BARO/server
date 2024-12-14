@@ -25,7 +25,7 @@ class JwtValidationFilter(
 		var accessToken: String? = request.cookies.find { it.name == SecurityConstants.AUTHORIZATION }?.value
 		val refreshToken: String? = request.cookies.find { it.name == SecurityConstants.REFRESH }?.value
 
-		if (refreshToken != null) {
+		if (accessToken == null && refreshToken != null) {
 			val newToken: JwtResponse = jwtTokenReGenerator.reGenerate(refreshToken)
 
 			accessToken = newToken.accessToken
