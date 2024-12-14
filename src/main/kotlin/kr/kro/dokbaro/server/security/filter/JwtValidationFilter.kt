@@ -40,7 +40,8 @@ class JwtValidationFilter(
 	}
 
 	override fun shouldNotFilter(request: HttpServletRequest): Boolean =
-		request.cookies.none {
-			it.name == SecurityConstants.AUTHORIZATION || it.name == SecurityConstants.REFRESH
-		}
+		request.cookies == null ||
+			request.cookies.none {
+				it.name == SecurityConstants.AUTHORIZATION || it.name == SecurityConstants.REFRESH
+			}
 }
