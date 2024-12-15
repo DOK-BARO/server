@@ -7,8 +7,10 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
+import kr.kro.dokbaro.server.core.studygroup.application.port.out.DeleteStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupByInviteCodePort
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
@@ -22,6 +24,7 @@ class StudyGroupServiceTest :
 		val inviteCodeGenerator = RandomSixDigitInviteCodeGenerator()
 		val loadStudyGroupByInviteCodePort = mockk<LoadStudyGroupByInviteCodePort>()
 		val updateStudyGroupPort = UpdateStudyGroupPortMock()
+		val deleteStudyGroupPort = mockk<DeleteStudyGroupPort>()
 
 		val studyGroupService =
 			StudyGroupService(
@@ -30,6 +33,7 @@ class StudyGroupServiceTest :
 				loadStudyGroupByInviteCodePort,
 				updateStudyGroupPort,
 				EventPublisherDummy(),
+				deleteStudyGroupPort,
 			)
 
 		afterEach {
@@ -82,5 +86,13 @@ class StudyGroupServiceTest :
 					),
 				)
 			}
+		}
+
+		"삭제를 수행한다" {
+			every { deleteStudyGroupPort.deleteStudyGroup(any()) } returns Unit
+
+			studyGroupService.deleteStudyGroup(1)
+
+			verify { deleteStudyGroupPort.deleteStudyGroup(any()) }
 		}
 	})

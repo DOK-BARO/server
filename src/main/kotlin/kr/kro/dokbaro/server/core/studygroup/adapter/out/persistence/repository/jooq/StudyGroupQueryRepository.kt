@@ -34,12 +34,13 @@ class StudyGroupQueryRepository(
 					STUDY_GROUP.PROFILE_IMAGE_URL,
 				).from(STUDY_GROUP)
 				.where(
-					STUDY_GROUP.ID.`in`(
-						select(
-							STUDY_GROUP_MEMBER.STUDY_GROUP_ID,
-						).from(STUDY_GROUP_MEMBER)
-							.where(STUDY_GROUP_MEMBER.MEMBER_ID.eq(memberId)),
-					),
+					STUDY_GROUP.ID
+						.`in`(
+							select(
+								STUDY_GROUP_MEMBER.STUDY_GROUP_ID,
+							).from(STUDY_GROUP_MEMBER)
+								.where(STUDY_GROUP_MEMBER.MEMBER_ID.eq(memberId)),
+						).and(STUDY_GROUP.DELETED.eq(false)),
 				).fetchInto(STUDY_GROUP)
 
 		return studyGroupMapper.toStudyGroupSummary(record)
@@ -81,7 +82,7 @@ class StudyGroupQueryRepository(
 				.on(STUDY_GROUP_MEMBER.STUDY_GROUP_ID.eq(STUDY_GROUP.ID))
 				.join(MEMBER)
 				.on(MEMBER.ID.eq(STUDY_GROUP_MEMBER.MEMBER_ID))
-				.where(STUDY_GROUP.ID.eq(id))
+				.where(STUDY_GROUP.ID.eq(id).and(STUDY_GROUP.DELETED.eq(false)))
 				.fetchGroups(STUDY_GROUP)
 
 		return studyGroupMapper.toStudyGroupDetail(record)
