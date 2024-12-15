@@ -6,13 +6,15 @@ import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookCommand
 import kr.kro.dokbaro.server.core.book.application.port.out.InsertBookPort
+import kr.kro.dokbaro.server.core.book.application.service.auth.BookAuthorityCheckService
+import kr.kro.dokbaro.server.fixture.domain.dokbaroAdminFixture
 import java.time.LocalDate
 
 class BookServiceTest :
 	StringSpec({
 		val insertBookPort = mockk<InsertBookPort>()
 
-		val service = BookService(insertBookPort)
+		val service = BookService(insertBookPort, BookAuthorityCheckService())
 		"신규 책 생성을 수행한다" {
 			every { insertBookPort.insert(any()) } returns 1
 
@@ -29,6 +31,6 @@ class BookServiceTest :
 					authors = listOf("Marcin Moskala"),
 				)
 
-			service.create(command) shouldBe 1
+			service.create(command, dokbaroAdminFixture()) shouldBe 1
 		}
 	})
