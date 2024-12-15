@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.fixture.domain
 
 import kr.kro.dokbaro.server.common.constant.Constants
+import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.Gradable
@@ -21,6 +22,8 @@ fun bookQuizFixture(
 	contributorIds: MutableSet<Long> = mutableSetOf(),
 	questions: Collection<QuizQuestion> = listOf(quizQuestionFixture()),
 	studyGroupId: Long? = null,
+	viewScope: AccessScope = AccessScope.EVERYONE,
+	editScope: AccessScope = AccessScope.CREATOR,
 ) = BookQuiz(
 	id = id,
 	title = title,
@@ -30,6 +33,8 @@ fun bookQuizFixture(
 	contributorIds = contributorIds,
 	questions = QuizQuestions(questions.toMutableList()),
 	studyGroupId = studyGroupId,
+	viewScope = viewScope,
+	editScope = editScope,
 )
 
 fun quizQuestionFixture(

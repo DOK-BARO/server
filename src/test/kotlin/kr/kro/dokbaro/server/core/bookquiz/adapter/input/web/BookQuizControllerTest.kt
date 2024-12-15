@@ -71,7 +71,7 @@ class BookQuizControllerTest : RestDocsTest() {
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
-			every { createBookQuizUseCase.create(any()) } returns 1
+			every { createBookQuizUseCase.create(any(), any()) } returns 1
 
 			val body =
 				CreateBookQuizRequest(
@@ -216,7 +216,7 @@ class BookQuizControllerTest : RestDocsTest() {
 		}
 
 		"퀴즈를 수정한다" {
-			every { updateBookQuizUseCase.update(any()) } returns Unit
+			every { updateBookQuizUseCase.update(any(), any()) } returns Unit
 
 			val body =
 				UpdateBookQuizRequest(
@@ -563,7 +563,7 @@ class BookQuizControllerTest : RestDocsTest() {
 		}
 
 		"퀴즈를 삭제한다" {
-			every { deleteBookQuizUseCase.deleteBy(any()) } returns Unit
+			every { deleteBookQuizUseCase.deleteBy(any(), any()) } returns Unit
 
 			performDelete(Path("/book-quizzes/{id}", "1"))
 				.andExpect(status().isNoContent)

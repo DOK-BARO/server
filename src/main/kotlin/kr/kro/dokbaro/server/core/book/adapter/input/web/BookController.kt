@@ -13,6 +13,8 @@ import kr.kro.dokbaro.server.core.book.query.BookDetail
 import kr.kro.dokbaro.server.core.book.query.BookSummary
 import kr.kro.dokbaro.server.core.book.query.BookSummarySortOption
 import kr.kro.dokbaro.server.core.book.query.IntegratedBook
+import kr.kro.dokbaro.server.security.annotation.Login
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -35,7 +37,8 @@ class BookController(
 	@ResponseStatus(HttpStatus.CREATED)
 	fun create(
 		@RequestBody body: CreateBookCommand,
-	): IdResponse<Long> = IdResponse(id = createBookUseCase.create(body))
+		@Login user: DokbaroUser,
+	): IdResponse<Long> = IdResponse(id = createBookUseCase.create(body, user))
 
 	@GetMapping
 	fun findAll(
