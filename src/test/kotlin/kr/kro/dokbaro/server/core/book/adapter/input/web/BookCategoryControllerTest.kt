@@ -66,7 +66,7 @@ class BookCategoryControllerTest : RestDocsTest() {
 		}
 
 		"책 카테고리 생성을 수행한다" {
-			every { createBookCategoryUseCase.create(any()) } returns 3
+			every { createBookCategoryUseCase.create(any(), any()) } returns 3
 
 			val command = CreateBookCategoryCommand("모바일", "mobile", 1)
 
