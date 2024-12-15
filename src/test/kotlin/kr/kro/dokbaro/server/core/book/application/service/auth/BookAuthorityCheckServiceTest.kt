@@ -19,4 +19,14 @@ class BookAuthorityCheckServiceTest :
 				bookAuthorityCheckService.checkCreateBookCategoryAuthority(dokbaroAdminFixture())
 			}
 		}
+
+		"책 생성 시 admin이 아니면 예외를 반환한다" {
+			shouldThrow<DefaultForbiddenException> {
+				bookAuthorityCheckService.checkCreateBookAuthority(dokbaroUserFixture())
+			}
+
+			shouldNotThrow<DefaultForbiddenException> {
+				bookAuthorityCheckService.checkCreateBookAuthority(dokbaroAdminFixture())
+			}
+		}
 	})

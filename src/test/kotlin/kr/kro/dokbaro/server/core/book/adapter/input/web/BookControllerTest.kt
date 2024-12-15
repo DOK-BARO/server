@@ -119,7 +119,7 @@ class BookControllerTest : RestDocsTest() {
 		}
 
 		"책 생성을 수행한다" {
-			every { createBookUseCase.create(any()) } returns 1
+			every { createBookUseCase.create(any(), any()) } returns 1
 
 			val body =
 				CreateBookCommand(

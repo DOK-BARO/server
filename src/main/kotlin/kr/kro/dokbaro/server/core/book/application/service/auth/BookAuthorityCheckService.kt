@@ -12,4 +12,10 @@ class BookAuthorityCheckService {
 			throw DefaultForbiddenException()
 		}
 	}
+
+	fun checkCreateBookAuthority(user: DokbaroUser) {
+		if (!user.hasRole(Role.ADMIN)) {
+			throw DefaultForbiddenException()
+		}
+	}
 }
