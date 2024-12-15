@@ -147,4 +147,26 @@ class StudyGroupPersistenceAdapterTest(
 			val result2 = adapter.findByInviteCode(newCode)!!
 			result2.introduction shouldBe null
 		}
+
+		"삭제를 진행한다" {
+			val savedMember =
+				memberRepository.insert(
+					Member(
+						nickname = "nick",
+						email = Email("www@gmail.com"),
+						profileImage = "aaa.png",
+						certificationId = UUID.randomUUID(),
+					),
+				)
+			val studyGroup =
+				studyGroupFixture(studyMembers = mutableSetOf(StudyMember(savedMember.id, StudyMemberRole.LEADER)))
+
+			repository.insert(studyGroup)
+
+			val savedStudyGroup = repository.findByInviteCode(studyGroup.inviteCode.value)!!
+
+			adapter.deleteStudyGroup(savedStudyGroup.id)
+
+			repository.findByInviteCode(studyGroup.inviteCode.value) shouldBe null
+		}
 	})

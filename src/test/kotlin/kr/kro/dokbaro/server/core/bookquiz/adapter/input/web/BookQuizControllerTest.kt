@@ -71,7 +71,7 @@ class BookQuizControllerTest : RestDocsTest() {
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
-			every { createBookQuizUseCase.create(any()) } returns 1
+			every { createBookQuizUseCase.create(any(), any()) } returns 1
 
 			val body =
 				CreateBookQuizRequest(
@@ -91,7 +91,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								),
 								"엄복동은 누적 관객 수 17만명을 기록했다.",
 								listOf("hello.png"),
-								QuizType.MULTIPLE_CHOICE,
+								QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
 								listOf("4"),
 							),
 							CreateBookQuizCommand.Question(
@@ -147,7 +147,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								.description("설명 사진 목록"),
 							fieldWithPath("questions[].answerType")
 								.type(JsonFieldType.STRING)
-								.description("답안 타입 [OX, FILL_BLANK, MULTIPLE_CHOICE, SHORT]"),
+								.description("답안 타입 [OX, FILL_BLANK, MULTIPLE_CHOICE_SINGLE_ANSWER,MULTIPLE_CHOICE_MULTIPLE_ANSWER, SHORT]"),
 							fieldWithPath("questions[].answers")
 								.type(JsonFieldType.ARRAY)
 								.description("답안"),
@@ -175,7 +175,7 @@ class BookQuizControllerTest : RestDocsTest() {
 						BookQuizQuestions.Question(
 							1,
 							"조정석의 아내 이름은?",
-							QuizType.MULTIPLE_CHOICE,
+							QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
 							listOf(
 								SelectOption("거미"),
 								SelectOption("개미"),
@@ -206,7 +206,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								.description("질문의 선택지 리스트"),
 							fieldWithPath("questions[].type")
 								.type(JsonFieldType.STRING)
-								.description("질문의 유형 [OX, FILL_BLANK, MULTIPLE_CHOICE, SHORT]"),
+								.description("질문의 유형 [OX, FILL_BLANK, MULTIPLE_CHOICE_MULTIPLE_ANSWER, MULTIPLE_CHOICE_SINGLE_ANSWER, SHORT]"),
 							fieldWithPath("questions[].selectOptions[].content")
 								.type(JsonFieldType.STRING)
 								.description("선택지의 내용"),
@@ -216,7 +216,7 @@ class BookQuizControllerTest : RestDocsTest() {
 		}
 
 		"퀴즈를 수정한다" {
-			every { updateBookQuizUseCase.update(any()) } returns Unit
+			every { updateBookQuizUseCase.update(any(), any()) } returns Unit
 
 			val body =
 				UpdateBookQuizRequest(
@@ -237,7 +237,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								),
 								"엄복동은 누적 관객 수 17만명을 기록했다.",
 								listOf("hello.png", "world.jpg"),
-								QuizType.MULTIPLE_CHOICE,
+								QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
 								listOf("4"),
 							),
 							UpdateBookQuizCommand.Question(
@@ -298,7 +298,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								.description("답안 설명 이미지 파일들"),
 							fieldWithPath("questions[].answerType")
 								.type(JsonFieldType.STRING)
-								.description("답안 타입 [OX, FILL_BLANK, MULTIPLE_CHOICE, SHORT]"),
+								.description("답안 타입 [OX, FILL_BLANK, MULTIPLE_CHOICE_MULTIPLE_ANSWER, MULTIPLE_CHOICE_SINGLE_ANSWER, SHORT]"),
 							fieldWithPath("questions[].answers")
 								.type(JsonFieldType.ARRAY)
 								.description("답안"),
@@ -563,7 +563,7 @@ class BookQuizControllerTest : RestDocsTest() {
 		}
 
 		"퀴즈를 삭제한다" {
-			every { deleteBookQuizUseCase.deleteBy(any()) } returns Unit
+			every { deleteBookQuizUseCase.deleteBy(any(), any()) } returns Unit
 
 			performDelete(Path("/book-quizzes/{id}", "1"))
 				.andExpect(status().isNoContent)

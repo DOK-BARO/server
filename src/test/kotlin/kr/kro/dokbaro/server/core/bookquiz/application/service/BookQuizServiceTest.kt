@@ -15,20 +15,22 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.out.InsertBookQuizPo
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.LoadBookQuizByQuestionIdPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.LoadBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.UpdateBookQuizPort
+import kr.kro.dokbaro.server.core.bookquiz.application.service.auth.BookQuizAuthorityCheckService
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.dummy.EventPublisherDummy
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
+import kr.kro.dokbaro.server.fixture.domain.dokbaroUserFixture
 
 class BookQuizServiceTest :
 	StringSpec({
-
 		val insertBookQuizPort = mockk<InsertBookQuizPort>()
 		val loadBookQuizPort = mockk<LoadBookQuizPort>()
 		val updateBookQuizPort = mockk<UpdateBookQuizPort>()
 		val loadBookQuizByQuestionIdPort = mockk<LoadBookQuizByQuestionIdPort>()
 		val deleteBookQuizPort = mockk<DeleteBookQuizPort>()
+		val bookQuizAuthorityCheckService = mockk<BookQuizAuthorityCheckService>()
 
 		val bookQuizService =
 			BookQuizService(
@@ -38,6 +40,7 @@ class BookQuizServiceTest :
 				loadBookQuizByQuestionIdPort,
 				deleteBookQuizPort,
 				EventPublisherDummy(),
+				bookQuizAuthorityCheckService,
 			)
 
 		afterEach {
@@ -46,6 +49,8 @@ class BookQuizServiceTest :
 
 		"북 퀴즈를 생성한다" {
 			every { insertBookQuizPort.insert(any()) } returns 1
+			every { bookQuizAuthorityCheckService.checkCreateBookQuiz(any(), any()) } returns Unit
+
 			bookQuizService.create(
 				CreateBookQuizCommand(
 					"title",
@@ -62,22 +67,25 @@ class BookQuizServiceTest :
 								"암살",
 								"국제시장",
 								"자전차왕 엄복동",
+								"범죄도시 1",
 							),
 							"엄복동은 누적 관객 수 17만명을 기록했다.",
 							listOf("hello.png"),
-							QuizType.MULTIPLE_CHOICE,
-							listOf("4"),
+							QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
+							listOf("4", "5"),
 						),
 					),
 					timeLimitSecond = 60,
 					viewScope = AccessScope.EVERYONE,
 					editScope = AccessScope.CREATOR,
 				),
+				dokbaroUserFixture(),
 			) shouldBe 1
 		}
 
 		"book quiz를 수정한다" {
 			every { loadBookQuizPort.load(any()) } returns bookQuizFixture()
+			every { bookQuizAuthorityCheckService.checkUpdateBookQuiz(any(), any()) } returns Unit
 
 			every { updateBookQuizPort.update(any()) } returns Unit
 			bookQuizService.update(
@@ -102,6 +110,7 @@ class BookQuizServiceTest :
 						),
 					modifierId = 1,
 				),
+				dokbaroUserFixture(),
 			)
 
 			verify { updateBookQuizPort.update(any()) }
@@ -109,6 +118,7 @@ class BookQuizServiceTest :
 
 		"book quiz 수정 시 id에 해당하는 값을 찾을 수 없으면 예외를 반환한다" {
 			every { loadBookQuizPort.load(any()) } returns null
+			every { bookQuizAuthorityCheckService.checkUpdateBookQuiz(any(), any()) } returns Unit
 
 			shouldThrow<NotFoundQuizException> {
 				bookQuizService.update(
@@ -133,6 +143,7 @@ class BookQuizServiceTest :
 							),
 						modifierId = 1,
 					),
+					dokbaroUserFixture(),
 				)
 			}
 		}
@@ -140,6 +151,7 @@ class BookQuizServiceTest :
 		"book quiz 수정 시 question id가 없으면 (신규 question 이면) id를 0으로 대체한다" {
 			every { loadBookQuizPort.load(any()) } returns bookQuizFixture()
 			every { updateBookQuizPort.update(any()) } returns Unit
+			every { bookQuizAuthorityCheckService.checkUpdateBookQuiz(any(), any()) } returns Unit
 
 			bookQuizService.update(
 				UpdateBookQuizCommand(
@@ -162,6 +174,7 @@ class BookQuizServiceTest :
 						),
 					modifierId = 1,
 				),
+				dokbaroUserFixture(),
 			)
 
 			verify { updateBookQuizPort.update(any()) }
@@ -197,9 +210,20 @@ class BookQuizServiceTest :
 
 		"퀴즈 삭제를 수행한다" {
 			every { deleteBookQuizPort.deleteBy(any()) } returns Unit
+			every { loadBookQuizPort.load(any()) } returns bookQuizFixture()
+			every { bookQuizAuthorityCheckService.checkDeleteBookQuiz(any(), any()) } returns Unit
 
-			bookQuizService.deleteBy(1)
+			bookQuizService.deleteBy(1, dokbaroUserFixture())
 
 			verify { deleteBookQuizPort.deleteBy(any()) }
+		}
+
+		"퀴즈 삭제 시 id에 해당하는 id를 찾을 수없으면 예외를 반환한다" {
+			every { loadBookQuizPort.load(any()) } returns null
+			every { bookQuizAuthorityCheckService.checkDeleteBookQuiz(any(), any()) } returns Unit
+
+			shouldThrow<NotFoundQuizException> {
+				bookQuizService.deleteBy(1, dokbaroUserFixture())
+			}
 		}
 	})

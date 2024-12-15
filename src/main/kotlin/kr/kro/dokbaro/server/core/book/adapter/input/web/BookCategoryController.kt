@@ -5,6 +5,8 @@ import kr.kro.dokbaro.server.core.book.application.port.input.CreateBookCategory
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookCategoryUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookCategoryCommand
 import kr.kro.dokbaro.server.core.book.query.BookCategoryTree
+import kr.kro.dokbaro.server.security.annotation.Login
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -24,7 +26,8 @@ class BookCategoryController(
 	@ResponseStatus(HttpStatus.CREATED)
 	fun createBookCategory(
 		@RequestBody body: CreateBookCategoryCommand,
-	): IdResponse<Long> = IdResponse(id = createBookCategoryUseCase.create(body))
+		@Login user: DokbaroUser,
+	): IdResponse<Long> = IdResponse(id = createBookCategoryUseCase.create(body, user))
 
 	@GetMapping
 	fun getCategories(

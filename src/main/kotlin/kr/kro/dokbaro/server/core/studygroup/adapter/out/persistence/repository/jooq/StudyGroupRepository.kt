@@ -64,7 +64,7 @@ class StudyGroupRepository(
 				.from(STUDY_GROUP)
 				.join(STUDY_GROUP_MEMBER)
 				.on(STUDY_GROUP_MEMBER.STUDY_GROUP_ID.eq(STUDY_GROUP.ID))
-				.where(STUDY_GROUP.INVITE_CODE.eq(inviteCode))
+				.where(STUDY_GROUP.INVITE_CODE.eq(inviteCode).and(STUDY_GROUP.DELETED.eq(false)))
 				.fetchGroups(STUDY_GROUP)
 
 		return studyGroupMapper.recordToStudyGroup(fetchGroups)
@@ -98,5 +98,13 @@ class StudyGroupRepository(
 			}
 
 		dslContext.batch(insertQuery).execute()
+	}
+
+	fun delete(id: Long) {
+		dslContext
+			.update(STUDY_GROUP)
+			.set(STUDY_GROUP.DELETED, true)
+			.where(STUDY_GROUP.ID.eq(id))
+			.execute()
 	}
 }

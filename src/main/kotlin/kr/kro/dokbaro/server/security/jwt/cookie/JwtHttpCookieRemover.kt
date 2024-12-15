@@ -34,7 +34,7 @@ class JwtHttpCookieRemover(
 			.from(name, "")
 			.sameSite("None")
 			.domain(domain)
-			.maxAge(-1)
+			.maxAge(0)
 			.path(path)
 			.secure(true)
 			.httpOnly(true)

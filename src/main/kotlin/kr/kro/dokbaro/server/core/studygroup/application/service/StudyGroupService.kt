@@ -1,15 +1,19 @@
 package kr.kro.dokbaro.server.core.studygroup.application.service
 
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
+import kr.kro.dokbaro.server.core.studygroup.application.port.out.DeleteStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupByInviteCodePort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.UpdateStudyGroupPort
+import kr.kro.dokbaro.server.core.studygroup.application.service.auth.StudyGroupAuthorityCheckService
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import kr.kro.dokbaro.server.core.studygroup.event.JoinedStudyGroupMemberEvent
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
@@ -20,8 +24,11 @@ class StudyGroupService(
 	private val loadStudyGroupByInviteCodePort: LoadStudyGroupByInviteCodePort,
 	private val updateStudyGroupPort: UpdateStudyGroupPort,
 	private val eventPublisher: ApplicationEventPublisher,
+	private val deleteStudyGroupPort: DeleteStudyGroupPort,
+	private val studyGroupAuthorityCheckService: StudyGroupAuthorityCheckService,
 ) : CreateStudyGroupUseCase,
-	JoinStudyGroupUseCase {
+	JoinStudyGroupUseCase,
+	DeleteStudyGroupUseCase {
 	override fun create(command: CreateStudyGroupCommand): Long =
 		insertStudyGroupPort.insert(
 			StudyGroup.of(
@@ -51,5 +58,13 @@ class StudyGroupService(
 				memberName = command.memberNickname,
 			),
 		)
+	}
+
+	override fun deleteStudyGroup(
+		id: Long,
+		user: DokbaroUser,
+	) {
+		studyGroupAuthorityCheckService.checkDeleteStudyGroup(user, id)
+		deleteStudyGroupPort.deleteStudyGroup(id)
 	}
 }

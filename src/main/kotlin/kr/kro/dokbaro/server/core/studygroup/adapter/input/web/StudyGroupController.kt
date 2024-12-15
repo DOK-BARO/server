@@ -4,12 +4,15 @@ import kr.kro.dokbaro.server.common.dto.response.IdResponse
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.CreateStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.JoinStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
 import kr.kro.dokbaro.server.security.annotation.Login
 import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController
 class StudyGroupController(
 	private val createStudyGroupUseCase: CreateStudyGroupUseCase,
 	private val joinStudyGroupUseCase: JoinStudyGroupUseCase,
+	private val deleteStudyGroupUseCase: DeleteStudyGroupUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -51,5 +55,14 @@ class StudyGroupController(
 				memberNickname = user.nickname,
 			),
 		)
+	}
+
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	fun delete(
+		@PathVariable id: Long,
+		@Login user: DokbaroUser,
+	) {
+		deleteStudyGroupUseCase.deleteStudyGroup(id, user)
 	}
 }

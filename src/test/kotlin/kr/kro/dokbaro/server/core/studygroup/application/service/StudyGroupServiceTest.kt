@@ -7,12 +7,16 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
+import kr.kro.dokbaro.server.core.studygroup.application.port.out.DeleteStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupByInviteCodePort
+import kr.kro.dokbaro.server.core.studygroup.application.service.auth.StudyGroupAuthorityCheckService
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
 import kr.kro.dokbaro.server.dummy.EventPublisherDummy
+import kr.kro.dokbaro.server.fixture.domain.dokbaroUserFixture
 import kr.kro.dokbaro.server.fixture.domain.memberFixture
 import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 
@@ -22,6 +26,8 @@ class StudyGroupServiceTest :
 		val inviteCodeGenerator = RandomSixDigitInviteCodeGenerator()
 		val loadStudyGroupByInviteCodePort = mockk<LoadStudyGroupByInviteCodePort>()
 		val updateStudyGroupPort = UpdateStudyGroupPortMock()
+		val deleteStudyGroupPort = mockk<DeleteStudyGroupPort>()
+		val studyGroupAuthorityCheckService = mockk<StudyGroupAuthorityCheckService>()
 
 		val studyGroupService =
 			StudyGroupService(
@@ -30,6 +36,8 @@ class StudyGroupServiceTest :
 				loadStudyGroupByInviteCodePort,
 				updateStudyGroupPort,
 				EventPublisherDummy(),
+				deleteStudyGroupPort,
+				studyGroupAuthorityCheckService,
 			)
 
 		afterEach {
@@ -82,5 +90,13 @@ class StudyGroupServiceTest :
 					),
 				)
 			}
+		}
+
+		"삭제를 수행한다" {
+			every { deleteStudyGroupPort.deleteStudyGroup(any()) } returns Unit
+			every { studyGroupAuthorityCheckService.checkDeleteStudyGroup(any(), any()) } returns Unit
+			studyGroupService.deleteStudyGroup(1, dokbaroUserFixture())
+
+			verify { deleteStudyGroupPort.deleteStudyGroup(any()) }
 		}
 	})

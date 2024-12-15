@@ -13,6 +13,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.out.InsertBookQuizPo
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.LoadBookQuizByQuestionIdPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.LoadBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.UpdateBookQuizPort
+import kr.kro.dokbaro.server.core.bookquiz.application.service.auth.BookQuizAuthorityCheckService
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
@@ -23,6 +24,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.event.CreatedQuizEvent
 import kr.kro.dokbaro.server.core.bookquiz.event.UpdatedQuizEvent
+import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
@@ -34,12 +36,17 @@ class BookQuizService(
 	private val loadBookQuizByQuestionIdPort: LoadBookQuizByQuestionIdPort,
 	private val deleteBookQuizPort: DeleteBookQuizPort,
 	private val eventPublisher: ApplicationEventPublisher,
+	private val bookQuizAuthorityCheckService: BookQuizAuthorityCheckService,
 ) : CreateBookQuizUseCase,
 	UpdateBookQuizUseCase,
 	FindBookQuizUseCase,
 	FindBookQuizByQuestionIdUseCase,
 	DeleteBookQuizUseCase {
-	override fun create(command: CreateBookQuizCommand): Long {
+	override fun create(
+		command: CreateBookQuizCommand,
+		user: DokbaroUser,
+	): Long {
+		bookQuizAuthorityCheckService.checkCreateBookQuiz(user, command.studyGroupId)
 		val savedId: Long =
 			insertBookQuizPort.insert(
 				BookQuiz(
@@ -83,9 +90,14 @@ class BookQuizService(
 		return savedId
 	}
 
-	override fun update(command: UpdateBookQuizCommand) {
+	override fun update(
+		command: UpdateBookQuizCommand,
+		user: DokbaroUser,
+	) {
 		val bookQuiz: BookQuiz =
 			loadBookQuizPort.load(command.id) ?: throw NotFoundQuizException(command.id)
+
+		bookQuizAuthorityCheckService.checkUpdateBookQuiz(user, bookQuiz)
 
 		bookQuiz.updateBasicOption(
 			title = command.title,
@@ -134,7 +146,14 @@ class BookQuizService(
 	override fun findByQuestionId(questionId: Long): BookQuiz =
 		loadBookQuizByQuestionIdPort.loadByQuestionId(questionId) ?: throw NotFoundQuizException(questionId)
 
-	override fun deleteBy(id: Long) {
+	override fun deleteBy(
+		id: Long,
+		user: DokbaroUser,
+	) {
+		val bookQuiz: BookQuiz =
+			loadBookQuizPort.load(id) ?: throw NotFoundQuizException(id)
+		bookQuizAuthorityCheckService.checkDeleteBookQuiz(user, bookQuiz)
+
 		deleteBookQuizPort.deleteBy(id)
 	}
 }

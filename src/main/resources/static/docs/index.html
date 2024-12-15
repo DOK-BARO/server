@@ -533,6 +533,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_스터디_그룹_상세_조회">스터디 그룹 상세 조회</a></li>
 </ul>
 </li>
+<li><a href="#_스터디_그룹_삭제">스터디 그룹 삭제</a>
+<ul class="sectlevel3">
+<li><a href="#_http_request_43">HTTP request</a></li>
+<li><a href="#_http_response_43">HTTP response</a></li>
+</ul>
+</li>
 <li><a href="#_terms_of_service">TERMS-OF-SERVICE</a>
 <ul class="sectlevel2">
 <li><a href="#_이용약관_조회">이용약관 조회</a></li>
@@ -568,7 +574,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request"><a class="link" href="#_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email?_csrf=De9YZDP34At6g7B2-ilBRVCLXt8fUYNOOJ89LDYM8y1inLBbNNk6VwrH0TlX5tISnwR1IzTuc-cnZ7JjD_pbGlA6xRRV-oE9 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email?_csrf=QMVV-w-mnvroa9uFvgk-Fbp-M8vTzp9jR_YIUYLekPuV-W5pdKdtnmmfr87FDuqxiCQKJIxHHvLh_qtOdMFqaeS6pcutylgL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 161
 Host: localhost:8080
@@ -654,7 +660,7 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email/issue-temporary-password?_csrf=CxKVqG9KnRxbhGUkxFjDsLzKVU1X7UA5TFLRVWdwd0fnr6apO3Sjzgl-qXh25VUTonX30oupeHVj23IUeWXkN1AUR3PUypOY HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email/issue-temporary-password?_csrf=1KwahFpoQhuLT2YMNO4_3Sr-8YfbSAknxiIwC9514tPUh6U15ZUjs25acymmLQNvDcML7RPL3L7vLD4K_0MDMutEgeHi45FT HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 37
 Host: localhost:8080
@@ -710,7 +716,7 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /accounts/email/password?_csrf=tioYlaWeFGfrnW51Loiz1sVgCkbchUy8cOBo9-l_6w0-h-mL0x4opMatcVDG-FgUT6WHtadUJyftsnSRFdEMzt9P2DoNsdC4 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /accounts/email/password?_csrf=hhJ1BuIFdJ97NfCs2SPEXU61T75da5UMGACEsPZ-s1u8rYJ14ndAM4c9EqpWUZSU6w7wbXaFYt85X6IhIWXl088YhmqLneFB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 57
 Host: localhost:8080
@@ -1017,7 +1023,7 @@ logout 시 쿠키는 자동 삭제됩니다
 <h4 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /books?_csrf=4yuaatZgpX85gvvkWy4Kz0A9o_q3LPDxAtR3mbgECA7C8B1Z1BKrDuVXx04U5JjRagM--SUKjpjSGcPcZ-UT_4k8Pm-jlCRs HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /books?_csrf=5YNe2SXFCgJeM_XUv10cZb_2cvCEQqKtOrAqxeLFP626lkmzg-Bt7kakOjRzUMbjinAoAIyXX8m3IcaAX4JIodX1DJnY9CyD HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 368
 Host: localhost:8080
@@ -1026,7 +1032,7 @@ Host: localhost:8080
   "isbn" : "9783161484100",
   "title" : "Effective Kotlin",
   "publisher" : "TechBooks",
-  "publishedAt" : "2024-12-13",
+  "publishedAt" : "2024-12-15",
   "price" : 45000,
   "description" : "A comprehensive guide to writing high-quality Kotlin code.",
   "imageUrl" : "https://example.com/images/effective-kotlin.jpg",
@@ -1442,7 +1448,7 @@ Content-Length: 588
 <h4 id="_http_request_10"><a class="link" href="#_http_request_10">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-categories?_csrf=zhGMDNs-jVbB2H2emtcWmq__PgIe_2wYpfp60-x1XZMaUoMAqym8NboPvzTs6U-vo_oiq5uaEzsvyls1xMwc4dpAa_AoN7cw HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-categories?_csrf=aGw81C3z-Vj43H2vnHNmP8zp_gtiYS0kZFuYE79ikwk49Qj3UF0M5UzLyTnVvUjLrF5SW6nc0zMBWBkJBjqhcNlR9TgIwTzA HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 78
 Host: localhost:8080
@@ -1760,9 +1766,9 @@ Content-Length: 309
 <h4 id="_http_request_13"><a class="link" href="#_http_request_13">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-quizzes?_csrf=wzI6ndOJeq5V12N04sXYiAeAAKMKYTHeF9-H0oeKadL2MMWO9AJb-ertS8p4sgBG1ujs7je0LcIzVAXzJe2-s7boWuXHB6G8 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-quizzes?_csrf=OVfsefQsb-iP9BH1gtTXsq68C7MnCY16Mw3sa2TDDny4qWdLDGTUQJZKCtuilinBuvnjgZaOJotGOrtXV2jYXQb0PEjanVAq HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 891
+Content-Length: 907
 Host: localhost:8080
 
 {
@@ -1774,7 +1780,7 @@ Host: localhost:8080
     "selectOptions" : [ "광해", "명량", "암살", "국제시장", "자전차왕 엄복동" ],
     "answerExplanationContent" : "엄복동은 누적 관객 수 17만명을 기록했다.",
     "answerExplanationImages" : [ "hello.png" ],
-    "answerType" : "MULTIPLE_CHOICE",
+    "answerType" : "MULTIPLE_CHOICE_MULTIPLE_ANSWER",
     "answers" : [ "4" ]
   }, {
     "content" : "명량에서 이순신 역은 류승룡이 담당했다",
@@ -1858,7 +1864,7 @@ Host: localhost:8080
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answerType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">답안 타입 [OX, FILL_BLANK, MULTIPLE_CHOICE, SHORT]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답안 타입 [OX, FILL_BLANK, MULTIPLE_CHOICE_SINGLE_ANSWER,MULTIPLE_CHOICE_MULTIPLE_ANSWER, SHORT]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answers</code></p></td>
@@ -1963,7 +1969,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 328
+Content-Length: 344
 
 {
   "id" : 1,
@@ -1972,7 +1978,7 @@ Content-Length: 328
   "questions" : [ {
     "id" : 1,
     "content" : "조정석의 아내 이름은?",
-    "type" : "MULTIPLE_CHOICE",
+    "type" : "MULTIPLE_CHOICE_MULTIPLE_ANSWER",
     "selectOptions" : [ {
       "content" : "거미"
     }, {
@@ -2036,7 +2042,7 @@ Content-Length: 328
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].type</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">질문의 유형 [OX, FILL_BLANK, MULTIPLE_CHOICE, SHORT]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">질문의 유형 [OX, FILL_BLANK, MULTIPLE_CHOICE_MULTIPLE_ANSWER, MULTIPLE_CHOICE_SINGLE_ANSWER, SHORT]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].selectOptions[].content</code></p></td>
@@ -2053,9 +2059,9 @@ Content-Length: 328
 <h4 id="_http_request_15"><a class="link" href="#_http_request_15">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /book-quizzes/1?_csrf=wNjJ1B9B0qi88aHM_gDYSyuFTpY4_8jE1-CBotaxUw1QILQpor785npz4smRw8D7zi3scxuwY_cJxvHpsoa2kOCCZjU1F41K HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /book-quizzes/1?_csrf=u1p47V7EemlG-wc7cftT4sFupC29drDTtmOWGDl8Qc3jvMDD2mgcj273TFprmDQLRtZnhvgKiRWFFID-gADwIFoaJKzSiaXz HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 920
+Content-Length: 936
 Host: localhost:8080
 
 {
@@ -2072,7 +2078,7 @@ Host: localhost:8080
     "selectOptions" : [ "광해", "명량", "암살", "국제시장", "자전차왕 엄복동" ],
     "answerExplanationContent" : "엄복동은 누적 관객 수 17만명을 기록했다.",
     "answerExplanationImages" : [ "hello.png", "world.jpg" ],
-    "answerType" : "MULTIPLE_CHOICE",
+    "answerType" : "MULTIPLE_CHOICE_MULTIPLE_ANSWER",
     "answers" : [ "4" ]
   }, {
     "id" : 2,
@@ -2177,7 +2183,7 @@ Host: localhost:8080
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answerType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">답안 타입 [OX, FILL_BLANK, MULTIPLE_CHOICE, SHORT]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">답안 타입 [OX, FILL_BLANK, MULTIPLE_CHOICE_MULTIPLE_ANSWER, MULTIPLE_CHOICE_SINGLE_ANSWER, SHORT]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>questions[].answers</code></p></td>
@@ -2691,12 +2697,12 @@ Content-Length: 306
   "id" : 1,
   "bookImageUrl" : "https://example.com/book_image1.jpg",
   "title" : "Effective Kotlin",
-  "updatedAt" : "2024-12-11T21:32:57.804343"
+  "updatedAt" : "2024-12-13T14:21:28.906731"
 }, {
   "id" : 2,
   "bookImageUrl" : "https://example.com/book_image2.jpg",
   "title" : "Kotlin in Action",
-  "updatedAt" : "2024-12-08T21:32:57.804378"
+  "updatedAt" : "2024-12-10T14:21:28.906772"
 } ]</code></pre>
 </div>
 </div>
@@ -2838,7 +2844,7 @@ Content-Length: 417
   "id" : 1,
   "title" : "Sample Quiz Explanation",
   "description" : "This is a detailed explanation for a sample book quiz.",
-  "createdAt" : "2024-12-13T21:32:57.852782",
+  "createdAt" : "2024-12-15T14:21:28.974245",
   "creator" : {
     "id" : 101,
     "nickname" : "QuizMaster",
@@ -2941,7 +2947,7 @@ Content-Length: 417
 <h4 id="_http_request_22"><a class="link" href="#_http_request_22">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=VUt-WBb-zunziP4JIcktJ7UHBPu4IVPMONRLUVvqYcWdZBCpN34dPCGYqtvevZ9oGOQZFIBlKcPaRGbhDewpYGvbWKapAiKb HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=o8EBie9ouqzOyZkhbso3G9GYCzwviPy_E4f3-Oy3rGLQvTBRkfMwsdpbgpjj-P1DWucDeOX-JgQd6p6SILfGyo7Rzwbh31Y1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
 Host: localhost:8080
@@ -2997,7 +3003,7 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_23"><a class="link" href="#_http_request_23">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=gTEwOuX2FzMpkHgZ_JnVly5AvUCaN6eAwq7rP8NiziyVDNeG4FMHXoHEJwIEoxx7xLThoR8jkHmiA56t85yIC_ZV_Eqib7S- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=LqpANt4Fe0jwlelz9SgKaKfV6-QOGpnSQKnByJWmMU_oU8U6G5gjDu83HnjdoNkRlwU-UZSwxt1sI6__dp34rqzAA33aZPQI HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
 Host: localhost:8080
@@ -3086,7 +3092,7 @@ Content-Length: 21
 <h4 id="_http_request_24"><a class="link" href="#_http_request_24">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=xsQlI3qQJg5o6-I8D4WNyXIzZaKwPlFUsgpOWLDR1m2UMTA6pacVG0KjED5F3YQIPKi5-kRSSMDWXDV50Gt8PNbl4luiCQQN HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=ON8R4gjNDnPN4J--jFbj4Mt0_Q9EmDmRkx_uaehttxXk8jdHW7x31zH6N0Tg2PuNv3vX1fsW0G0l-1-8oSjZXNoIgyPXw1Ii HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
 Host: localhost:8080
@@ -3307,7 +3313,7 @@ Content-Length: 64
 <h4 id="_http_request_28"><a class="link" href="#_http_request_28">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=UJoqgiTIPJm_t-I_DfHpsmVSYKSm65wNHN3TsFs68MYKgc__Yqse5kXxWqGShIYGadzd1gMwTZzCj6sgfeTg1GIKyfI5sfrM HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=nu0Eq_fBzLm4l2nelbkYn2p2oElW2L4IHC6qGE3p-Vs3uEiZ_4g1yMSk-IyVp1Dq8ZQsqg4VjXFm6oglfRiaeXjfnW0Hj376 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 92
 Host: localhost:8080
@@ -3399,7 +3405,7 @@ Content-Length: 237
 
 {
   "id" : 12345,
-  "certificationId" : "794d2c41-160c-4cc2-a7d2-f57d86b20d63",
+  "certificationId" : "a40f1c7e-b823-40c5-8c54-268d43ab53e9",
   "nickname" : "CoolCoder",
   "email" : "coolcoder@example.com",
   "profileImage" : "https://example.com/profile-image.png",
@@ -3485,7 +3491,7 @@ Content-Length: 237
 
 {
   "id" : 12345,
-  "certificationId" : "794d2c41-160c-4cc2-a7d2-f57d86b20d63",
+  "certificationId" : "a40f1c7e-b823-40c5-8c54-268d43ab53e9",
   "nickname" : "CoolCoder",
   "email" : "coolcoder@example.com",
   "profileImage" : "https://example.com/profile-image.png",
@@ -3614,7 +3620,7 @@ Content-Length: 467
   "imageUrl" : "http://example.com/image.png",
   "linkedId" : 1234,
   "checked" : false,
-  "createdAt" : "2024-12-13T21:33:01.272923"
+  "createdAt" : "2024-12-15T14:21:34.625784"
 }, {
   "id" : 0,
   "content" : "새로운 알림 내용입니다.",
@@ -3622,7 +3628,7 @@ Content-Length: 467
   "imageUrl" : "http://example.com/image.png",
   "linkedId" : 1234,
   "checked" : true,
-  "createdAt" : "2024-12-13T21:33:01.272943"
+  "createdAt" : "2024-12-15T14:21:34.625819"
 } ]</code></pre>
 </div>
 </div>
@@ -3695,7 +3701,7 @@ Content-Length: 467
 <h4 id="_http_request_34"><a class="link" href="#_http_request_34">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/start?_csrf=__Lq0YuOxfvbPxmsrSkvkffTte_bybXlzMXx-8wXfT0XSUq9ncSLsO_v9Z72WivNzAQb9ZHkmNe6r9fIqvOXyq52SgQjLSyK HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/start?_csrf=UEdseic3RYEdT9FP3AZRBlcqx73HkyJ87aD3a6_huyR29bq-YHVVS0MCcrIwfeMtvitlYDEY6oXypxNR35bFD8vVjB0SxYOP HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 18
 Host: localhost:8080
@@ -3778,7 +3784,7 @@ Content-Length: 14
 <h4 id="_http_request_35"><a class="link" href="#_http_request_35">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/1/sheets?_csrf=QiKpe3ZO6841q6Aflp-8fmfxi1zJku0D_lU6_9H_tj4rMyi-dReeSkIs36wYnZYoorKISVWQpj6oo48un20PzLCb0goTAR-L HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/1/sheets?_csrf=mYWUpORJMozT_GaDLGx3_XanRy2NaYoNvEWrWvRD9xXeHwhUr7WnnIAsA-7-xAK7TUFDyxXGahXuWL0g2HSfacZ1ziXrL2xn HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 64
 Host: localhost:8080
@@ -4339,7 +4345,7 @@ Content-Length: 1323
 <h4 id="_http_request_39"><a class="link" href="#_http_request_39">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups?_csrf=w5G5OrDXQWuirkydl-wNL3D8uzFtg4lCm0AcW6VkmbnVGw1zoKCACoaxJQ-PmXX_9ME5GkHOlggJu7hvqyIuOJdQ-IqwLTgQ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups?_csrf=coYYMY1rhr-mcOtBtdnqMFWQ4CwC1M30m1UtO8bMoJk5rCJIR78pB-sOsoeLQ994hfTeU2XyzU1k46nZrm0ZXqX5kf1fn0F4 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 125
 Host: localhost:8080
@@ -4434,7 +4440,7 @@ Content-Length: 14
 <h4 id="_http_request_40"><a class="link" href="#_http_request_40">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/join?_csrf=7atdxjNipleiJBjANCeHPWO3Fth9LlvnFbnP-YXduS_ea5vB3pJqpFUBw26PEy7yBgqzXAWDO7lIHm_KdIuuzbK-3xroDqjw HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/join?_csrf=w2r5R1ZKkRw-iSa21WdF1vC8sI7smmHg-6vfWkQsrhljWJNxoVrNIzIv8ysTukOP4kpx58aMnbfa-1XNw5K9aiFJyy4GYaYT HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 29
 Host: localhost:8080
@@ -4703,12 +4709,63 @@ Content-Length: 638
 </div>
 </div>
 <div class="sect1">
+<h2 id="_스터디_그룹_삭제"><a class="link" href="#_스터디_그룹_삭제">스터디 그룹 삭제</a></h2>
+<div class="sectionbody">
+<div class="sect3">
+<h4 id="_http_request_43"><a class="link" href="#_http_request_43">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /study-groups/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. /study-groups/{id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">삭제할 스터디 그룹 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_43"><a class="link" href="#_http_response_43">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_terms_of_service"><a class="link" href="#_terms_of_service">TERMS-OF-SERVICE</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_이용약관_조회"><a class="link" href="#_이용약관_조회">이용약관 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_43"><a class="link" href="#_http_request_43">HTTP request</a></h4>
+<h4 id="_http_request_44"><a class="link" href="#_http_request_44">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services HTTP/1.1
@@ -4717,7 +4774,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_43"><a class="link" href="#_http_response_43">HTTP response</a></h4>
+<h4 id="_http_response_44"><a class="link" href="#_http_response_44">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4800,7 +4857,7 @@ Content-Length: 462
 <div class="sect2">
 <h3 id="_이용약관_상세_내용_조회"><a class="link" href="#_이용약관_상세_내용_조회">이용약관 상세 내용 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_44"><a class="link" href="#_http_request_44">HTTP request</a></h4>
+<h4 id="_http_request_45"><a class="link" href="#_http_request_45">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services/1/detail HTTP/1.1
@@ -4808,7 +4865,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. /terms-of-services/{id}/detail</caption>
+<caption class="title">Table 13. /terms-of-services/{id}/detail</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4828,7 +4885,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_44"><a class="link" href="#_http_response_44">HTTP response</a></h4>
+<h4 id="_http_response_45"><a class="link" href="#_http_response_45">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4875,10 +4932,10 @@ Content-Length: 52
 <div class="sect2">
 <h3 id="_이용약관_동의"><a class="link" href="#_이용약관_동의">이용약관 동의</a></h3>
 <div class="sect3">
-<h4 id="_http_request_45"><a class="link" href="#_http_request_45">HTTP request</a></h4>
+<h4 id="_http_request_46"><a class="link" href="#_http_request_46">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /terms-of-services/agree?_csrf=-l1aLBt6_uv3VJBWgaOIe_tujD20YSl_ZTvPsXQsN_5sbkvBzWhrHS8en9jaMKU14I68GMxdoQSMURBSXAmqhUVKVZwNWnun HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /terms-of-services/agree?_csrf=kxEwzRsU9wiYTVjmAJZVh1HPf3QOReBFagrwPQ3ccVvdq2jNpiBV-yxylGu1dT2AZbthtDL9UhU3fddoCTmTWzi6ST3okgz4 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 27
 Host: localhost:8080
@@ -4911,7 +4968,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_45"><a class="link" href="#_http_response_45">HTTP response</a></h4>
+<h4 id="_http_response_46"><a class="link" href="#_http_response_46">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4931,7 +4988,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_필수_동의_여부_전체_동의_여부_조회"><a class="link" href="#_필수_동의_여부_전체_동의_여부_조회">필수 동의 여부 전체 동의 여부 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_46"><a class="link" href="#_http_request_46">HTTP request</a></h4>
+<h4 id="_http_request_47"><a class="link" href="#_http_request_47">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services/member-agree/required HTTP/1.1
@@ -4940,7 +4997,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_46"><a class="link" href="#_http_response_46">HTTP response</a></h4>
+<h4 id="_http_response_47"><a class="link" href="#_http_response_47">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4992,10 +5049,10 @@ Content-Length: 23
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_생성"><a class="link" href="#_퀴즈_리뷰_생성">퀴즈 리뷰 생성</a></h3>
 <div class="sect3">
-<h4 id="_http_request_47"><a class="link" href="#_http_request_47">HTTP request</a></h4>
+<h4 id="_http_request_48"><a class="link" href="#_http_request_48">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-reviews?_csrf=_CvWPO3zcYpNcswRYQin3mGsfRYyHj4Qiq4P8O22xOKfGq-FnxPmDY-RFehgQ_p3ViWTulDPUHRRKVo9vZ5tw9rV9tOve5bm HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-reviews?_csrf=lbM1YNc_kPVNRFJo9XKGeoaxArgkpf0yWnLVBgb-nsyR8vEEoooDAucJpZFgdTBRwl-ySOeFL4BFwMwfYhHkP2TGqqqiw8Nh HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 100
 Host: localhost:8080
@@ -5046,7 +5103,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_47"><a class="link" href="#_http_response_47">HTTP response</a></h4>
+<h4 id="_http_response_48"><a class="link" href="#_http_response_48">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -5093,7 +5150,7 @@ Content-Length: 14
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_총평별점_난이도_조회"><a class="link" href="#_퀴즈_리뷰_총평별점_난이도_조회">퀴즈 리뷰 총평(별점, 난이도) 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_48"><a class="link" href="#_http_request_48">HTTP request</a></h4>
+<h4 id="_http_request_49"><a class="link" href="#_http_request_49">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /quiz-reviews/total-score?quizId=1 HTTP/1.1
@@ -5120,7 +5177,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_48"><a class="link" href="#_http_response_48">HTTP response</a></h4>
+<h4 id="_http_response_49"><a class="link" href="#_http_response_49">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -5207,7 +5264,7 @@ Content-Length: 279
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_요약_목록_조회"><a class="link" href="#_퀴즈_리뷰_요약_목록_조회">퀴즈 리뷰 요약 목록 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_49"><a class="link" href="#_http_request_49">HTTP request</a></h4>
+<h4 id="_http_request_50"><a class="link" href="#_http_request_50">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /quiz-reviews?page=1&amp;size=10&amp;quizId=12345&amp;sort=CREATED_AT HTTP/1.1
@@ -5250,7 +5307,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_49"><a class="link" href="#_http_response_49">HTTP response</a></h4>
+<h4 id="_http_response_50"><a class="link" href="#_http_response_50">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -5361,10 +5418,10 @@ Content-Length: 495
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_수정"><a class="link" href="#_퀴즈_리뷰_수정">퀴즈 리뷰 수정</a></h3>
 <div class="sect3">
-<h4 id="_http_request_50"><a class="link" href="#_http_request_50">HTTP request</a></h4>
+<h4 id="_http_request_51"><a class="link" href="#_http_request_51">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /quiz-reviews/1?_csrf=TODoSpbpkOnZgCG5AxHaR2ZE0SG-JVTVz2cWcuaAjpVH0oysfNCJcqLf9o30tEffMzzucVMh_BiPFzL4rgMhQNTmu6d2677O HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /quiz-reviews/1?_csrf=IZ4W29RGQ6jjBQPWrukezRfdIRjebCpKpR1Os6PudY_JHVIUR_13uOF-d5nOPTHuz8Qq_3a-DHnpWxJnxnl40JSPEbmsKDBw HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 136
 Host: localhost:8080
@@ -5378,7 +5435,7 @@ Host: localhost:8080
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. /quiz-reviews/{id}</caption>
+<caption class="title">Table 14. /quiz-reviews/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -5434,7 +5491,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_50"><a class="link" href="#_http_response_50">HTTP response</a></h4>
+<h4 id="_http_response_51"><a class="link" href="#_http_response_51">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -5454,7 +5511,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_삭제"><a class="link" href="#_퀴즈_리뷰_삭제">퀴즈 리뷰 삭제</a></h3>
 <div class="sect3">
-<h4 id="_http_request_51"><a class="link" href="#_http_request_51">HTTP request</a></h4>
+<h4 id="_http_request_52"><a class="link" href="#_http_request_52">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /quiz-reviews/1 HTTP/1.1
@@ -5463,7 +5520,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. /quiz-reviews/{id}</caption>
+<caption class="title">Table 15. /quiz-reviews/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -5483,7 +5540,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_51"><a class="link" href="#_http_response_51">HTTP response</a></h4>
+<h4 id="_http_response_52"><a class="link" href="#_http_response_52">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -5508,10 +5565,10 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_신고하기"><a class="link" href="#_퀴즈_리뷰_신고하기">퀴즈 리뷰 신고하기</a></h3>
 <div class="sect3">
-<h4 id="_http_request_52"><a class="link" href="#_http_request_52">HTTP request</a></h4>
+<h4 id="_http_request_53"><a class="link" href="#_http_request_53">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-review-reports?_csrf=uLc1_riTE85AbwTBxliiFQX7fbiu9ZEhRXRuEDOIE9cHzG1g24UDxt2lJ_htX2fx9nWWJ2HKUICbkaEMJxVZdgG9dedh-F5W HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-review-reports?_csrf=pqlCNQAHBZMVUrSuqqDGAbroIO5KhLzmaJX16OA0DPUuCUSHkpl0A2RhYPI4YdKcmY3yON7YDdcp4NnLXfGX29FQOcZLOnLh HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 107
 Host: localhost:8080
@@ -5550,7 +5607,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_52"><a class="link" href="#_http_response_52">HTTP response</a></h4>
+<h4 id="_http_response_53"><a class="link" href="#_http_response_53">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -5600,7 +5657,7 @@ Content-Length: 14
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-12-10 16:57:58 +0900
+Last updated 2024-12-09 17:49:40 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
