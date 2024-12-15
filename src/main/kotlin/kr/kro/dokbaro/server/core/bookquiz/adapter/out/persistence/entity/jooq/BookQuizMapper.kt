@@ -115,6 +115,7 @@ class BookQuizMapper {
 						content = questionBasic.content,
 						selectOptions =
 							elements
+								.filter { it[BOOK_QUIZ_SELECT_OPTION.ID] != null }
 								.map {
 									SelectOption(it[BOOK_QUIZ_SELECT_OPTION.CONTENT])
 								}.distinct(),
