@@ -7,12 +7,15 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.CreateStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.JoinStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
+import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(StudyGroupController::class)
@@ -22,6 +25,9 @@ class StudyGroupControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var joinStudyGroupUseCase: JoinStudyGroupUseCase
+
+	@MockkBean
+	lateinit var deleteStudyGroupUseCase: DeleteStudyGroupUseCase
 
 	init {
 		"스터디 그룹 생성을 수행한다" {
@@ -62,6 +68,19 @@ class StudyGroupControllerTest : RestDocsTest() {
 					print(
 						"study-group/join",
 						requestFields(fieldWithPath("inviteCode").description("초대 코드")),
+					),
+				)
+		}
+
+		"스터디 그룹을 삭제한다" {
+			every { deleteStudyGroupUseCase.deleteStudyGroup(any()) } returns Unit
+
+			performDelete(Path("/study-groups/{id}", "1"))
+				.andExpect(status().isNoContent)
+				.andDo(
+					print(
+						"study-group/delete",
+						pathParameters(parameterWithName("id").description("삭제할 스터디 그룹 ID")),
 					),
 				)
 		}
