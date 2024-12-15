@@ -18,7 +18,7 @@ class BookService(
 		command: CreateBookCommand,
 		user: DokbaroUser,
 	): Long {
-		bookAuthorityCheckService.checkCreateBookAuthority(user)
+		bookAuthorityCheckService.checkCreateBook(user)
 
 		return insertBookPort.insert(
 			Book(

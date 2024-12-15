@@ -12,21 +12,21 @@ class BookAuthorityCheckServiceTest :
 		val bookAuthorityCheckService = BookAuthorityCheckService()
 		"카테고리 생성 시 admin이 아니면 예외를 반환한다" {
 			shouldThrow<DefaultForbiddenException> {
-				bookAuthorityCheckService.checkCreateBookCategoryAuthority(dokbaroUserFixture())
+				bookAuthorityCheckService.checkCreateBookCategory(dokbaroUserFixture())
 			}
 
 			shouldNotThrow<DefaultForbiddenException> {
-				bookAuthorityCheckService.checkCreateBookCategoryAuthority(dokbaroAdminFixture())
+				bookAuthorityCheckService.checkCreateBookCategory(dokbaroAdminFixture())
 			}
 		}
 
 		"책 생성 시 admin이 아니면 예외를 반환한다" {
 			shouldThrow<DefaultForbiddenException> {
-				bookAuthorityCheckService.checkCreateBookAuthority(dokbaroUserFixture())
+				bookAuthorityCheckService.checkCreateBook(dokbaroUserFixture())
 			}
 
 			shouldNotThrow<DefaultForbiddenException> {
-				bookAuthorityCheckService.checkCreateBookAuthority(dokbaroAdminFixture())
+				bookAuthorityCheckService.checkCreateBook(dokbaroAdminFixture())
 			}
 		}
 	})

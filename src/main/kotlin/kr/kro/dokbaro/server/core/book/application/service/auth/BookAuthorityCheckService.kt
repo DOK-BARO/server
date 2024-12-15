@@ -7,13 +7,13 @@ import kr.kro.dokbaro.server.security.details.DokbaroUser
 
 @AuthorityCheckService
 class BookAuthorityCheckService {
-	fun checkCreateBookCategoryAuthority(user: DokbaroUser) {
+	fun checkCreateBookCategory(user: DokbaroUser) {
 		if (!user.hasRole(Role.ADMIN)) {
 			throw DefaultForbiddenException()
 		}
 	}
 
-	fun checkCreateBookAuthority(user: DokbaroUser) {
+	fun checkCreateBook(user: DokbaroUser) {
 		if (!user.hasRole(Role.ADMIN)) {
 			throw DefaultForbiddenException()
 		}

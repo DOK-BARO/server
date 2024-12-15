@@ -69,6 +69,7 @@ class BookQuizController(
 					viewScope = body.viewScope,
 					editScope = body.editScope,
 				),
+				user,
 			),
 		)
 
@@ -97,6 +98,7 @@ class BookQuizController(
 				questions = body.questions,
 				modifierId = user.id,
 			),
+			user,
 		)
 	}
 
@@ -134,8 +136,9 @@ class BookQuizController(
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	fun deleteQuiz(
 		@PathVariable id: Long,
+		@Login user: DokbaroUser,
 	) {
-		deleteBookQuizUseCase.deleteBy(id)
+		deleteBookQuizUseCase.deleteBy(id, user)
 	}
 
 	@GetMapping("/{id}/explanation")

@@ -61,7 +61,8 @@ class StudyGroupController(
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	fun delete(
 		@PathVariable id: Long,
+		@Login user: DokbaroUser,
 	) {
-		deleteStudyGroupUseCase.deleteStudyGroup(id)
+		deleteStudyGroupUseCase.deleteStudyGroup(id, user)
 	}
 }

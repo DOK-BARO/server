@@ -17,7 +17,7 @@ class BookCategoryService(
 		command: CreateBookCategoryCommand,
 		user: DokbaroUser,
 	): Long {
-		bookAuthorityCheckService.checkCreateBookCategoryAuthority(user)
+		bookAuthorityCheckService.checkCreateBookCategory(user)
 
 		return insertBookCategoryPort.insert(
 			BookCategory(

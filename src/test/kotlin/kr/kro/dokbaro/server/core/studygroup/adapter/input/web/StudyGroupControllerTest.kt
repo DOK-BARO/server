@@ -73,7 +73,7 @@ class StudyGroupControllerTest : RestDocsTest() {
 		}
 
 		"스터디 그룹을 삭제한다" {
-			every { deleteStudyGroupUseCase.deleteStudyGroup(any()) } returns Unit
+			every { deleteStudyGroupUseCase.deleteStudyGroup(any(), any()) } returns Unit
 
 			performDelete(Path("/study-groups/{id}", "1"))
 				.andExpect(status().isNoContent)
