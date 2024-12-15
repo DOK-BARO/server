@@ -52,7 +52,7 @@ class SolvingQuizServiceTest :
 				SolveQuestionCommand(
 					1,
 					0,
-					listOf("3"),
+					listOf("3", "6"),
 				)
 
 			shouldThrow<NotFoundSolvingQuizException> {
