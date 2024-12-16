@@ -33,6 +33,8 @@ include::study-group.adoc[]
 
 include::terms-of-service.adoc[]
 
+include::quiz-question-report.adoc[]
+
 include::quiz-review.adoc[]
 
 include::quiz-review-report.adoc[]
