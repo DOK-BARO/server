@@ -9,6 +9,7 @@ import kr.kro.dokbaro.server.security.jwt.JwtResponse
 import kr.kro.dokbaro.server.security.jwt.JwtTokenReGenerator
 import kr.kro.dokbaro.server.security.jwt.cookie.JwtHttpCookieInjector
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
 
@@ -25,16 +26,20 @@ class JwtValidationFilter(
 		var accessToken: String? = request.cookies.find { it.name == SecurityConstants.AUTHORIZATION }?.value
 		val refreshToken: String? = request.cookies.find { it.name == SecurityConstants.REFRESH }?.value
 
-		if (accessToken == null && refreshToken != null) {
-			val newToken: JwtResponse = jwtTokenReGenerator.reGenerate(refreshToken)
+		try {
+			if (accessToken == null && refreshToken != null) {
+				val newToken: JwtResponse = jwtTokenReGenerator.reGenerate(refreshToken)
 
-			accessToken = newToken.accessToken
+				accessToken = newToken.accessToken
 
-			jwtHttpCookieInjector.inject(response, newToken)
+				jwtHttpCookieInjector.inject(response, newToken)
+			}
+
+			SecurityContextHolder.getContext().authentication =
+				authenticationManager.authenticate(JwtUnauthenticatedToken(accessToken!!))
+		} catch (e: AuthenticationException) {
+			response.status = HttpServletResponse.SC_UNAUTHORIZED
 		}
-
-		SecurityContextHolder.getContext().authentication =
-			authenticationManager.authenticate(JwtUnauthenticatedToken(accessToken!!))
 
 		filterChain.doFilter(request, response)
 	}
