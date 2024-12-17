@@ -2,6 +2,8 @@ package kr.kro.dokbaro.server.core.solvingquiz.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import kr.kro.dokbaro.server.common.dto.option.SortDirection
+import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.input.web.dto.SolveQuestionRequest
@@ -15,6 +17,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.SolveResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -22,6 +25,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
+import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDateTime
 
@@ -134,42 +138,60 @@ class SolvingQuizControllerTest : RestDocsTest() {
 		}
 
 		"내가 푼 퀴즈 목록을 조회한다" {
-			every { findAllMySolveSummaryUseCase.findAllMySolveSummary(any()) } returns
-				listOf(
-					MySolveSummary(
-						id = 1L,
-						solvedAt = LocalDateTime.of(2024, 11, 8, 10, 0),
-						bookImageUrl = "https://example.com/book1.jpg",
-						quiz =
-							MySolveSummary.Quiz(
-								id = 101L,
-								title = "Math Quiz",
-							),
-					),
-					MySolveSummary(
-						id = 2L,
-						solvedAt = LocalDateTime.of(2024, 11, 8, 15, 30),
-						bookImageUrl = "https://example.com/book2.jpg",
-						quiz =
-							MySolveSummary.Quiz(
-								id = 102L,
-								title = "Science Quiz",
-							),
+			every { findAllMySolveSummaryUseCase.findAllMySolveSummary(any(), any()) } returns
+				PageResponse.of(
+					100,
+					4,
+					listOf(
+						MySolveSummary(
+							id = 1L,
+							solvedAt = LocalDateTime.of(2024, 11, 8, 10, 0),
+							bookImageUrl = "https://example.com/book1.jpg",
+							quiz =
+								MySolveSummary.Quiz(
+									id = 101L,
+									title = "Math Quiz",
+								),
+						),
+						MySolveSummary(
+							id = 2L,
+							solvedAt = LocalDateTime.of(2024, 11, 8, 15, 30),
+							bookImageUrl = "https://example.com/book2.jpg",
+							quiz =
+								MySolveSummary.Quiz(
+									id = 102L,
+									title = "Science Quiz",
+								),
+						),
 					),
 				)
+			val params =
+				mapOf(
+					"page" to "1",
+					"size" to "10",
+					"sort" to MySolvingQuizSortKeyword.CREATED_AT.name,
+					"direction" to SortDirection.ASC.name,
+				)
 
-			performGet(Path("/solving-quiz/my"))
+			performGet(Path("/solving-quiz/my"), params)
 				.andExpect(status().isOk)
 				.andDo(
 					print(
 						"solving-quiz/my-solved",
+						queryParameters(
+							parameterWithName("page").description("결과 페이지 번호. 0부터 시작."),
+							parameterWithName("size").description("페이지당 결과 수."),
+							parameterWithName("sort").description("정렬 기준. [CREATED_AT, STAR_RATING]"),
+							parameterWithName("direction").description("정렬 방향. 가능한 값은 'ASC' 또는 'DESC'"),
+						),
 						responseFields(
-							fieldWithPath("[].id").description("문제 풀이 요약의 고유 식별자"),
-							fieldWithPath("[].solvedAt").description("문제를 푼 날짜와 시간"),
-							fieldWithPath("[].bookImageUrl").description("퀴즈와 관련된 책 이미지의 URL (optional)").optional(),
-							fieldWithPath("[].quiz").description("푼 퀴즈에 대한 요약 정보"),
-							fieldWithPath("[].quiz.id").description("퀴즈의 고유 식별자"),
-							fieldWithPath("[].quiz.title").description("퀴즈 제목"),
+							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),
+							fieldWithPath("data[].id").description("문제 풀이 요약의 고유 식별자"),
+							fieldWithPath("data[].solvedAt").description("문제를 푼 날짜와 시간"),
+							fieldWithPath("data[].bookImageUrl").description("퀴즈와 관련된 책 이미지의 URL (optional)").optional(),
+							fieldWithPath("data[].quiz").description("푼 퀴즈에 대한 요약 정보"),
+							fieldWithPath("data[].quiz.id").description("퀴즈의 고유 식별자"),
+							fieldWithPath("data[].quiz.title").description("퀴즈 제목"),
 						),
 					),
 				)

@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.bookquiz.adapter.input.web
 
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
@@ -20,9 +21,10 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.security.annotation.Login
 import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
@@ -112,10 +114,18 @@ class BookQuizController(
 		@RequestParam bookId: Long,
 		@RequestParam page: Long,
 		@RequestParam size: Long,
-		@RequestParam sort: BookQuizSummarySortOption,
+		@RequestParam sort: BookQuizSummarySortKeyword,
 		@RequestParam direction: SortDirection,
 	): PageResponse<BookQuizSummary> =
-		findBookQuizSummaryUseCase.findAllBookQuizSummary(bookId, page, size, sort, direction)
+		findBookQuizSummaryUseCase.findAllBookQuizSummary(
+			bookId,
+			PageOption.of(
+				page = page,
+				size = size,
+				sort = sort,
+				direction = direction,
+			),
+		)
 
 	@GetMapping("/study-groups/{studyGroupId}/unsolved")
 	fun getUnsolvedBookQuizSummary(
@@ -130,7 +140,20 @@ class BookQuizController(
 	@GetMapping("/my")
 	fun getMyQuizzes(
 		@Login user: DokbaroUser,
-	): Collection<MyBookQuizSummary> = findMyBookQuizUseCase.findMyBookQuiz(memberId = user.id)
+		@RequestParam page: Long,
+		@RequestParam size: Long,
+		@RequestParam sort: MyBookQuizSummarySortKeyword,
+		@RequestParam direction: SortDirection,
+	): PageResponse<MyBookQuizSummary> =
+		findMyBookQuizUseCase.findMyBookQuiz(
+			memberId = user.id,
+			PageOption.of(
+				page = page,
+				size = size,
+				sort = sort,
+				direction = direction,
+			),
+		)
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

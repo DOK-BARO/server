@@ -16,8 +16,8 @@ class AuthenticationFailureEntryPoint(
 		response: HttpServletResponse,
 		authException: AuthenticationException,
 	) {
-		response.status = HttpServletResponse.SC_UNAUTHORIZED
-
-		cookieRemover.remove(response)
+		if (response.status == HttpServletResponse.SC_UNAUTHORIZED) {
+			cookieRemover.remove(response)
+		}
 	}
 }

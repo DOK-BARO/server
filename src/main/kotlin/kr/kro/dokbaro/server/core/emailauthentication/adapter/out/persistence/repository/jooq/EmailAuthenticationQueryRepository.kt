@@ -32,25 +32,19 @@ class EmailAuthenticationQueryRepository(
 		return emailAuthenticationMapper.toEmailAuthentication(record)
 	}
 
-	private fun buildCondition(condition: SearchEmailAuthenticationCondition): Condition {
-		var result: Condition = DSL.noCondition()
-
-		condition.address?.let {
-			result = result.and(EMAIL_AUTHENTICATION.ADDRESS.eq(condition.address))
-		}
-
-		condition.code?.let {
-			result = result.and(EMAIL_AUTHENTICATION.CODE.eq(condition.code))
-		}
-
-		condition.authenticated?.let {
-			result = result.and(EMAIL_AUTHENTICATION.AUTHENTICATED.eq(condition.authenticated))
-		}
-
-		condition.used?.let {
-			result = result.and(EMAIL_AUTHENTICATION.USED.eq(condition.used))
-		}
-
-		return result
-	}
+	private fun buildCondition(condition: SearchEmailAuthenticationCondition): Condition =
+		DSL.and(
+			condition.address?.let {
+				EMAIL_AUTHENTICATION.ADDRESS.eq(condition.address)
+			},
+			condition.code?.let {
+				EMAIL_AUTHENTICATION.CODE.eq(condition.code)
+			},
+			condition.authenticated?.let {
+				EMAIL_AUTHENTICATION.AUTHENTICATED.eq(condition.authenticated)
+			},
+			condition.used?.let {
+				EMAIL_AUTHENTICATION.USED.eq(condition.used)
+			},
+		)
 }

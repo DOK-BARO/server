@@ -6,10 +6,12 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.CountSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMySolveSummaryPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMyStudyGroupSolveSummaryPort
@@ -28,6 +30,7 @@ class SolvingQuizQueryServiceTest :
 		val loadSolvingQuizPort = mockk<LoadSolvingQuizPort>()
 		val readMySolveSummaryPort = mockk<ReadMySolveSummaryPort>()
 		val readMyStudyGroupSolveSummaryPort = mockk<ReadMyStudyGroupSolveSummaryPort>()
+		val countSolvingQuizPort = mockk<CountSolvingQuizPort>()
 
 		val solvingQuizQueryService =
 			SolvingQuizQueryService(
@@ -35,6 +38,7 @@ class SolvingQuizQueryServiceTest :
 				loadSolvingQuizPort,
 				readMySolveSummaryPort,
 				readMyStudyGroupSolveSummaryPort,
+				countSolvingQuizPort,
 			)
 
 		"퀴즈 결과 탐색을 수행한다" {
@@ -80,7 +84,7 @@ class SolvingQuizQueryServiceTest :
 		}
 
 		"내가 푼 퀴즈 목록을 조회한다" {
-			every { readMySolveSummaryPort.findAllMySolveSummary(any()) } returns
+			every { readMySolveSummaryPort.findAllMySolveSummary(any(), any()) } returns
 				listOf(
 					MySolveSummary(
 						id = 1L,
@@ -104,7 +108,9 @@ class SolvingQuizQueryServiceTest :
 					),
 				)
 
-			solvingQuizQueryService.findAllMySolveSummary(1) shouldNotBe null
+			every { countSolvingQuizPort.countBy(any()) } returns 2
+
+			solvingQuizQueryService.findAllMySolveSummary(1, PageOption.of()) shouldNotBe null
 		}
 
 		"그룹 내 내가 푼 퀴즈 목록을 조회한다" {

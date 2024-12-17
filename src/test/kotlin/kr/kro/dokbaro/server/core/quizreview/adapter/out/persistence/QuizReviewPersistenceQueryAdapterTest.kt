@@ -6,7 +6,6 @@ import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.shouldBe
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
-import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
@@ -19,7 +18,7 @@ import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq.QuizReviewRepository
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.CountQuizReviewCondition
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.ReadQuizReviewSummaryCondition
-import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortOption
+import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 import kr.kro.dokbaro.server.fixture.domain.bookFixture
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
 import kr.kro.dokbaro.server.fixture.domain.memberFixture
@@ -67,8 +66,6 @@ class QuizReviewPersistenceQueryAdapterTest(
 
 			adapter.countBy(CountQuizReviewCondition(bookQuizId)) shouldBe 2
 		}
-		val defaultPageOption = PageOption(0, 200_000_000)
-		val defaultSortOption = SortOption(QuizReviewSummarySortOption.CREATED_AT)
 
 		"요약본 조회를 수행한다" {
 			val memberId = memberRepository.insert(memberFixture()).id
@@ -84,8 +81,7 @@ class QuizReviewPersistenceQueryAdapterTest(
 			adapter
 				.findAllQuizReviewSummaryBy(
 					ReadQuizReviewSummaryCondition(bookQuizId),
-					defaultPageOption,
-					defaultSortOption,
+					PageOption.of(),
 				).size shouldBe 100
 		}
 
@@ -109,8 +105,7 @@ class QuizReviewPersistenceQueryAdapterTest(
 			adapter
 				.findAllQuizReviewSummaryBy(
 					ReadQuizReviewSummaryCondition(bookQuizId),
-					defaultPageOption,
-					SortOption(QuizReviewSummarySortOption.STAR_RATING, SortDirection.DESC),
+					PageOption.of(sort = QuizReviewSummarySortKeyword.STAR_RATING, direction = SortDirection.DESC),
 				).toList()[0]
 				.starRating shouldBe 50
 		}

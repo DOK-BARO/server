@@ -1,0 +1,13 @@
+== QUIZ_QUESTION_REPORT
+
+=== 퀴즈 질문 신고하기
+
+==== HTTP request
+
+include::{snippets}/quiz-question-report/create/http-request.adoc[]
+include::{snippets}/quiz-question-report/create/request-fields.adoc[]
+
+==== HTTP response
+
+include::{snippets}/quiz-question-report/create/http-response.adoc[]
+include::{snippets}/quiz-question-report/create/response-fields.adoc[]

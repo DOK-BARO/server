@@ -42,6 +42,7 @@ include::{snippets}/solving-quiz/grade-result/response-fields.adoc[]
 ==== HTTP request
 
 include::{snippets}/solving-quiz/my-solved/http-request.adoc[]
+include::{snippets}/solving-quiz/my-solved/query-parameters.adoc[]
 
 ==== HTTP response
 

@@ -2,15 +2,17 @@ package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.j
 
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
-import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
+import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
@@ -27,6 +29,7 @@ import org.jooq.generated.tables.JQuizReview
 import org.jooq.generated.tables.JSolvingQuiz
 import org.jooq.generated.tables.JStudyGroupQuiz
 import org.jooq.generated.tables.records.BookQuizRecord
+import org.jooq.impl.DSL
 import org.jooq.impl.DSL.avg
 import org.jooq.impl.DSL.field
 import org.jooq.impl.DSL.select
@@ -94,17 +97,22 @@ class BookQuizQueryRepository(
 		return bookQuizMapper.toBookQuizAnswer(record)
 	}
 
-	fun countBookQuizBy(bookId: Long): Long =
+	fun countBookQuizBy(condition: CountBookQuizCondition): Long =
 		dslContext
 			.selectCount()
 			.from(BOOK_QUIZ)
-			.where(BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.eq(false)))
+			.where(buildCountCondition(condition).and(BOOK_QUIZ.DELETED.eq(false)))
 			.fetchOneInto(Long::class.java)!!
+
+	private fun buildCountCondition(condition: CountBookQuizCondition): Condition =
+		DSL.and(
+			condition.bookId?.let { BOOK_QUIZ.BOOK_ID.eq(it) },
+			condition.creatorId?.let { BOOK_QUIZ.CREATOR_ID.eq(it) },
+		)
 
 	fun findAllBookQuizSummary(
 		bookId: Long,
-		pageOption: PageOption,
-		sortOption: SortOption<BookQuizSummarySortOption>,
+		pageOption: PageOption<BookQuizSummarySortKeyword>,
 	): Collection<BookQuizSummary> {
 		val record =
 			dslContext
@@ -131,7 +139,7 @@ class BookQuizQueryRepository(
 				.on(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.where(BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.eq(false)))
 				.groupBy(BOOK_QUIZ)
-				.orderBy(toOrderQuery(sortOption), BOOK_QUIZ.ID)
+				.orderBy(toBookQuizSummaryOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
 				.fetch()
@@ -139,14 +147,14 @@ class BookQuizQueryRepository(
 		return bookQuizMapper.toBookQuizSummary(record)
 	}
 
-	private fun toOrderQuery(sortOption: SortOption<BookQuizSummarySortOption>): OrderField<out Any>? {
+	private fun toBookQuizSummaryOrderQuery(pageOption: PageOption<BookQuizSummarySortKeyword>): OrderField<out Any> {
 		val query =
-			when (sortOption.keyword) {
-				BookQuizSummarySortOption.STAR_RATING -> field(BookQuizRecordFieldName.AVERAGE_STAR_RATING.name)
-				BookQuizSummarySortOption.CREATED_AT -> BOOK_QUIZ.CREATED_AT
+			when (pageOption.sort) {
+				BookQuizSummarySortKeyword.STAR_RATING -> field(BookQuizRecordFieldName.AVERAGE_STAR_RATING.name)
+				BookQuizSummarySortKeyword.CREATED_AT -> BOOK_QUIZ.CREATED_AT
 			}
 
-		if (sortOption.direction == SortDirection.DESC) {
+		if (pageOption.direction == SortDirection.DESC) {
 			return query.desc()
 		}
 
@@ -202,7 +210,10 @@ class BookQuizQueryRepository(
 		return bookQuizMapper.toUnsolvedGroupBookQuizSummary(record)
 	}
 
-	fun findAllMyBookQuizzes(memberId: Long): Collection<MyBookQuizSummary> {
+	fun findAllMyBookQuizzes(
+		memberId: Long,
+		pageOption: PageOption<MyBookQuizSummarySortKeyword>,
+	): Collection<MyBookQuizSummary> {
 		val record: Result<out Record> =
 			dslContext
 				.select(
@@ -214,9 +225,26 @@ class BookQuizQueryRepository(
 				.join(BOOK)
 				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
 				.where(BOOK_QUIZ.CREATOR_ID.eq(memberId).and(BOOK_QUIZ.DELETED.eq(false)))
+				.orderBy(toMyBookQuizSummeryOrderQuery(pageOption), BOOK_QUIZ.ID)
+				.limit(pageOption.limit)
+				.offset(pageOption.offset)
 				.fetch()
 
 		return bookQuizMapper.toMyBookQuiz(record)
+	}
+
+	private fun toMyBookQuizSummeryOrderQuery(pageOption: PageOption<MyBookQuizSummarySortKeyword>): OrderField<out Any> {
+		val query =
+			when (pageOption.sort) {
+				MyBookQuizSummarySortKeyword.TITLE -> BOOK_QUIZ.TITLE
+				MyBookQuizSummarySortKeyword.CREATED_AT -> BOOK_QUIZ.CREATED_AT
+			}
+
+		if (pageOption.direction == SortDirection.DESC) {
+			return query.desc()
+		}
+
+		return query
 	}
 
 	fun findBookQuizExplanationBy(id: Long): BookQuizExplanation? {

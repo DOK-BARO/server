@@ -7,14 +7,13 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
-import kr.kro.dokbaro.server.common.dto.option.SortDirection
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
 import kr.kro.dokbaro.server.core.book.application.port.out.CountBookPort
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookCollectionPort
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookPort
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadIntegratedBookCollectionPort
 import kr.kro.dokbaro.server.core.book.application.service.exception.BookNotFoundException
-import kr.kro.dokbaro.server.core.book.query.BookSummarySortOption
 import kr.kro.dokbaro.server.fixture.domain.bookDetailFixture
 import kr.kro.dokbaro.server.fixture.domain.bookSummaryFixture
 import kr.kro.dokbaro.server.fixture.domain.integratedBookFixture
@@ -35,7 +34,7 @@ class BookQueryServiceTest :
 
 		"전체 조회를 수행한다" {
 			every { countBookPort.countBy(any()) } returns 100
-			every { readBookCollectionPort.getAllBook(any(), any(), any()) } returns
+			every { readBookCollectionPort.getAllBook(any(), any()) } returns
 				listOf(
 					bookSummaryFixture(),
 					bookSummaryFixture(),
@@ -44,12 +43,8 @@ class BookQueryServiceTest :
 
 			bookQueryService
 				.findAllBy(
-					FindAllBookCommand(
-						page = 1,
-						size = 10,
-						sort = BookSummarySortOption.TITLE,
-						direction = SortDirection.ASC,
-					),
+					FindAllBookCommand(),
+					PageOption.of(),
 				).data.size shouldBe
 				3
 		}

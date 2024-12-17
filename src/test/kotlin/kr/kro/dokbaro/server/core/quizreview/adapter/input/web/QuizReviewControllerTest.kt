@@ -128,7 +128,7 @@ class QuizReviewControllerTest : RestDocsTest() {
 		}
 
 		"퀴즈 요약 목록을 조회한다" {
-			every { findQuizReviewSummaryUseCase.findAllQuizReviewSummaryBy(any()) } returns
+			every { findQuizReviewSummaryUseCase.findAllQuizReviewSummaryBy(any(), any()) } returns
 				PageResponse(
 					10,
 					listOf(

@@ -1,9 +1,15 @@
 package kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository.jooq
 
+import kr.kro.dokbaro.server.common.dto.option.PageOption
+import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.entity.jooq.SolvingQuizMapper
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.dto.CountSolvingQuizCondition
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
+import org.jooq.Condition
 import org.jooq.DSLContext
+import org.jooq.OrderField
 import org.jooq.Record
 import org.jooq.Result
 import org.jooq.generated.tables.JBook
@@ -13,6 +19,7 @@ import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JSolvingQuiz
 import org.jooq.generated.tables.JStudyGroupQuiz
 import org.jooq.generated.tables.records.SolvingQuizRecord
+import org.jooq.impl.DSL
 import org.jooq.impl.DSL.select
 import org.springframework.stereotype.Repository
 
@@ -30,7 +37,10 @@ class SolvingQuizQueryRepository(
 		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
 	}
 
-	fun findAllMySolveSummary(memberId: Long): Collection<MySolveSummary> {
+	fun findAllMySolveSummary(
+		memberId: Long,
+		pageOption: PageOption<MySolvingQuizSortKeyword>,
+	): Collection<MySolveSummary> {
 		val record: Result<out Record> =
 			dslContext
 				.select(
@@ -45,9 +55,26 @@ class SolvingQuizQueryRepository(
 				.join(BOOK)
 				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
 				.where(SOLVING_QUIZ.MEMBER_ID.eq(memberId))
+				.orderBy(toMySolvingQuizOrderQuery(pageOption), SOLVING_QUIZ.ID)
+				.limit(pageOption.limit)
+				.offset(pageOption.offset)
 				.fetch()
 
 		return solvingQuizMapper.toMySolveSummary(record)
+	}
+
+	private fun toMySolvingQuizOrderQuery(pageOption: PageOption<MySolvingQuizSortKeyword>): OrderField<out Any> {
+		val query =
+			when (pageOption.sort) {
+				MySolvingQuizSortKeyword.TITLE -> BOOK_QUIZ.TITLE
+				MySolvingQuizSortKeyword.CREATED_AT -> SOLVING_QUIZ.CREATED_AT
+			}
+
+		if (pageOption.direction == SortDirection.DESC) {
+			return query.desc()
+		}
+
+		return query
 	}
 
 	fun findAllMyStudyGroupSolveSummary(
@@ -96,4 +123,16 @@ class SolvingQuizQueryRepository(
 
 		return solvingQuizMapper.toMyStudyGroupSolveSummary(record)
 	}
+
+	fun countBy(condition: CountSolvingQuizCondition): Long =
+		dslContext
+			.selectCount()
+			.from(SOLVING_QUIZ)
+			.where(buildCountCondition(condition).and(SOLVING_QUIZ.DELETED.eq(false)))
+			.fetchOneInto(Long::class.java)!!
+
+	private fun buildCountCondition(condition: CountSolvingQuizCondition): Condition =
+		DSL.and(
+			condition.memberId?.let { SOLVING_QUIZ.MEMBER_ID.eq(it) },
+		)
 }

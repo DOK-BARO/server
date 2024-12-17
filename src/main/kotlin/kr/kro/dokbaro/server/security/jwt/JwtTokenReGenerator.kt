@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.security.jwt
 
+import kr.kro.dokbaro.server.security.jwt.exception.CompromisedTokenException
 import kr.kro.dokbaro.server.security.jwt.exception.ExpiredRefreshTokenException
 import kr.kro.dokbaro.server.security.jwt.exception.NotFoundRefreshTokenException
 import kr.kro.dokbaro.server.security.jwt.refresh.RefreshToken
@@ -20,6 +21,11 @@ class JwtTokenReGenerator(
 
 		if (refreshToken.isExpired(clock)) {
 			throw ExpiredRefreshTokenException()
+		}
+
+		if (refreshToken.used) {
+			refreshTokenRepository.deleteByCertificationId(refreshToken.certificationId)
+			throw CompromisedTokenException()
 		}
 
 		refreshToken.use()

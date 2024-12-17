@@ -2,7 +2,6 @@ package kr.kro.dokbaro.server.core.book.adapter.out.persistence
 
 import kr.kro.dokbaro.server.common.annotation.PersistenceAdapter
 import kr.kro.dokbaro.server.common.dto.option.PageOption
-import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookQueryRepository
 import kr.kro.dokbaro.server.core.book.application.port.out.CountBookPort
 import kr.kro.dokbaro.server.core.book.application.port.out.ReadBookCollectionPort
@@ -11,7 +10,7 @@ import kr.kro.dokbaro.server.core.book.application.port.out.ReadIntegratedBookCo
 import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.query.BookDetail
 import kr.kro.dokbaro.server.core.book.query.BookSummary
-import kr.kro.dokbaro.server.core.book.query.BookSummarySortOption
+import kr.kro.dokbaro.server.core.book.query.BookSummarySortKeyword
 import kr.kro.dokbaro.server.core.book.query.IntegratedBook
 
 @PersistenceAdapter
@@ -23,13 +22,11 @@ class BookPersistenceQueryAdapter(
 	CountBookPort {
 	override fun getAllBook(
 		condition: ReadBookCollectionCondition,
-		pageOption: PageOption,
-		sortOption: SortOption<BookSummarySortOption>,
+		pageOption: PageOption<BookSummarySortKeyword>,
 	): Collection<BookSummary> =
 		bookRepository.findAllBookBy(
 			condition = condition,
 			pageOption = pageOption,
-			sortOption = sortOption,
 		)
 
 	override fun findBy(id: Long): BookDetail? = bookRepository.findById(id)

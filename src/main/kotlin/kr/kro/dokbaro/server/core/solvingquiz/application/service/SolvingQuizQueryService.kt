@@ -1,19 +1,24 @@
 package kr.kro.dokbaro.server.core.solvingquiz.application.service
 
+import kr.kro.dokbaro.server.common.dto.option.PageOption
+import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMySolveSummaryUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMyStudyGroupSolveSummaryUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllSolveResultUseCase
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.CountSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMySolveSummaryPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMyStudyGroupSolveSummaryPort
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.dto.CountSolvingQuizCondition
 import kr.kro.dokbaro.server.core.solvingquiz.application.service.exception.NotFoundSolvingQuizException
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
 import org.springframework.stereotype.Service
 
 @Service
@@ -22,6 +27,7 @@ class SolvingQuizQueryService(
 	private val loadSolvingQuizPort: LoadSolvingQuizPort,
 	private val readMySolveSummaryPort: ReadMySolveSummaryPort,
 	private val readMyStudyGroupSolveSummaryPort: ReadMyStudyGroupSolveSummaryPort,
+	private val countSolvingQuizPort: CountSolvingQuizPort,
 ) : FindAllSolveResultUseCase,
 	FindAllMySolveSummaryUseCase,
 	FindAllMyStudyGroupSolveSummaryUseCase {
@@ -42,8 +48,24 @@ class SolvingQuizQueryService(
 		)
 	}
 
-	override fun findAllMySolveSummary(memberId: Long): Collection<MySolveSummary> =
-		readMySolveSummaryPort.findAllMySolveSummary(memberId)
+	override fun findAllMySolveSummary(
+		memberId: Long,
+		pageOption: PageOption<MySolvingQuizSortKeyword>,
+	): PageResponse<MySolveSummary> {
+		val totalCount: Long = countSolvingQuizPort.countBy(CountSolvingQuizCondition(memberId = memberId))
+
+		val data: Collection<MySolveSummary> =
+			readMySolveSummaryPort.findAllMySolveSummary(
+				memberId = memberId,
+				pageOption = pageOption,
+			)
+
+		return PageResponse.of(
+			totalElementCount = totalCount,
+			pageSize = pageOption.size,
+			data = data,
+		)
+	}
 
 	override fun findAllMyStudyGroupSolveSummary(
 		memberId: Long,

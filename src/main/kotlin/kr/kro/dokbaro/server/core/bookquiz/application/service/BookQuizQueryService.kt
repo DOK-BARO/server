@@ -1,8 +1,6 @@
 package kr.kro.dokbaro.server.core.bookquiz.application.service
 
 import kr.kro.dokbaro.server.common.dto.option.PageOption
-import kr.kro.dokbaro.server.common.dto.option.SortDirection
-import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizExplanationUseCase
@@ -17,15 +15,17 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizQues
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizSummaryPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadMyBookQuizSummaryPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadUnsolvedGroupBookQuizPort
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.NotFoundQuestionException
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
 import org.springframework.stereotype.Service
 
 @Service
@@ -51,23 +51,19 @@ class BookQuizQueryService(
 
 	override fun findAllBookQuizSummary(
 		bookId: Long,
-		page: Long,
-		size: Long,
-		sort: BookQuizSummarySortOption,
-		direction: SortDirection,
+		pageOption: PageOption<BookQuizSummarySortKeyword>,
 	): PageResponse<BookQuizSummary> {
-		val count: Long = countBookQuizPort.countBookQuizBy(bookId)
+		val count: Long = countBookQuizPort.countBookQuizBy(CountBookQuizCondition(bookId = bookId))
 		val data: Collection<BookQuizSummary> =
 			readBookQuizSummaryPort
 				.findAllBookQuizSummary(
 					bookId = bookId,
-					pageOption = PageOption.of(page, size),
-					sortOption = SortOption(sort, direction),
+					pageOption = pageOption,
 				)
 
 		return PageResponse.of(
 			totalElementCount = count,
-			pageSize = page,
+			pageSize = pageOption.size,
 			data = data,
 		)
 	}
@@ -81,8 +77,24 @@ class BookQuizQueryService(
 			studyGroupId = studyGroupId,
 		)
 
-	override fun findMyBookQuiz(memberId: Long): Collection<MyBookQuizSummary> =
-		readMyBookQuizSummaryPort.findAllMyBookQuiz(memberId)
+	override fun findMyBookQuiz(
+		memberId: Long,
+		pageOption: PageOption<MyBookQuizSummarySortKeyword>,
+	): PageResponse<MyBookQuizSummary> {
+		val totalCount: Long = countBookQuizPort.countBookQuizBy(CountBookQuizCondition(creatorId = memberId))
+
+		val data: Collection<MyBookQuizSummary> =
+			readMyBookQuizSummaryPort.findAllMyBookQuiz(
+				memberId = memberId,
+				pageOption = pageOption,
+			)
+
+		return PageResponse.of(
+			totalElementCount = totalCount,
+			pageSize = pageOption.size,
+			data = data,
+		)
+	}
 
 	override fun findExplanationBy(id: Long): BookQuizExplanation =
 		readBookQuizExplanationPort.findExplanationBy(id) ?: throw NotFoundQuizException(id)

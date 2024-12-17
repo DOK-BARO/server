@@ -1,5 +1,5 @@
 package kr.kro.dokbaro.server.security.jwt.exception
 
-import kr.kro.dokbaro.server.common.exception.http.status4xx.UnauthorizedException
+import org.springframework.security.core.AuthenticationException
 
-class ExpiredRefreshTokenException : UnauthorizedException("expired refresh token")
+class ExpiredRefreshTokenException : AuthenticationException("expired refresh token")
