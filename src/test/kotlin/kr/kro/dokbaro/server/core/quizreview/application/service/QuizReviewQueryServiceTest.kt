@@ -5,14 +5,13 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
-import kr.kro.dokbaro.server.common.dto.option.SortDirection
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.FindQuizReviewSummaryCommand
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.CountQuizReviewPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewSummaryPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewTotalScorePort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.QuizReviewTotalScoreElement
-import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortOption
 
 class QuizReviewQueryServiceTest :
 	StringSpec({
@@ -45,16 +44,13 @@ class QuizReviewQueryServiceTest :
 
 		"요약본을 조회한다" {
 			every { countQuizReviewPort.countBy(any()) } returns 100
-			every { readQuizReviewSummaryPort.findAllQuizReviewSummaryBy(any(), any(), any()) } returns listOf()
+			every { readQuizReviewSummaryPort.findAllQuizReviewSummaryBy(any(), any()) } returns listOf()
 
 			quizReviewQueryService.findAllQuizReviewSummaryBy(
 				FindQuizReviewSummaryCommand(
-					page = 10,
-					size = 10,
 					quizId = 10,
-					sort = QuizReviewSummarySortOption.CREATED_AT,
-					direction = SortDirection.DESC,
 				),
+				PageOption.of(),
 			) shouldNotBe null
 		}
 	})

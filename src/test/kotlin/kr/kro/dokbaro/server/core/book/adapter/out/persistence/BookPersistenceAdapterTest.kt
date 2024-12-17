@@ -9,14 +9,13 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
-import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.entity.jooq.BookMapper
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookQueryRepository
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
 import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollectionCondition
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
-import kr.kro.dokbaro.server.core.book.query.BookSummarySortOption
+import kr.kro.dokbaro.server.core.book.query.BookSummarySortKeyword
 import kr.kro.dokbaro.server.fixture.domain.bookCategoryFixture
 import kr.kro.dokbaro.server.fixture.domain.bookFixture
 import org.jooq.DSLContext
@@ -70,8 +69,6 @@ class BookPersistenceAdapterTest(
 			findBook.description shouldBe null
 		}
 
-		val defaultPageOption = PageOption(0, 200_000_000)
-		val defaultSortOption = SortOption(BookSummarySortOption.TITLE)
 		"책 목록을 조회한다" {
 			val categoryId =
 				repository.insertBookCategory(bookCategoryFixture(parentId = BookCategory.ROOT_ID, koreanName = "모바일"))
@@ -83,8 +80,7 @@ class BookPersistenceAdapterTest(
 			queryAdapter
 				.getAllBook(
 					condition = ReadBookCollectionCondition(),
-					pageOption = PageOption(0, expectedCount.toLong()),
-					sortOption = defaultSortOption,
+					pageOption = PageOption.of(),
 				).size shouldBe expectedCount
 		}
 
@@ -107,10 +103,10 @@ class BookPersistenceAdapterTest(
 			val mobileCondition = ReadBookCollectionCondition(categoryId = mobileId)
 			val osCondition = ReadBookCollectionCondition(categoryId = osId)
 
-			queryAdapter.getAllBook(mobileCondition, defaultPageOption, defaultSortOption).count() shouldBe
+			queryAdapter.getAllBook(mobileCondition, PageOption.of()).count() shouldBe
 				books.count { it.categories.contains(mobileId) }
 
-			queryAdapter.getAllBook(osCondition, defaultPageOption, defaultSortOption).count() shouldBe
+			queryAdapter.getAllBook(osCondition, PageOption.of()).count() shouldBe
 				books.count { it.categories.contains(osId) }
 		}
 
@@ -130,7 +126,7 @@ class BookPersistenceAdapterTest(
 			val target = "현"
 			val condition = ReadBookCollectionCondition(authorName = target)
 
-			queryAdapter.getAllBook(condition, defaultPageOption, defaultSortOption).count() shouldBe
+			queryAdapter.getAllBook(condition, PageOption.of()).count() shouldBe
 				books.count { it.authors.any { author -> author.name.contains(target) } }
 		}
 
@@ -150,7 +146,7 @@ class BookPersistenceAdapterTest(
 			val target = "자바"
 			val condition = ReadBookCollectionCondition(title = target)
 
-			queryAdapter.getAllBook(condition, defaultPageOption, defaultSortOption).count() shouldBe
+			queryAdapter.getAllBook(condition, PageOption.of()).count() shouldBe
 				books.count { it.title.contains(target) }
 		}
 
@@ -170,7 +166,7 @@ class BookPersistenceAdapterTest(
 			val target = "자바"
 			val condition = ReadBookCollectionCondition(description = target)
 
-			queryAdapter.getAllBook(condition, defaultPageOption, defaultSortOption).count() shouldBe
+			queryAdapter.getAllBook(condition, PageOption.of()).count() shouldBe
 				books.count { it.description?.contains(target) == true }
 		}
 
@@ -209,8 +205,10 @@ class BookPersistenceAdapterTest(
 			queryAdapter
 				.getAllBook(
 					condition,
-					defaultPageOption,
-					SortOption(BookSummarySortOption.TITLE, SortDirection.ASC),
+					PageOption.of(
+						sort = BookSummarySortKeyword.TITLE,
+						direction = SortDirection.ASC,
+					),
 				).toList()[0]
 				.title shouldBe "A"
 
@@ -218,8 +216,10 @@ class BookPersistenceAdapterTest(
 				queryAdapter
 					.getAllBook(
 						condition,
-						defaultPageOption,
-						SortOption(BookSummarySortOption.PUBLISHED_AT, SortDirection.ASC),
+						PageOption.of(
+							sort = BookSummarySortKeyword.PUBLISHED_AT,
+							direction = SortDirection.ASC,
+						),
 					).toList()[0]
 					.title
 			title shouldBe "A"
@@ -227,8 +227,10 @@ class BookPersistenceAdapterTest(
 			queryAdapter
 				.getAllBook(
 					condition,
-					defaultPageOption,
-					SortOption(BookSummarySortOption.QUIZ_COUNT, SortDirection.DESC),
+					PageOption.of(
+						sort = BookSummarySortKeyword.QUIZ_COUNT,
+						direction = SortDirection.DESC,
+					),
 				).toList()[0] shouldNotBe null
 		}
 

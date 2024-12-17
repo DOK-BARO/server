@@ -8,18 +8,19 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
-import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
-import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.member.domain.Email
@@ -122,12 +123,11 @@ class BookQuizPersistenceQueryAdapterTest(
 				)
 			}
 
-			adapter.countBookQuizBy(book) shouldBe target
-			adapter.countBookQuizBy(book2) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book2)) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target * 2
 		}
 
-		val defaultPageOption = PageOption.of(1, 10000000)
-		val defaultSortOption = SortOption(BookQuizSummarySortOption.CREATED_AT)
 		"퀴즈 요약 목록을 조회한다" {
 			val member = memberRepository.insert(memberFixture()).id
 			val book = bookRepository.insertBook(bookFixture())
@@ -143,7 +143,7 @@ class BookQuizPersistenceQueryAdapterTest(
 				)
 			}
 
-			adapter.findAllBookQuizSummary(book, defaultPageOption, defaultSortOption).size shouldBe targetSize
+			adapter.findAllBookQuizSummary(book, PageOption.of()).size shouldBe targetSize
 		}
 
 		"퀴즈 요약 목록을 정렬하여 조회한다" {
@@ -160,18 +160,22 @@ class BookQuizPersistenceQueryAdapterTest(
 			adapter
 				.findAllBookQuizSummary(
 					book,
-					defaultPageOption,
-					SortOption(BookQuizSummarySortOption.STAR_RATING),
+					PageOption.of(sort = BookQuizSummarySortKeyword.STAR_RATING),
 				).toList()[0]
 				.averageStarRating shouldBe 1.toDouble()
 
 			adapter
 				.findAllBookQuizSummary(
 					book,
-					defaultPageOption,
-					SortOption(BookQuizSummarySortOption.STAR_RATING, SortDirection.DESC),
+					PageOption.of(sort = BookQuizSummarySortKeyword.STAR_RATING, direction = SortDirection.DESC),
 				).toList()[0]
 				.averageStarRating shouldBe 10.toDouble()
+
+			adapter
+				.findAllBookQuizSummary(
+					book,
+					PageOption.of(sort = BookQuizSummarySortKeyword.CREATED_AT),
+				).isEmpty() shouldBe false
 		}
 
 		"스터디 그룹 퀴즈 중 본인이 안 푼 문제 목록을 조회한다" {
@@ -208,20 +212,63 @@ class BookQuizPersistenceQueryAdapterTest(
 			val memberId2 = memberRepository.insert(memberFixture(email = Email("hello@gmail.com"))).id
 			val bookId = bookRepository.insertBook(bookFixture())
 
+			val quiz1 =
+				bookQuizRepository.insert(
+					bookQuizFixture(
+						title = "A",
+						bookId = bookId,
+						creatorId = memberId,
+					),
+				)
+			val quiz2 =
+				bookQuizRepository.insert(
+					bookQuizFixture(
+						title = "B",
+						bookId = bookId,
+						creatorId = memberId,
+					),
+				)
 			bookQuizRepository.insert(
 				bookQuizFixture(
-					bookId = bookId,
-					creatorId = memberId,
-				),
-			)
-			bookQuizRepository.insert(
-				bookQuizFixture(
+					title = "B",
 					bookId = bookId,
 					creatorId = memberId2,
 				),
 			)
 
-			adapter.findAllMyBookQuiz(memberId).size shouldBe 1
+			adapter
+				.findAllMyBookQuiz(
+					memberId,
+					PageOption.of(),
+				).size shouldBe
+				2
+			adapter
+				.findAllMyBookQuiz(
+					memberId2,
+					PageOption.of(),
+				).size shouldBe
+				1
+			adapter
+				.findAllMyBookQuiz(
+					memberId,
+					PageOption.of(sort = MyBookQuizSummarySortKeyword.CREATED_AT),
+				).first()
+				.id shouldBe
+				quiz1
+			adapter
+				.findAllMyBookQuiz(
+					memberId,
+					PageOption.of(sort = MyBookQuizSummarySortKeyword.TITLE),
+				).first()
+				.id shouldBe
+				quiz1
+			adapter
+				.findAllMyBookQuiz(
+					memberId,
+					PageOption.of(sort = MyBookQuizSummarySortKeyword.TITLE, direction = SortDirection.DESC),
+				).first()
+				.id shouldBe
+				quiz2
 		}
 
 		"퀴즈 설명을 조회한다" {

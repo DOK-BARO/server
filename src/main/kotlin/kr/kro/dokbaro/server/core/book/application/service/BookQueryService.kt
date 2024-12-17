@@ -1,7 +1,6 @@
 package kr.kro.dokbaro.server.core.book.application.service
 
 import kr.kro.dokbaro.server.common.dto.option.PageOption
-import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindIntegratedBookUseCase
@@ -15,6 +14,7 @@ import kr.kro.dokbaro.server.core.book.application.port.out.dto.ReadBookCollecti
 import kr.kro.dokbaro.server.core.book.application.service.exception.BookNotFoundException
 import kr.kro.dokbaro.server.core.book.query.BookDetail
 import kr.kro.dokbaro.server.core.book.query.BookSummary
+import kr.kro.dokbaro.server.core.book.query.BookSummarySortKeyword
 import kr.kro.dokbaro.server.core.book.query.IntegratedBook
 import org.springframework.stereotype.Service
 
@@ -27,7 +27,10 @@ class BookQueryService(
 ) : FindAllBookUseCase,
 	FindOneBookUseCase,
 	FindIntegratedBookUseCase {
-	override fun findAllBy(command: FindAllBookCommand): PageResponse<BookSummary> {
+	override fun findAllBy(
+		command: FindAllBookCommand,
+		pageOption: PageOption<BookSummarySortKeyword>,
+	): PageResponse<BookSummary> {
 		val condition =
 			ReadBookCollectionCondition(
 				title = command.title,
@@ -39,13 +42,12 @@ class BookQueryService(
 		val data =
 			readBookCollectionPort.getAllBook(
 				condition = condition,
-				pageOption = PageOption.of(command.page, command.size),
-				sortOption = SortOption(command.sort, command.direction),
+				pageOption,
 			)
 
 		return PageResponse.of(
 			totalElementCount = count,
-			pageSize = command.size,
+			pageSize = pageOption.size,
 			data = data,
 		)
 	}

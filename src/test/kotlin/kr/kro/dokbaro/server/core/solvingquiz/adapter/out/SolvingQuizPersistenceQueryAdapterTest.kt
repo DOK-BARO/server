@@ -5,6 +5,8 @@ import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
+import kr.kro.dokbaro.server.common.dto.option.PageOption
+import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
@@ -15,7 +17,9 @@ import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.entity.jooq.SolvingQuizMapper
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository.jooq.SolvingQuizQueryRepository
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository.jooq.SolvingQuizRepository
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.dto.CountSolvingQuizCondition
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
@@ -45,12 +49,38 @@ class SolvingQuizPersistenceQueryAdapterTest(
 			val memberId = memberRepository.insert(memberFixture()).id
 			val member2Id = memberRepository.insert(memberFixture(email = Email("sub@gmail.com"))).id
 			val bookId = bookRepository.insertBook(bookFixture())
-			val bookQuizId = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
+			val firstQuizId = bookQuizRepository.insert(bookQuizFixture(title = "가", creatorId = memberId, bookId = bookId))
+			val bookQuizId = bookQuizRepository.insert(bookQuizFixture(title = "나", creatorId = memberId, bookId = bookId))
+			val lastQuizId = bookQuizRepository.insert(bookQuizFixture(title = "다", creatorId = memberId, bookId = bookId))
 
 			solvingQuizRepository.insert(SolvingQuiz(playerId = memberId, quizId = bookQuizId))
-			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = bookQuizId))
+			val firstSolvingQuiz: Long = solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = bookQuizId))
+			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = firstQuizId))
+			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = lastQuizId))
 
-			adapter.findAllMySolveSummary(memberId).size shouldBe 1
+			adapter.findAllMySolveSummary(memberId, PageOption.of()).size shouldBe 1
+			adapter
+				.findAllMySolveSummary(
+					member2Id,
+					PageOption.of(sort = MySolvingQuizSortKeyword.TITLE),
+				).first()
+				.quiz.id shouldBe
+				firstQuizId
+			adapter
+				.findAllMySolveSummary(
+					member2Id,
+					PageOption.of(sort = MySolvingQuizSortKeyword.TITLE, direction = SortDirection.DESC),
+				).first()
+				.quiz.id shouldBe
+				lastQuizId
+
+			adapter
+				.findAllMySolveSummary(
+					member2Id,
+					PageOption.of(sort = MySolvingQuizSortKeyword.CREATED_AT),
+				).first()
+				.id shouldBe
+				firstSolvingQuiz
 		}
 
 		"그룹 내 내가 푼 퀴즈 목록을 조회한다" {
@@ -74,5 +104,21 @@ class SolvingQuizPersistenceQueryAdapterTest(
 			solvingQuizRepository.insert(SolvingQuiz(playerId = memberId, quizId = bookQuizId))
 
 			adapter.findAllMyStudyGroupSolveSummary(memberId, studyGroupId).shouldNotBeEmpty()
+		}
+
+		"푼 퀴즈의 개수를 조회한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val member2Id = memberRepository.insert(memberFixture(email = Email("sub@gmail.com"))).id
+			val bookId = bookRepository.insertBook(bookFixture())
+			val quizId = bookQuizRepository.insert(bookQuizFixture(title = "가", creatorId = memberId, bookId = bookId))
+
+			solvingQuizRepository.insert(SolvingQuiz(playerId = memberId, quizId = quizId))
+			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = quizId))
+			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = quizId))
+			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = quizId))
+
+			adapter.countBy(CountSolvingQuizCondition(memberId)) shouldBe 1
+			adapter.countBy(CountSolvingQuizCondition(member2Id)) shouldBe 3
+			adapter.countBy(CountSolvingQuizCondition()) shouldBe 4
 		}
 	})

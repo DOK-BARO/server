@@ -1,6 +1,6 @@
 package kr.kro.dokbaro.server.core.quizreview.query
 
-enum class QuizReviewSummarySortOption {
+enum class QuizReviewSummarySortKeyword {
 	CREATED_AT,
 	STAR_RATING,
 }

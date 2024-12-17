@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.quizreview.adapter.input.web
 
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
@@ -14,7 +15,7 @@ import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.CreateQu
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.FindQuizReviewSummaryCommand
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.UpdateQuizReviewCommand
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
-import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortOption
+import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
 import kr.kro.dokbaro.server.security.annotation.Login
 import kr.kro.dokbaro.server.security.details.DokbaroUser
@@ -91,14 +92,16 @@ class QuizReviewController(
 		@RequestParam page: Long,
 		@RequestParam size: Long,
 		@RequestParam quizId: Long,
-		@RequestParam sort: QuizReviewSummarySortOption,
+		@RequestParam sort: QuizReviewSummarySortKeyword,
 		@RequestParam direction: SortDirection = SortDirection.ASC,
 	): PageResponse<QuizReviewSummary> =
 		findQuizReviewSummaryUseCase.findAllQuizReviewSummaryBy(
 			FindQuizReviewSummaryCommand(
+				quizId = quizId,
+			),
+			PageOption.of(
 				page = page,
 				size = size,
-				quizId = quizId,
 				sort = sort,
 				direction = direction,
 			),

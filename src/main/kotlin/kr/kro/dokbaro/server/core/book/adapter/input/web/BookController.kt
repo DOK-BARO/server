@@ -1,5 +1,6 @@
 package kr.kro.dokbaro.server.core.book.adapter.input.web
 
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
@@ -11,7 +12,7 @@ import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookComm
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.FindAllBookCommand
 import kr.kro.dokbaro.server.core.book.query.BookDetail
 import kr.kro.dokbaro.server.core.book.query.BookSummary
-import kr.kro.dokbaro.server.core.book.query.BookSummarySortOption
+import kr.kro.dokbaro.server.core.book.query.BookSummarySortKeyword
 import kr.kro.dokbaro.server.core.book.query.IntegratedBook
 import kr.kro.dokbaro.server.security.annotation.Login
 import kr.kro.dokbaro.server.security.details.DokbaroUser
@@ -48,7 +49,7 @@ class BookController(
 		@RequestParam category: Long?,
 		@RequestParam(defaultValue = "1") page: Long,
 		@RequestParam size: Long,
-		@RequestParam sort: BookSummarySortOption,
+		@RequestParam sort: BookSummarySortKeyword,
 		@RequestParam direction: SortDirection = SortDirection.ASC,
 	): PageResponse<BookSummary> =
 		findAllBookUseCase
@@ -58,6 +59,8 @@ class BookController(
 					authorName = authorName,
 					description = description,
 					category = category,
+				),
+				PageOption.of(
 					page = page,
 					size = size,
 					sort = sort,

@@ -41,7 +41,7 @@ class BookControllerTest : RestDocsTest() {
 
 	init {
 		"책 전체 조회를 수행한다" {
-			every { findAllBookUseCase.findAllBy(any()) } returns
+			every { findAllBookUseCase.findAllBy(any(), any()) } returns
 				PageResponse(
 					100,
 					listOf(

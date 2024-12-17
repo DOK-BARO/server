@@ -25,9 +25,10 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
-import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
@@ -337,7 +338,7 @@ class BookQuizControllerTest : RestDocsTest() {
 		}
 
 		"책에 대한 퀴즈 목록을 조회한다" {
-			every { findBookQuizSummaryUseCase.findAllBookQuizSummary(any(), any(), any(), any(), any()) } returns
+			every { findBookQuizSummaryUseCase.findAllBookQuizSummary(any(), any()) } returns
 				PageResponse(
 					endPageNumber = 5L,
 					data =
@@ -389,7 +390,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					"page" to "1",
 					"size" to "10",
 					"bookId" to "12345",
-					"sort" to BookQuizSummarySortOption.CREATED_AT.name,
+					"sort" to BookQuizSummarySortKeyword.CREATED_AT.name,
 					"direction" to SortDirection.ASC.name,
 				)
 
@@ -531,32 +532,49 @@ class BookQuizControllerTest : RestDocsTest() {
 		}
 
 		"내가 작성한 퀴즈 목록을 조회한다" {
-			every { findMyBookQuizUseCase.findMyBookQuiz(any()) } returns
-				listOf(
-					MyBookQuizSummary(
-						id = 1L,
-						bookImageUrl = "https://example.com/book_image1.jpg",
-						title = "Effective Kotlin",
-						updatedAt = LocalDateTime.now().minusDays(2),
-					),
-					MyBookQuizSummary(
-						id = 2L,
-						bookImageUrl = "https://example.com/book_image2.jpg",
-						title = "Kotlin in Action",
-						updatedAt = LocalDateTime.now().minusDays(5),
+			every { findMyBookQuizUseCase.findMyBookQuiz(any(), any()) } returns
+				PageResponse.of(
+					1000,
+					20,
+					listOf(
+						MyBookQuizSummary(
+							id = 1L,
+							bookImageUrl = "https://example.com/book_image1.jpg",
+							title = "Effective Kotlin",
+							updatedAt = LocalDateTime.now().minusDays(2),
+						),
+						MyBookQuizSummary(
+							id = 2L,
+							bookImageUrl = "https://example.com/book_image2.jpg",
+							title = "Kotlin in Action",
+							updatedAt = LocalDateTime.now().minusDays(5),
+						),
 					),
 				)
-
-			performGet(Path("/book-quizzes/my"))
+			val params =
+				mapOf(
+					"page" to "1",
+					"size" to "10",
+					"sort" to MyBookQuizSummarySortKeyword.CREATED_AT.name,
+					"direction" to SortDirection.ASC.name,
+				)
+			performGet(Path("/book-quizzes/my"), params)
 				.andExpect(status().isOk)
 				.andDo(
 					print(
 						"book-quiz/get-my-quiz",
+						queryParameters(
+							parameterWithName("page").description("결과 페이지 번호. 0부터 시작."),
+							parameterWithName("size").description("페이지당 결과 수."),
+							parameterWithName("sort").description("정렬 기준. [CREATED_AT, TITLE]"),
+							parameterWithName("direction").description("정렬 방향. 가능한 값은 'ASC' 또는 'DESC'"),
+						),
 						responseFields(
-							fieldWithPath("[].id").description("퀴즈 요약의 고유 ID"),
-							fieldWithPath("[].bookImageUrl").optional().description("책의 이미지 URL (optional)"),
-							fieldWithPath("[].title").description("책의 제목"),
-							fieldWithPath("[].updatedAt").description("마지막으로 업데이트된 시간 (ISO 8601 형식)"),
+							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),
+							fieldWithPath("data[].id").description("퀴즈 요약의 고유 ID"),
+							fieldWithPath("data[].bookImageUrl").optional().description("책의 이미지 URL (optional)"),
+							fieldWithPath("data[].title").description("책의 제목"),
+							fieldWithPath("data[].updatedAt").description("마지막으로 업데이트된 시간 (ISO 8601 형식)"),
 						),
 					),
 				)

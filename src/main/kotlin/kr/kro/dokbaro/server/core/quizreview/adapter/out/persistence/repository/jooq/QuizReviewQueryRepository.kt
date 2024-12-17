@@ -2,14 +2,13 @@ package kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository
 
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
-import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.entity.jooq.QuizReviewMapper
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.CountQuizReviewCondition
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.QuizReviewTotalScoreElement
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.ReadQuizReviewSummaryCondition
 import kr.kro.dokbaro.server.core.quizreview.domain.QuizReview
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
-import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortOption
+import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
@@ -49,8 +48,7 @@ class QuizReviewQueryRepository(
 
 	fun findAllQuizReviewSummaryBy(
 		condition: ReadQuizReviewSummaryCondition,
-		pageOption: PageOption,
-		sortOption: SortOption<QuizReviewSummarySortOption>,
+		pageOption: PageOption<QuizReviewSummarySortKeyword>,
 	): Collection<QuizReviewSummary> {
 		val record: Result<out Record> =
 			dslContext
@@ -70,7 +68,7 @@ class QuizReviewQueryRepository(
 					QUIZ_REVIEW.QUIZ_ID.eq(condition.quizId).and(
 						QUIZ_REVIEW.DELETED.eq(false),
 					),
-				).orderBy(toOrderByQuery(sortOption), QUIZ_REVIEW.ID)
+				).orderBy(toOrderByQuery(pageOption), QUIZ_REVIEW.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
 				.fetch()
@@ -78,14 +76,14 @@ class QuizReviewQueryRepository(
 		return quizReviewMapper.recordToSummary(record)
 	}
 
-	private fun toOrderByQuery(sortOption: SortOption<QuizReviewSummarySortOption>): OrderField<out Any>? {
+	private fun toOrderByQuery(pageOption: PageOption<QuizReviewSummarySortKeyword>): OrderField<out Any>? {
 		val query =
-			when (sortOption.keyword) {
-				QuizReviewSummarySortOption.CREATED_AT -> QUIZ_REVIEW.CREATED_AT
-				QuizReviewSummarySortOption.STAR_RATING -> QUIZ_REVIEW.STAR_RATING
+			when (pageOption.sort) {
+				QuizReviewSummarySortKeyword.CREATED_AT -> QUIZ_REVIEW.CREATED_AT
+				QuizReviewSummarySortKeyword.STAR_RATING -> QUIZ_REVIEW.STAR_RATING
 			}
 
-		if (sortOption.direction == SortDirection.DESC) {
+		if (pageOption.direction == SortDirection.DESC) {
 			return query.desc()
 		}
 

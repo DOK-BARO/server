@@ -5,7 +5,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
-import kr.kro.dokbaro.server.common.dto.option.SortDirection
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.CountBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizAnswerPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizExplanationPort
@@ -19,7 +19,6 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.NotFoundQuestionException
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
-import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummarySortOption
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import java.time.LocalDateTime
@@ -92,14 +91,11 @@ class BookQuizQueryServiceTest :
 
 		"퀴즈 요약본을 조회한다" {
 			every { countBookQuizPort.countBookQuizBy(any()) } returns 100
-			every { readBookQuizSummaryPort.findAllBookQuizSummary(any(), any(), any()) } returns listOf()
+			every { readBookQuizSummaryPort.findAllBookQuizSummary(any(), any()) } returns listOf()
 
 			bookQuizQueryService.findAllBookQuizSummary(
 				1,
-				1,
-				1,
-				BookQuizSummarySortOption.CREATED_AT,
-				SortDirection.ASC,
+				PageOption.of(),
 			) shouldNotBe null
 		}
 
@@ -110,7 +106,7 @@ class BookQuizQueryServiceTest :
 		}
 
 		"내가 제작한 퀴즈 목록을 조회한다" {
-			every { readMyBookQuizSummaryPort.findAllMyBookQuiz(any()) } returns
+			every { readMyBookQuizSummaryPort.findAllMyBookQuiz(any(), any()) } returns
 				listOf(
 					MyBookQuizSummary(
 						id = 1L,
@@ -120,7 +116,11 @@ class BookQuizQueryServiceTest :
 					),
 				)
 
-			bookQuizQueryService.findMyBookQuiz(1) shouldNotBe null
+			bookQuizQueryService.findMyBookQuiz(
+				1,
+				PageOption.of(),
+			) shouldNotBe
+				null
 		}
 
 		"퀴즈 설명을 조회한다" {

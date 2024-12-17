@@ -77,6 +77,7 @@ include::{snippets}/book-quiz/get-unsolved-study-group-quiz/response-fields.adoc
 ==== HTTP request
 
 include::{snippets}/book-quiz/get-my-quiz/http-request.adoc[]
+include::{snippets}/book-quiz/get-my-quiz/query-parameters.adoc[]
 
 ==== HTTP response
 

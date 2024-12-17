@@ -1,6 +1,9 @@
 package kr.kro.dokbaro.server.core.solvingquiz.adapter.input.web
 
+import kr.kro.dokbaro.server.common.dto.option.PageOption
+import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
+import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.input.web.dto.SolveQuestionRequest
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.input.web.dto.StartSolvingQuizRequest
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMySolveSummaryUseCase
@@ -14,6 +17,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.SolveResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
 import kr.kro.dokbaro.server.security.annotation.Login
 import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -77,8 +82,18 @@ class SolvingQuizController(
 	@GetMapping("/my")
 	fun getMySolvingQuiz(
 		@Login user: DokbaroUser,
-	): Collection<MySolveSummary> =
+		@RequestParam page: Long,
+		@RequestParam size: Long,
+		@RequestParam sort: MySolvingQuizSortKeyword,
+		@RequestParam direction: SortDirection,
+	): PageResponse<MySolveSummary> =
 		findAllMySolveSummaryUseCase.findAllMySolveSummary(
 			memberId = user.id,
+			PageOption.of(
+				page = page,
+				size = size,
+				sort = sort,
+				direction = direction,
+			),
 		)
 }

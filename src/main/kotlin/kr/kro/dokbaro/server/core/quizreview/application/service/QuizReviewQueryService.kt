@@ -1,7 +1,6 @@
 package kr.kro.dokbaro.server.core.quizreview.application.service
 
 import kr.kro.dokbaro.server.common.dto.option.PageOption
-import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizReviewSummaryUseCase
@@ -14,6 +13,7 @@ import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.CountQuizR
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.QuizReviewTotalScoreElement
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.ReadQuizReviewSummaryCondition
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
+import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
 import org.springframework.stereotype.Service
 
@@ -48,17 +48,19 @@ class QuizReviewQueryService(
 		)
 	}
 
-	override fun findAllQuizReviewSummaryBy(command: FindQuizReviewSummaryCommand): PageResponse<QuizReviewSummary> {
+	override fun findAllQuizReviewSummaryBy(
+		command: FindQuizReviewSummaryCommand,
+		pageOption: PageOption<QuizReviewSummarySortKeyword>,
+	): PageResponse<QuizReviewSummary> {
 		val totalCount: Long = countQuizReviewPort.countBy(CountQuizReviewCondition(command.quizId))
 
 		return PageResponse.of(
 			totalElementCount = totalCount,
-			pageSize = command.size,
+			pageSize = pageOption.size,
 			data =
 				readQuizReviewSummaryPort.findAllQuizReviewSummaryBy(
 					condition = ReadQuizReviewSummaryCondition(command.quizId),
-					pageOption = PageOption.of(command.page, command.size),
-					sortOption = SortOption(command.sort, command.direction),
+					pageOption = pageOption,
 				),
 		)
 	}

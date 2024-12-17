@@ -2,7 +2,6 @@ package kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence
 
 import kr.kro.dokbaro.server.common.annotation.PersistenceAdapter
 import kr.kro.dokbaro.server.common.dto.option.PageOption
-import kr.kro.dokbaro.server.common.dto.option.SortOption
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq.QuizReviewQueryRepository
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.CountQuizReviewPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewSummaryPort
@@ -11,7 +10,7 @@ import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.CountQuizR
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.QuizReviewTotalScoreElement
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.ReadQuizReviewSummaryCondition
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
-import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortOption
+import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 
 @PersistenceAdapter
 class QuizReviewPersistenceQueryAdapter(
@@ -26,12 +25,10 @@ class QuizReviewPersistenceQueryAdapter(
 
 	override fun findAllQuizReviewSummaryBy(
 		condition: ReadQuizReviewSummaryCondition,
-		pageOption: PageOption,
-		sortOption: SortOption<QuizReviewSummarySortOption>,
+		pageOption: PageOption<QuizReviewSummarySortKeyword>,
 	): Collection<QuizReviewSummary> =
 		quizReviewQueryRepository.findAllQuizReviewSummaryBy(
 			condition = condition,
 			pageOption = pageOption,
-			sortOption = sortOption,
 		)
 }
