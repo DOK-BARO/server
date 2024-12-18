@@ -21,10 +21,14 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq.QuizReviewRepository
+import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.entity.jooq.SolvingQuizMapper
+import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository.jooq.SolvingQuizRepository
+import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
@@ -50,6 +54,7 @@ class BookQuizPersistenceQueryAdapterTest(
 		val bookQuizQueryRepository = BookQuizQueryRepository(dslContext, BookQuizMapper())
 		val studyGroupRepository = StudyGroupRepository(dslContext, StudyGroupMapper())
 		val quizReviewRepository = QuizReviewRepository(dslContext)
+		val solvingQuizRepository = SolvingQuizRepository(dslContext, SolvingQuizMapper())
 
 		val adapter = BookQuizPersistenceQueryAdapter(bookQuizQueryRepository)
 
@@ -112,11 +117,15 @@ class BookQuizPersistenceQueryAdapterTest(
 			val member = memberRepository.insert(memberFixture()).id
 			val book = bookRepository.insertBook(bookFixture())
 			val book2 = bookRepository.insertBook(bookFixture(isbn = "444"))
+			val studyGroup =
+				studyGroupRepository.insert(
+					studyGroupFixture(studyMembers = mutableSetOf(StudyMember(member, StudyMemberRole.LEADER))),
+				)
 
 			val target = 10
 			(1..target).forEach {
 				bookQuizRepository.insert(
-					bookQuizFixture(creatorId = member, bookId = book, title = "hello$it"),
+					bookQuizFixture(creatorId = member, bookId = book, title = "hello$it", studyGroupId = studyGroup),
 				)
 				bookQuizRepository.insert(
 					bookQuizFixture(creatorId = member, bookId = book2, title = "hello$it"),
@@ -124,8 +133,31 @@ class BookQuizPersistenceQueryAdapterTest(
 			}
 
 			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition(studyGroupId = studyGroup)) shouldBe target
 			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book2)) shouldBe target
 			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target * 2
+		}
+
+		"내가 푼 퀴즈 개수를 조회한다" {
+			val member = memberRepository.insert(memberFixture()).id
+			val book = bookRepository.insertBook(bookFixture())
+
+			val quiz =
+				bookQuizRepository.insert(bookQuizFixture(creatorId = member, bookId = book))
+
+			bookQuizRepository.insert(bookQuizFixture(creatorId = member, bookId = book))
+			bookQuizRepository.insert(bookQuizFixture(creatorId = member, bookId = book))
+
+			solvingQuizRepository.insert(SolvingQuiz(playerId = member, quizId = quiz))
+
+			adapter.countBookQuizBy(
+				CountBookQuizCondition(solved = CountBookQuizCondition.Solved(memberId = member, solved = true)),
+			) shouldBe
+				1
+			adapter.countBookQuizBy(
+				CountBookQuizCondition(solved = CountBookQuizCondition.Solved(memberId = member, solved = false)),
+			) shouldBe
+				2
 		}
 
 		"퀴즈 요약 목록을 조회한다" {
@@ -204,6 +236,19 @@ class BookQuizPersistenceQueryAdapterTest(
 				.findAllUnsolvedQuizzes(
 					memberId = memberId,
 					studyGroupId = studyGroupId,
+					pageOption = PageOption.of(),
+				).shouldNotBeEmpty()
+			adapter
+				.findAllUnsolvedQuizzes(
+					memberId = memberId,
+					studyGroupId = studyGroupId,
+					pageOption = PageOption.of(direction = SortDirection.DESC),
+				).shouldNotBeEmpty()
+			adapter
+				.findAllUnsolvedQuizzes(
+					memberId = memberId,
+					studyGroupId = studyGroupId,
+					pageOption = PageOption.of(sort = UnsolvedGroupBookQuizSortKeyword.TITLE),
 				).shouldNotBeEmpty()
 		}
 

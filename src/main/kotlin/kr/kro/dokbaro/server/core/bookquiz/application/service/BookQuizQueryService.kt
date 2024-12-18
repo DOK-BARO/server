@@ -26,6 +26,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
 import org.springframework.stereotype.Service
 
 @Service
@@ -71,11 +72,33 @@ class BookQuizQueryService(
 	override fun findAllUnsolvedQuizzes(
 		memberId: Long,
 		studyGroupId: Long,
-	): Collection<UnsolvedGroupBookQuizSummary> =
-		findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(
-			memberId = memberId,
-			studyGroupId = studyGroupId,
+		pageOption: PageOption<UnsolvedGroupBookQuizSortKeyword>,
+	): PageResponse<UnsolvedGroupBookQuizSummary> {
+		val totalCount: Long =
+			countBookQuizPort.countBookQuizBy(
+				CountBookQuizCondition(
+					studyGroupId = studyGroupId,
+					solved =
+						CountBookQuizCondition.Solved(
+							memberId = memberId,
+							solved = false,
+						),
+				),
+			)
+
+		val data: Collection<UnsolvedGroupBookQuizSummary> =
+			findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(
+				memberId = memberId,
+				studyGroupId = studyGroupId,
+				pageOption = pageOption,
+			)
+
+		return PageResponse.of(
+			totalElementCount = totalCount,
+			pageSize = pageOption.size,
+			data = data,
 		)
+	}
 
 	override fun findMyBookQuiz(
 		memberId: Long,

@@ -19,6 +19,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
 
 @PersistenceAdapter
 class BookQuizPersistenceQueryAdapter(
@@ -51,10 +52,12 @@ class BookQuizPersistenceQueryAdapter(
 	override fun findAllUnsolvedQuizzes(
 		memberId: Long,
 		studyGroupId: Long,
+		pageOption: PageOption<UnsolvedGroupBookQuizSortKeyword>,
 	): Collection<UnsolvedGroupBookQuizSummary> =
 		bookQuizQueryRepository.findAllUnsolvedQuizzes(
 			memberId = memberId,
 			studyGroupId = studyGroupId,
+			pageOption = pageOption,
 		)
 
 	override fun findAllMyBookQuiz(

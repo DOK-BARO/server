@@ -12,11 +12,14 @@ import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
 import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
+import org.jooq.Record1
 import org.jooq.Result
+import org.jooq.Table
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizAnswer
@@ -110,6 +113,29 @@ class BookQuizQueryRepository(
 		DSL.and(
 			condition.bookId?.let { BOOK_QUIZ.BOOK_ID.eq(it) },
 			condition.creatorId?.let { BOOK_QUIZ.CREATOR_ID.eq(it) },
+			condition.studyGroupId?.let {
+				BOOK_QUIZ.ID
+					.`in`(
+						select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
+							.from(STUDY_GROUP_QUIZ)
+							.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(it)),
+					)
+			},
+			condition.solved?.let {
+				if (it.solved) {
+					BOOK_QUIZ.ID.`in`(
+						select(SOLVING_QUIZ.QUIZ_ID)
+							.from(SOLVING_QUIZ)
+							.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
+					)
+				} else {
+					BOOK_QUIZ.ID.notIn(
+						select(SOLVING_QUIZ.QUIZ_ID)
+							.from(SOLVING_QUIZ)
+							.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
+					)
+				}
+			},
 		)
 
 	fun findAllBookQuizSummary(
@@ -166,34 +192,15 @@ class BookQuizQueryRepository(
 	fun findAllUnsolvedQuizzes(
 		memberId: Long,
 		studyGroupId: Long,
+		pageOption: PageOption<UnsolvedGroupBookQuizSortKeyword>,
 	): Collection<UnsolvedGroupBookQuizSummary> {
 		val creator = MEMBER.`as`("CREATOR")
 		val contributor = MEMBER.`as`("CONTRIBUTOR")
 
-		val record: Map<BookQuizRecord, Result<out Record>> =
+		val pagedBookQuiz: Table<Record1<Long>> =
 			dslContext
-				.select(
-					BOOK.ID,
-					BOOK.TITLE,
-					BOOK.IMAGE_URL,
-					BOOK_QUIZ.ID,
-					BOOK_QUIZ.TITLE,
-					BOOK_QUIZ.CREATED_AT,
-					creator.ID.`as`(BookQuizRecordFieldName.CREATOR_ID.name),
-					creator.NICKNAME.`as`(BookQuizRecordFieldName.CREATOR_NAME.name),
-					creator.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CREATOR_IMAGE_URL.name),
-					contributor.ID.`as`(BookQuizRecordFieldName.CONTRIBUTOR_ID.name),
-					contributor.NICKNAME.`as`(BookQuizRecordFieldName.CONTRIBUTOR_NAME.name),
-					contributor.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name),
-				).from(BOOK_QUIZ)
-				.join(BOOK)
-				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
-				.join(creator)
-				.on(creator.ID.eq(BOOK_QUIZ.CREATOR_ID))
-				.leftJoin(BOOK_QUIZ_CONTRIBUTOR)
-				.on(BOOK_QUIZ_CONTRIBUTOR.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
-				.leftJoin(contributor)
-				.on(contributor.ID.eq(BOOK_QUIZ_CONTRIBUTOR.MEMBER_ID))
+				.select(BOOK_QUIZ.ID)
+				.from(BOOK_QUIZ)
 				.where(
 					BOOK_QUIZ.ID
 						.`in`(
@@ -207,9 +214,56 @@ class BookQuizQueryRepository(
 									.where(SOLVING_QUIZ.MEMBER_ID.eq(memberId)),
 							),
 						).and(BOOK_QUIZ.DELETED.eq(false)),
-				).fetchGroups(BOOK_QUIZ)
+				).orderBy(toOrderQuery(pageOption), BOOK_QUIZ.ID)
+				.limit(pageOption.limit)
+				.offset(pageOption.offset)
+				.asTable("paged_book_quiz")
+
+		val record: Map<BookQuizRecord, Result<out Record>> =
+			dslContext
+				.select(
+					BOOK.ID,
+					BOOK.TITLE,
+					BOOK.IMAGE_URL,
+					BOOK_QUIZ.ID,
+					BOOK_QUIZ.TITLE,
+					BOOK_QUIZ.DESCRIPTION,
+					BOOK_QUIZ.CREATED_AT,
+					creator.ID.`as`(BookQuizRecordFieldName.CREATOR_ID.name),
+					creator.NICKNAME.`as`(BookQuizRecordFieldName.CREATOR_NAME.name),
+					creator.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CREATOR_IMAGE_URL.name),
+					contributor.ID.`as`(BookQuizRecordFieldName.CONTRIBUTOR_ID.name),
+					contributor.NICKNAME.`as`(BookQuizRecordFieldName.CONTRIBUTOR_NAME.name),
+					contributor.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name),
+				).from(
+					pagedBookQuiz,
+				).join(BOOK_QUIZ)
+				.on(BOOK_QUIZ.ID.eq(pagedBookQuiz.field(BOOK_QUIZ.ID)))
+				.join(BOOK)
+				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
+				.join(creator)
+				.on(creator.ID.eq(BOOK_QUIZ.CREATOR_ID))
+				.leftJoin(BOOK_QUIZ_CONTRIBUTOR)
+				.on(BOOK_QUIZ_CONTRIBUTOR.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.leftJoin(contributor)
+				.on(contributor.ID.eq(BOOK_QUIZ_CONTRIBUTOR.MEMBER_ID))
+				.fetchGroups(BOOK_QUIZ)
 
 		return bookQuizMapper.toUnsolvedGroupBookQuizSummary(record)
+	}
+
+	private fun toOrderQuery(pageOption: PageOption<UnsolvedGroupBookQuizSortKeyword>): OrderField<out Any> {
+		val query =
+			when (pageOption.sort) {
+				UnsolvedGroupBookQuizSortKeyword.CREATED_AT -> BOOK_QUIZ.CREATED_AT
+				UnsolvedGroupBookQuizSortKeyword.TITLE -> BOOK_QUIZ.TITLE
+			}
+
+		if (pageOption.direction == SortDirection.DESC) {
+			return query.desc()
+		}
+
+		return query
 	}
 
 	fun findAllMyBookQuizzes(

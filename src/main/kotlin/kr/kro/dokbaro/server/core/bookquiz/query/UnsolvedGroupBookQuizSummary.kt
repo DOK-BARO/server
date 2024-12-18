@@ -15,6 +15,7 @@ data class UnsolvedGroupBookQuizSummary(
 	data class Quiz(
 		val id: Long,
 		val title: String,
+		val description: String,
 		val creator: Creator,
 		val createdAt: LocalDateTime,
 		val contributors: Collection<Contributor>,
