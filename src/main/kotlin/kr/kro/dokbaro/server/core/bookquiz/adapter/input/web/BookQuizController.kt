@@ -25,6 +25,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
 import kr.kro.dokbaro.server.security.annotation.Login
 import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
@@ -131,10 +132,21 @@ class BookQuizController(
 	fun getUnsolvedBookQuizSummary(
 		@PathVariable studyGroupId: Long,
 		@Login user: DokbaroUser,
-	): Collection<UnsolvedGroupBookQuizSummary> =
+		@RequestParam page: Long,
+		@RequestParam size: Long,
+		@RequestParam sort: UnsolvedGroupBookQuizSortKeyword,
+		@RequestParam direction: SortDirection,
+	): PageResponse<UnsolvedGroupBookQuizSummary> =
 		findUnsolvedGroupBookQuizUseCase.findAllUnsolvedQuizzes(
 			memberId = user.id,
 			studyGroupId = studyGroupId,
+			pageOption =
+				PageOption.of(
+					page = page,
+					size = size,
+					sort = sort,
+					direction = direction,
+				),
 		)
 
 	@GetMapping("/my")

@@ -179,7 +179,7 @@ class SolvingQuizControllerTest : RestDocsTest() {
 					print(
 						"solving-quiz/my-solved",
 						queryParameters(
-							parameterWithName("page").description("결과 페이지 번호. 0부터 시작."),
+							parameterWithName("page").description("결과 페이지 번호. 1부터 시작."),
 							parameterWithName("size").description("페이지당 결과 수."),
 							parameterWithName("sort").description("정렬 기준. [CREATED_AT, STAR_RATING]"),
 							parameterWithName("direction").description("정렬 방향. 가능한 값은 'ASC' 또는 'DESC'"),

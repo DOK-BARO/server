@@ -27,6 +27,7 @@ import org.jooq.generated.tables.JBookQuizAnswerExplainImage
 import org.jooq.generated.tables.JBookQuizQuestion
 import org.jooq.generated.tables.JBookQuizSelectOption
 import org.jooq.generated.tables.JMember
+import org.jooq.generated.tables.JStudyGroup
 import org.jooq.generated.tables.JStudyGroupQuiz
 import org.jooq.generated.tables.records.BookQuizRecord
 
@@ -41,6 +42,7 @@ class BookQuizMapper {
 		private val MEMBER = JMember.MEMBER
 		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
 		private val BOOK = JBook.BOOK
+		private val STUDY_GROUP = JStudyGroup.STUDY_GROUP
 	}
 
 	fun toBookQuizQuestions(record: Result<out Record>): BookQuizQuestions? =
@@ -201,6 +203,7 @@ class BookQuizMapper {
 										}.first(),
 							),
 						createdAt = quiz.createdAt,
+						description = quiz.description,
 						contributors =
 							other
 								.filter {
@@ -234,6 +237,14 @@ class BookQuizMapper {
 				bookImageUrl = it[BOOK.IMAGE_URL],
 				title = it[BOOK_QUIZ.TITLE],
 				updatedAt = it[BOOK_QUIZ.UPDATED_AT],
+				studyGroup =
+					it[STUDY_GROUP.ID]?.let { id ->
+						MyBookQuizSummary.StudyGroup(
+							id = id,
+							name = it[STUDY_GROUP.NAME],
+							profileImageUrl = it[STUDY_GROUP.PROFILE_IMAGE_URL],
+						)
+					},
 			)
 		}
 

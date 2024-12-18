@@ -2,7 +2,6 @@ package kr.kro.dokbaro.server.core.bookquiz.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
@@ -29,6 +28,10 @@ import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
+import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
+import kr.kro.dokbaro.server.fixture.adapter.input.web.endPageNumberFields
+import kr.kro.dokbaro.server.fixture.adapter.input.web.pageQueryParameters
+import kr.kro.dokbaro.server.fixture.adapter.input.web.pageRequestParams
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
@@ -385,14 +388,7 @@ class BookQuizControllerTest : RestDocsTest() {
 						),
 				)
 
-			val params =
-				mapOf(
-					"page" to "1",
-					"size" to "10",
-					"bookId" to "12345",
-					"sort" to BookQuizSummarySortKeyword.CREATED_AT.name,
-					"direction" to SortDirection.ASC.name,
-				)
+			val params = pageRequestParams<BookQuizSummarySortKeyword>(etc = mapOf("bookId" to "1"))
 
 			performGet(Path("/book-quizzes"), params)
 				.andExpect(status().isOk)
@@ -400,7 +396,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					print(
 						"book-quiz/get-summary",
 						queryParameters(
-							parameterWithName("page").description("결과 페이지 번호. 0부터 시작."),
+							parameterWithName("page").description("결과 페이지 번호. 1부터 시작."),
 							parameterWithName("size").description("페이지당 결과 수."),
 							parameterWithName("bookId").description("퀴즈 목록을 조회할 책 ID."),
 							parameterWithName("sort").description("정렬 기준. [CREATED_AT, STAR_RATING]"),
@@ -431,100 +427,113 @@ class BookQuizControllerTest : RestDocsTest() {
 		}
 
 		"스터디 그룹 퀴즈 중 본인이 안 푼 문제 목록을 조회한다" {
-			every { findUnsolvedGroupBookQuizUseCase.findAllUnsolvedQuizzes(any(), any()) } returns
-				listOf(
-					UnsolvedGroupBookQuizSummary(
-						book =
-							UnsolvedGroupBookQuizSummary.Book(
-								id = 1L,
-								title = "The Great Adventure",
-								imageUrl = "https://example.com/the_great_adventure.jpg",
-							),
-						quiz =
-							UnsolvedGroupBookQuizSummary.Quiz(
-								id = 101L,
-								title = "Adventure Quiz",
-								creator =
-									UnsolvedGroupBookQuizSummary.Creator(
-										id = 1001L,
-										nickname = "quizMaster",
-										profileImageUrl = "https://example.com/profile_quizmaster.jpg",
-									),
-								createdAt = LocalDateTime.of(2024, 5, 10, 14, 30, 0, 0),
-								contributors =
-									listOf(
-										UnsolvedGroupBookQuizSummary.Contributor(
-											id = 2001L,
-											nickname = "contributorOne",
-											profileImageUrl = "https://example.com/profile_contributorone.jpg",
+			every { findUnsolvedGroupBookQuizUseCase.findAllUnsolvedQuizzes(any(), any(), any()) } returns
+				PageResponse.of(
+					1000,
+					1,
+					listOf(
+						UnsolvedGroupBookQuizSummary(
+							book =
+								UnsolvedGroupBookQuizSummary.Book(
+									id = 1L,
+									title = "The Great Adventure",
+									imageUrl = "https://example.com/the_great_adventure.jpg",
+								),
+							quiz =
+								UnsolvedGroupBookQuizSummary.Quiz(
+									id = 101L,
+									title = "Adventure Quiz",
+									creator =
+										UnsolvedGroupBookQuizSummary.Creator(
+											id = 1001L,
+											nickname = "quizMaster",
+											profileImageUrl = "https://example.com/profile_quizmaster.jpg",
 										),
-										UnsolvedGroupBookQuizSummary.Contributor(
-											id = 2002L,
-											nickname = "contributorTwo",
-											profileImageUrl = "https://example.com/profile_contributortwo.jpg",
+									description = "description",
+									createdAt = LocalDateTime.of(2024, 5, 10, 14, 30, 0, 0),
+									contributors =
+										listOf(
+											UnsolvedGroupBookQuizSummary.Contributor(
+												id = 2001L,
+												nickname = "contributorOne",
+												profileImageUrl = "https://example.com/profile_contributorone.jpg",
+											),
+											UnsolvedGroupBookQuizSummary.Contributor(
+												id = 2002L,
+												nickname = "contributorTwo",
+												profileImageUrl = "https://example.com/profile_contributortwo.jpg",
+											),
 										),
-									),
-							),
-					),
-					UnsolvedGroupBookQuizSummary(
-						book =
-							UnsolvedGroupBookQuizSummary.Book(
-								id = 2L,
-								title = "Mystery of the Lost City",
-								imageUrl = "https://example.com/mystery_lost_city.jpg",
-							),
-						quiz =
-							UnsolvedGroupBookQuizSummary.Quiz(
-								id = 102L,
-								title = "Mystery Quiz",
-								creator =
-									UnsolvedGroupBookQuizSummary.Creator(
-										id = 1002L,
-										nickname = "mysterySolver",
-										profileImageUrl = "https://example.com/profile_mysterysolver.jpg",
-									),
-								createdAt = LocalDateTime.of(2024, 6, 15, 10, 0, 0, 0),
-								contributors =
-									listOf(
-										UnsolvedGroupBookQuizSummary.Contributor(
-											id = 2003L,
-											nickname = "mysteryFan",
-											profileImageUrl = "https://example.com/profile_mysteryfan.jpg",
+								),
+						),
+						UnsolvedGroupBookQuizSummary(
+							book =
+								UnsolvedGroupBookQuizSummary.Book(
+									id = 2L,
+									title = "Mystery of the Lost City",
+									imageUrl = "https://example.com/mystery_lost_city.jpg",
+								),
+							quiz =
+								UnsolvedGroupBookQuizSummary.Quiz(
+									id = 102L,
+									title = "Mystery Quiz",
+									description = "description",
+									creator =
+										UnsolvedGroupBookQuizSummary.Creator(
+											id = 1002L,
+											nickname = "mysterySolver",
+											profileImageUrl = "https://example.com/profile_mysterysolver.jpg",
 										),
-									),
-							),
+									createdAt = LocalDateTime.of(2024, 6, 15, 10, 0, 0, 0),
+									contributors =
+										listOf(
+											UnsolvedGroupBookQuizSummary.Contributor(
+												id = 2003L,
+												nickname = "mysteryFan",
+												profileImageUrl = "https://example.com/profile_mysteryfan.jpg",
+											),
+										),
+								),
+						),
 					),
 				)
 
-			performGet(Path("/book-quizzes/study-groups/{studyGroupId}/unsolved", "1"))
+			val params = pageRequestParams<UnsolvedGroupBookQuizSortKeyword>()
+			
+			performGet(Path("/book-quizzes/study-groups/{studyGroupId}/unsolved", "1"), params)
 				.andExpect(status().isOk)
 				.andDo(
 					print(
 						"book-quiz/get-unsolved-study-group-quiz",
 						pathParameters(parameterWithName("studyGroupId").description("스터디 그룹 ID")),
+						queryParameters(
+							*pageQueryParameters<UnsolvedGroupBookQuizSortKeyword>(),
+						),
 						responseFields(
+							endPageNumberFields(),
 							// Top level field
-							fieldWithPath("[].book").description("퀴즈에 관련된 책 정보"),
-							fieldWithPath("[].quiz").description("퀴즈의 상세 정보"),
+							fieldWithPath("data[].book").description("퀴즈에 관련된 책 정보"),
+							fieldWithPath("data[].quiz").description("퀴즈의 상세 정보"),
 							// Book summary fields
-							fieldWithPath("[].book.id").description("책의 고유 ID"),
-							fieldWithPath("[].book.title").description("책의 제목"),
-							fieldWithPath("[].book.imageUrl").description("책의 이미지 URL"),
+							fieldWithPath("data[].book.id").description("책의 고유 ID"),
+							fieldWithPath("data[].book.title").description("책의 제목"),
+							fieldWithPath("data[].book.imageUrl").description("책의 이미지 URL"),
 							// Quiz summary fields
-							fieldWithPath("[].quiz.id").description("퀴즈의 고유 ID"),
-							fieldWithPath("[].quiz.title").description("퀴즈 제목"),
-							fieldWithPath("[].quiz.creator").description("퀴즈 생성자 정보"),
-							fieldWithPath("[].quiz.createdAt").description("퀴즈 생성 날짜 및 시간"),
-							fieldWithPath("[].quiz.contributors").description("퀴즈 기여자 목록"),
+							fieldWithPath("data[].quiz.id").description("퀴즈의 고유 ID"),
+							fieldWithPath("data[].quiz.title").description("퀴즈 제목"),
+							fieldWithPath("data[].quiz.description").description("퀴즈 설명"),
+							fieldWithPath("data[].quiz.creator").description("퀴즈 생성자 정보"),
+							fieldWithPath("data[].quiz.createdAt").description("퀴즈 생성 날짜 및 시간"),
+							fieldWithPath("data[].quiz.contributors").description("퀴즈 기여자 목록"),
 							// Quiz creator fields
-							fieldWithPath("[].quiz.creator.id").description("퀴즈 생성자의 고유 ID"),
-							fieldWithPath("[].quiz.creator.nickname").description("퀴즈 생성자의 닉네임"),
-							fieldWithPath("[].quiz.creator.profileImageUrl")
+							fieldWithPath("data[].quiz.creator.id").description("퀴즈 생성자의 고유 ID"),
+							fieldWithPath("data[].quiz.creator.nickname").description("퀴즈 생성자의 닉네임"),
+							fieldWithPath("data[].quiz.creator.profileImageUrl")
 								.description("퀴즈 생성자의 프로필 이미지 URL (선택 사항)"),
 							// Quiz contributor fields (each contributor)
-							fieldWithPath("[].quiz.contributors[].id").description("퀴즈 기여자의 고유 ID"),
-							fieldWithPath("[].quiz.contributors[].nickname").description("퀴즈 기여자의 닉네임"),
-							fieldWithPath("[].quiz.contributors[].profileImageUrl")
+							fieldWithPath("data[].quiz.contributors[].id").description("퀴즈 기여자의 고유 ID"),
+							fieldWithPath("data[].quiz.contributors[].nickname").description("퀴즈 기여자의 닉네임"),
+							fieldWithPath("data[].quiz.contributors[].profileImageUrl")
 								.description("퀴즈 기여자의 프로필 이미지 URL (선택 사항)"),
 						),
 					),
@@ -542,6 +551,7 @@ class BookQuizControllerTest : RestDocsTest() {
 							bookImageUrl = "https://example.com/book_image1.jpg",
 							title = "Effective Kotlin",
 							updatedAt = LocalDateTime.now().minusDays(2),
+							studyGroup = MyBookQuizSummary.StudyGroup(1L, "Study Group 1", profileImageUrl = "hello.png"),
 						),
 						MyBookQuizSummary(
 							id = 2L,
@@ -551,30 +561,25 @@ class BookQuizControllerTest : RestDocsTest() {
 						),
 					),
 				)
-			val params =
-				mapOf(
-					"page" to "1",
-					"size" to "10",
-					"sort" to MyBookQuizSummarySortKeyword.CREATED_AT.name,
-					"direction" to SortDirection.ASC.name,
-				)
+			val params = pageRequestParams<MyBookQuizSummarySortKeyword>()
 			performGet(Path("/book-quizzes/my"), params)
 				.andExpect(status().isOk)
 				.andDo(
 					print(
 						"book-quiz/get-my-quiz",
 						queryParameters(
-							parameterWithName("page").description("결과 페이지 번호. 0부터 시작."),
-							parameterWithName("size").description("페이지당 결과 수."),
-							parameterWithName("sort").description("정렬 기준. [CREATED_AT, TITLE]"),
-							parameterWithName("direction").description("정렬 방향. 가능한 값은 'ASC' 또는 'DESC'"),
+							*pageQueryParameters<MyBookQuizSummarySortKeyword>(),
 						),
 						responseFields(
-							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),
+							endPageNumberFields(),
 							fieldWithPath("data[].id").description("퀴즈 요약의 고유 ID"),
 							fieldWithPath("data[].bookImageUrl").optional().description("책의 이미지 URL (optional)"),
 							fieldWithPath("data[].title").description("책의 제목"),
 							fieldWithPath("data[].updatedAt").description("마지막으로 업데이트된 시간 (ISO 8601 형식)"),
+							fieldWithPath("data[].studyGroup").optional().description("스터디 그룹 정보 (optional)"),
+							fieldWithPath("data[].studyGroup.id").description("스터디 그룹의 고유 식별자(ID)."),
+							fieldWithPath("data[].studyGroup.name").description("스터디 그룹의 이름."),
+							fieldWithPath("data[].studyGroup.profileImageUrl").optional().description("스터디 그룹의 프로필 이미지 URL. (optional)"),
 						),
 					),
 				)

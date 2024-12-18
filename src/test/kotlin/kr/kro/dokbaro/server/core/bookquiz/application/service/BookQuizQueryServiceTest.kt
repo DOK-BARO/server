@@ -100,9 +100,9 @@ class BookQuizQueryServiceTest :
 		}
 
 		"스터디 그룹 퀴즈 중 본인이 안 푼 문제 목록을 조회한다" {
-			every { findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(any(), any()) } returns listOf()
+			every { findUnsolvedGroupBookQuizPort.findAllUnsolvedQuizzes(any(), any(), any()) } returns listOf()
 
-			bookQuizQueryService.findAllUnsolvedQuizzes(3, 1) shouldNotBe null
+			bookQuizQueryService.findAllUnsolvedQuizzes(3, 1, PageOption.of()) shouldNotBe null
 		}
 
 		"내가 제작한 퀴즈 목록을 조회한다" {
