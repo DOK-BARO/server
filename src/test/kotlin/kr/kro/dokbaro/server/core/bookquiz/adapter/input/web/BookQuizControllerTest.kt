@@ -396,11 +396,8 @@ class BookQuizControllerTest : RestDocsTest() {
 					print(
 						"book-quiz/get-summary",
 						queryParameters(
-							parameterWithName("page").description("결과 페이지 번호. 1부터 시작."),
-							parameterWithName("size").description("페이지당 결과 수."),
 							parameterWithName("bookId").description("퀴즈 목록을 조회할 책 ID."),
-							parameterWithName("sort").description("정렬 기준. [CREATED_AT, STAR_RATING]"),
-							parameterWithName("direction").description("정렬 방향. 가능한 값은 'ASC' 또는 'DESC'"),
+							*pageQueryParameters<BookQuizSummarySortKeyword>(),
 						),
 						responseFields(
 							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),

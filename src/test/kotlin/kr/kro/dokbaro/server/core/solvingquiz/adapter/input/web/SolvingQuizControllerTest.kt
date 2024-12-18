@@ -2,7 +2,6 @@ package kr.kro.dokbaro.server.core.solvingquiz.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
@@ -18,6 +17,8 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.SolveResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
+import kr.kro.dokbaro.server.fixture.adapter.input.web.pageQueryParameters
+import kr.kro.dokbaro.server.fixture.adapter.input.web.pageRequestParams
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -165,13 +166,7 @@ class SolvingQuizControllerTest : RestDocsTest() {
 						),
 					),
 				)
-			val params =
-				mapOf(
-					"page" to "1",
-					"size" to "10",
-					"sort" to MySolvingQuizSortKeyword.CREATED_AT.name,
-					"direction" to SortDirection.ASC.name,
-				)
+			val params = pageRequestParams<MySolvingQuizSortKeyword>()
 
 			performGet(Path("/solving-quiz/my"), params)
 				.andExpect(status().isOk)
@@ -179,10 +174,7 @@ class SolvingQuizControllerTest : RestDocsTest() {
 					print(
 						"solving-quiz/my-solved",
 						queryParameters(
-							parameterWithName("page").description("결과 페이지 번호. 1부터 시작."),
-							parameterWithName("size").description("페이지당 결과 수."),
-							parameterWithName("sort").description("정렬 기준. [CREATED_AT, STAR_RATING]"),
-							parameterWithName("direction").description("정렬 방향. 가능한 값은 'ASC' 또는 'DESC'"),
+							*pageQueryParameters<MySolvingQuizSortKeyword>(),
 						),
 						responseFields(
 							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),
