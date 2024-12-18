@@ -59,7 +59,7 @@ class BookQueryRepository(
 					selectCount()
 						.from(BOOK_QUIZ)
 						.where(BOOK_QUIZ.BOOK_ID.eq(BOOK.ID)),
-				).`as`(BookRecordFieldName.QUIZ_COUNT.name),
+				).`as`(BookRecordFieldName.QUIZ_COUNT),
 			).from(BOOK)
 				.where(buildCondition(condition))
 				.orderBy(toOrderQuery(pageOption), BOOK.ID)
@@ -77,7 +77,7 @@ class BookQueryRepository(
 			when (pageOption.sort) {
 				BookSummarySortKeyword.PUBLISHED_AT -> BOOK.PUBLISHED_AT
 				BookSummarySortKeyword.TITLE -> BOOK.TITLE
-				BookSummarySortKeyword.QUIZ_COUNT -> field(BookRecordFieldName.QUIZ_COUNT.name)
+				BookSummarySortKeyword.QUIZ_COUNT -> field(BookRecordFieldName.QUIZ_COUNT)
 			}
 
 		if (pageOption.direction == SortDirection.DESC) {
@@ -284,7 +284,7 @@ class BookQueryRepository(
 				BOOK.PUBLISHER,
 				BOOK.IMAGE_URL,
 				BOOK_AUTHOR.NAME,
-				books.field(BookRecordFieldName.QUIZ_COUNT.name, Long::class.java),
+				books.field(BookRecordFieldName.QUIZ_COUNT, Long::class.java),
 			).from(books)
 			.join(BOOK_AUTHOR)
 			.on(books.field(BOOK.ID)!!.eq(BOOK_AUTHOR.BOOK_ID))

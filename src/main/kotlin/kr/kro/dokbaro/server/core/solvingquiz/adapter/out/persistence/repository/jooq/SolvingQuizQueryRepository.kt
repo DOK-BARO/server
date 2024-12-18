@@ -95,12 +95,12 @@ class SolvingQuizQueryRepository(
 					BOOK_QUIZ.ID,
 					BOOK_QUIZ.TITLE,
 					BOOK_QUIZ.CREATED_AT,
-					creator.ID.`as`(SolvingQuizRecordFieldName.CREATOR_ID.name),
-					creator.NICKNAME.`as`(SolvingQuizRecordFieldName.CREATOR_NAME.name),
-					creator.PROFILE_IMAGE_URL.`as`(SolvingQuizRecordFieldName.CREATOR_IMAGE_URL.name),
-					contributor.ID.`as`(SolvingQuizRecordFieldName.CONTRIBUTOR_ID.name),
-					contributor.NICKNAME.`as`(SolvingQuizRecordFieldName.CONTRIBUTOR_NAME.name),
-					contributor.PROFILE_IMAGE_URL.`as`(SolvingQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name),
+					creator.ID.`as`(SolvingQuizRecordFieldName.CREATOR_ID),
+					creator.NICKNAME.`as`(SolvingQuizRecordFieldName.CREATOR_NAME),
+					creator.PROFILE_IMAGE_URL.`as`(SolvingQuizRecordFieldName.CREATOR_IMAGE_URL),
+					contributor.ID.`as`(SolvingQuizRecordFieldName.CONTRIBUTOR_ID),
+					contributor.NICKNAME.`as`(SolvingQuizRecordFieldName.CONTRIBUTOR_NAME),
+					contributor.PROFILE_IMAGE_URL.`as`(SolvingQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL),
 				).from(SOLVING_QUIZ)
 				.join(BOOK_QUIZ)
 				.on(BOOK_QUIZ.ID.eq(SOLVING_QUIZ.QUIZ_ID))

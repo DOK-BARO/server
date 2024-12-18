@@ -76,7 +76,7 @@ class QuizReviewQueryRepository(
 		return quizReviewMapper.recordToSummary(record)
 	}
 
-	private fun toOrderByQuery(pageOption: PageOption<QuizReviewSummarySortKeyword>): OrderField<out Any>? {
+	private fun toOrderByQuery(pageOption: PageOption<QuizReviewSummarySortKeyword>): OrderField<out Any> {
 		val query =
 			when (pageOption.sort) {
 				QuizReviewSummarySortKeyword.CREATED_AT -> QUIZ_REVIEW.CREATED_AT

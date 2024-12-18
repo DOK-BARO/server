@@ -80,7 +80,7 @@ class SolvingQuizMapper {
 											etc
 												.map {
 													it[
-														SolvingQuizRecordFieldName.CREATOR_ID.name,
+														SolvingQuizRecordFieldName.CREATOR_ID,
 														Long::class.java,
 													]
 												}.first(),
@@ -88,7 +88,7 @@ class SolvingQuizMapper {
 											etc
 												.map {
 													it[
-														SolvingQuizRecordFieldName.CREATOR_NAME.name,
+														SolvingQuizRecordFieldName.CREATOR_NAME,
 														String::class.java,
 													]
 												}.first(),
@@ -96,7 +96,7 @@ class SolvingQuizMapper {
 											etc
 												.map {
 													it[
-														SolvingQuizRecordFieldName.CREATOR_IMAGE_URL.name,
+														SolvingQuizRecordFieldName.CREATOR_IMAGE_URL,
 														String::class.java,
 													]
 												}.first(),
@@ -107,20 +107,20 @@ class SolvingQuizMapper {
 							etc
 								.filter {
 									it[
-										SolvingQuizRecordFieldName.CONTRIBUTOR_ID.name,
+										SolvingQuizRecordFieldName.CONTRIBUTOR_ID,
 										Long::class.java,
 									] != Constants.UNSAVED_ID
 								}.map {
 									StudyGroupSolveSummary.Contributor(
-										id = it[SolvingQuizRecordFieldName.CONTRIBUTOR_ID.name, Long::class.java],
+										id = it[SolvingQuizRecordFieldName.CONTRIBUTOR_ID, Long::class.java],
 										nickname =
 											it[
-												SolvingQuizRecordFieldName.CONTRIBUTOR_NAME.name,
+												SolvingQuizRecordFieldName.CONTRIBUTOR_NAME,
 												String::class.java,
 											],
 										profileImageUrl =
 											it[
-												SolvingQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name,
+												SolvingQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL,
 												String::class.java,
 											],
 									)

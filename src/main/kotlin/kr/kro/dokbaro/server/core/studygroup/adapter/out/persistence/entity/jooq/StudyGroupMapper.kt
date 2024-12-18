@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq
 
 import kr.kro.dokbaro.server.common.annotation.Mapper
+import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRecordFieldName
 import kr.kro.dokbaro.server.core.studygroup.domain.InviteCode
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
@@ -11,12 +12,14 @@ import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import org.jooq.Record
 import org.jooq.Result
 import org.jooq.generated.tables.JMember
+import org.jooq.generated.tables.JStudyGroup
 import org.jooq.generated.tables.JStudyGroupMember
 import org.jooq.generated.tables.records.StudyGroupRecord
 
 @Mapper
 class StudyGroupMapper {
 	companion object {
+		private val STUDY_GROUP = JStudyGroup.STUDY_GROUP
 		private val STUDY_GROUP_MEMBER = JStudyGroupMember.STUDY_GROUP_MEMBER
 		private val MEMBER = JMember.MEMBER
 	}
@@ -41,12 +44,18 @@ class StudyGroupMapper {
 				)
 			}.firstOrNull()
 
-	fun toStudyGroupSummary(record: Result<StudyGroupRecord>): Collection<StudyGroupSummary> =
+	fun toStudyGroupSummary(record: Result<out Record>): Collection<StudyGroupSummary> =
 		record.map {
 			StudyGroupSummary(
-				id = it.id,
-				name = it.name,
-				profileImageUrl = it.profileImageUrl,
+				id = it[STUDY_GROUP.ID],
+				name = it[STUDY_GROUP.NAME],
+				profileImageUrl = it[STUDY_GROUP.PROFILE_IMAGE_URL],
+				studyMemberCount = it[StudyGroupRecordFieldName.STUDY_MEMBER_COUNT, Int::class.java],
+				leader =
+					StudyGroupSummary.Leader(
+						id = it[StudyGroupRecordFieldName.STUDY_LEADER_ID, Long::class.java],
+						nickname = it[StudyGroupRecordFieldName.STUDY_LEADER_NAME, String::class.java],
+					),
 			)
 		}
 

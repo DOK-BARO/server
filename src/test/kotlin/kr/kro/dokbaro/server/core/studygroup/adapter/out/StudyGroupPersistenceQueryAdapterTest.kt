@@ -5,6 +5,7 @@ import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
@@ -59,7 +60,7 @@ class StudyGroupPersistenceQueryAdapterTest(
 				),
 			).forEach { studyGroupRepository.insert(it) }
 
-			queryAdapter.findAllByStudyMemberId(members[0].id).size shouldBe 2
+			queryAdapter.findAllByStudyMemberId(members[0].id, PageOption.of()).size shouldBe 2
 		}
 
 		"study group에 소속된 member 목록을 조회한다" {
