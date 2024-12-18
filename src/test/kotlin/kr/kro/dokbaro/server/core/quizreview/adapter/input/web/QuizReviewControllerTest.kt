@@ -168,7 +168,7 @@ class QuizReviewControllerTest : RestDocsTest() {
 						"quiz-review/find-all-summary",
 						queryParameters(
 							parameterWithName("page")
-								.description("결과 페이지 번호. 0부터 시작."),
+								.description("결과 페이지 번호. 1부터 시작."),
 							parameterWithName("size")
 								.description("페이지당 결과 수."),
 							parameterWithName("quizId")

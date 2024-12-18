@@ -203,6 +203,7 @@ class BookQuizMapper {
 										}.first(),
 							),
 						createdAt = quiz.createdAt,
+						description = quiz.description,
 						contributors =
 							other
 								.filter {

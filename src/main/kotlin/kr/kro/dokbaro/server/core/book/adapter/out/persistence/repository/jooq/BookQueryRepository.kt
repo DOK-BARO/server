@@ -72,7 +72,7 @@ class BookQueryRepository(
 		return bookMapper.toSummaryCollection(record)
 	}
 
-	private fun toOrderQuery(pageOption: PageOption<BookSummarySortKeyword>): OrderField<out Any>? {
+	private fun toOrderQuery(pageOption: PageOption<BookSummarySortKeyword>): OrderField<out Any> {
 		val query =
 			when (pageOption.sort) {
 				BookSummarySortKeyword.PUBLISHED_AT -> BOOK.PUBLISHED_AT
