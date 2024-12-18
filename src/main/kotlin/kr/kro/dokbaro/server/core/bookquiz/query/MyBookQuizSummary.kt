@@ -7,4 +7,11 @@ data class MyBookQuizSummary(
 	val bookImageUrl: String?,
 	val title: String,
 	val updatedAt: LocalDateTime,
-)
+	val studyGroup: StudyGroup? = null,
+) {
+	data class StudyGroup(
+		val id: Long,
+		val name: String,
+		val profileImageUrl: String? = null,
+	)
+}

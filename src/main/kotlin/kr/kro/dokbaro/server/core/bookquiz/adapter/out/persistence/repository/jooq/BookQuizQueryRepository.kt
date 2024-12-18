@@ -27,6 +27,7 @@ import org.jooq.generated.tables.JBookQuizSelectOption
 import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JQuizReview
 import org.jooq.generated.tables.JSolvingQuiz
+import org.jooq.generated.tables.JStudyGroup
 import org.jooq.generated.tables.JStudyGroupQuiz
 import org.jooq.generated.tables.records.BookQuizRecord
 import org.jooq.impl.DSL
@@ -53,6 +54,7 @@ class BookQuizQueryRepository(
 		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
 		private val BOOK = JBook.BOOK
 		private val SOLVING_QUIZ = JSolvingQuiz.SOLVING_QUIZ
+		private val STUDY_GROUP = JStudyGroup.STUDY_GROUP
 	}
 
 	fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? {
@@ -221,9 +223,16 @@ class BookQuizQueryRepository(
 					BOOK.IMAGE_URL,
 					BOOK_QUIZ.TITLE,
 					BOOK_QUIZ.UPDATED_AT,
+					STUDY_GROUP.ID,
+					STUDY_GROUP.NAME,
+					STUDY_GROUP.PROFILE_IMAGE_URL,
 				).from(BOOK_QUIZ)
 				.join(BOOK)
 				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
+				.leftJoin(STUDY_GROUP_QUIZ)
+				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.leftJoin(STUDY_GROUP)
+				.on(STUDY_GROUP.ID.eq(STUDY_GROUP_QUIZ.STUDY_GROUP_ID))
 				.where(BOOK_QUIZ.CREATOR_ID.eq(memberId).and(BOOK_QUIZ.DELETED.eq(false)))
 				.orderBy(toMyBookQuizSummeryOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
