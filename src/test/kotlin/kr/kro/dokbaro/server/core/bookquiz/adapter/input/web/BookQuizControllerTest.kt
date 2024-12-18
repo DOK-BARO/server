@@ -542,6 +542,7 @@ class BookQuizControllerTest : RestDocsTest() {
 							bookImageUrl = "https://example.com/book_image1.jpg",
 							title = "Effective Kotlin",
 							updatedAt = LocalDateTime.now().minusDays(2),
+							studyGroup = MyBookQuizSummary.StudyGroup(1L, "Study Group 1", profileImageUrl = "hello.png"),
 						),
 						MyBookQuizSummary(
 							id = 2L,
@@ -575,6 +576,10 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("data[].bookImageUrl").optional().description("책의 이미지 URL (optional)"),
 							fieldWithPath("data[].title").description("책의 제목"),
 							fieldWithPath("data[].updatedAt").description("마지막으로 업데이트된 시간 (ISO 8601 형식)"),
+							fieldWithPath("data[].studyGroup").optional().description("스터디 그룹 정보 (optional)"),
+							fieldWithPath("data[].studyGroup.id").description("스터디 그룹의 고유 식별자(ID)."),
+							fieldWithPath("data[].studyGroup.name").description("스터디 그룹의 이름."),
+							fieldWithPath("data[].studyGroup.profileImageUrl").optional().description("스터디 그룹의 프로필 이미지 URL. (optional)"),
 						),
 					),
 				)
