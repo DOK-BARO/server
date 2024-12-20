@@ -19,6 +19,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
 import org.springframework.stereotype.Service
 
 @Service
@@ -70,9 +71,23 @@ class SolvingQuizQueryService(
 	override fun findAllMyStudyGroupSolveSummary(
 		memberId: Long,
 		studyGroupId: Long,
-	): Collection<StudyGroupSolveSummary> =
-		readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(
-			memberId = memberId,
-			studyGroupId = studyGroupId,
+		pageOption: PageOption<MyStudyGroupSolveSummarySortKeyword>,
+	): PageResponse<StudyGroupSolveSummary> {
+		val totalCount =
+			countSolvingQuizPort.countBy(
+				CountSolvingQuizCondition(memberId = memberId, studyGroupId = studyGroupId),
+			)
+		val data: Collection<StudyGroupSolveSummary> =
+			readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(
+				memberId = memberId,
+				studyGroupId = studyGroupId,
+				pageOption = pageOption,
+			)
+
+		return PageResponse.of(
+			totalElementCount = totalCount,
+			pageSize = pageOption.size,
+			data = data,
 		)
+	}
 }

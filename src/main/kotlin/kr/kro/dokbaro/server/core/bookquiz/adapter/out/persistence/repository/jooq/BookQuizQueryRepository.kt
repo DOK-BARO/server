@@ -235,9 +235,8 @@ class BookQuizQueryRepository(
 					contributor.ID.`as`(BookQuizRecordFieldName.CONTRIBUTOR_ID),
 					contributor.NICKNAME.`as`(BookQuizRecordFieldName.CONTRIBUTOR_NAME),
 					contributor.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL),
-				).from(
-					pagedBookQuiz,
-				).join(BOOK_QUIZ)
+				).from(pagedBookQuiz)
+				.join(BOOK_QUIZ)
 				.on(BOOK_QUIZ.ID.eq(pagedBookQuiz.field(BOOK_QUIZ.ID)))
 				.join(BOOK)
 				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))

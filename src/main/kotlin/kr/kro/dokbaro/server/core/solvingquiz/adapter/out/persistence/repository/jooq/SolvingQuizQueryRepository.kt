@@ -7,11 +7,14 @@ import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.dto.CountSolv
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
 import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
+import org.jooq.Record1
 import org.jooq.Result
+import org.jooq.Table
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizContributor
@@ -80,7 +83,26 @@ class SolvingQuizQueryRepository(
 	fun findAllMyStudyGroupSolveSummary(
 		memberId: Long,
 		studyGroupId: Long,
+		pageOption: PageOption<MyStudyGroupSolveSummarySortKeyword>,
 	): Collection<StudyGroupSolveSummary> {
+		val pageSolvingQuiz: Table<Record1<Long>> =
+			dslContext
+				.select(SOLVING_QUIZ.ID)
+				.from(SOLVING_QUIZ)
+				.join(BOOK_QUIZ)
+				.on(BOOK_QUIZ.ID.eq(SOLVING_QUIZ.QUIZ_ID))
+				.where(
+					SOLVING_QUIZ.QUIZ_ID
+						.`in`(
+							select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
+								.from(STUDY_GROUP_QUIZ)
+								.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(studyGroupId)),
+						).and(SOLVING_QUIZ.MEMBER_ID.eq(memberId)),
+				).orderBy(toOrderQuery(pageOption), SOLVING_QUIZ.ID)
+				.limit(pageOption.limit)
+				.offset(pageOption.offset)
+				.asTable("paged_solving_quiz")
+
 		val creator = MEMBER.`as`("CREATOR")
 		val contributor = MEMBER.`as`("CONTRIBUTOR")
 
@@ -101,7 +123,9 @@ class SolvingQuizQueryRepository(
 					contributor.ID.`as`(SolvingQuizRecordFieldName.CONTRIBUTOR_ID),
 					contributor.NICKNAME.`as`(SolvingQuizRecordFieldName.CONTRIBUTOR_NAME),
 					contributor.PROFILE_IMAGE_URL.`as`(SolvingQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL),
-				).from(SOLVING_QUIZ)
+				).from(pageSolvingQuiz)
+				.join(SOLVING_QUIZ)
+				.on(SOLVING_QUIZ.ID.eq(pageSolvingQuiz.field(SOLVING_QUIZ.ID)))
 				.join(BOOK_QUIZ)
 				.on(BOOK_QUIZ.ID.eq(SOLVING_QUIZ.QUIZ_ID))
 				.join(BOOK)
@@ -124,6 +148,21 @@ class SolvingQuizQueryRepository(
 		return solvingQuizMapper.toMyStudyGroupSolveSummary(record)
 	}
 
+	private fun toOrderQuery(pageOption: PageOption<MyStudyGroupSolveSummarySortKeyword>): OrderField<out Any> {
+		val query =
+			when (pageOption.sort) {
+				MyStudyGroupSolveSummarySortKeyword.CREATED_AT -> BOOK_QUIZ.CREATED_AT
+				MyStudyGroupSolveSummarySortKeyword.UPDATED_AT -> BOOK_QUIZ.UPDATED_AT
+				MyStudyGroupSolveSummarySortKeyword.TITLE -> BOOK_QUIZ.TITLE
+			}
+
+		if (pageOption.direction == SortDirection.DESC) {
+			return query.desc()
+		}
+
+		return query
+	}
+
 	fun countBy(condition: CountSolvingQuizCondition): Long =
 		dslContext
 			.selectCount()
@@ -134,5 +173,12 @@ class SolvingQuizQueryRepository(
 	private fun buildCountCondition(condition: CountSolvingQuizCondition): Condition =
 		DSL.and(
 			condition.memberId?.let { SOLVING_QUIZ.MEMBER_ID.eq(it) },
+			condition.studyGroupId?.let {
+				SOLVING_QUIZ.QUIZ_ID.`in`(
+					select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
+						.from(STUDY_GROUP_QUIZ)
+						.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(it)),
+				)
+			},
 		)
 }

@@ -114,7 +114,8 @@ class SolvingQuizQueryServiceTest :
 		}
 
 		"그룹 내 내가 푼 퀴즈 목록을 조회한다" {
-			every { readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(any(), any()) } returns
+			every { countSolvingQuizPort.countBy(any()) } returns 1000
+			every { readMyStudyGroupSolveSummaryPort.findAllMyStudyGroupSolveSummary(any(), any(), any()) } returns
 				listOf(
 					StudyGroupSolveSummary(
 						id = 1L,
@@ -188,6 +189,11 @@ class SolvingQuizQueryServiceTest :
 					),
 				)
 
-			solvingQuizQueryService.findAllMyStudyGroupSolveSummary(1, 1) shouldNotBe null
+			solvingQuizQueryService.findAllMyStudyGroupSolveSummary(
+				1,
+				1,
+				PageOption.of(),
+			) shouldNotBe
+				null
 		}
 	})

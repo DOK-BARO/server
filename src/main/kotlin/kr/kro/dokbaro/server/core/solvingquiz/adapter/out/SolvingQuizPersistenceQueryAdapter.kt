@@ -10,6 +10,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.dto.CountSolv
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
 
 @PersistenceAdapter
 class SolvingQuizPersistenceQueryAdapter(
@@ -25,8 +26,9 @@ class SolvingQuizPersistenceQueryAdapter(
 	override fun findAllMyStudyGroupSolveSummary(
 		memberId: Long,
 		studyGroupId: Long,
+		pageOption: PageOption<MyStudyGroupSolveSummarySortKeyword>,
 	): Collection<StudyGroupSolveSummary> =
-		solvingQuizQueryRepository.findAllMyStudyGroupSolveSummary(memberId, studyGroupId)
+		solvingQuizQueryRepository.findAllMyStudyGroupSolveSummary(memberId, studyGroupId, pageOption)
 
 	override fun countBy(condition: CountSolvingQuizCondition): Long = solvingQuizQueryRepository.countBy(condition)
 }

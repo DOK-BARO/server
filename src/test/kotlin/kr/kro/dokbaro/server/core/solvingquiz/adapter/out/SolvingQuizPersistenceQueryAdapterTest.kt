@@ -20,6 +20,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.dto.CountSolvingQuizCondition
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
@@ -54,7 +55,8 @@ class SolvingQuizPersistenceQueryAdapterTest(
 			val lastQuizId = bookQuizRepository.insert(bookQuizFixture(title = "다", creatorId = memberId, bookId = bookId))
 
 			solvingQuizRepository.insert(SolvingQuiz(playerId = memberId, quizId = bookQuizId))
-			val firstSolvingQuiz: Long = solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = bookQuizId))
+			val firstSolvingQuiz: Long =
+				solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = bookQuizId))
 			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = firstQuizId))
 			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = lastQuizId))
 
@@ -103,22 +105,50 @@ class SolvingQuizPersistenceQueryAdapterTest(
 
 			solvingQuizRepository.insert(SolvingQuiz(playerId = memberId, quizId = bookQuizId))
 
-			adapter.findAllMyStudyGroupSolveSummary(memberId, studyGroupId).shouldNotBeEmpty()
+			adapter.findAllMyStudyGroupSolveSummary(memberId, studyGroupId, PageOption.of()).shouldNotBeEmpty()
+			adapter
+				.findAllMyStudyGroupSolveSummary(
+					memberId,
+					studyGroupId,
+					PageOption.of(sort = MyStudyGroupSolveSummarySortKeyword.UPDATED_AT),
+				).shouldNotBeEmpty()
+			adapter
+				.findAllMyStudyGroupSolveSummary(
+					memberId,
+					studyGroupId,
+					PageOption.of(sort = MyStudyGroupSolveSummarySortKeyword.TITLE),
+				).shouldNotBeEmpty()
+			adapter
+				.findAllMyStudyGroupSolveSummary(memberId, studyGroupId, PageOption.of(direction = SortDirection.DESC))
+				.shouldNotBeEmpty()
 		}
 
 		"푼 퀴즈의 개수를 조회한다" {
 			val memberId = memberRepository.insert(memberFixture()).id
 			val member2Id = memberRepository.insert(memberFixture(email = Email("sub@gmail.com"))).id
 			val bookId = bookRepository.insertBook(bookFixture())
+
+			val studyGroupId =
+				studyGroupRepository.insert(
+					studyGroupFixture(
+						studyMembers = mutableSetOf(StudyMember(memberId, StudyMemberRole.LEADER)),
+					),
+				)
 			val quizId = bookQuizRepository.insert(bookQuizFixture(title = "가", creatorId = memberId, bookId = bookId))
+			val quizId2 =
+				bookQuizRepository.insert(
+					bookQuizFixture(title = "가", creatorId = memberId, bookId = bookId, studyGroupId = studyGroupId),
+				)
 
 			solvingQuizRepository.insert(SolvingQuiz(playerId = memberId, quizId = quizId))
+			solvingQuizRepository.insert(SolvingQuiz(playerId = memberId, quizId = quizId2))
 			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = quizId))
 			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = quizId))
 			solvingQuizRepository.insert(SolvingQuiz(playerId = member2Id, quizId = quizId))
 
-			adapter.countBy(CountSolvingQuizCondition(memberId)) shouldBe 1
+			adapter.countBy(CountSolvingQuizCondition(memberId, studyGroupId = studyGroupId)) shouldBe 1
+			adapter.countBy(CountSolvingQuizCondition(memberId)) shouldBe 2
 			adapter.countBy(CountSolvingQuizCondition(member2Id)) shouldBe 3
-			adapter.countBy(CountSolvingQuizCondition()) shouldBe 4
+			adapter.countBy(CountSolvingQuizCondition()) shouldBe 5
 		}
 	})
