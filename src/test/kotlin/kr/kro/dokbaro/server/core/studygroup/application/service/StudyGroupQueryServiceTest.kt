@@ -38,6 +38,7 @@ class StudyGroupQueryServiceTest :
 					StudyGroupSummary(2, "JAVA 스터디", "ccc.png", 5, StudyGroupSummary.Leader(1, "홍길동")),
 					StudyGroupSummary(3, "모각코 합시다", "ccc.png", 5, StudyGroupSummary.Leader(1, "홍길동")),
 				)
+			every { countStudyGroupPort.countBy(any()) } returns 100
 
 			studyGroupQueryService.findAll(1, PageOption.of()) shouldNotBe null
 		}
