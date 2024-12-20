@@ -29,7 +29,7 @@ class BookMapper {
 				publisher = it.value.getValues(BOOK.PUBLISHER).first(),
 				imageUrl = it.value.getValues(BOOK.IMAGE_URL).firstOrNull(),
 				authors = it.value.getValues(BOOK_AUTHOR.NAME).distinct(),
-				quizCount = it.value.getValues(BookRecordFieldName.QUIZ_COUNT.name, Long::class.java).first(),
+				quizCount = it.value.getValues(BookRecordFieldName.QUIZ_COUNT, Long::class.java).first(),
 			)
 		}
 

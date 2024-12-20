@@ -5,6 +5,8 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
+import kr.kro.dokbaro.server.common.dto.option.PageOption
+import kr.kro.dokbaro.server.core.studygroup.application.port.out.CountStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.ReadStudyGroupCollectionPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.ReadStudyGroupDetailPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.ReadStudyGroupMemberCollectionPort
@@ -19,23 +21,26 @@ class StudyGroupQueryServiceTest :
 		val readStudyGroupCollectionPort = mockk<ReadStudyGroupCollectionPort>()
 		val readStudyGroupMemberCollectionPort = mockk<ReadStudyGroupMemberCollectionPort>()
 		val findStudyGroupDetailPort = mockk<ReadStudyGroupDetailPort>()
+		val countStudyGroupPort = mockk<CountStudyGroupPort>()
 
 		val studyGroupQueryService =
 			StudyGroupQueryService(
 				readStudyGroupCollectionPort,
 				readStudyGroupMemberCollectionPort,
 				findStudyGroupDetailPort,
+				countStudyGroupPort,
 			)
 
 		"로그인 사용자가 속한 study group 목록을 탐색한다" {
-			every { readStudyGroupCollectionPort.findAllByStudyMemberId(any()) } returns
+			every { readStudyGroupCollectionPort.findAllByStudyMemberId(any(), any()) } returns
 				listOf(
-					StudyGroupSummary(1, "C 스터디", "ccc.png"),
-					StudyGroupSummary(2, "JAVA 스터디", "ccc.png"),
-					StudyGroupSummary(3, "모각코 합시다", "ccc.png"),
+					StudyGroupSummary(1, "C 스터디", "ccc.png", 5, StudyGroupSummary.Leader(1, "홍길동")),
+					StudyGroupSummary(2, "JAVA 스터디", "ccc.png", 5, StudyGroupSummary.Leader(1, "홍길동")),
+					StudyGroupSummary(3, "모각코 합시다", "ccc.png", 5, StudyGroupSummary.Leader(1, "홍길동")),
 				)
+			every { countStudyGroupPort.countBy(any()) } returns 100
 
-			studyGroupQueryService.findAll(1) shouldNotBe null
+			studyGroupQueryService.findAll(1, PageOption.of()) shouldNotBe null
 		}
 
 		"해당 그룹의 스터디원들은 탐색한다" {

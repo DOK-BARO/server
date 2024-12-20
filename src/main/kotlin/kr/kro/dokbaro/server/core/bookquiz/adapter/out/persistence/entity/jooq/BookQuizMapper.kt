@@ -156,9 +156,9 @@ class BookQuizMapper {
 			BookQuizSummary(
 				id = it[BOOK_QUIZ.ID],
 				title = it[BOOK_QUIZ.TITLE],
-				averageStarRating = it[BookQuizRecordFieldName.AVERAGE_STAR_RATING.name, Double::class.java],
-				averageDifficultyLevel = it[BookQuizRecordFieldName.AVERAGE_DIFFICULTY_LEVEL.name, Double::class.java],
-				questionCount = it[BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT.name, Int::class.java],
+				averageStarRating = it[BookQuizRecordFieldName.AVERAGE_STAR_RATING, Double::class.java],
+				averageDifficultyLevel = it[BookQuizRecordFieldName.AVERAGE_DIFFICULTY_LEVEL, Double::class.java],
+				questionCount = it[BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT, Int::class.java],
 				creator =
 					BookQuizSummary.Creator(
 						id = it[MEMBER.ID],
@@ -187,17 +187,17 @@ class BookQuizMapper {
 							UnsolvedGroupBookQuizSummary.Creator(
 								id =
 									other
-										.map { it[BookQuizRecordFieldName.CREATOR_ID.name, Long::class.java] }
+										.map { it[BookQuizRecordFieldName.CREATOR_ID, Long::class.java] }
 										.first(),
 								nickname =
 									other
-										.map { it[BookQuizRecordFieldName.CREATOR_NAME.name, String::class.java] }
+										.map { it[BookQuizRecordFieldName.CREATOR_NAME, String::class.java] }
 										.first(),
 								profileImageUrl =
 									other
 										.map {
 											it[
-												BookQuizRecordFieldName.CREATOR_IMAGE_URL.name,
+												BookQuizRecordFieldName.CREATOR_IMAGE_URL,
 												String::class.java,
 											]
 										}.first(),
@@ -208,20 +208,20 @@ class BookQuizMapper {
 							other
 								.filter {
 									it[
-										BookQuizRecordFieldName.CONTRIBUTOR_ID.name,
+										BookQuizRecordFieldName.CONTRIBUTOR_ID,
 										Long::class.java,
 									] != Constants.UNSAVED_ID
 								}.map {
 									UnsolvedGroupBookQuizSummary.Contributor(
-										id = it[BookQuizRecordFieldName.CONTRIBUTOR_ID.name, Long::class.java],
+										id = it[BookQuizRecordFieldName.CONTRIBUTOR_ID, Long::class.java],
 										nickname =
 											it[
-												BookQuizRecordFieldName.CONTRIBUTOR_NAME.name,
+												BookQuizRecordFieldName.CONTRIBUTOR_NAME,
 												String::class.java,
 											],
 										profileImageUrl =
 											it[
-												BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name,
+												BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL,
 												String::class.java,
 											],
 									)

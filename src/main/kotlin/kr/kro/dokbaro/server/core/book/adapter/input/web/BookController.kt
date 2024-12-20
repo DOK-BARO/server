@@ -50,7 +50,7 @@ class BookController(
 		@RequestParam(defaultValue = "1") page: Long,
 		@RequestParam size: Long,
 		@RequestParam sort: BookSummarySortKeyword,
-		@RequestParam direction: SortDirection = SortDirection.ASC,
+		@RequestParam direction: SortDirection,
 	): PageResponse<BookSummary> =
 		findAllBookUseCase
 			.findAllBy(

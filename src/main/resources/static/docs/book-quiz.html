@@ -449,7 +449,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=VZSuvbJ_YQS-wbzeHGz2fvtgTCO9_l5m1Ll99Ioyo3MYn7LeYaTNjYtNUjSTpd_pfkHCHJ5QYRremG1LsYsflu4LxRd6-YHn HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=d3_zFEcztoSJd88dsnDJwobF5vuaqXFaluzPTSsYVFqI1UX4Ex2RJSYGh7KkT_8rg1398rDzy5qoy0h39d76eRl6ZmLu5HbJ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 907
 Host: localhost:8080
@@ -742,7 +742,7 @@ Content-Length: 344
 <h4 id="_http_request_3">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=0IdBevgORfz7e6ikK4CvgDM9xBdchjPj_aZoQzfHkTKI7n1l4-F4Sc4-fMnWGJuRGq2b5AJY6S8_vwLOn5dadgei8gfpihtX HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=WLHZsGbM51WCHIT6x5bme_MmDwmqAyat4DWXku4bmp1dBhf6aIXr1l-pg2GvKeCbobvSH8MSImvJOh-A1Aaj8NYoqao4YHWY HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 936
 Host: localhost:8080
@@ -1008,6 +1008,10 @@ Host: localhost:8080</code></pre>
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 목록을 조회할 책 ID.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">결과 페이지 번호. 1부터 시작.</p></td>
 </tr>
@@ -1016,12 +1020,8 @@ Host: localhost:8080</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">페이지당 결과 수.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 목록을 조회할 책 ID.</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, STAR_RATING]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [STAR_RATING, CREATED_AT]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
@@ -1427,7 +1427,7 @@ Content-Length: 504
     "id" : 1,
     "bookImageUrl" : "https://example.com/book_image1.jpg",
     "title" : "Effective Kotlin",
-    "updatedAt" : "2024-12-16T20:39:19.785233",
+    "updatedAt" : "2024-12-18T17:50:04.396066",
     "studyGroup" : {
       "id" : 1,
       "name" : "Study Group 1",
@@ -1437,7 +1437,7 @@ Content-Length: 504
     "id" : 2,
     "bookImageUrl" : "https://example.com/book_image2.jpg",
     "title" : "Kotlin in Action",
-    "updatedAt" : "2024-12-13T20:39:19.785641",
+    "updatedAt" : "2024-12-15T17:50:04.396733",
     "studyGroup" : null
   } ]
 }</code></pre>
@@ -1606,7 +1606,7 @@ Content-Length: 417
   "id" : 1,
   "title" : "Sample Quiz Explanation",
   "description" : "This is a detailed explanation for a sample book quiz.",
-  "createdAt" : "2024-12-18T20:39:19.842571",
+  "createdAt" : "2024-12-20T17:50:04.484376",
   "creator" : {
     "id" : 101,
     "nickname" : "QuizMaster",
@@ -1704,7 +1704,7 @@ Content-Length: 417
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-12-17 20:16:07 +0900
+Last updated 2024-12-20 17:24:00 +0900
 </div>
 </div>
 </body>

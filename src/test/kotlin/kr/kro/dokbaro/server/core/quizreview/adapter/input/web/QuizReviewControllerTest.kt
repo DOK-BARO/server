@@ -12,7 +12,11 @@ import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizRevi
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizReviewTotalScoreUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.UpdateQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
+import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
+import kr.kro.dokbaro.server.fixture.adapter.input.web.endPageNumberFields
+import kr.kro.dokbaro.server.fixture.adapter.input.web.pageQueryParameters
+import kr.kro.dokbaro.server.fixture.adapter.input.web.pageRequestParams
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -154,35 +158,20 @@ class QuizReviewControllerTest : RestDocsTest() {
 						),
 					),
 				)
-			val params =
-				mapOf(
-					"page" to "1",
-					"size" to "10",
-					"quizId" to "12345",
-					"sort" to "CREATED_AT",
-				)
+			val params = pageRequestParams<QuizReviewSummarySortKeyword>(etc = mapOf("quizId" to "12345"))
+
 			performGet(Path("/quiz-reviews"), params)
 				.andExpect(status().isOk)
 				.andDo(
 					print(
 						"quiz-review/find-all-summary",
 						queryParameters(
-							parameterWithName("page")
-								.description("결과 페이지 번호. 1부터 시작."),
-							parameterWithName("size")
-								.description("페이지당 결과 수."),
 							parameterWithName("quizId")
 								.description("리뷰를 조회할 퀴즈의 ID."),
-							parameterWithName("sort")
-								.description("정렬 기준. ( 'CREATED_AT', 'STAR_RATING' )"),
-							parameterWithName("direction")
-								.description("정렬 방향. ( 'ASC' , 'DESC' ) default: ASC")
-								.optional(),
+							*pageQueryParameters<QuizReviewSummarySortKeyword>(),
 						),
 						responseFields(
-							fieldWithPath("endPageNumber")
-								.type(JsonFieldType.NUMBER)
-								.description("마지막 페이지 번호."),
+							endPageNumberFields(),
 							fieldWithPath("data")
 								.type(JsonFieldType.ARRAY)
 								.description("퀴즈 리뷰 요약 목록."),

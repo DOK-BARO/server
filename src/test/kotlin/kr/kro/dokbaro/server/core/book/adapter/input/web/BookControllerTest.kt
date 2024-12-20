@@ -10,6 +10,9 @@ import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindIntegratedBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindOneBookUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookCommand
+import kr.kro.dokbaro.server.core.book.query.BookSummarySortKeyword
+import kr.kro.dokbaro.server.fixture.adapter.input.web.pageQueryParameters
+import kr.kro.dokbaro.server.fixture.adapter.input.web.pageRequestParams
 import kr.kro.dokbaro.server.fixture.domain.bookDetailFixture
 import kr.kro.dokbaro.server.fixture.domain.bookSummaryFixture
 import kr.kro.dokbaro.server.fixture.domain.integratedBookFixture
@@ -51,15 +54,16 @@ class BookControllerTest : RestDocsTest() {
 				)
 
 			val param =
-				mapOf(
-					"title" to "이펙티브 자바",
-					"authorName" to "김우근",
-					"description" to "책 설명",
-					"category" to "4",
-					"page" to "3",
-					"size" to "10",
-					"sort" to "TITLE",
+				pageRequestParams<BookSummarySortKeyword>(
+					etc =
+						mapOf(
+							"title" to "이펙티브 자바",
+							"authorName" to "김우근",
+							"description" to "책 설명",
+							"category" to "4",
+						),
 				)
+			
 			performGet(Path("/books"), param)
 				.andExpect(status().isOk)
 				.andDo(
@@ -70,13 +74,7 @@ class BookControllerTest : RestDocsTest() {
 							parameterWithName("authorName").description("저자 명 (optional)").optional(),
 							parameterWithName("description").description("책 설명 (optional)").optional(),
 							parameterWithName("category").description("카테고리 ID (optional)").optional(),
-							parameterWithName("page").description("page 번호. 1부터 시작. (default : 1)").optional(),
-							parameterWithName("size").description("노출 개수"),
-							parameterWithName("sort")
-								.description("정렬 기준. ( PUBLISHED_AT, TITLE, QUIZ_COUNT )"),
-							parameterWithName("direction")
-								.description("정렬 방향. ( 'ASC' , 'DESC' ) default: ASC")
-								.optional(),
+							*pageQueryParameters<BookSummarySortKeyword>(),
 						),
 						responseFields(
 							fieldWithPath("endPageNumber")
