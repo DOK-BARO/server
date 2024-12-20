@@ -18,6 +18,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.SolveResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
 import kr.kro.dokbaro.server.security.annotation.Login
 import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.web.bind.annotation.GetMapping
@@ -73,10 +74,20 @@ class SolvingQuizController(
 	fun getStudyGroupsMySolvingQuiz(
 		@PathVariable studyGroupId: Long,
 		@Login user: DokbaroUser,
-	): Collection<StudyGroupSolveSummary> =
+		@RequestParam page: Long,
+		@RequestParam size: Long,
+		@RequestParam sort: MyStudyGroupSolveSummarySortKeyword,
+		@RequestParam direction: SortDirection,
+	): PageResponse<StudyGroupSolveSummary> =
 		findAllMyStudyGroupSolveSummaryUseCase.findAllMyStudyGroupSolveSummary(
 			memberId = user.id,
 			studyGroupId = studyGroupId,
+			PageOption.of(
+				page = page,
+				size = size,
+				sort = sort,
+				direction = direction,
+			),
 		)
 
 	@GetMapping("/my")
