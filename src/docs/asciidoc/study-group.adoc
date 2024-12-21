@@ -81,3 +81,15 @@ include::{snippets}/study-group/delete/path-parameters.adoc[]
 ==== HTTP response
 
 include::{snippets}/study-group/delete/http-response.adoc[]
+
+=== 스터디 그룹 리더 변경
+
+==== HTTP request
+
+include::{snippets}/study-group/change-leader/http-request.adoc[]
+include::{snippets}/study-group/change-leader/path-parameters.adoc[]
+include::{snippets}/study-group/change-leader/request-fields.adoc[]
+
+==== HTTP response
+
+include::{snippets}/study-group/change-leader/http-response.adoc[]
