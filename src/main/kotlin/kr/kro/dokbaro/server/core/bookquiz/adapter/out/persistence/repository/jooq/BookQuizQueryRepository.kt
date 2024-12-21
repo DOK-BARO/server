@@ -150,8 +150,8 @@ class BookQuizQueryRepository(
 					MEMBER.ID,
 					MEMBER.NICKNAME,
 					MEMBER.PROFILE_IMAGE_URL,
-					avg(QUIZ_REVIEW.STAR_RATING).`as`(BookQuizRecordFieldName.AVERAGE_STAR_RATING.name),
-					avg(QUIZ_REVIEW.DIFFICULTY_LEVEL).`as`(BookQuizRecordFieldName.AVERAGE_DIFFICULTY_LEVEL.name),
+					avg(QUIZ_REVIEW.STAR_RATING).`as`(BookQuizRecordFieldName.AVERAGE_STAR_RATING),
+					avg(QUIZ_REVIEW.DIFFICULTY_LEVEL).`as`(BookQuizRecordFieldName.AVERAGE_DIFFICULTY_LEVEL),
 					field(
 						selectCount()
 							.from(BOOK_QUIZ_QUESTION)
@@ -159,7 +159,7 @@ class BookQuizQueryRepository(
 								BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID
 									.eq(BOOK_QUIZ.ID),
 							),
-					).`as`(BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT.name),
+					).`as`(BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT),
 				).from(BOOK_QUIZ)
 				.join(MEMBER)
 				.on(BOOK_QUIZ.CREATOR_ID.eq(MEMBER.ID))
@@ -178,7 +178,7 @@ class BookQuizQueryRepository(
 	private fun toBookQuizSummaryOrderQuery(pageOption: PageOption<BookQuizSummarySortKeyword>): OrderField<out Any> {
 		val query =
 			when (pageOption.sort) {
-				BookQuizSummarySortKeyword.STAR_RATING -> field(BookQuizRecordFieldName.AVERAGE_STAR_RATING.name)
+				BookQuizSummarySortKeyword.STAR_RATING -> field(BookQuizRecordFieldName.AVERAGE_STAR_RATING)
 				BookQuizSummarySortKeyword.CREATED_AT -> BOOK_QUIZ.CREATED_AT
 			}
 
@@ -229,15 +229,14 @@ class BookQuizQueryRepository(
 					BOOK_QUIZ.TITLE,
 					BOOK_QUIZ.DESCRIPTION,
 					BOOK_QUIZ.CREATED_AT,
-					creator.ID.`as`(BookQuizRecordFieldName.CREATOR_ID.name),
-					creator.NICKNAME.`as`(BookQuizRecordFieldName.CREATOR_NAME.name),
-					creator.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CREATOR_IMAGE_URL.name),
-					contributor.ID.`as`(BookQuizRecordFieldName.CONTRIBUTOR_ID.name),
-					contributor.NICKNAME.`as`(BookQuizRecordFieldName.CONTRIBUTOR_NAME.name),
-					contributor.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL.name),
-				).from(
-					pagedBookQuiz,
-				).join(BOOK_QUIZ)
+					creator.ID.`as`(BookQuizRecordFieldName.CREATOR_ID),
+					creator.NICKNAME.`as`(BookQuizRecordFieldName.CREATOR_NAME),
+					creator.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CREATOR_IMAGE_URL),
+					contributor.ID.`as`(BookQuizRecordFieldName.CONTRIBUTOR_ID),
+					contributor.NICKNAME.`as`(BookQuizRecordFieldName.CONTRIBUTOR_NAME),
+					contributor.PROFILE_IMAGE_URL.`as`(BookQuizRecordFieldName.CONTRIBUTOR_IMAGE_URL),
+				).from(pagedBookQuiz)
+				.join(BOOK_QUIZ)
 				.on(BOOK_QUIZ.ID.eq(pagedBookQuiz.field(BOOK_QUIZ.ID)))
 				.join(BOOK)
 				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))

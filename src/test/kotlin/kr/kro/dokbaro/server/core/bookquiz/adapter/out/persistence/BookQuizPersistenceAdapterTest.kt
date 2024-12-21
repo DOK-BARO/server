@@ -14,7 +14,6 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestion
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.member.domain.Email
-import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
@@ -34,7 +33,7 @@ class BookQuizPersistenceAdapterTest(
 		val memberRepository = MemberRepository(dslContext, MemberMapper())
 		val bookRepository = BookRepository(dslContext)
 		val bookQuizRepository = BookQuizRepository(dslContext, BookQuizMapper())
-		val studyGroupRepository = StudyGroupRepository(dslContext, StudyGroupMapper())
+		val studyGroupRepository = StudyGroupRepository(dslContext)
 		val adapter = BookQuizPersistenceAdapter(bookQuizRepository)
 
 		"신규 book quiz를 생성한다" {

@@ -449,7 +449,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /books?_csrf=z3-z7lc9GwQZk0VqAOeTibUd9HNvyB8WAIPHs0hSQeOHLUcerRyD3WMPLDE0oiFSNsqnvoAr2RFf8Ho7ZeL2hylgc9q-HSEo HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /books?_csrf=RQ9dqgphEBU9fJef12DNaBxsdlnZrGPsIMqvy5OWxofSC1sfJD4-zmsAJ3QQGvGts035XSgIWzvsyFHBGPjJrvWi97e3b2p7 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 368
 Host: localhost:8080
@@ -458,7 +458,7 @@ Host: localhost:8080
   "isbn" : "9783161484100",
   "title" : "Effective Kotlin",
   "publisher" : "TechBooks",
-  "publishedAt" : "2024-12-18",
+  "publishedAt" : "2024-12-21",
   "price" : 45000,
   "description" : "A comprehensive guide to writing high-quality Kotlin code.",
   "imageUrl" : "https://example.com/images/effective-kotlin.jpg",
@@ -580,7 +580,7 @@ Content-Length: 14
 <h4 id="_http_request_2">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /books?title=%EC%9D%B4%ED%8E%99%ED%8B%B0%EB%B8%8C+%EC%9E%90%EB%B0%94&amp;authorName=%EA%B9%80%EC%9A%B0%EA%B7%BC&amp;description=%EC%B1%85+%EC%84%A4%EB%AA%85&amp;category=4&amp;page=3&amp;size=10&amp;sort=TITLE HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /books?page=1&amp;size=10&amp;sort=PUBLISHED_AT&amp;direction=ASC&amp;title=%EC%9D%B4%ED%8E%99%ED%8B%B0%EB%B8%8C+%EC%9E%90%EB%B0%94&amp;authorName=%EA%B9%80%EC%9A%B0%EA%B7%BC&amp;description=%EC%B1%85+%EC%84%A4%EB%AA%85&amp;category=4 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -614,19 +614,19 @@ Host: localhost:8080</code></pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">page 번호. 1부터 시작. (default : 1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 페이지 번호. 1부터 시작.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">노출 개수</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지당 결과 수.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. ( PUBLISHED_AT, TITLE, QUIZ_COUNT )</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [PUBLISHED_AT, TITLE, QUIZ_COUNT]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 방향. ( 'ASC' , 'DESC' ) default: ASC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 방향. 가능한 값은 'ASC' 또는 'DESC'</p></td>
 </tr>
 </tbody>
 </table>
@@ -874,7 +874,7 @@ Content-Length: 588
 <h4 id="_http_request_4">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-categories?_csrf=Qik13_sjeraWAhtQ3ZWR-_sKNQlWxtwXu14Q5oxfOuHbqpomJk9WucNHQoO7YSJk7Lilz5o4GGtl8u06j2Ykg7U6Ctbqm_5C HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-categories?_csrf=IxPk3k-dEmSQOz6vHISAtDJVzzHN66qXqaFW41OzDDWCuS2yRXHXunf5Jga9CV-bLKm0hAY24lD43866mcU112WGNAG1gEmB HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 78
 Host: localhost:8080

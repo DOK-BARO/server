@@ -93,7 +93,7 @@ class QuizReviewController(
 		@RequestParam size: Long,
 		@RequestParam quizId: Long,
 		@RequestParam sort: QuizReviewSummarySortKeyword,
-		@RequestParam direction: SortDirection = SortDirection.ASC,
+		@RequestParam direction: SortDirection,
 	): PageResponse<QuizReviewSummary> =
 		findQuizReviewSummaryUseCase.findAllQuizReviewSummaryBy(
 			FindQuizReviewSummaryCommand(

@@ -25,7 +25,7 @@ inline fun <reified T : Enum<T>> pageQueryParameters(): Array<ParameterDescripto
 		parameterWithName("page").description("결과 페이지 번호. 1부터 시작."),
 		parameterWithName("size").description("페이지당 결과 수."),
 		parameterWithName("sort").description("정렬 기준. [${enumValues<T>().joinToString(", ") { it.name }}]"),
-		parameterWithName("direction").description("정렬 방향. 가능한 값은 'ASC' 또는 'DESC'"),
+		parameterWithName("direction").optional().description("정렬 방향. 가능한 값은 'ASC' 또는 'DESC'"),
 	)
 
 fun endPageNumberFields(): FieldDescriptor =

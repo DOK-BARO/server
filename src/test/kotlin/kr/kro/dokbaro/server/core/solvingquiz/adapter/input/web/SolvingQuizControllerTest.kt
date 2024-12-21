@@ -2,7 +2,6 @@ package kr.kro.dokbaro.server.core.solvingquiz.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
@@ -18,6 +17,10 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.SolveResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
+import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
+import kr.kro.dokbaro.server.fixture.adapter.input.web.endPageNumberFields
+import kr.kro.dokbaro.server.fixture.adapter.input.web.pageQueryParameters
+import kr.kro.dokbaro.server.fixture.adapter.input.web.pageRequestParams
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -165,13 +168,7 @@ class SolvingQuizControllerTest : RestDocsTest() {
 						),
 					),
 				)
-			val params =
-				mapOf(
-					"page" to "1",
-					"size" to "10",
-					"sort" to MySolvingQuizSortKeyword.CREATED_AT.name,
-					"direction" to SortDirection.ASC.name,
-				)
+			val params = pageRequestParams<MySolvingQuizSortKeyword>()
 
 			performGet(Path("/solving-quiz/my"), params)
 				.andExpect(status().isOk)
@@ -179,10 +176,7 @@ class SolvingQuizControllerTest : RestDocsTest() {
 					print(
 						"solving-quiz/my-solved",
 						queryParameters(
-							parameterWithName("page").description("결과 페이지 번호. 1부터 시작."),
-							parameterWithName("size").description("페이지당 결과 수."),
-							parameterWithName("sort").description("정렬 기준. [CREATED_AT, STAR_RATING]"),
-							parameterWithName("direction").description("정렬 방향. 가능한 값은 'ASC' 또는 'DESC'"),
+							*pageQueryParameters<MySolvingQuizSortKeyword>(),
 						),
 						responseFields(
 							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),
@@ -198,107 +192,117 @@ class SolvingQuizControllerTest : RestDocsTest() {
 		}
 
 		"그룹 내 내가 푼 퀴즈 목록을 조회한다" {
-			every { findAllMyStudyGroupSolveSummaryUseCase.findAllMyStudyGroupSolveSummary(any(), any()) } returns
-				listOf(
-					StudyGroupSolveSummary(
-						id = 1L,
-						solvedAt = LocalDateTime.of(2024, 11, 8, 10, 0),
-						book =
-							StudyGroupSolveSummary.Book(
-								id = 1L,
-								title = "Mathematics Essentials",
-								imageUrl = "https://example.com/book1.jpg",
-							),
-						quiz =
-							StudyGroupSolveSummary.Quiz(
-								id = 101L,
-								title = "Algebra Quiz",
-								creator =
-									StudyGroupSolveSummary.Creator(
-										id = 1L,
-										nickname = "MathGuru",
-										profileImageUrl = "https://example.com/profile1.jpg",
-									),
-								createdAt = LocalDateTime.of(2024, 10, 1, 8, 30),
-								contributors =
-									listOf(
-										StudyGroupSolveSummary.Contributor(
+			every { findAllMyStudyGroupSolveSummaryUseCase.findAllMyStudyGroupSolveSummary(any(), any(), any()) } returns
+				PageResponse.of(
+					1000,
+					10,
+					listOf(
+						StudyGroupSolveSummary(
+							id = 1L,
+							solvedAt = LocalDateTime.of(2024, 11, 8, 10, 0),
+							book =
+								StudyGroupSolveSummary.Book(
+									id = 1L,
+									title = "Mathematics Essentials",
+									imageUrl = "https://example.com/book1.jpg",
+								),
+							quiz =
+								StudyGroupSolveSummary.Quiz(
+									id = 101L,
+									title = "Algebra Quiz",
+									creator =
+										StudyGroupSolveSummary.Creator(
+											id = 1L,
+											nickname = "MathGuru",
+											profileImageUrl = "https://example.com/profile1.jpg",
+										),
+									createdAt = LocalDateTime.of(2024, 10, 1, 8, 30),
+									contributors =
+										listOf(
+											StudyGroupSolveSummary.Contributor(
+												id = 2L,
+												nickname = "AlgebraAce",
+												profileImageUrl = "https://example.com/profile2.jpg",
+											),
+											StudyGroupSolveSummary.Contributor(
+												id = 3L,
+												nickname = "GeometryGeek",
+												profileImageUrl = null,
+											),
+										),
+								),
+						),
+						StudyGroupSolveSummary(
+							id = 2L,
+							solvedAt = LocalDateTime.of(2024, 11, 8, 15, 30),
+							book =
+								StudyGroupSolveSummary.Book(
+									id = 2L,
+									title = "Science Basics",
+									imageUrl = "https://example.com/book2.jpg",
+								),
+							quiz =
+								StudyGroupSolveSummary.Quiz(
+									id = 102L,
+									title = "Physics Quiz",
+									creator =
+										StudyGroupSolveSummary.Creator(
 											id = 2L,
-											nickname = "AlgebraAce",
-											profileImageUrl = "https://example.com/profile2.jpg",
+											nickname = "ScienceSage",
+											profileImageUrl = "https://example.com/profile3.jpg",
 										),
-										StudyGroupSolveSummary.Contributor(
-											id = 3L,
-											nickname = "GeometryGeek",
-											profileImageUrl = null,
+									createdAt = LocalDateTime.of(2024, 9, 25, 14, 45),
+									contributors =
+										listOf(
+											StudyGroupSolveSummary.Contributor(
+												id = 4L,
+												nickname = "PhysicsFan",
+												profileImageUrl = "https://example.com/profile4.jpg",
+											),
+											StudyGroupSolveSummary.Contributor(
+												id = 5L,
+												nickname = "ChemistryChamp",
+												profileImageUrl = "https://example.com/profile5.jpg",
+											),
 										),
-									),
-							),
-					),
-					StudyGroupSolveSummary(
-						id = 2L,
-						solvedAt = LocalDateTime.of(2024, 11, 8, 15, 30),
-						book =
-							StudyGroupSolveSummary.Book(
-								id = 2L,
-								title = "Science Basics",
-								imageUrl = "https://example.com/book2.jpg",
-							),
-						quiz =
-							StudyGroupSolveSummary.Quiz(
-								id = 102L,
-								title = "Physics Quiz",
-								creator =
-									StudyGroupSolveSummary.Creator(
-										id = 2L,
-										nickname = "ScienceSage",
-										profileImageUrl = "https://example.com/profile3.jpg",
-									),
-								createdAt = LocalDateTime.of(2024, 9, 25, 14, 45),
-								contributors =
-									listOf(
-										StudyGroupSolveSummary.Contributor(
-											id = 4L,
-											nickname = "PhysicsFan",
-											profileImageUrl = "https://example.com/profile4.jpg",
-										),
-										StudyGroupSolveSummary.Contributor(
-											id = 5L,
-											nickname = "ChemistryChamp",
-											profileImageUrl = "https://example.com/profile5.jpg",
-										),
-									),
-							),
+								),
+						),
 					),
 				)
 
-			performGet(Path("/solving-quiz/study-groups/{studyGroupId}/my", "1"))
-				.andExpect(status().isOk)
+			performGet(
+				Path("/solving-quiz/study-groups/{studyGroupId}/my", "1"),
+				pageRequestParams<MyStudyGroupSolveSummarySortKeyword>(),
+			).andExpect(status().isOk)
 				.andDo(
 					print(
 						"solving-quiz/study-group-my-solved",
 						pathParameters(parameterWithName("studyGroupId").description("study group ID")),
+						queryParameters(
+							*pageQueryParameters<MyStudyGroupSolveSummarySortKeyword>(),
+						),
 						responseFields(
-							fieldWithPath("[].id").description("문제 풀이 요약의 고유 식별자"),
-							fieldWithPath("[].solvedAt").description("문제를 푼 날짜와 시간"),
-							fieldWithPath("[].book").description("문제가 포함된 책에 대한 요약 정보"),
-							fieldWithPath("[].book.id").description("책의 고유 식별자"),
-							fieldWithPath("[].book.title").description("책 제목"),
-							fieldWithPath("[].book.imageUrl").description("책 이미지의 URL"),
-							fieldWithPath("[].quiz").description("푼 퀴즈에 대한 요약 정보"),
-							fieldWithPath("[].quiz.id").description("퀴즈의 고유 식별자"),
-							fieldWithPath("[].quiz.title").description("퀴즈 제목"),
-							fieldWithPath("[].quiz.creator").description("퀴즈를 만든 사람 정보"),
-							fieldWithPath("[].quiz.creator.id").description("퀴즈 작성자의 고유 식별자"),
-							fieldWithPath("[].quiz.creator.nickname").description("퀴즈 작성자의 닉네임"),
-							fieldWithPath("[].quiz.creator.profileImageUrl")
+							endPageNumberFields(),
+							fieldWithPath("data[].id").description("문제 풀이 요약의 고유 식별자"),
+							fieldWithPath("data[].solvedAt").description("문제를 푼 날짜와 시간"),
+							fieldWithPath("data[].book").description("문제가 포함된 책에 대한 요약 정보"),
+							fieldWithPath("data[].book.id").description("책의 고유 식별자"),
+							fieldWithPath("data[].book.title").description("책 제목"),
+							fieldWithPath("data[].book.imageUrl").description("책 이미지의 URL"),
+							fieldWithPath("data[].quiz").description("푼 퀴즈에 대한 요약 정보"),
+							fieldWithPath("data[].quiz.id").description("퀴즈의 고유 식별자"),
+							fieldWithPath("data[].quiz.title").description("퀴즈 제목"),
+							fieldWithPath("data[].quiz.creator").description("퀴즈를 만든 사람 정보"),
+							fieldWithPath("data[].quiz.creator.id").description("퀴즈 작성자의 고유 식별자"),
+							fieldWithPath("data[].quiz.creator.nickname").description("퀴즈 작성자의 닉네임"),
+							fieldWithPath("data[].quiz.creator.profileImageUrl")
 								.description("퀴즈 작성자의 프로필 이미지 URL (optional)")
 								.optional(),
-							fieldWithPath("[].quiz.createdAt").description("퀴즈가 생성된 날짜와 시간"),
-							fieldWithPath("[].quiz.contributors").description("퀴즈 기여자 목록"),
-							fieldWithPath("[].quiz.contributors[].id").description("퀴즈 기여자의 고유 식별자"),
-							fieldWithPath("[].quiz.contributors[].nickname").description("퀴즈 기여자의 닉네임"),
-							fieldWithPath("[].quiz.contributors[].profileImageUrl")
+							fieldWithPath("data[].quiz.createdAt").description("퀴즈가 생성된 날짜와 시간"),
+							fieldWithPath("data[].quiz.contributors").description("퀴즈 기여자 목록"),
+							fieldWithPath("data[].quiz.contributors[].id").description("퀴즈 기여자의 고유 식별자"),
+							fieldWithPath("data[].quiz.contributors[].nickname").description("퀴즈 기여자의 닉네임"),
+							fieldWithPath("data[].quiz.contributors[].profileImageUrl")
 								.description("퀴즈 기여자의 프로필 이미지 URL (optional)")
 								.optional(),
 						),

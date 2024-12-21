@@ -6,9 +6,11 @@ import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.CreateStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.JoinStudyGroupRequest
+import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.UpdateStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.UpdateStudyGroupUseCase
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -28,6 +30,9 @@ class StudyGroupControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var deleteStudyGroupUseCase: DeleteStudyGroupUseCase
+
+	@MockkBean
+	lateinit var updateStudyGroupUseCase: UpdateStudyGroupUseCase
 
 	init {
 		"스터디 그룹 생성을 수행한다" {
@@ -81,6 +86,37 @@ class StudyGroupControllerTest : RestDocsTest() {
 					print(
 						"study-group/delete",
 						pathParameters(parameterWithName("id").description("삭제할 스터디 그룹 ID")),
+					),
+				)
+		}
+
+		"스터디 그룹 정보를 수정한다" {
+			every { updateStudyGroupUseCase.update(any(), any()) } returns Unit
+
+			val body =
+				UpdateStudyGroupRequest(
+					name = "알고리즘 스터디",
+					introduction = "매주 수요일 저녁 8시에 모여서 알고리즘 문제를 함께 풀어보는 스터디입니다.",
+					profileImageUrl = "https://example.com/images/algorithm-study-profile.jpg",
+				)
+			performPut(Path("/study-groups/{id}", "1"), body)
+				.andExpect(status().isNoContent)
+				.andDo(
+					print(
+						"study-group/update",
+						requestFields(
+							fieldWithPath("name")
+								.type(JsonFieldType.STRING)
+								.description("스터디 그룹 이름"),
+							fieldWithPath("introduction")
+								.type(JsonFieldType.STRING)
+								.description("스터디 그룹 소개")
+								.optional(),
+							fieldWithPath("profileImageUrl")
+								.type(JsonFieldType.STRING)
+								.description("프로필 이미지 URL")
+								.optional(),
+						),
 					),
 				)
 		}
