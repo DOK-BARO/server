@@ -2,6 +2,7 @@ package kr.kro.dokbaro.server.core.studygroup.domain
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 
 class StudyGroupTest :
 	StringSpec({
@@ -35,5 +36,21 @@ class StudyGroupTest :
 			studyGroup.join(newMemberId)
 
 			studyGroup.studyMembers.contains(StudyMember(newMemberId, StudyMemberRole.MEMBER))
+		}
+
+		"스터디 정보를 수정한다" {
+			val studyGroup = studyGroupFixture()
+			val newName = "newName"
+			val newIntroduction = "newIntroduction"
+			val newProfileImageUrl = "newProfileImageUrl.png"
+			studyGroup.modify(
+				name = newName,
+				introduction = newIntroduction,
+				profileImageUrl = newProfileImageUrl,
+			)
+
+			studyGroup.name shouldBe newName
+			studyGroup.introduction shouldBe newIntroduction
+			studyGroup.profileImageUrl shouldBe newProfileImageUrl
 		}
 	})

@@ -4,6 +4,8 @@ import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.dto.CountStudyGroupCondition
+import kr.kro.dokbaro.server.core.studygroup.application.port.out.dto.FindStudyGroupCondition
+import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
@@ -105,7 +107,7 @@ class StudyGroupQueryRepository(
 		return studyGroupMapper.toStudyGroupMemberResult(record)
 	}
 
-	fun findDetailBy(id: Long): StudyGroupDetail? {
+	fun findDetailBy(condition: FindStudyGroupCondition): StudyGroupDetail? {
 		val record: Map<StudyGroupRecord, Result<out Record>> =
 			dslContext
 				.select(
@@ -123,11 +125,17 @@ class StudyGroupQueryRepository(
 				.on(STUDY_GROUP_MEMBER.STUDY_GROUP_ID.eq(STUDY_GROUP.ID))
 				.join(MEMBER)
 				.on(MEMBER.ID.eq(STUDY_GROUP_MEMBER.MEMBER_ID))
-				.where(STUDY_GROUP.ID.eq(id).and(STUDY_GROUP.DELETED.eq(false)))
+				.where(buildDetailCondition(condition).and(STUDY_GROUP.DELETED.eq(false)))
 				.fetchGroups(STUDY_GROUP)
 
 		return studyGroupMapper.toStudyGroupDetail(record)
 	}
+
+	private fun buildDetailCondition(condition: FindStudyGroupCondition): Condition =
+		DSL.and(
+			condition.id?.let { STUDY_GROUP.ID.eq(it) },
+			condition.inviteCode?.let { STUDY_GROUP.INVITE_CODE.eq(it) },
+		)
 
 	fun countBy(condition: CountStudyGroupCondition): Long =
 		dslContext
@@ -144,4 +152,17 @@ class StudyGroupQueryRepository(
 				)
 			},
 		)
+
+	fun findBy(condition: FindStudyGroupCondition): StudyGroup? {
+		val fetchGroups: Map<StudyGroupRecord, Result<Record>> =
+			dslContext
+				.select()
+				.from(STUDY_GROUP)
+				.join(STUDY_GROUP_MEMBER)
+				.on(STUDY_GROUP_MEMBER.STUDY_GROUP_ID.eq(STUDY_GROUP.ID))
+				.where(buildDetailCondition(condition).and(STUDY_GROUP.DELETED.eq(false)))
+				.fetchGroups(STUDY_GROUP)
+
+		return studyGroupMapper.recordToStudyGroup(fetchGroups)
+	}
 }

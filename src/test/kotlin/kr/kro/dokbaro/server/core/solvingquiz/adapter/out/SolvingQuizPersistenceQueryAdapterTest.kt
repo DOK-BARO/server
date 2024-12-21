@@ -21,7 +21,6 @@ import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.dto.CountSolv
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
-import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
@@ -39,7 +38,7 @@ class SolvingQuizPersistenceQueryAdapterTest(
 		val memberRepository = MemberRepository(dslContext, MemberMapper())
 		val bookRepository = BookRepository(dslContext)
 		val bookQuizRepository = BookQuizRepository(dslContext, BookQuizMapper())
-		val studyGroupRepository = StudyGroupRepository(dslContext, StudyGroupMapper())
+		val studyGroupRepository = StudyGroupRepository(dslContext)
 
 		val solvingQuizRepository = SolvingQuizRepository(dslContext, SolvingQuizMapper())
 		val solvingQuizQueryRepository = SolvingQuizQueryRepository(dslContext, SolvingQuizMapper())

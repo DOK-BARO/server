@@ -86,13 +86,17 @@ class StudyGroupQueryServiceTest :
 				)
 
 			studyGroupQueryService.findStudyGroupDetailBy(101) shouldNotBe null
+			studyGroupQueryService.findStudyGroupDetailByInviteCode("ABC123") shouldNotBe null
 		}
 
-		"스터디 그룹 정보 조회 시 id에 해당하는 스터디 그룹이 없으면 예외를 발생한다" {
+		"스터디 그룹 정보 조회 시 id/초대코드에 해당하는 스터디 그룹이 없으면 예외를 발생한다" {
 			every { findStudyGroupDetailPort.findStudyGroupDetailBy(any()) } returns null
 
 			shouldThrow<NotFoundStudyGroupException> {
 				studyGroupQueryService.findStudyGroupDetailBy(2)
+			}
+			shouldThrow<NotFoundStudyGroupException> {
+				studyGroupQueryService.findStudyGroupDetailByInviteCode("ABC123")
 			}
 		}
 	})

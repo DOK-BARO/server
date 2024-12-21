@@ -4,12 +4,14 @@ import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindAllMyStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindAllStudyGroupMembersUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindStudyGroupDetailByInviteCodeUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindStudyGroupDetailUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.CountStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.ReadStudyGroupCollectionPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.ReadStudyGroupDetailPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.ReadStudyGroupMemberCollectionPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.dto.CountStudyGroupCondition
+import kr.kro.dokbaro.server.core.studygroup.application.port.out.dto.FindStudyGroupCondition
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
@@ -25,7 +27,8 @@ class StudyGroupQueryService(
 	private val countStudyGroupPort: CountStudyGroupPort,
 ) : FindAllMyStudyGroupUseCase,
 	FindAllStudyGroupMembersUseCase,
-	FindStudyGroupDetailUseCase {
+	FindStudyGroupDetailUseCase,
+	FindStudyGroupDetailByInviteCodeUseCase {
 	override fun findAll(
 		memberId: Long,
 		pageOption: PageOption<MyStudyGroupSortKeyword>,
@@ -48,5 +51,10 @@ class StudyGroupQueryService(
 		readStudyGroupMemberCollectionPort.findAllStudyGroupMembers(id)
 
 	override fun findStudyGroupDetailBy(id: Long): StudyGroupDetail =
-		findStudyGroupDetailPort.findStudyGroupDetailBy(id) ?: throw NotFoundStudyGroupException()
+		findStudyGroupDetailPort.findStudyGroupDetailBy(FindStudyGroupCondition(id = id))
+			?: throw NotFoundStudyGroupException()
+
+	override fun findStudyGroupDetailByInviteCode(inviteCode: String): StudyGroupDetail =
+		findStudyGroupDetailPort.findStudyGroupDetailBy(FindStudyGroupCondition(inviteCode = inviteCode))
+			?: throw NotFoundStudyGroupException()
 }

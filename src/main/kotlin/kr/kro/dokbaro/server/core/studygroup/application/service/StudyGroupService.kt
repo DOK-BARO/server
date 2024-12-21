@@ -3,12 +3,15 @@ package kr.kro.dokbaro.server.core.studygroup.application.service
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.UpdateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.UpdateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.DeleteStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
-import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupByInviteCodePort
+import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.UpdateStudyGroupPort
+import kr.kro.dokbaro.server.core.studygroup.application.port.out.dto.FindStudyGroupCondition
 import kr.kro.dokbaro.server.core.studygroup.application.service.auth.StudyGroupAuthorityCheckService
 import kr.kro.dokbaro.server.core.studygroup.application.service.exception.NotFoundStudyGroupException
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
@@ -21,13 +24,14 @@ import org.springframework.stereotype.Service
 class StudyGroupService(
 	private val insertStudyGroupPort: InsertStudyGroupPort,
 	private val inviteCodeGenerator: InviteCodeGenerator,
-	private val loadStudyGroupByInviteCodePort: LoadStudyGroupByInviteCodePort,
+	private val loadStudyGroupPort: LoadStudyGroupPort,
 	private val updateStudyGroupPort: UpdateStudyGroupPort,
 	private val eventPublisher: ApplicationEventPublisher,
 	private val deleteStudyGroupPort: DeleteStudyGroupPort,
 	private val studyGroupAuthorityCheckService: StudyGroupAuthorityCheckService,
 ) : CreateStudyGroupUseCase,
 	JoinStudyGroupUseCase,
+	UpdateStudyGroupUseCase,
 	DeleteStudyGroupUseCase {
 	override fun create(command: CreateStudyGroupCommand): Long =
 		insertStudyGroupPort.insert(
@@ -42,8 +46,10 @@ class StudyGroupService(
 
 	override fun join(command: JoinStudyGroupCommand) {
 		val studyGroup: StudyGroup =
-			loadStudyGroupByInviteCodePort.findByInviteCode(
-				command.inviteCode,
+			loadStudyGroupPort.findBy(
+				FindStudyGroupCondition(
+					inviteCode = command.inviteCode,
+				),
 			) ?: throw NotFoundStudyGroupException()
 
 		studyGroup.join(participantId = command.memberId)
@@ -58,6 +64,22 @@ class StudyGroupService(
 				memberName = command.memberNickname,
 			),
 		)
+	}
+
+	override fun update(
+		command: UpdateStudyGroupCommand,
+		user: DokbaroUser,
+	) {
+		val studyGroup: StudyGroup =
+			loadStudyGroupPort.findBy(FindStudyGroupCondition(id = command.id)) ?: throw NotFoundStudyGroupException()
+
+		studyGroup.modify(
+			name = command.name,
+			introduction = command.introduction,
+			profileImageUrl = command.profileImageUrl,
+		)
+
+		updateStudyGroupPort.update(studyGroup)
 	}
 
 	override fun deleteStudyGroup(
