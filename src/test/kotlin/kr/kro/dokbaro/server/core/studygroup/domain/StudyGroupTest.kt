@@ -1,7 +1,9 @@
 package kr.kro.dokbaro.server.core.studygroup.domain
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import kr.kro.dokbaro.server.core.studygroup.domain.exception.NotExistStudyMemberException
 import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 
 class StudyGroupTest :
@@ -52,5 +54,68 @@ class StudyGroupTest :
 			studyGroup.name shouldBe newName
 			studyGroup.introduction shouldBe newIntroduction
 			studyGroup.profileImageUrl shouldBe newProfileImageUrl
+		}
+
+		"리더를 변경한다" {
+			val studyGroup =
+				studyGroupFixture(
+					studyMembers =
+						mutableSetOf(
+							StudyMember(
+								memberId = 1,
+								role = StudyMemberRole.LEADER,
+							),
+							StudyMember(
+								memberId = 2,
+								role = StudyMemberRole.MEMBER,
+							),
+						),
+				)
+
+			studyGroup.changeStudyLeader(2)
+
+			studyGroup.studyMembers.first { it.role == StudyMemberRole.LEADER }.memberId shouldBe 2
+			studyGroup.studyMembers.first { it.role == StudyMemberRole.MEMBER }.memberId shouldBe 1
+		}
+
+		"팀원에 포함되지 않는 사람을 리더로 변경하려 하면 예외를 반환한다" {
+			val studyGroup =
+				studyGroupFixture(
+					studyMembers =
+						mutableSetOf(
+							StudyMember(
+								memberId = 1,
+								role = StudyMemberRole.LEADER,
+							),
+							StudyMember(
+								memberId = 2,
+								role = StudyMemberRole.MEMBER,
+							),
+						),
+				)
+
+			shouldThrow<NotExistStudyMemberException> {
+				studyGroup.changeStudyLeader(3)
+			}
+		}
+
+		"기존에 리더가 없었으면, 새로 지정한다." {
+			val studyGroup =
+				studyGroupFixture(
+					studyMembers =
+						mutableSetOf(
+							StudyMember(
+								memberId = 1,
+								role = StudyMemberRole.MEMBER,
+							),
+							StudyMember(
+								memberId = 2,
+								role = StudyMemberRole.MEMBER,
+							),
+						),
+				)
+			studyGroup.changeStudyLeader(2)
+			studyGroup.studyMembers.first { it.role == StudyMemberRole.LEADER }.memberId shouldBe 2
+			studyGroup.studyMembers.first { it.role == StudyMemberRole.MEMBER }.memberId shouldBe 1
 		}
 	})

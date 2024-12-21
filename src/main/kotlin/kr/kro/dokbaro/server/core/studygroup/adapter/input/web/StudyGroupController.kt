@@ -1,13 +1,16 @@
 package kr.kro.dokbaro.server.core.studygroup.adapter.input.web
 
 import kr.kro.dokbaro.server.common.dto.response.IdResponse
+import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.ChangeStudyGroupLeaderRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.CreateStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.JoinStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.UpdateStudyGroupRequest
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.ChangeStudyGroupLeaderUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.UpdateStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.ChangeStudyGroupLeaderCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.UpdateStudyGroupCommand
@@ -30,6 +33,7 @@ class StudyGroupController(
 	private val joinStudyGroupUseCase: JoinStudyGroupUseCase,
 	private val deleteStudyGroupUseCase: DeleteStudyGroupUseCase,
 	private val updateStudyGroupUseCase: UpdateStudyGroupUseCase,
+	private val changeStudyGroupLeaderUseCase: ChangeStudyGroupLeaderUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -87,5 +91,18 @@ class StudyGroupController(
 		@Login user: DokbaroUser,
 	) {
 		deleteStudyGroupUseCase.deleteStudyGroup(id, user)
+	}
+
+	@PostMapping("/{id}/change-leader")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	fun changeLeader(
+		@PathVariable id: Long,
+		@Login user: DokbaroUser,
+		@RequestBody body: ChangeStudyGroupLeaderRequest,
+	) {
+		changeStudyGroupLeaderUseCase.changeStudyGroupLeader(
+			ChangeStudyGroupLeaderCommand(studyGroupId = id, newLeaderId = body.newLeaderId),
+			user,
+		)
 	}
 }

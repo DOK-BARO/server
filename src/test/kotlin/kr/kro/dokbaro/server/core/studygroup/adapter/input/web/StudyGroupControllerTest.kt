@@ -4,9 +4,11 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import kr.kro.dokbaro.server.configuration.docs.Path
 import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
+import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.ChangeStudyGroupLeaderRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.CreateStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.JoinStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.UpdateStudyGroupRequest
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.ChangeStudyGroupLeaderUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
@@ -33,6 +35,9 @@ class StudyGroupControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var updateStudyGroupUseCase: UpdateStudyGroupUseCase
+
+	@MockkBean
+	lateinit var changeStudyGroupLeaderUseCase: ChangeStudyGroupLeaderUseCase
 
 	init {
 		"스터디 그룹 생성을 수행한다" {
@@ -116,6 +121,23 @@ class StudyGroupControllerTest : RestDocsTest() {
 								.type(JsonFieldType.STRING)
 								.description("프로필 이미지 URL")
 								.optional(),
+						),
+					),
+				)
+		}
+
+		"스터디 그룹 리더를 변경한다" {
+			every { changeStudyGroupLeaderUseCase.changeStudyGroupLeader(any(), any()) } returns Unit
+
+			val body = ChangeStudyGroupLeaderRequest(1)
+			performPost(Path("/study-groups/{id}/change-leader", "1"), body)
+				.andExpect(status().isNoContent)
+				.andDo(
+					print(
+						"study-group/change-leader",
+						pathParameters(parameterWithName("id").description("스터디 그룹 ID")),
+						requestFields(
+							fieldWithPath("newLeaderId").type(JsonFieldType.NUMBER).description("새로운 leader의 memberId"),
 						),
 					),
 				)

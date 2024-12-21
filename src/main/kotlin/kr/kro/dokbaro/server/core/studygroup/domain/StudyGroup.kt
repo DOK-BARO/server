@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.core.studygroup.domain
 
 import kr.kro.dokbaro.server.common.constant.Constants
+import kr.kro.dokbaro.server.core.studygroup.domain.exception.NotExistStudyMemberException
 
 class StudyGroup(
 	val id: Long = Constants.UNSAVED_ID,
@@ -49,5 +50,13 @@ class StudyGroup(
 		this.name = name
 		this.introduction = introduction
 		this.profileImageUrl = profileImageUrl
+	}
+
+	fun changeStudyLeader(newLeaderId: Long) {
+		val beforeLeader: StudyMember? = studyMembers.find { it.role == StudyMemberRole.LEADER }
+		beforeLeader?.role = StudyMemberRole.MEMBER
+
+		val newLeader: StudyMember = studyMembers.find { it.memberId == newLeaderId } ?: throw NotExistStudyMemberException()
+		newLeader.role = StudyMemberRole.LEADER
 	}
 }

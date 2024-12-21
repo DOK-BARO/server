@@ -4,6 +4,8 @@ import kr.kro.dokbaro.server.common.annotation.AuthorityCheckService
 import kr.kro.dokbaro.server.common.exception.http.status4xx.default.DefaultForbiddenException
 import kr.kro.dokbaro.server.core.member.domain.Role
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindAllStudyGroupMembersUseCase
+import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
+import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.security.details.DokbaroUser
@@ -30,6 +32,17 @@ class StudyGroupAuthorityCheckService(
 					it.memberId == user.id
 			}
 		) {
+			throw DefaultForbiddenException()
+		}
+	}
+
+	fun checkUpdateStudyGroup(
+		user: DokbaroUser,
+		studyGroup: StudyGroup,
+	) {
+		val targetMember: StudyMember? = studyGroup.studyMembers.find { it.memberId == user.id }
+
+		if (targetMember == null || targetMember.role != StudyMemberRole.LEADER) {
 			throw DefaultForbiddenException()
 		}
 	}
