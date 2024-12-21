@@ -109,6 +109,7 @@ class StudyGroupControllerTest : RestDocsTest() {
 				.andDo(
 					print(
 						"study-group/update",
+						pathParameters(parameterWithName("id").description("study group ID")),
 						requestFields(
 							fieldWithPath("name")
 								.type(JsonFieldType.STRING)
