@@ -4,9 +4,9 @@ import kr.kro.dokbaro.server.common.constant.Constants
 
 class StudyGroup(
 	val id: Long = Constants.UNSAVED_ID,
-	val name: String,
-	val introduction: String? = null,
-	val profileImageUrl: String? = null,
+	var name: String,
+	var introduction: String? = null,
+	var profileImageUrl: String? = null,
 	val studyMembers: MutableSet<StudyMember> = mutableSetOf(),
 	val inviteCode: InviteCode,
 ) {
@@ -39,5 +39,15 @@ class StudyGroup(
 				role = StudyMemberRole.MEMBER,
 			),
 		)
+	}
+
+	fun modify(
+		name: String,
+		introduction: String?,
+		profileImageUrl: String?,
+	) {
+		this.name = name
+		this.introduction = introduction
+		this.profileImageUrl = profileImageUrl
 	}
 }

@@ -4,6 +4,7 @@ import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindAllMyStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindStudyGroupDetailByInviteCodeUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindStudyGroupDetailUseCase
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 class StudyGroupQueryController(
 	private val findAllMyStudyGroupUseCase: FindAllMyStudyGroupUseCase,
 	private val findStudyGroupDetailUseCase: FindStudyGroupDetailUseCase,
+	private val findStudyGroupDetailByInviteCodeUseCase: FindStudyGroupDetailByInviteCodeUseCase,
 ) {
 	@GetMapping("/my")
 	fun getMyStudyGroups(
@@ -45,4 +47,9 @@ class StudyGroupQueryController(
 	fun findStudyGroup(
 		@PathVariable id: Long,
 	): StudyGroupDetail = findStudyGroupDetailUseCase.findStudyGroupDetailBy(id)
+
+	@GetMapping("/invite-code/{inviteCode}")
+	fun findStudyGroupByInviteCode(
+		@PathVariable inviteCode: String,
+	): StudyGroupDetail = findStudyGroupDetailByInviteCodeUseCase.findStudyGroupDetailByInviteCode(inviteCode)
 }

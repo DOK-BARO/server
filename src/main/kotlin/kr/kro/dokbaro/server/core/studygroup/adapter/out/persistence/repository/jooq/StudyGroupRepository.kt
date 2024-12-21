@@ -1,19 +1,14 @@
 package kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq
 
-import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import org.jooq.DSLContext
-import org.jooq.Record
-import org.jooq.Result
 import org.jooq.generated.tables.JStudyGroup
 import org.jooq.generated.tables.JStudyGroupMember
-import org.jooq.generated.tables.records.StudyGroupRecord
 import org.springframework.stereotype.Repository
 
 @Repository
 class StudyGroupRepository(
 	private val dslContext: DSLContext,
-	private val studyGroupMapper: StudyGroupMapper,
 ) {
 	companion object {
 		private val STUDY_GROUP = JStudyGroup.STUDY_GROUP
@@ -55,19 +50,6 @@ class StudyGroupRepository(
 		dslContext.batch(insertQuery).execute()
 
 		return studyGroupId
-	}
-
-	fun findByInviteCode(inviteCode: String): StudyGroup? {
-		val fetchGroups: Map<StudyGroupRecord, Result<Record>> =
-			dslContext
-				.select()
-				.from(STUDY_GROUP)
-				.join(STUDY_GROUP_MEMBER)
-				.on(STUDY_GROUP_MEMBER.STUDY_GROUP_ID.eq(STUDY_GROUP.ID))
-				.where(STUDY_GROUP.INVITE_CODE.eq(inviteCode).and(STUDY_GROUP.DELETED.eq(false)))
-				.fetchGroups(STUDY_GROUP)
-
-		return studyGroupMapper.recordToStudyGroup(fetchGroups)
 	}
 
 	fun update(studyGroup: StudyGroup) {

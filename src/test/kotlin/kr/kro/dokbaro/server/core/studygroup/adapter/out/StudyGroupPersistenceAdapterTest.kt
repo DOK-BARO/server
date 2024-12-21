@@ -11,7 +11,9 @@ import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
+import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupQueryRepository
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
+import kr.kro.dokbaro.server.core.studygroup.application.port.out.dto.FindStudyGroupCondition
 import kr.kro.dokbaro.server.core.studygroup.domain.InviteCode
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
@@ -34,7 +36,8 @@ class StudyGroupPersistenceAdapterTest(
 		val studyGroupDao = StudyGroupDao(configuration)
 		val studyGroupMemberDao = StudyGroupMemberDao(configuration)
 
-		val repository = StudyGroupRepository(dslContext, StudyGroupMapper())
+		val repository = StudyGroupRepository(dslContext)
+		val queryRepository = StudyGroupQueryRepository(dslContext, StudyGroupMapper())
 		val adapter = StudyGroupPersistenceAdapter(repository)
 
 		"study group 저장을 수행한다." {
@@ -55,30 +58,6 @@ class StudyGroupPersistenceAdapterTest(
 			id shouldNotBe null
 			studyGroupDao.findById(id) shouldNotBe null
 			studyGroupMemberDao.findAll().count { it.studyGroupId == id } shouldBe 1
-		}
-
-		"초대 코드를 통한 검색을 수행한다" {
-			val savedMember =
-				memberRepository.insert(
-					Member(
-						nickname = "nick",
-						email = Email("www@gmail.com"),
-						profileImage = "aaa.png",
-						certificationId = UUID.randomUUID(),
-					),
-				)
-			val targetCode = "ABC123"
-
-			val studyGroup =
-				studyGroupFixture(
-					studyMembers = mutableSetOf(StudyMember(savedMember.id, StudyMemberRole.LEADER)),
-					inviteCode = InviteCode(targetCode),
-					introduction = null,
-				)
-			adapter.insert(studyGroup)
-
-			adapter.findByInviteCode(targetCode) shouldNotBe null
-			adapter.findByInviteCode("123ABC") shouldBe null
 		}
 
 		"update를 수행한다" {
@@ -126,7 +105,7 @@ class StudyGroupPersistenceAdapterTest(
 
 			adapter.update(newGroup)
 
-			val result = adapter.findByInviteCode(newCode)!!
+			val result = queryRepository.findBy(FindStudyGroupCondition(inviteCode = newCode))!!
 
 			result.name shouldBe newName
 			result.introduction shouldBe newIntro
@@ -144,7 +123,7 @@ class StudyGroupPersistenceAdapterTest(
 				)
 			adapter.update(updated2)
 
-			val result2 = adapter.findByInviteCode(newCode)!!
+			val result2 = queryRepository.findBy(FindStudyGroupCondition(inviteCode = newCode))!!
 			result2.introduction shouldBe null
 		}
 
@@ -163,10 +142,11 @@ class StudyGroupPersistenceAdapterTest(
 
 			repository.insert(studyGroup)
 
-			val savedStudyGroup = repository.findByInviteCode(studyGroup.inviteCode.value)!!
+			val savedStudyGroup =
+				queryRepository.findBy(FindStudyGroupCondition(inviteCode = studyGroup.inviteCode.value))!!
 
 			adapter.deleteStudyGroup(savedStudyGroup.id)
 
-			repository.findByInviteCode(studyGroup.inviteCode.value) shouldBe null
+			queryRepository.findBy(FindStudyGroupCondition(inviteCode = studyGroup.inviteCode.value)) shouldBe null
 		}
 	})

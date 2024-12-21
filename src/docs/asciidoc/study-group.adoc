@@ -46,6 +46,31 @@ include::{snippets}/study-group/get-study-group-detail/path-parameters.adoc[]
 include::{snippets}/study-group/get-study-group-detail/http-response.adoc[]
 include::{snippets}/study-group/get-study-group-detail/response-fields.adoc[]
 
+=== 초대 코드를 통한 스터디 그룹 상세 조회
+
+==== HTTP request
+
+include::{snippets}/study-group/get-study-group-detail-by-invite-code/http-request.adoc[]
+include::{snippets}/study-group/get-study-group-detail-by-invite-code/path-parameters.adoc[]
+
+==== HTTP response
+
+include::{snippets}/study-group/get-study-group-detail-by-invite-code/http-response.adoc[]
+include::{snippets}/study-group/get-study-group-detail-by-invite-code/response-fields.adoc[]
+
+
+=== 스터디 그룹 수정
+
+==== HTTP request
+
+include::{snippets}/study-group/update/http-request.adoc[]
+include::{snippets}/study-group/update/path-parameters.adoc[]
+include::{snippets}/study-group/update/request-fields.adoc[]
+
+==== HTTP response
+
+include::{snippets}/study-group/update/http-response.adoc[]
+
 === 스터디 그룹 삭제
 
 ==== HTTP request
