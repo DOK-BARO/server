@@ -8,11 +8,13 @@ import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.ChangeStudyGr
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.CreateStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.JoinStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.UpdateStudyGroupRequest
+import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.WithdrawStudyGroupMemberRequest
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.ChangeStudyGroupLeaderUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.UpdateStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.WithdrawStudyGroupMemberUseCase
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -38,6 +40,9 @@ class StudyGroupControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var changeStudyGroupLeaderUseCase: ChangeStudyGroupLeaderUseCase
+
+	@MockkBean
+	lateinit var withdrawStudyGroupMemberUseCase: WithdrawStudyGroupMemberUseCase
 
 	init {
 		"스터디 그룹 생성을 수행한다" {
@@ -139,6 +144,23 @@ class StudyGroupControllerTest : RestDocsTest() {
 						pathParameters(parameterWithName("id").description("스터디 그룹 ID")),
 						requestFields(
 							fieldWithPath("newLeaderId").type(JsonFieldType.NUMBER).description("새로운 leader의 memberId"),
+						),
+					),
+				)
+		}
+
+		"스터디 그룹 탈퇴(강제탈퇴)를 진행한다" {
+			every { withdrawStudyGroupMemberUseCase.withdraw(any(), any()) } returns Unit
+
+			val body = WithdrawStudyGroupMemberRequest(1)
+			performPost(Path("/study-groups/{id}/withdraw", "1"), body)
+				.andExpect(status().isNoContent)
+				.andDo(
+					print(
+						"study-group/withdraw",
+						pathParameters(parameterWithName("id").description("스터디 그룹 ID")),
+						requestFields(
+							fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("탈퇴할 member의 ID"),
 						),
 					),
 				)

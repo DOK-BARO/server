@@ -102,4 +102,34 @@ class StudyGroupAuthorityCheckServiceTest :
 				studyGroupAuthorityCheckService.checkUpdateStudyGroup(dokbaroUserFixture(id = 1), studyGroup)
 			}
 		}
+
+		"스터디 탈퇴는 본인 혹은 리더만 가능하다" {
+			val studyGroup =
+				studyGroupFixture(
+					studyMembers =
+						mutableSetOf(
+							StudyMember(
+								memberId = 1,
+								role = StudyMemberRole.LEADER,
+							),
+							StudyMember(
+								memberId = 2,
+								role = StudyMemberRole.MEMBER,
+							),
+						),
+				)
+
+			shouldThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 3), studyGroup, targetMemberId = 2)
+			}
+			shouldThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 2), studyGroup, targetMemberId = 1)
+			}
+			shouldNotThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 2), studyGroup, targetMemberId = 2)
+			}
+			shouldNotThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 1), studyGroup, targetMemberId = 2)
+			}
+		}
 	})

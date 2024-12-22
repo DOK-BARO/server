@@ -5,10 +5,12 @@ import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyG
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.UpdateStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.WithdrawStudyGroupMemberUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.ChangeStudyGroupLeaderCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.UpdateStudyGroupCommand
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.WithdrawStudyGroupMemberCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.DeleteStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupPort
@@ -35,7 +37,8 @@ class StudyGroupService(
 	JoinStudyGroupUseCase,
 	UpdateStudyGroupUseCase,
 	DeleteStudyGroupUseCase,
-	ChangeStudyGroupLeaderUseCase {
+	ChangeStudyGroupLeaderUseCase,
+	WithdrawStudyGroupMemberUseCase {
 	override fun create(command: CreateStudyGroupCommand): Long =
 		insertStudyGroupPort.insert(
 			StudyGroup.of(
@@ -105,6 +108,20 @@ class StudyGroupService(
 		studyGroupAuthorityCheckService.checkUpdateStudyGroup(user, studyGroup)
 
 		studyGroup.changeStudyLeader(command.studyGroupId)
+
+		updateStudyGroupPort.update(studyGroup)
+	}
+
+	override fun withdraw(
+		command: WithdrawStudyGroupMemberCommand,
+		user: DokbaroUser,
+	) {
+		val studyGroup: StudyGroup =
+			loadStudyGroupPort.findBy(FindStudyGroupCondition(id = command.studyGroupId)) ?: throw NotFoundStudyGroupException()
+
+		studyGroupAuthorityCheckService.checkWithdrawMember(user, studyGroup, command.memberId)
+
+		studyGroup.withdrawMember(command.memberId)
 
 		updateStudyGroupPort.update(studyGroup)
 	}

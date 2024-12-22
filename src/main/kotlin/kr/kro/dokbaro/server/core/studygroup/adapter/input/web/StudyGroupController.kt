@@ -5,15 +5,18 @@ import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.ChangeStudyGr
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.CreateStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.JoinStudyGroupRequest
 import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.UpdateStudyGroupRequest
+import kr.kro.dokbaro.server.core.studygroup.adapter.input.web.dto.WithdrawStudyGroupMemberRequest
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.ChangeStudyGroupLeaderUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.UpdateStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.WithdrawStudyGroupMemberUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.ChangeStudyGroupLeaderCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.UpdateStudyGroupCommand
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.WithdrawStudyGroupMemberCommand
 import kr.kro.dokbaro.server.security.annotation.Login
 import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
@@ -34,6 +37,7 @@ class StudyGroupController(
 	private val deleteStudyGroupUseCase: DeleteStudyGroupUseCase,
 	private val updateStudyGroupUseCase: UpdateStudyGroupUseCase,
 	private val changeStudyGroupLeaderUseCase: ChangeStudyGroupLeaderUseCase,
+	private val withdrawStudyGroupMemberUseCase: WithdrawStudyGroupMemberUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -102,6 +106,22 @@ class StudyGroupController(
 	) {
 		changeStudyGroupLeaderUseCase.changeStudyGroupLeader(
 			ChangeStudyGroupLeaderCommand(studyGroupId = id, newLeaderId = body.newLeaderId),
+			user,
+		)
+	}
+
+	@PostMapping("/{id}/withdraw")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	fun withdraw(
+		@PathVariable id: Long,
+		@Login user: DokbaroUser,
+		@RequestBody body: WithdrawStudyGroupMemberRequest,
+	) {
+		withdrawStudyGroupMemberUseCase.withdraw(
+			WithdrawStudyGroupMemberCommand(
+				studyGroupId = id,
+				memberId = body.memberId,
+			),
 			user,
 		)
 	}
