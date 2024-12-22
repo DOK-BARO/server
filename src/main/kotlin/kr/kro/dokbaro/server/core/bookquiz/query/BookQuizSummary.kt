@@ -6,6 +6,7 @@ data class BookQuizSummary(
 	val averageStarRating: Double,
 	val averageDifficultyLevel: Double,
 	val questionCount: Int,
+	val reviewCount: Int,
 	val creator: Creator,
 ) {
 	data class Creator(

@@ -352,6 +352,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								averageStarRating = 4.5,
 								averageDifficultyLevel = 3.2,
 								questionCount = 10,
+								reviewCount = 20,
 								creator =
 									BookQuizSummary.Creator(
 										id = 1001L,
@@ -365,6 +366,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								averageStarRating = 4.8,
 								averageDifficultyLevel = 4.0,
 								questionCount = 15,
+								reviewCount = 20,
 								creator =
 									BookQuizSummary.Creator(
 										id = 1002L,
@@ -378,6 +380,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								averageStarRating = 4.2,
 								averageDifficultyLevel = 2.5,
 								questionCount = 8,
+								reviewCount = 20,
 								creator =
 									BookQuizSummary.Creator(
 										id = 1003L,
@@ -410,6 +413,7 @@ class BookQuizControllerTest : RestDocsTest() {
 								.type(JsonFieldType.NUMBER)
 								.description("퀴즈의 평균 난이도."),
 							fieldWithPath("data[].questionCount").type(JsonFieldType.NUMBER).description("퀴즈의 질문 수."),
+							fieldWithPath("data[].reviewCount").type(JsonFieldType.NUMBER).description("퀴즈의 리뷰 수."),
 							fieldWithPath("data[].creator").type(JsonFieldType.OBJECT).description("퀴즈 작성자 정보."),
 							fieldWithPath("data[].creator.id").type(JsonFieldType.NUMBER).description("작성자의 ID."),
 							fieldWithPath("data[].creator.nickname")
