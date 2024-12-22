@@ -199,4 +199,8 @@ class SolvingQuizQueryServiceTest :
 			) shouldNotBe
 				null
 		}
+
+		"스터디 그룹 맴버들의 퀴즈 점수를 조회한다" {
+			TODO()
+		}
 	})

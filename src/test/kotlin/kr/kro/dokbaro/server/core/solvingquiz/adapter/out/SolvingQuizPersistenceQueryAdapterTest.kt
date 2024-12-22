@@ -150,4 +150,8 @@ class SolvingQuizPersistenceQueryAdapterTest(
 			adapter.countBy(CountSolvingQuizCondition(member2Id)) shouldBe 3
 			adapter.countBy(CountSolvingQuizCondition()) shouldBe 5
 		}
+
+		"스터디 그룹 내 퀴즈 시트를 조회한다" {
+			TODO()
+		}
 	})

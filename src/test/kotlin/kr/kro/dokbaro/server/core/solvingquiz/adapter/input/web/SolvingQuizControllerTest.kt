@@ -313,5 +313,9 @@ class SolvingQuizControllerTest : RestDocsTest() {
 					),
 				)
 		}
+		
+		"스터디 그룹 내 퀴즈 푼 내역을 조회한다" {
+			TODO()
+		}
 	}
 }
