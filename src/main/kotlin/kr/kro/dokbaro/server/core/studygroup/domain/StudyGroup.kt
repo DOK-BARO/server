@@ -1,6 +1,7 @@
 package kr.kro.dokbaro.server.core.studygroup.domain
 
 import kr.kro.dokbaro.server.common.constant.Constants
+import kr.kro.dokbaro.server.core.studygroup.application.service.exception.LeaderCannotWithdrawException
 import kr.kro.dokbaro.server.core.studygroup.domain.exception.NotExistStudyMemberException
 
 class StudyGroup(
@@ -58,5 +59,13 @@ class StudyGroup(
 
 		val newLeader: StudyMember = studyMembers.find { it.memberId == newLeaderId } ?: throw NotExistStudyMemberException()
 		newLeader.role = StudyMemberRole.LEADER
+	}
+
+	fun withdrawMember(memberId: Long) {
+		if (studyMembers.any { it.memberId == memberId && it.role == StudyMemberRole.LEADER }) {
+			throw LeaderCannotWithdrawException()
+		}
+
+		studyMembers.removeIf { it.memberId == memberId }
 	}
 }
