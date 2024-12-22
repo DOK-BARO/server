@@ -13,6 +13,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.CountSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadSolvingQuizPort
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadStudyGroupSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMySolveSummaryPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMyStudyGroupSolveSummaryPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.service.exception.NotFoundSolvingQuizException
@@ -31,6 +32,7 @@ class SolvingQuizQueryServiceTest :
 		val readMySolveSummaryPort = mockk<ReadMySolveSummaryPort>()
 		val readMyStudyGroupSolveSummaryPort = mockk<ReadMyStudyGroupSolveSummaryPort>()
 		val countSolvingQuizPort = mockk<CountSolvingQuizPort>()
+		val loadStudyGroupSolvingQuizPort = mockk<LoadStudyGroupSolvingQuizPort>()
 
 		val solvingQuizQueryService =
 			SolvingQuizQueryService(
@@ -39,6 +41,7 @@ class SolvingQuizQueryServiceTest :
 				readMySolveSummaryPort,
 				readMyStudyGroupSolveSummaryPort,
 				countSolvingQuizPort,
+				loadStudyGroupSolvingQuizPort,
 			)
 
 		"퀴즈 결과 탐색을 수행한다" {
@@ -66,7 +69,7 @@ class SolvingQuizQueryServiceTest :
 						),
 				)
 
-			val result: TotalGradeResult = solvingQuizQueryService.findAllBy(1)
+			val result: TotalGradeResult = solvingQuizQueryService.findAllGradeResultBy(1)
 
 			result.solvingQuizId shouldBe 1
 			result.quizId shouldBe 1
@@ -79,7 +82,7 @@ class SolvingQuizQueryServiceTest :
 			every { loadSolvingQuizPort.findById(any()) } returns null
 
 			shouldThrow<NotFoundSolvingQuizException> {
-				solvingQuizQueryService.findAllBy(5)
+				solvingQuizQueryService.findAllGradeResultBy(5)
 			}
 		}
 

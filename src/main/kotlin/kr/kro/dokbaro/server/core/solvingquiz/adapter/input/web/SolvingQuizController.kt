@@ -9,6 +9,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.adapter.input.web.dto.StartSolving
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMySolveSummaryUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMyStudyGroupSolveSummaryUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllSolveResultUseCase
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllStudyGroupSolveResultUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.SolveQuestionUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.StartSolvingQuizUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.dto.SolveQuestionCommand
@@ -16,6 +17,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.dto.StartSo
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.SolveResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
+import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupTotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
@@ -37,6 +39,7 @@ class SolvingQuizController(
 	private val findAllSolveResultUseCase: FindAllSolveResultUseCase,
 	private val findAllMySolveSummaryUseCase: FindAllMySolveSummaryUseCase,
 	private val findAllMyStudyGroupSolveSummaryUseCase: FindAllMyStudyGroupSolveSummaryUseCase,
+	private val findAllStudyGroupSolveResultUseCase: FindAllStudyGroupSolveResultUseCase,
 ) {
 	@PostMapping("/start")
 	fun startSolvingQuiz(
@@ -68,7 +71,14 @@ class SolvingQuizController(
 	@GetMapping("/{id}/grade-result")
 	fun getGradeResult(
 		@PathVariable id: Long,
-	): TotalGradeResult = findAllSolveResultUseCase.findAllBy(id)
+	): TotalGradeResult = findAllSolveResultUseCase.findAllGradeResultBy(id)
+
+	@GetMapping("/study-groups-grade-result")
+	fun getStudyGroupGradeResult(
+		@RequestParam studyGroupId: Long,
+		@RequestParam quizId: Long,
+	): StudyGroupTotalGradeResult =
+		findAllStudyGroupSolveResultUseCase.findAllStudyGroupGradeResultBy(studyGroupId, quizId)
 
 	@GetMapping("/study-groups/{studyGroupId}/my")
 	fun getStudyGroupsMySolvingQuiz(

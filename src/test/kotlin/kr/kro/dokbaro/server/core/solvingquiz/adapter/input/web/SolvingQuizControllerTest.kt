@@ -10,6 +10,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.adapter.input.web.dto.StartSolving
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMySolveSummaryUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMyStudyGroupSolveSummaryUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllSolveResultUseCase
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllStudyGroupSolveResultUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.SolveQuestionUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.StartSolvingQuizUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
@@ -48,6 +49,9 @@ class SolvingQuizControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var findAllMyStudyGroupSolveSummaryUseCase: FindAllMyStudyGroupSolveSummaryUseCase
+
+	@MockkBean
+	lateinit var findAllStudyGroupSolveResultUseCase: FindAllStudyGroupSolveResultUseCase
 
 	init {
 		"퀴즈 풀기를 시작한다" {
@@ -120,7 +124,7 @@ class SolvingQuizControllerTest : RestDocsTest() {
 		}
 
 		"전체 채점 결과를 조회한다" {
-			every { findAllSolveResultUseCase.findAllBy(any()) } returns
+			every { findAllSolveResultUseCase.findAllGradeResultBy(any()) } returns
 				TotalGradeResult(1, 1, 1, 10, 8)
 
 			performGet(Path("/solving-quiz/{id}/grade-result", "1"))

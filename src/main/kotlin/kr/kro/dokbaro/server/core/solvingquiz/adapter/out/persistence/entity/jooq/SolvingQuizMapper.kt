@@ -7,13 +7,17 @@ import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
+import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupTotalGradeResult
 import org.jooq.Record
+import org.jooq.Record3
 import org.jooq.Result
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JSolvingQuiz
 import org.jooq.generated.tables.JSolvingQuizSheet
+import org.jooq.generated.tables.records.MemberRecord
 import org.jooq.generated.tables.records.SolvingQuizRecord
+import org.jooq.generated.tables.records.SolvingQuizSheetRecord
 
 @Mapper
 class SolvingQuizMapper {
@@ -128,4 +132,35 @@ class SolvingQuizMapper {
 					),
 			)
 		}
+
+	fun toStudyGroupSolvingQuizSheets(
+		record: Map<MemberRecord, Result<Record3<MemberRecord, SolvingQuizRecord, SolvingQuizSheetRecord>>>,
+	): Map<StudyGroupTotalGradeResult.Member, SolvingQuiz?> =
+		record
+			.mapKeys { (member, _) ->
+				StudyGroupTotalGradeResult.Member(
+					id = member.id,
+					nickname = member.nickname,
+					profileImageUrl = member.profileImageUrl,
+				)
+			}.mapValues { (_, values) ->
+				val solvingQuizAndSheetsMap: Map<SolvingQuizRecord, List<SolvingQuizSheetRecord>> =
+					values.groupBy { it.value2() }.mapValues { v -> v.value.map { it.value3() } }
+
+				solvingQuizAndSheetsMap
+					.map { (key, value) ->
+						SolvingQuiz(
+							playerId = key.memberId,
+							quizId = key.quizId,
+							id = key.id,
+							sheets =
+								value
+									.groupBy { it.questionId }
+									.mapValues { (_, v) ->
+										AnswerSheet(v.map { it.content })
+									}.filterKeys { it != null }
+									.toMutableMap(),
+						)
+					}.firstOrNull()
+			}
 }
