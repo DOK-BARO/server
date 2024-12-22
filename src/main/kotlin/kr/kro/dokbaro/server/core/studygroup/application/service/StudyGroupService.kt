@@ -1,12 +1,16 @@
 package kr.kro.dokbaro.server.core.studygroup.application.service
 
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.ChangeStudyGroupLeaderUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.CreateStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.DeleteStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.JoinStudyGroupUseCase
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.UpdateStudyGroupUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.WithdrawStudyGroupMemberUseCase
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.ChangeStudyGroupLeaderCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.UpdateStudyGroupCommand
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.WithdrawStudyGroupMemberCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.DeleteStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupPort
@@ -32,7 +36,9 @@ class StudyGroupService(
 ) : CreateStudyGroupUseCase,
 	JoinStudyGroupUseCase,
 	UpdateStudyGroupUseCase,
-	DeleteStudyGroupUseCase {
+	DeleteStudyGroupUseCase,
+	ChangeStudyGroupLeaderUseCase,
+	WithdrawStudyGroupMemberUseCase {
 	override fun create(command: CreateStudyGroupCommand): Long =
 		insertStudyGroupPort.insert(
 			StudyGroup.of(
@@ -73,6 +79,8 @@ class StudyGroupService(
 		val studyGroup: StudyGroup =
 			loadStudyGroupPort.findBy(FindStudyGroupCondition(id = command.id)) ?: throw NotFoundStudyGroupException()
 
+		studyGroupAuthorityCheckService.checkUpdateStudyGroup(user, studyGroup)
+
 		studyGroup.modify(
 			name = command.name,
 			introduction = command.introduction,
@@ -88,5 +96,33 @@ class StudyGroupService(
 	) {
 		studyGroupAuthorityCheckService.checkDeleteStudyGroup(user, id)
 		deleteStudyGroupPort.deleteStudyGroup(id)
+	}
+
+	override fun changeStudyGroupLeader(
+		command: ChangeStudyGroupLeaderCommand,
+		user: DokbaroUser,
+	) {
+		val studyGroup: StudyGroup =
+			loadStudyGroupPort.findBy(FindStudyGroupCondition(id = command.studyGroupId)) ?: throw NotFoundStudyGroupException()
+
+		studyGroupAuthorityCheckService.checkUpdateStudyGroup(user, studyGroup)
+
+		studyGroup.changeStudyLeader(command.studyGroupId)
+
+		updateStudyGroupPort.update(studyGroup)
+	}
+
+	override fun withdraw(
+		command: WithdrawStudyGroupMemberCommand,
+		user: DokbaroUser,
+	) {
+		val studyGroup: StudyGroup =
+			loadStudyGroupPort.findBy(FindStudyGroupCondition(id = command.studyGroupId)) ?: throw NotFoundStudyGroupException()
+
+		studyGroupAuthorityCheckService.checkWithdrawMember(user, studyGroup, command.memberId)
+
+		studyGroup.withdrawMember(command.memberId)
+
+		updateStudyGroupPort.update(studyGroup)
 	}
 }

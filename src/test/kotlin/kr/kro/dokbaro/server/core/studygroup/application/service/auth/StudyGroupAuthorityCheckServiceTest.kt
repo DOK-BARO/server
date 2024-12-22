@@ -7,10 +7,12 @@ import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.common.exception.http.status4xx.default.DefaultForbiddenException
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.FindAllStudyGroupMembersUseCase
+import kr.kro.dokbaro.server.core.studygroup.domain.StudyMember
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.fixture.domain.dokbaroAdminFixture
 import kr.kro.dokbaro.server.fixture.domain.dokbaroUserFixture
+import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 
 class StudyGroupAuthorityCheckServiceTest :
 	StringSpec({
@@ -71,6 +73,63 @@ class StudyGroupAuthorityCheckServiceTest :
 
 			shouldNotThrow<DefaultForbiddenException> {
 				studyGroupAuthorityCheckService.checkDeleteStudyGroup(dokbaroAdminFixture(), 1)
+			}
+		}
+
+		"스터디에 전반적인 수적은 leader만 가능하다" {
+			val studyGroup =
+				studyGroupFixture(
+					studyMembers =
+						mutableSetOf(
+							StudyMember(
+								memberId = 1,
+								role = StudyMemberRole.LEADER,
+							),
+							StudyMember(
+								memberId = 2,
+								role = StudyMemberRole.MEMBER,
+							),
+						),
+				)
+
+			shouldThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkUpdateStudyGroup(dokbaroUserFixture(id = 3), studyGroup)
+			}
+			shouldThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkUpdateStudyGroup(dokbaroUserFixture(id = 2), studyGroup)
+			}
+			shouldNotThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkUpdateStudyGroup(dokbaroUserFixture(id = 1), studyGroup)
+			}
+		}
+
+		"스터디 탈퇴는 본인 혹은 리더만 가능하다" {
+			val studyGroup =
+				studyGroupFixture(
+					studyMembers =
+						mutableSetOf(
+							StudyMember(
+								memberId = 1,
+								role = StudyMemberRole.LEADER,
+							),
+							StudyMember(
+								memberId = 2,
+								role = StudyMemberRole.MEMBER,
+							),
+						),
+				)
+
+			shouldThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 3), studyGroup, targetMemberId = 2)
+			}
+			shouldThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 2), studyGroup, targetMemberId = 1)
+			}
+			shouldNotThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 2), studyGroup, targetMemberId = 2)
+			}
+			shouldNotThrow<DefaultForbiddenException> {
+				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 1), studyGroup, targetMemberId = 2)
 			}
 		}
 	})

@@ -9,9 +9,11 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.ChangeStudyGroupLeaderCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.CreateStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.JoinStudyGroupCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.UpdateStudyGroupCommand
+import kr.kro.dokbaro.server.core.studygroup.application.port.input.dto.WithdrawStudyGroupMemberCommand
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.DeleteStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.InsertStudyGroupPort
 import kr.kro.dokbaro.server.core.studygroup.application.port.out.LoadStudyGroupPort
@@ -104,6 +106,7 @@ class StudyGroupServiceTest :
 
 		"수정을 수행한다" {
 			every { loadStudyGroupPort.findBy(any()) } returns studyGroupFixture(id = 1)
+			every { studyGroupAuthorityCheckService.checkUpdateStudyGroup(any(), any()) } returns Unit
 
 			studyGroupService.update(
 				UpdateStudyGroupCommand(
@@ -128,6 +131,64 @@ class StudyGroupServiceTest :
 						"asdf",
 						"adfs",
 						"adf",
+					),
+					dokbaroUserFixture(),
+				)
+			}
+		}
+
+		"스터디 리더를 변경한다" {
+			every { loadStudyGroupPort.findBy(any()) } returns studyGroupFixture(id = 1)
+			every { studyGroupAuthorityCheckService.checkUpdateStudyGroup(any(), any()) } returns Unit
+
+			studyGroupService.changeStudyGroupLeader(
+				ChangeStudyGroupLeaderCommand(
+					1,
+					1,
+				),
+				dokbaroUserFixture(),
+			)
+
+			updateStudyGroupPort.storage!!.id shouldBe 1
+		}
+
+		"스터디 리더 변경 시 StudyGroup을 찾을 수 없으면 예외를 발생한다" {
+			every { loadStudyGroupPort.findBy(any()) } returns null
+
+			shouldThrow<NotFoundStudyGroupException> {
+				studyGroupService.changeStudyGroupLeader(
+					ChangeStudyGroupLeaderCommand(
+						1,
+						1,
+					),
+					dokbaroUserFixture(),
+				)
+			}
+		}
+
+		"스터디 탈퇴를 수행한다" {
+			every { loadStudyGroupPort.findBy(any()) } returns studyGroupFixture(id = 1)
+			every { studyGroupAuthorityCheckService.checkWithdrawMember(any(), any(), any()) } returns Unit
+
+			studyGroupService.withdraw(
+				WithdrawStudyGroupMemberCommand(
+					1,
+					3,
+				),
+				dokbaroUserFixture(id = 6),
+			)
+
+			updateStudyGroupPort.storage!!.id shouldBe 1
+		}
+
+		"스터디 탈퇴를 수행 시 StudyGroup을 찾을 수 없으면 예외를 발생한다" {
+			every { loadStudyGroupPort.findBy(any()) } returns null
+
+			shouldThrow<NotFoundStudyGroupException> {
+				studyGroupService.withdraw(
+					WithdrawStudyGroupMemberCommand(
+						1,
+						1,
 					),
 					dokbaroUserFixture(),
 				)

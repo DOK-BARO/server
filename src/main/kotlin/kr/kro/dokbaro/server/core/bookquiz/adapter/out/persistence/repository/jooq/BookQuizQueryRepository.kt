@@ -153,6 +153,9 @@ class BookQuizQueryRepository(
 					avg(QUIZ_REVIEW.STAR_RATING).`as`(BookQuizRecordFieldName.AVERAGE_STAR_RATING),
 					avg(QUIZ_REVIEW.DIFFICULTY_LEVEL).`as`(BookQuizRecordFieldName.AVERAGE_DIFFICULTY_LEVEL),
 					field(
+						selectCount().from(QUIZ_REVIEW).where(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID)),
+					).`as`(BookQuizRecordFieldName.BOOK_QUIZ_REVIEW_COUNT),
+					field(
 						selectCount()
 							.from(BOOK_QUIZ_QUESTION)
 							.where(

@@ -10,4 +10,5 @@ object BookQuizRecordFieldName {
 	const val CONTRIBUTOR_ID = "contributor_id"
 	const val CONTRIBUTOR_NAME = "contributor_name"
 	const val CONTRIBUTOR_IMAGE_URL = "contributor_image_url"
+	const val BOOK_QUIZ_REVIEW_COUNT = "book_quiz_review_count"
 }

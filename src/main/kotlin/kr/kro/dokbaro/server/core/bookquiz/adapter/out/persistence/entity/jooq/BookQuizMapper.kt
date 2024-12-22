@@ -159,6 +159,7 @@ class BookQuizMapper {
 				averageStarRating = it[BookQuizRecordFieldName.AVERAGE_STAR_RATING, Double::class.java],
 				averageDifficultyLevel = it[BookQuizRecordFieldName.AVERAGE_DIFFICULTY_LEVEL, Double::class.java],
 				questionCount = it[BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT, Int::class.java],
+				reviewCount = it[BookQuizRecordFieldName.BOOK_QUIZ_REVIEW_COUNT, Int::class.java],
 				creator =
 					BookQuizSummary.Creator(
 						id = it[MEMBER.ID],
