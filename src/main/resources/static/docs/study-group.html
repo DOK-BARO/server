@@ -449,7 +449,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups?_csrf=U9m5Xl7ZSK6Ziiv4RMuSDvstmY9ypdix8l4lSFhEDl9AEyAnNryOZ2bpesy06xyZfeamPskZtO4WnOycxm1EcG52ODwmchUe HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups?_csrf=rGHJW1CJH2wKlEZG3y77SXum9tNPg_PI-p2khSIhkrOdx918lVL4bDPtfgknpSUj6QPPeB_C2-p5s8blyKWR40cYooKv8exF HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 125
 Host: localhost:8080
@@ -544,7 +544,7 @@ Content-Length: 14
 <h4 id="_http_request_2">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups/join?_csrf=xRYeL8jJfkmBE9XYb56V6ihqkSYCcADEf-kyKA9kPnhp7tIB9yEmHf3_HH-sd7bqDbOh0xoMvEQ0FWLpHYtUGm4BWxlcjeY2 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups/join?_csrf=7SOFoz8phlIsUYMC_m0yde40kkE4XQNOgr2C1BiOcEKOZzn42EezkAhKsjQBMrpkzkAGEY8Hv3gAOztjt9i75n27R3DtUg3K HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 29
 Host: localhost:8080
@@ -604,6 +604,36 @@ X-Frame-Options: DENY</code></pre>
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 페이지 번호. 1부터 시작.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지당 결과 수.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, NAME]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 방향. 가능한 값은 'ASC' 또는 'DESC'</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_http_response_3">HTTP response</h4>
@@ -999,7 +1029,7 @@ Content-Length: 638
 <h4 id="_http_request_6">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /study-groups/1?_csrf=bHZAs_PpjIO9RWUZAyZKlnrUXb2KakeWN9Z9-om_CXapAk7KDxUjg8DQvrKQI1V7MQt-90PhcISyUiO7VeBMwuqJPUOdZHny HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /study-groups/1?_csrf=NhLmryzRUSipZWkRh_MH1b_tsozKIUL2GbI5qJMaheCskecUUybUyhjhZEuEAAt0tN4z5Y-Pn-7_FCTbKIEIzKEpstSf8oEm HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 246
 Host: localhost:8080
@@ -1135,7 +1165,7 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_8">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups/1/change-leader?_csrf=a2RQUTOe8VyVd_LuPbvybsnsz_QxGYA8ix0WzFrwc-ytt8iKXlIxYVf7l2S4RZPcW5bGXPrb4swAe7ERuCt3rm7AQ4qbhqzr HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups/1/change-leader?_csrf=L0jr47-AYCUddbR6OHaDfrtcgWy-6HLDkih-zX7bfbp-i0VZHXDYgN7iVkMwEIFICVu3HI1krA3d3kTu8UpN9UvuTNwcsnM8 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 23
 Host: localhost:8080
@@ -1210,7 +1240,7 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_9">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups/1/withdraw?_csrf=Pc60koYZwyjAHVMqQLqVr-VzxHB0_RhUd77vQCQc74Lr9UDOWa3S8LMv9hrtfDUZeJehzdxL6RFNzC95EYnWdEUrjLfdzHf- HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /study-groups/1/withdraw?_csrf=d3zhjLYOjT80XCRRUPDoM8uovf7wXHkwEpTuDiQgwSLbuYVDQE-AudQ56QcZbEcwaN3cAvKbkJ-TP0wdIPDeOR1C9Ue53bIl HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 20
 Host: localhost:8080
@@ -1285,7 +1315,7 @@ X-Frame-Options: DENY</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-12-22 16:23:41 +0900
+Last updated 2024-12-23 19:38:04 +0900
 </div>
 </div>
 </body>

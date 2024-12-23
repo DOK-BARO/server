@@ -28,6 +28,7 @@ include::{snippets}/study-group/join/http-response.adoc[]
 ==== HTTP request
 
 include::{snippets}/study-group/get-my-study-group-list/http-request.adoc[]
+include::{snippets}/study-group/get-my-study-group-list/query-parameters.adoc[]
 
 ==== HTTP response
 
