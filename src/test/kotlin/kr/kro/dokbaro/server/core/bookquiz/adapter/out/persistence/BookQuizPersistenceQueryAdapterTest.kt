@@ -205,7 +205,12 @@ class BookQuizPersistenceQueryAdapterTest(
 				.findAllBookQuizSummary(
 					book,
 					PageOption.of(sort = BookQuizSummarySortKeyword.CREATED_AT),
-				).isEmpty() shouldBe false
+				).shouldNotBeEmpty()
+			adapter
+				.findAllBookQuizSummary(
+					book,
+					PageOption.of(sort = BookQuizSummarySortKeyword.UPDATED_AT),
+				).shouldNotBeEmpty()
 		}
 
 		"스터디 그룹 퀴즈 중 본인이 안 푼 문제 목록을 조회한다" {
@@ -247,6 +252,12 @@ class BookQuizPersistenceQueryAdapterTest(
 					memberId = memberId,
 					studyGroupId = studyGroupId,
 					pageOption = PageOption.of(sort = UnsolvedGroupBookQuizSortKeyword.TITLE),
+				).shouldNotBeEmpty()
+			adapter
+				.findAllUnsolvedQuizzes(
+					memberId = memberId,
+					studyGroupId = studyGroupId,
+					pageOption = PageOption.of(sort = UnsolvedGroupBookQuizSortKeyword.UPDATED_AT),
 				).shouldNotBeEmpty()
 		}
 
@@ -298,6 +309,15 @@ class BookQuizPersistenceQueryAdapterTest(
 				).first()
 				.id shouldBe
 				quiz1
+
+			adapter
+				.findAllMyBookQuiz(
+					memberId,
+					PageOption.of(sort = MyBookQuizSummarySortKeyword.UPDATED_AT),
+				).first()
+				.id shouldBe
+				quiz1
+
 			adapter
 				.findAllMyBookQuiz(
 					memberId,

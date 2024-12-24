@@ -183,6 +183,7 @@ class BookQuizQueryRepository(
 			when (pageOption.sort) {
 				BookQuizSummarySortKeyword.STAR_RATING -> field(BookQuizRecordFieldName.AVERAGE_STAR_RATING)
 				BookQuizSummarySortKeyword.CREATED_AT -> BOOK_QUIZ.CREATED_AT
+				BookQuizSummarySortKeyword.UPDATED_AT -> BOOK_QUIZ.UPDATED_AT
 			}
 
 		if (pageOption.direction == SortDirection.DESC) {
@@ -258,6 +259,7 @@ class BookQuizQueryRepository(
 		val query =
 			when (pageOption.sort) {
 				UnsolvedGroupBookQuizSortKeyword.CREATED_AT -> BOOK_QUIZ.CREATED_AT
+				UnsolvedGroupBookQuizSortKeyword.UPDATED_AT -> BOOK_QUIZ.UPDATED_AT
 				UnsolvedGroupBookQuizSortKeyword.TITLE -> BOOK_QUIZ.TITLE
 			}
 
@@ -303,6 +305,7 @@ class BookQuizQueryRepository(
 			when (pageOption.sort) {
 				MyBookQuizSummarySortKeyword.TITLE -> BOOK_QUIZ.TITLE
 				MyBookQuizSummarySortKeyword.CREATED_AT -> BOOK_QUIZ.CREATED_AT
+				MyBookQuizSummarySortKeyword.UPDATED_AT -> BOOK_QUIZ.UPDATED_AT
 			}
 
 		if (pageOption.direction == SortDirection.DESC) {

@@ -449,7 +449,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=Q1ev2gD6c3UJKxjC2W4LUbOWtdoGLoj12f-a7rd92_qkxm0LJ2XMuTecQEIkHX736UM_N4P0mOJlS77Y7Mf7i45E6s6Spws5 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=leVuOGrood8ZrCLIvMo8DV0aNhZU3AG-ppbEStX1HwOd20CX9INbXAjYmes0yhKp3ucIaG8sGy9l5WKTl6b1K7fNKGH57Cau HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 907
 Host: dokbaro.com
@@ -742,7 +742,7 @@ Content-Length: 344
 <h4 id="_http_request_3">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=vxVHAjdT16LRMpxa147oBLks8Yy5ybH6pi_Ha2DMfIiyfdgGhyMmYVIy48b8Af5rtqPcYotI3LXYr9DXn03wU1X0HriFS75k HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=W60jCOdGfptVsXvk_9OEaQ8KoBmqlQaiJnaKfFtZokqRtSulYp4TMNZ_GK94gB-FzP6wCGkyjXvOpTCPHxTvRT48x3unhxKQ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 936
 Host: dokbaro.com
@@ -1021,7 +1021,7 @@ Host: dokbaro.com</code></pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [STAR_RATING, CREATED_AT]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [STAR_RATING, CREATED_AT, UPDATED_AT]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
@@ -1403,7 +1403,7 @@ Host: dokbaro.com</code></pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, TITLE]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, UPDATED_AT, TITLE]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
@@ -1435,7 +1435,7 @@ Content-Length: 504
     "id" : 1,
     "bookImageUrl" : "https://example.com/book_image1.jpg",
     "title" : "Effective Kotlin",
-    "updatedAt" : "2024-12-22T15:59:05.342294",
+    "updatedAt" : "2024-12-22T16:27:59.468095",
     "studyGroup" : {
       "id" : 1,
       "name" : "Study Group 1",
@@ -1445,7 +1445,7 @@ Content-Length: 504
     "id" : 2,
     "bookImageUrl" : "https://example.com/book_image2.jpg",
     "title" : "Kotlin in Action",
-    "updatedAt" : "2024-12-19T15:59:05.342678",
+    "updatedAt" : "2024-12-19T16:27:59.468428",
     "studyGroup" : null
   } ]
 }</code></pre>
@@ -1614,7 +1614,7 @@ Content-Length: 417
   "id" : 1,
   "title" : "Sample Quiz Explanation",
   "description" : "This is a detailed explanation for a sample book quiz.",
-  "createdAt" : "2024-12-24T15:59:05.401049",
+  "createdAt" : "2024-12-24T16:27:59.522361",
   "creator" : {
     "id" : 101,
     "nickname" : "QuizMaster",
