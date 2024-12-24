@@ -26,7 +26,6 @@ import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.Mem
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq.QuizReviewRepository
-import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.entity.jooq.SolvingQuizMapper
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository.jooq.SolvingQuizRepository
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
@@ -53,7 +52,7 @@ class BookQuizPersistenceQueryAdapterTest(
 		val bookQuizQueryRepository = BookQuizQueryRepository(dslContext, BookQuizMapper())
 		val studyGroupRepository = StudyGroupRepository(dslContext)
 		val quizReviewRepository = QuizReviewRepository(dslContext)
-		val solvingQuizRepository = SolvingQuizRepository(dslContext, SolvingQuizMapper())
+		val solvingQuizRepository = SolvingQuizRepository(dslContext)
 
 		val adapter = BookQuizPersistenceQueryAdapter(bookQuizQueryRepository)
 

@@ -11,14 +11,17 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizUs
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
+import kr.kro.dokbaro.server.core.bookquiz.domain.answerstyle.OXAnswer
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.CountSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadSolvingQuizPort
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadStudyGroupSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMySolveSummaryPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMyStudyGroupSolveSummaryPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.service.exception.NotFoundSolvingQuizException
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
+import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupTotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
 import kr.kro.dokbaro.server.fixture.domain.quizQuestionFixture
@@ -31,6 +34,7 @@ class SolvingQuizQueryServiceTest :
 		val readMySolveSummaryPort = mockk<ReadMySolveSummaryPort>()
 		val readMyStudyGroupSolveSummaryPort = mockk<ReadMyStudyGroupSolveSummaryPort>()
 		val countSolvingQuizPort = mockk<CountSolvingQuizPort>()
+		val loadStudyGroupSolvingQuizPort = mockk<LoadStudyGroupSolvingQuizPort>()
 
 		val solvingQuizQueryService =
 			SolvingQuizQueryService(
@@ -39,6 +43,7 @@ class SolvingQuizQueryServiceTest :
 				readMySolveSummaryPort,
 				readMyStudyGroupSolveSummaryPort,
 				countSolvingQuizPort,
+				loadStudyGroupSolvingQuizPort,
 			)
 
 		"퀴즈 결과 탐색을 수행한다" {
@@ -66,7 +71,7 @@ class SolvingQuizQueryServiceTest :
 						),
 				)
 
-			val result: TotalGradeResult = solvingQuizQueryService.findAllBy(1)
+			val result: TotalGradeResult = solvingQuizQueryService.findAllGradeResultBy(1)
 
 			result.solvingQuizId shouldBe 1
 			result.quizId shouldBe 1
@@ -79,7 +84,7 @@ class SolvingQuizQueryServiceTest :
 			every { loadSolvingQuizPort.findById(any()) } returns null
 
 			shouldThrow<NotFoundSolvingQuizException> {
-				solvingQuizQueryService.findAllBy(5)
+				solvingQuizQueryService.findAllGradeResultBy(5)
 			}
 		}
 
@@ -195,5 +200,90 @@ class SolvingQuizQueryServiceTest :
 				PageOption.of(),
 			) shouldNotBe
 				null
+		}
+
+		"스터디 그룹 맴버들의 퀴즈 점수를 조회한다" {
+			val quizId = 1L
+			every { findBookQuizUseCase.findBy(quizId) } returns
+				bookQuizFixture(
+					id = quizId,
+					questions =
+						listOf(
+							quizQuestionFixture(id = 1, answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+							quizQuestionFixture(id = 2, answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+							quizQuestionFixture(id = 3, answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+						),
+				)
+			every { loadStudyGroupSolvingQuizPort.findAllStudyGroupSolvingQuizSheets(any(), quizId) } returns
+				mapOf(
+					StudyGroupTotalGradeResult.Member(
+						id = 1L,
+						nickname = "코딩마스터",
+						profileImageUrl = "https://example.com/images/profile1.jpg",
+					) to
+						SolvingQuiz(
+							id = 1,
+							playerId = 1,
+							quizId = quizId,
+							sheets =
+								mutableMapOf(
+									1L to AnswerSheet(listOf("X")),
+									2L to AnswerSheet(listOf("X")),
+									3L to AnswerSheet(listOf("X")),
+								),
+						),
+					StudyGroupTotalGradeResult.Member(
+						id = 2L,
+						nickname = "알고리즘왕",
+						profileImageUrl = null,
+					) to
+						SolvingQuiz(
+							id = 2,
+							playerId = 2,
+							quizId = quizId,
+							sheets =
+								mutableMapOf(
+									1L to AnswerSheet(listOf("X")),
+									2L to AnswerSheet(listOf("X")),
+									3L to AnswerSheet(listOf("O")),
+								),
+						),
+					StudyGroupTotalGradeResult.Member(
+						id = 3L,
+						nickname = "알왕",
+						profileImageUrl = null,
+					) to
+						SolvingQuiz(
+							id = 3,
+							playerId = 3,
+							quizId = quizId,
+							sheets =
+								mutableMapOf(
+									1L to AnswerSheet(listOf("O")),
+									2L to AnswerSheet(listOf("O")),
+									3L to AnswerSheet(listOf("X")),
+								),
+						),
+					StudyGroupTotalGradeResult.Member(
+						id = 4L,
+						nickname = "왕",
+						profileImageUrl = null,
+					) to null,
+				)
+
+			val result = solvingQuizQueryService.findAllStudyGroupGradeResultBy(1, quizId)
+
+			result.quizId shouldBe quizId
+			result.totalQuestionCount shouldBe 3
+			result.solvedMember.size shouldBe 3
+			result.unSolvedMember.size shouldBe 1
+			result.solvedMember.first().correctCount shouldBe 2
+			result.solvedMember
+				.first()
+				.member.id shouldBe 3
+			result.solvedMember.last().correctCount shouldBe 0
+			result.solvedMember
+				.last()
+				.member.id shouldBe 1
 		}
 	})

@@ -13,6 +13,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.entity.jooq.SolvingQuizMapper
+import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository.jooq.SolvingQuizQueryRepository
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository.jooq.SolvingQuizRepository
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.fixture.domain.bookFixture
@@ -31,7 +32,8 @@ class SolvingQuizPersistenceAdapterTest(
 		val bookQuizRepository = BookQuizRepository(dslContext, BookQuizMapper())
 		val bookQuizQueryRepository = BookQuizQueryRepository(dslContext, BookQuizMapper())
 
-		val solvingQuizRepository = SolvingQuizRepository(dslContext, SolvingQuizMapper())
+		val solvingQuizRepository = SolvingQuizRepository(dslContext)
+		val solvingQuizQueryRepository = SolvingQuizQueryRepository(dslContext, SolvingQuizMapper())
 
 		val adapter = SolvingQuizPersistenceAdapter(solvingQuizRepository)
 
@@ -50,7 +52,7 @@ class SolvingQuizPersistenceAdapterTest(
 
 			val solvingQuizId = adapter.insert(SolvingQuiz(playerId = memberId, quizId = bookQuizId))
 
-			adapter.findById(solvingQuizId) shouldNotBe null
+			solvingQuizQueryRepository.findById(solvingQuizId) shouldNotBe null
 		}
 
 		"수정을 수행한다" {
@@ -61,13 +63,13 @@ class SolvingQuizPersistenceAdapterTest(
 
 			val solvingQuizId = adapter.insert(SolvingQuiz(playerId = memberId, quizId = bookQuizId))
 
-			val solvingQuiz: SolvingQuiz = adapter.findById(solvingQuizId)!!
+			val solvingQuiz: SolvingQuiz = solvingQuizQueryRepository.findById(solvingQuizId)!!
 
 			val targetQuestionId = bookQuiz.questions.map { it.id }.first()
 			solvingQuiz.addSheet(targetQuestionId, AnswerSheet(listOf("hello")))
 
 			adapter.update(solvingQuiz)
 
-			adapter.findById(solvingQuizId)!!.getSheets()[targetQuestionId] shouldNotBe null
+			solvingQuizQueryRepository.findById(solvingQuizId)!!.getSheets()[targetQuestionId] shouldNotBe null
 		}
 	})
