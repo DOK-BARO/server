@@ -21,6 +21,9 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.pat
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler
+import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor
+import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor
+import org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
@@ -168,7 +171,11 @@ abstract class RestDocsTest : StringSpec() {
 		vararg snippets: Snippet,
 	): RestDocumentationResultHandler = document(title, getDocumentRequest(), getDocumentResponse(), *snippets)
 
-	private fun getDocumentRequest() = preprocessRequest(prettyPrint())
+	private fun getDocumentRequest(): OperationRequestPreprocessor =
+		preprocessRequest(
+			prettyPrint(),
+			modifyUris().host("dokbaro.com").removePort(),
+		)
 
-	private fun getDocumentResponse() = preprocessResponse(prettyPrint())
+	private fun getDocumentResponse(): OperationResponsePreprocessor = preprocessResponse(prettyPrint())
 }

@@ -79,6 +79,7 @@ class StudyGroupQueryRepository(
 		val query =
 			when (pageOption.sort) {
 				MyStudyGroupSortKeyword.CREATED_AT -> STUDY_GROUP.CREATED_AT
+				MyStudyGroupSortKeyword.JOINED_AT -> STUDY_GROUP_MEMBER.CREATED_AT
 				MyStudyGroupSortKeyword.NAME -> STUDY_GROUP.NAME
 			}
 

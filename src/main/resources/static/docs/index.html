@@ -523,6 +523,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_푼_퀴즈_결과_보기_조회">푼 퀴즈 결과 보기 조회</a></li>
 <li><a href="#_내가_푼_퀴즈_목록_보기_조회">내가 푼 퀴즈 목록 보기 조회</a></li>
 <li><a href="#_스터디_그룹에서_내가_푼_퀴즈_목록_보기_조회">스터디 그룹에서 내가 푼 퀴즈 목록 보기 조회</a></li>
+<li><a href="#_스터디_그룹에서_내가_푼_퀴즈_목록_보기_조회_2">스터디 그룹에서 내가 푼 퀴즈 목록 보기 조회</a></li>
 </ul>
 </li>
 <li><a href="#_study_group">STUDY-GROUP</a>
@@ -578,16 +579,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request"><a class="link" href="#_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email?_csrf=qhfnK0H2OuOOumAcAjPf1zWxlKCbCeCT6pqBS9slxVG8WQknyC_SEnnPWNCj2Vl6NR7r5laDuZj5Pdm-j6mwcu4RpDCLODpG HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email?_csrf=WBsEJT4DbHzqGfhTYE4hvpLVcfEep6_MNRI5zVAgravOGfr7bn1hHV9hChrHLZtrVGMViKDlXMgmn5zhBioNrzMVzpj4LsLP HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 161
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "email" : "example@example.com",
   "nickname" : "exampleNickname",
   "password" : "securePassword123",
-  "profileImage" : "https://example.com/profile.jpg"
+  "profileImage" : "https://dokbaro.com/profile.jpg"
 }</code></pre>
 </div>
 </div>
@@ -664,10 +665,10 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email/issue-temporary-password?_csrf=7ketJhYxW-4ueBYKvb_tDy7-UKOticwh7zn7Kh7Fjvel4V2DjHeZFiUHaN4DTyQ_iZLZPx7LfcGav6gM3wjNHif8ucbH0Di7 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email/issue-temporary-password?_csrf=bEOccqLqwLbTRjZhA2x3teI3TbQ7vEr1coGWbuSrmM7jXnQrCCGsQJTcpdL-JAMDNkFDh9VSYI0P3XvYS7KgV4bKq_zRbk0a HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 37
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "email" : "example@example.com"
@@ -720,10 +721,10 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /accounts/email/password?_csrf=W7ASeF3v6Yh-9kj9yAGyRDoXms5Kq4ZEbtNYKvcYdhdRrgwqOYlwHDzdirlTlH-eqyyGdlwut6x4zeNpXuNoTpEtR3Nnnj8c HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /accounts/email/password?_csrf=Mu62LbyPsCY5tXXlCKIDOe4suKcs_wXnB-HNDBIIdbey1V-jU42HSYzuiBEU0RfQMY83Xd5KlcZKzTzKMdL_OXc4EdKD4jyW HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 57
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "oldPassword" : "before",
@@ -1027,19 +1028,19 @@ logout 시 쿠키는 자동 삭제됩니다
 <h4 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /books?_csrf=YJP4ivXgNmoS2HFicr4VK79bhwd3RxiCX-o31tOtbq0ShFx1WKDI78LYA1s_6kQASpMhHY45qj9PcS2vatMAtOaVVs8jtmoU HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /books?_csrf=THkA69QeAtgS0YPdV5_Dr7u2bcnUpHrTsSbNaDjEh6800GmqfR850uAsYbo_4OHrbrL3noPVQPGwx0n-hRH7UV7xsZcBs1jL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 368
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "isbn" : "9783161484100",
   "title" : "Effective Kotlin",
   "publisher" : "TechBooks",
-  "publishedAt" : "2024-12-22",
+  "publishedAt" : "2024-12-24",
   "price" : 45000,
   "description" : "A comprehensive guide to writing high-quality Kotlin code.",
-  "imageUrl" : "https://example.com/images/effective-kotlin.jpg",
+  "imageUrl" : "https://dokbaro.com/images/effective-kotlin.jpg",
   "categories" : [ 1, 2, 3 ],
   "authors" : [ "Marcin Moskala", "Igor Wojda" ]
 }</code></pre>
@@ -1159,7 +1160,7 @@ Content-Length: 14
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /books?page=1&amp;size=10&amp;sort=PUBLISHED_AT&amp;direction=ASC&amp;title=%EC%9D%B4%ED%8E%99%ED%8B%B0%EB%B8%8C+%EC%9E%90%EB%B0%94&amp;authorName=%EA%B9%80%EC%9A%B0%EA%B7%BC&amp;description=%EC%B1%85+%EC%84%A4%EB%AA%85&amp;category=4 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1306,7 +1307,7 @@ Content-Length: 415
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /books/1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1452,10 +1453,10 @@ Content-Length: 588
 <h4 id="_http_request_10"><a class="link" href="#_http_request_10">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-categories?_csrf=21JI236WF7UMgjywth74YGUHOyZkCe0RYAquMZ3LFnN3Cw_7uGd94hqhJ9Mh4F2GjzPMUAFmFh9VbdU8Bj6eAPiucEQWMjnI HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-categories?_csrf=eflKIzMtK1E662hLy5lrQUG6FTXITNxvjnAoqLA1awMA0AJsS8tzRVJPGWkX3Fp5qrRfdiLbOFT5LehCuxIQn4VUCDA5tGYP HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 78
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "koreanName" : "모바일",
@@ -1548,7 +1549,7 @@ Content-Length: 14
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-categories?targetId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1654,7 +1655,7 @@ Content-Length: 412
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /books/integrated?keyword=%EC%9E%90%EB%B0%94&amp;lastId=3&amp;size=10 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1770,10 +1771,10 @@ Content-Length: 309
 <h4 id="_http_request_13"><a class="link" href="#_http_request_13">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-quizzes?_csrf=AZoXPBHxrE1a4etv9ji7cjMzOdWmjZx3CdpFgUN83wA4hH70ZKojCXCTzS931IpbwRWPSgdQFLfAva9aMOJy5HJF6GFZvRvF HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-quizzes?_csrf=leVuOGrood8ZrCLIvMo8DV0aNhZU3AG-ppbEStX1HwOd20CX9INbXAjYmes0yhKp3ucIaG8sGy9l5WKTl6b1K7fNKGH57Cau HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 907
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "title" : "헥사고날 1장 요약",
@@ -1935,7 +1936,7 @@ Content-Length: 14
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes/1/questions HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2063,10 +2064,10 @@ Content-Length: 344
 <h4 id="_http_request_15"><a class="link" href="#_http_request_15">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /book-quizzes/1?_csrf=oOdIhNSLk2_Kq1Ab_jwvAwSMSc2PvhTGNQ9QfGFyzwmMtLHUwtYpvLboplfnmWYumBEbYTTqZPS723LrDT0xSVgXrD660Ijg HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /book-quizzes/1?_csrf=W60jCOdGfptVsXvk_9OEaQ8KoBmqlQaiJnaKfFtZokqRtSulYp4TMNZ_GK94gB-FzP6wCGkyjXvOpTCPHxTvRT48x3unhxKQ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 936
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "title" : "헥사고날 1장 요약",
@@ -2227,7 +2228,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes/answer?questionId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2313,7 +2314,7 @@ Content-Length: 114
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes?page=1&amp;size=10&amp;sort=STAR_RATING&amp;direction=ASC&amp;bookId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2342,7 +2343,7 @@ Host: localhost:8080</code></pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [STAR_RATING, CREATED_AT]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [STAR_RATING, CREATED_AT, UPDATED_AT]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
@@ -2490,7 +2491,7 @@ Content-Length: 961
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes/study-groups/1/unsolved?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2699,7 +2700,7 @@ Content-Length: 1458
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes/my?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2724,7 +2725,7 @@ Host: localhost:8080</code></pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, TITLE]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, UPDATED_AT, TITLE]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
@@ -2756,7 +2757,7 @@ Content-Length: 504
     "id" : 1,
     "bookImageUrl" : "https://example.com/book_image1.jpg",
     "title" : "Effective Kotlin",
-    "updatedAt" : "2024-12-20T16:32:33.911402",
+    "updatedAt" : "2024-12-22T16:27:59.468095",
     "studyGroup" : {
       "id" : 1,
       "name" : "Study Group 1",
@@ -2766,7 +2767,7 @@ Content-Length: 504
     "id" : 2,
     "bookImageUrl" : "https://example.com/book_image2.jpg",
     "title" : "Kotlin in Action",
-    "updatedAt" : "2024-12-17T16:32:33.911728",
+    "updatedAt" : "2024-12-19T16:27:59.468428",
     "studyGroup" : null
   } ]
 }</code></pre>
@@ -2843,7 +2844,7 @@ Content-Length: 504
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /book-quizzes/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2891,7 +2892,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes/1/explanation HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2935,7 +2936,7 @@ Content-Length: 417
   "id" : 1,
   "title" : "Sample Quiz Explanation",
   "description" : "This is a detailed explanation for a sample book quiz.",
-  "createdAt" : "2024-12-22T16:32:33.966236",
+  "createdAt" : "2024-12-24T16:27:59.522361",
   "creator" : {
     "id" : 101,
     "nickname" : "QuizMaster",
@@ -3038,10 +3039,10 @@ Content-Length: 417
 <h4 id="_http_request_22"><a class="link" href="#_http_request_22">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=Yyd5YFKo5Bh91KmHoW-4ez1mLU-1U6q9jti0lDlCGNkreAakARRABGOQ1ipQ5J2zlEKMSltfAHfXZ86Q6-jX8gF2KO0eSTPG HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=VLGqQp7QGyxO_Tg6uIQpTu8NrDKfbjT6edb9NkxeUvxpJuRSZNWbc6a0Lhtjzgtei6kdKolrgVCqDAfXSuTFBy07M8QLH9xn HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "email" : "test@example.com"
@@ -3094,10 +3095,10 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_23"><a class="link" href="#_http_request_23">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=oOpROX0B5Mr30BIGbTHVjiexqZCFV5tID1leqjEZuehs9KS8wYk1CRkx3fjasnBlVRzhtkKDhKjmMqplOmFmzwAs2osNlsGK HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=NkC8xb83hZE--nwq2txcqIhoaTesennIqXncyAhQu5sn71tCA3CF89oAsqUTmx8fu_Fon-5ZRA-aShvlmkrk8Twz2KkQjm4k HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "email" : "test@example.com",
@@ -3183,10 +3184,10 @@ Content-Length: 21
 <h4 id="_http_request_24"><a class="link" href="#_http_request_24">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=GPQrt2Ti1HSDZaV2Ovmvs_w7VGV1IkXsBcvHsqoOqKsMyGgEesMT01DWskGuUMFGDNSb18RdeVxEQ3LBYPrygsw7y8lq-FFm HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=KnzZtpFNfHF-BNeSMFebd7yBXEuF-coVT-CVt6TzMBbtGWGVHUjqjqB-ThdTPbShUnqvFIzlcSq3y6w4fIGshZTHBS_degWi HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "email" : "test@example.com"
@@ -3245,7 +3246,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /health-check HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3281,7 +3282,7 @@ Content-Length: 22
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /health-check HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3322,7 +3323,7 @@ Content-Length: 22
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /images/MEMBER_PROFILE HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Host: localhost:8080
+Host: dokbaro.com
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Content-Disposition: form-data; name=file
@@ -3404,10 +3405,10 @@ Content-Length: 64
 <h4 id="_http_request_28"><a class="link" href="#_http_request_28">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=XqzCe-bSBjHOdQI3ffvEtTLGnVkCmNIHDMA3tiGViakQeBc8a5vzGtC3PwXjRDQGGdbwhFT3sDs0oeUqO_cP0BCkvsslSyYI HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=eZLzqe_9m8yATycDtRvDCMZyIqUbfAUrGW4Pr3uxuQRdU7usSKaVmo3Ioq6tLhZi1Db3aaNFD8QiSTcGIVZrl0OGiTBtZY_I HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 92
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "nickname" : "nickname",
@@ -3473,7 +3474,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /members/login-user HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3496,7 +3497,7 @@ Content-Length: 237
 
 {
   "id" : 12345,
-  "certificationId" : "7772930e-9d99-4523-bbc7-5381b983b48f",
+  "certificationId" : "16b332c6-545d-4a6f-99dd-40b1d26e4e7d",
   "nickname" : "CoolCoder",
   "email" : "coolcoder@example.com",
   "profileImage" : "https://example.com/profile-image.png",
@@ -3559,7 +3560,7 @@ Content-Length: 237
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /members/login-user HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3582,7 +3583,7 @@ Content-Length: 237
 
 {
   "id" : 12345,
-  "certificationId" : "7772930e-9d99-4523-bbc7-5381b983b48f",
+  "certificationId" : "16b332c6-545d-4a6f-99dd-40b1d26e4e7d",
   "nickname" : "CoolCoder",
   "email" : "coolcoder@example.com",
   "profileImage" : "https://example.com/profile-image.png",
@@ -3605,7 +3606,7 @@ Content-Length: 237
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /notifications/check HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3635,7 +3636,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /notifications/1/disable HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3683,7 +3684,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /notifications HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3702,7 +3703,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 466
+Content-Length: 467
 
 [ {
   "id" : 0,
@@ -3711,7 +3712,7 @@ Content-Length: 466
   "imageUrl" : "http://example.com/image.png",
   "linkedId" : 1234,
   "checked" : false,
-  "createdAt" : "2024-12-22T16:32:38.036011"
+  "createdAt" : "2024-12-24T16:28:03.256546"
 }, {
   "id" : 0,
   "content" : "새로운 알림 내용입니다.",
@@ -3719,7 +3720,7 @@ Content-Length: 466
   "imageUrl" : "http://example.com/image.png",
   "linkedId" : 1234,
   "checked" : true,
-  "createdAt" : "2024-12-22T16:32:38.03603"
+  "createdAt" : "2024-12-24T16:28:03.256565"
 } ]</code></pre>
 </div>
 </div>
@@ -3792,10 +3793,10 @@ Content-Length: 466
 <h4 id="_http_request_34"><a class="link" href="#_http_request_34">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/start?_csrf=Jlp9Dau9mF0iPZ_lRieFkN4iX2uC_vC08vLjUwshPrjJI2bIFz5EaZKP-jsPBfnSJwqx9upDcgnnncaZx5DSamoVDt2tQAD_ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/start?_csrf=x42mXqmQBA5fXOewmvUUzKe-Bf5rjCtCrtao5akCZjxiPa96872RbJ71MjpyaNGIrtggqZ7fKJwOvhJvzeOYg8pmAw1SXp5L HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 18
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "quizId" : 1
@@ -3875,10 +3876,10 @@ Content-Length: 14
 <h4 id="_http_request_35"><a class="link" href="#_http_request_35">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/1/sheets?_csrf=5hNAoPozwd0gsA0_IQySFhAykOJ9u4GYehnKdGSjMwqehVy4gCt3xcNX-bgN02kJFyGmIXYBvYNI37a1HiioRgCaADum5DiO HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/1/sheets?_csrf=UuvDHIf7nsrzPovltwcdyGHRHUwgD6QIXj_oDS0a2v93-SuXYt_wfb-Y-P3eCOnX1iop_wOzMC4QNsIla1uKbBssuZ1AnUim HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 64
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "questionId" : 1,
@@ -4026,7 +4027,7 @@ Content-Length: 281
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/1/grade-result HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4125,7 +4126,7 @@ Content-Length: 105
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/my?page=1&amp;size=10&amp;sort=TITLE&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4258,7 +4259,7 @@ Content-Length: 408
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/study-groups/1/my?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4471,6 +4472,177 @@ Content-Length: 1471
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_스터디_그룹에서_내가_푼_퀴즈_목록_보기_조회_2"><a class="link" href="#_스터디_그룹에서_내가_푼_퀴즈_목록_보기_조회_2">스터디 그룹에서 내가 푼 퀴즈 목록 보기 조회</a></h3>
+<div class="sect3">
+<h4 id="_http_request_39"><a class="link" href="#_http_request_39">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/study-groups-grade-result?studyGroupId=2&amp;quizId=1 HTTP/1.1
+Host: dokbaro.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyGroupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quizId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_39"><a class="link" href="#_http_response_39">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 673
+
+{
+  "quizId" : 1,
+  "studyGroupId" : 100,
+  "totalQuestionCount" : 10,
+  "solvedMember" : [ {
+    "member" : {
+      "id" : 1001,
+      "nickname" : "김철수",
+      "profileImageUrl" : "https://example.com/profile1.jpg"
+    },
+    "solvingQuizId" : 5001,
+    "correctCount" : 8
+  }, {
+    "member" : {
+      "id" : 1002,
+      "nickname" : "이영희",
+      "profileImageUrl" : null
+    },
+    "solvingQuizId" : 5002,
+    "correctCount" : 6
+  } ],
+  "unSolvedMember" : [ {
+    "id" : 1003,
+    "nickname" : "박민수",
+    "profileImageUrl" : "https://example.com/profile3.jpg"
+  }, {
+    "id" : 1004,
+    "nickname" : "정지원",
+    "profileImageUrl" : null
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quizId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyGroupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalQuestionCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전체 문제 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>solvedMember</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈를 푼 멤버 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>solvedMember[].member</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>solvedMember[].member.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>solvedMember[].member.nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>solvedMember[].member.profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버 프로필 이미지 URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>solvedMember[].solvingQuizId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">풀이 퀴즈 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>solvedMember[].correctCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정답 개수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>unSolvedMember</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈를 풀지 않은 멤버 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>unSolvedMember[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>unSolvedMember[].nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>unSolvedMember[].profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버 프로필 이미지 URL</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -4479,13 +4651,13 @@ Content-Length: 1471
 <div class="sect2">
 <h3 id="_스터디_그룹_생성"><a class="link" href="#_스터디_그룹_생성">스터디 그룹 생성</a></h3>
 <div class="sect3">
-<h4 id="_http_request_39"><a class="link" href="#_http_request_39">HTTP request</a></h4>
+<h4 id="_http_request_40"><a class="link" href="#_http_request_40">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups?_csrf=U9m5Xl7ZSK6Ziiv4RMuSDvstmY9ypdix8l4lSFhEDl9AEyAnNryOZ2bpesy06xyZfeamPskZtO4WnOycxm1EcG52ODwmchUe HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups?_csrf=34NAawfO5LhhMQK6iJt_8KHGlCdZmuGwMP7-KnEFjuVbqg8n5uYmCGGo0IlMB2DbvrZLxcSnuR9sotidBZzIEkdn79Q5mmkW HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 125
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "name" : "자바 스터디",
@@ -4527,7 +4699,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_39"><a class="link" href="#_http_response_39">HTTP response</a></h4>
+<h4 id="_http_response_40"><a class="link" href="#_http_response_40">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -4574,13 +4746,13 @@ Content-Length: 14
 <div class="sect2">
 <h3 id="_스터디_그룹_참여"><a class="link" href="#_스터디_그룹_참여">스터디 그룹 참여</a></h3>
 <div class="sect3">
-<h4 id="_http_request_40"><a class="link" href="#_http_request_40">HTTP request</a></h4>
+<h4 id="_http_request_41"><a class="link" href="#_http_request_41">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/join?_csrf=xRYeL8jJfkmBE9XYb56V6ihqkSYCcADEf-kyKA9kPnhp7tIB9yEmHf3_HH-sd7bqDbOh0xoMvEQ0FWLpHYtUGm4BWxlcjeY2 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/join?_csrf=7nJvFVqHB49370qytCaushxKO4eNPDgdm9Vs1aup7waYeogh2ERZJjixZbhai3rUgAua1iooFuW-CQEwre0I55yd3T_9TrxE HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 29
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "inviteCode" : "ABC123"
@@ -4610,7 +4782,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_40"><a class="link" href="#_http_response_40">HTTP response</a></h4>
+<h4 id="_http_response_41"><a class="link" href="#_http_response_41">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4630,16 +4802,46 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_로그인한_사용자가_속한_스터디_그룹_목록"><a class="link" href="#_로그인한_사용자가_속한_스터디_그룹_목록">로그인한 사용자가 속한 스터디 그룹 목록</a></h3>
 <div class="sect3">
-<h4 id="_http_request_41"><a class="link" href="#_http_request_41">HTTP request</a></h4>
+<h4 id="_http_request_42"><a class="link" href="#_http_request_42">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /study-groups/my?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 페이지 번호. 1부터 시작.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">페이지당 결과 수.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, JOINED_AT, NAME]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 방향. 가능한 값은 'ASC' 또는 'DESC'</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_41"><a class="link" href="#_http_response_41">HTTP response</a></h4>
+<h4 id="_http_response_42"><a class="link" href="#_http_response_42">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -4749,11 +4951,11 @@ Content-Length: 599
 <div class="sect2">
 <h3 id="_스터디_그룹_상세_조회"><a class="link" href="#_스터디_그룹_상세_조회">스터디 그룹 상세 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_42"><a class="link" href="#_http_request_42">HTTP request</a></h4>
+<h4 id="_http_request_43"><a class="link" href="#_http_request_43">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /study-groups/1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4772,146 +4974,6 @@ Host: localhost:8080</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">study group ID</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_http_response_42"><a class="link" href="#_http_response_42">HTTP response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 0
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 638
-
-{
-  "id" : 101,
-  "name" : "AI 연구 스터디",
-  "introduction" : "인공지능과 머신러닝에 대해 함께 공부하는 스터디입니다.",
-  "profileImageUrl" : "https://example.com/group-profile.jpg",
-  "studyMembers" : [ {
-    "id" : 1,
-    "nickname" : "철수",
-    "profileImageUrl" : "https://example.com/member1-profile.jpg",
-    "role" : "LEADER"
-  }, {
-    "id" : 2,
-    "nickname" : "영희",
-    "profileImageUrl" : "https://example.com/member2-profile.jpg",
-    "role" : "MEMBER"
-  }, {
-    "id" : 3,
-    "nickname" : "민수",
-    "profileImageUrl" : null,
-    "role" : "MEMBER"
-  } ],
-  "inviteCode" : "ABC123"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹의 고유 ID</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹의 이름</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>introduction</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 소개</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 프로필 이미지의 URL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyMembers</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹의 멤버 목록</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyMembers[].id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">멤버의 고유 ID</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyMembers[].nickname</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">멤버의 닉네임</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyMembers[].profileImageUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">멤버의 프로필 이미지 URL</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyMembers[].role</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 내 멤버의 역할 (LEADER, MEMBER)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>inviteCode</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹에 참여할 수 있는 초대 코드</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_초대_코드를_통한_스터디_그룹_상세_조회"><a class="link" href="#_초대_코드를_통한_스터디_그룹_상세_조회">초대 코드를 통한 스터디 그룹 상세 조회</a></h3>
-<div class="sect3">
-<h4 id="_http_request_43"><a class="link" href="#_http_request_43">HTTP request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /study-groups/invite-code/ABC123 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. /study-groups/invite-code/{inviteCode}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>inviteCode</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">study group invite code</p></td>
 </tr>
 </tbody>
 </table>
@@ -5027,20 +5089,160 @@ Content-Length: 638
 </div>
 </div>
 <div class="sect2">
-<h3 id="_스터디_그룹_수정"><a class="link" href="#_스터디_그룹_수정">스터디 그룹 수정</a></h3>
+<h3 id="_초대_코드를_통한_스터디_그룹_상세_조회"><a class="link" href="#_초대_코드를_통한_스터디_그룹_상세_조회">초대 코드를 통한 스터디 그룹 상세 조회</a></h3>
 <div class="sect3">
 <h4 id="_http_request_44"><a class="link" href="#_http_request_44">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /study-groups/1?_csrf=bHZAs_PpjIO9RWUZAyZKlnrUXb2KakeWN9Z9-om_CXapAk7KDxUjg8DQvrKQI1V7MQt-90PhcISyUiO7VeBMwuqJPUOdZHny HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /study-groups/invite-code/ABC123 HTTP/1.1
+Host: dokbaro.com</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. /study-groups/invite-code/{inviteCode}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>inviteCode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">study group invite code</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_44"><a class="link" href="#_http_response_44">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 638
+
+{
+  "id" : 101,
+  "name" : "AI 연구 스터디",
+  "introduction" : "인공지능과 머신러닝에 대해 함께 공부하는 스터디입니다.",
+  "profileImageUrl" : "https://example.com/group-profile.jpg",
+  "studyMembers" : [ {
+    "id" : 1,
+    "nickname" : "철수",
+    "profileImageUrl" : "https://example.com/member1-profile.jpg",
+    "role" : "LEADER"
+  }, {
+    "id" : 2,
+    "nickname" : "영희",
+    "profileImageUrl" : "https://example.com/member2-profile.jpg",
+    "role" : "MEMBER"
+  }, {
+    "id" : 3,
+    "nickname" : "민수",
+    "profileImageUrl" : null,
+    "role" : "MEMBER"
+  } ],
+  "inviteCode" : "ABC123"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹의 고유 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹의 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>introduction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 프로필 이미지의 URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyMembers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹의 멤버 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyMembers[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버의 고유 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyMembers[].nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버의 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyMembers[].profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멤버의 프로필 이미지 URL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyMembers[].role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 내 멤버의 역할 (LEADER, MEMBER)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>inviteCode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹에 참여할 수 있는 초대 코드</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_스터디_그룹_수정"><a class="link" href="#_스터디_그룹_수정">스터디 그룹 수정</a></h3>
+<div class="sect3">
+<h4 id="_http_request_45"><a class="link" href="#_http_request_45">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /study-groups/1?_csrf=dFEcO_6hrn-8Kgq62huW5XMJCZBDni7Zhql0ATPJUACEDb83QGQtWsfFzEeRGGmC6jaih0UxJKhzqk_04MhCNVb7ZTW2PN4O HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 246
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "name" : "알고리즘 스터디",
   "introduction" : "매주 수요일 저녁 8시에 모여서 알고리즘 문제를 함께 풀어보는 스터디입니다.",
-  "profileImageUrl" : "https://example.com/images/algorithm-study-profile.jpg"
+  "profileImageUrl" : "https://dokbaro.com/images/algorithm-study-profile.jpg"
 }</code></pre>
 </div>
 </div>
@@ -5096,7 +5298,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_44"><a class="link" href="#_http_response_44">HTTP response</a></h4>
+<h4 id="_http_response_45"><a class="link" href="#_http_response_45">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -5116,12 +5318,12 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_스터디_그룹_삭제"><a class="link" href="#_스터디_그룹_삭제">스터디 그룹 삭제</a></h3>
 <div class="sect3">
-<h4 id="_http_request_45"><a class="link" href="#_http_request_45">HTTP request</a></h4>
+<h4 id="_http_request_46"><a class="link" href="#_http_request_46">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /study-groups/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -5145,7 +5347,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_45"><a class="link" href="#_http_response_45">HTTP response</a></h4>
+<h4 id="_http_response_46"><a class="link" href="#_http_response_46">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -5165,13 +5367,13 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_스터디_그룹_리더_변경"><a class="link" href="#_스터디_그룹_리더_변경">스터디 그룹 리더 변경</a></h3>
 <div class="sect3">
-<h4 id="_http_request_46"><a class="link" href="#_http_request_46">HTTP request</a></h4>
+<h4 id="_http_request_47"><a class="link" href="#_http_request_47">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/1/change-leader?_csrf=a2RQUTOe8VyVd_LuPbvybsnsz_QxGYA8ix0WzFrwc-ytt8iKXlIxYVf7l2S4RZPcW5bGXPrb4swAe7ERuCt3rm7AQ4qbhqzr HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/1/change-leader?_csrf=Fri_2BkdSN6Mw0FRqCKgkxXRIbTN6xYvyTNHx2LG0GZmGdmCJYqM7yB8eLuh8yQ0yw-U9SLnDNWr2HICrAYk9AP36V5eKb2y HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 23
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "newLeaderId" : 1
@@ -5220,7 +5422,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_46"><a class="link" href="#_http_response_46">HTTP response</a></h4>
+<h4 id="_http_response_47"><a class="link" href="#_http_response_47">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -5240,13 +5442,13 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_스터디_탈퇴_강제_탈퇴"><a class="link" href="#_스터디_탈퇴_강제_탈퇴">스터디 탈퇴 (강제 탈퇴)</a></h3>
 <div class="sect3">
-<h4 id="_http_request_47"><a class="link" href="#_http_request_47">HTTP request</a></h4>
+<h4 id="_http_request_48"><a class="link" href="#_http_request_48">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/1/withdraw?_csrf=Pc60koYZwyjAHVMqQLqVr-VzxHB0_RhUd77vQCQc74Lr9UDOWa3S8LMv9hrtfDUZeJehzdxL6RFNzC95EYnWdEUrjLfdzHf- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/1/withdraw?_csrf=xsS7w4kSw4c2I7Pz3NMuRMrVaUU5A0cvi-XPVs1ixqjUay4186GD-7lzob8bR4TH6v4affLnRCRbNiUCs4esNKxW8suyChhR HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 20
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "memberId" : 1
@@ -5295,7 +5497,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_47"><a class="link" href="#_http_response_47">HTTP response</a></h4>
+<h4 id="_http_response_48"><a class="link" href="#_http_response_48">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -5320,16 +5522,16 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_이용약관_조회"><a class="link" href="#_이용약관_조회">이용약관 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_48"><a class="link" href="#_http_request_48">HTTP request</a></h4>
+<h4 id="_http_request_49"><a class="link" href="#_http_request_49">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_48"><a class="link" href="#_http_response_48">HTTP response</a></h4>
+<h4 id="_http_response_49"><a class="link" href="#_http_response_49">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -5412,11 +5614,11 @@ Content-Length: 462
 <div class="sect2">
 <h3 id="_이용약관_상세_내용_조회"><a class="link" href="#_이용약관_상세_내용_조회">이용약관 상세 내용 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_49"><a class="link" href="#_http_request_49">HTTP request</a></h4>
+<h4 id="_http_request_50"><a class="link" href="#_http_request_50">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services/1/detail HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -5440,7 +5642,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_49"><a class="link" href="#_http_response_49">HTTP response</a></h4>
+<h4 id="_http_response_50"><a class="link" href="#_http_response_50">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -5487,13 +5689,13 @@ Content-Length: 52
 <div class="sect2">
 <h3 id="_이용약관_동의"><a class="link" href="#_이용약관_동의">이용약관 동의</a></h3>
 <div class="sect3">
-<h4 id="_http_request_50"><a class="link" href="#_http_request_50">HTTP request</a></h4>
+<h4 id="_http_request_51"><a class="link" href="#_http_request_51">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /terms-of-services/agree?_csrf=NFEmCsQOsIwA3WehLQi-W9Mh8sD5lIUVzIcCoIqBQCDYzXKkBmhAOvxthb0t7lKRHSWKOOYR36Kb8uQ4-OU2xbPncRi-rEuU HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /terms-of-services/agree?_csrf=rlUy4Kd_rA4Mlogawj06XDE9724LpKbXAQ8I_FuP78cCbgMknGMG1sZMlWwhoOkjoxAObQFcwgw4nZX6NjhtxT7p2qVnWmUV HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 27
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "items" : [ 1, 2, 3 ]
@@ -5523,7 +5725,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_50"><a class="link" href="#_http_response_50">HTTP response</a></h4>
+<h4 id="_http_response_51"><a class="link" href="#_http_response_51">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -5543,16 +5745,16 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_필수_동의_여부_전체_동의_여부_조회"><a class="link" href="#_필수_동의_여부_전체_동의_여부_조회">필수 동의 여부 전체 동의 여부 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_51"><a class="link" href="#_http_request_51">HTTP request</a></h4>
+<h4 id="_http_request_52"><a class="link" href="#_http_request_52">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services/member-agree/required HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_51"><a class="link" href="#_http_response_51">HTTP response</a></h4>
+<h4 id="_http_response_52"><a class="link" href="#_http_response_52">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -5604,13 +5806,13 @@ Content-Length: 23
 <div class="sect2">
 <h3 id="_퀴즈_질문_신고하기"><a class="link" href="#_퀴즈_질문_신고하기">퀴즈 질문 신고하기</a></h3>
 <div class="sect3">
-<h4 id="_http_request_52"><a class="link" href="#_http_request_52">HTTP request</a></h4>
+<h4 id="_http_request_53"><a class="link" href="#_http_request_53">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-question-reports?_csrf=VOY9e_6WkltK4PbUeIru0TYu992ZALSjQ8S_gJ3W-y9oRV3pYYUMHcb08W5n1cKxS6fa5wYX2rygOIGOcf2Osq2zzBsMIG3f HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-question-reports?_csrf=uvYod1zjHoXmCXI_LUdZyBxWZKNXQbogs6i2piajhKTAWoL-g8EQE2Tbf73LMEdeS2pt8X5iScFleYINh8rUxRCSt5ekOOfI HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 67
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "questionId" : 1,
@@ -5646,7 +5848,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_52"><a class="link" href="#_http_response_52">HTTP response</a></h4>
+<h4 id="_http_response_53"><a class="link" href="#_http_response_53">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -5698,13 +5900,13 @@ Content-Length: 14
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_생성"><a class="link" href="#_퀴즈_리뷰_생성">퀴즈 리뷰 생성</a></h3>
 <div class="sect3">
-<h4 id="_http_request_53"><a class="link" href="#_http_request_53">HTTP request</a></h4>
+<h4 id="_http_request_54"><a class="link" href="#_http_request_54">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-reviews?_csrf=UB2vAeRUa_Ah7k9Gs041v-nzt8qKBb9qSCHo1XWN1clwFH-IMSjMZ4dmCsMMj3dy12MBitDCmvLoModHeRDQt0Hvsa8WIhu- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-reviews?_csrf=kBtzviV3PcgHvVw6V1U53OC0UeShbdNb3UQ8XdsUOTi7yVzQp31A2xBCCa0q229eNXgNudfVfNyYDOp25H0PauIkXw2K_Gro HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 100
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "starRating" : 1,
@@ -5752,7 +5954,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_53"><a class="link" href="#_http_response_53">HTTP response</a></h4>
+<h4 id="_http_response_54"><a class="link" href="#_http_response_54">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
@@ -5799,11 +6001,11 @@ Content-Length: 14
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_총평별점_난이도_조회"><a class="link" href="#_퀴즈_리뷰_총평별점_난이도_조회">퀴즈 리뷰 총평(별점, 난이도) 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_54"><a class="link" href="#_http_request_54">HTTP request</a></h4>
+<h4 id="_http_request_55"><a class="link" href="#_http_request_55">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /quiz-reviews/total-score?quizId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -5826,7 +6028,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_54"><a class="link" href="#_http_response_54">HTTP response</a></h4>
+<h4 id="_http_response_55"><a class="link" href="#_http_response_55">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -5913,11 +6115,11 @@ Content-Length: 279
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_요약_목록_조회"><a class="link" href="#_퀴즈_리뷰_요약_목록_조회">퀴즈 리뷰 요약 목록 조회</a></h3>
 <div class="sect3">
-<h4 id="_http_request_55"><a class="link" href="#_http_request_55">HTTP request</a></h4>
+<h4 id="_http_request_56"><a class="link" href="#_http_request_56">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /quiz-reviews?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC&amp;quizId=12345 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -5946,7 +6148,7 @@ Host: localhost:8080</code></pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, STAR_RATING]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, UPDATED_AT, STAR_RATING]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
@@ -5956,7 +6158,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_55"><a class="link" href="#_http_response_55">HTTP response</a></h4>
+<h4 id="_http_response_56"><a class="link" href="#_http_response_56">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
@@ -6067,13 +6269,13 @@ Content-Length: 495
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_수정"><a class="link" href="#_퀴즈_리뷰_수정">퀴즈 리뷰 수정</a></h3>
 <div class="sect3">
-<h4 id="_http_request_56"><a class="link" href="#_http_request_56">HTTP request</a></h4>
+<h4 id="_http_request_57"><a class="link" href="#_http_request_57">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /quiz-reviews/1?_csrf=wJgrmxf2i0qTDyI6ph8EXABuvwZNmwYUhQOqS9cJnY-eBKBjofwaonLE7nK-ORVYnzIwZDYMkmR_qjQ5tTGdeeQ4_7emNZFU HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /quiz-reviews/1?_csrf=3bFtSAuO5YDZafRk_EyUt7MQsNS9VfGL5mhcodbApNjuh4wi79NYKjq4hrn0C8QCz2GghoUlnbXYY8Gm1wo4lu_1kOHY4b5G HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 136
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "starRating" : 4,
@@ -6140,7 +6342,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_56"><a class="link" href="#_http_response_56">HTTP response</a></h4>
+<h4 id="_http_response_57"><a class="link" href="#_http_response_57">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -6160,12 +6362,12 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_삭제"><a class="link" href="#_퀴즈_리뷰_삭제">퀴즈 리뷰 삭제</a></h3>
 <div class="sect3">
-<h4 id="_http_request_57"><a class="link" href="#_http_request_57">HTTP request</a></h4>
+<h4 id="_http_request_58"><a class="link" href="#_http_request_58">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /quiz-reviews/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -6189,7 +6391,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_57"><a class="link" href="#_http_response_57">HTTP response</a></h4>
+<h4 id="_http_response_58"><a class="link" href="#_http_response_58">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
@@ -6214,13 +6416,13 @@ X-Frame-Options: DENY</code></pre>
 <div class="sect2">
 <h3 id="_퀴즈_리뷰_신고하기"><a class="link" href="#_퀴즈_리뷰_신고하기">퀴즈 리뷰 신고하기</a></h3>
 <div class="sect3">
-<h4 id="_http_request_58"><a class="link" href="#_http_request_58">HTTP request</a></h4>
+<h4 id="_http_request_59"><a class="link" href="#_http_request_59">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-review-reports?_csrf=1mo0LCtj8Dmt-I4xbCchXxCTRwUFiSMA9YQZ7QKtLPX9qI_K4VkBHRpRkQuAz71QWgoVZiWiajwzvkEtx7F6i2SUH8XLn7f8 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-review-reports?_csrf=ZF-29HdLETjqkOA6rztLXK-wmtrJis63xbmO10gcftGrWRQ1B2mGzRN7JQHHoYENzhZ_OMyBt-KsuKyapNy9tnovTuGdbCZQ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 107
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "quizReviewId" : 123,
@@ -6256,7 +6458,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_58"><a class="link" href="#_http_response_58">HTTP response</a></h4>
+<h4 id="_http_response_59"><a class="link" href="#_http_response_59">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created

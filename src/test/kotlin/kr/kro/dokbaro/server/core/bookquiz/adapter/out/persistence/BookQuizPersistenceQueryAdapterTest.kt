@@ -26,7 +26,6 @@ import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.Mem
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq.QuizReviewRepository
-import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.entity.jooq.SolvingQuizMapper
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository.jooq.SolvingQuizRepository
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository.jooq.StudyGroupRepository
@@ -53,7 +52,7 @@ class BookQuizPersistenceQueryAdapterTest(
 		val bookQuizQueryRepository = BookQuizQueryRepository(dslContext, BookQuizMapper())
 		val studyGroupRepository = StudyGroupRepository(dslContext)
 		val quizReviewRepository = QuizReviewRepository(dslContext)
-		val solvingQuizRepository = SolvingQuizRepository(dslContext, SolvingQuizMapper())
+		val solvingQuizRepository = SolvingQuizRepository(dslContext)
 
 		val adapter = BookQuizPersistenceQueryAdapter(bookQuizQueryRepository)
 
@@ -206,7 +205,12 @@ class BookQuizPersistenceQueryAdapterTest(
 				.findAllBookQuizSummary(
 					book,
 					PageOption.of(sort = BookQuizSummarySortKeyword.CREATED_AT),
-				).isEmpty() shouldBe false
+				).shouldNotBeEmpty()
+			adapter
+				.findAllBookQuizSummary(
+					book,
+					PageOption.of(sort = BookQuizSummarySortKeyword.UPDATED_AT),
+				).shouldNotBeEmpty()
 		}
 
 		"스터디 그룹 퀴즈 중 본인이 안 푼 문제 목록을 조회한다" {
@@ -248,6 +252,12 @@ class BookQuizPersistenceQueryAdapterTest(
 					memberId = memberId,
 					studyGroupId = studyGroupId,
 					pageOption = PageOption.of(sort = UnsolvedGroupBookQuizSortKeyword.TITLE),
+				).shouldNotBeEmpty()
+			adapter
+				.findAllUnsolvedQuizzes(
+					memberId = memberId,
+					studyGroupId = studyGroupId,
+					pageOption = PageOption.of(sort = UnsolvedGroupBookQuizSortKeyword.UPDATED_AT),
 				).shouldNotBeEmpty()
 		}
 
@@ -299,6 +309,15 @@ class BookQuizPersistenceQueryAdapterTest(
 				).first()
 				.id shouldBe
 				quiz1
+
+			adapter
+				.findAllMyBookQuiz(
+					memberId,
+					PageOption.of(sort = MyBookQuizSummarySortKeyword.UPDATED_AT),
+				).first()
+				.id shouldBe
+				quiz1
+
 			adapter
 				.findAllMyBookQuiz(
 					memberId,

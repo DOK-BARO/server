@@ -1,0 +1,3 @@
+logging:
+    discord:
+        webhook-url: ${DISCORD_WEBHOOK_URL:webHookUrl}

@@ -449,10 +449,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=AZoXPBHxrE1a4etv9ji7cjMzOdWmjZx3CdpFgUN83wA4hH70ZKojCXCTzS931IpbwRWPSgdQFLfAva9aMOJy5HJF6GFZvRvF HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=leVuOGrood8ZrCLIvMo8DV0aNhZU3AG-ppbEStX1HwOd20CX9INbXAjYmes0yhKp3ucIaG8sGy9l5WKTl6b1K7fNKGH57Cau HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 907
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "title" : "헥사고날 1장 요약",
@@ -614,7 +614,7 @@ Content-Length: 14
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-quizzes/1/questions HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -742,10 +742,10 @@ Content-Length: 344
 <h4 id="_http_request_3">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=oOdIhNSLk2_Kq1Ab_jwvAwSMSc2PvhTGNQ9QfGFyzwmMtLHUwtYpvLboplfnmWYumBEbYTTqZPS723LrDT0xSVgXrD660Ijg HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=W60jCOdGfptVsXvk_9OEaQ8KoBmqlQaiJnaKfFtZokqRtSulYp4TMNZ_GK94gB-FzP6wCGkyjXvOpTCPHxTvRT48x3unhxKQ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 936
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "title" : "헥사고날 1장 요약",
@@ -906,7 +906,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-quizzes/answer?questionId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -992,7 +992,7 @@ Content-Length: 114
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-quizzes?page=1&amp;size=10&amp;sort=STAR_RATING&amp;direction=ASC&amp;bookId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1021,7 +1021,7 @@ Host: localhost:8080</code></pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [STAR_RATING, CREATED_AT]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [STAR_RATING, CREATED_AT, UPDATED_AT]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
@@ -1169,7 +1169,7 @@ Content-Length: 961
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-quizzes/study-groups/1/unsolved?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1378,7 +1378,7 @@ Content-Length: 1458
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-quizzes/my?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1403,7 +1403,7 @@ Host: localhost:8080</code></pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, TITLE]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">정렬 기준. [CREATED_AT, UPDATED_AT, TITLE]</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>direction</code></p></td>
@@ -1435,7 +1435,7 @@ Content-Length: 504
     "id" : 1,
     "bookImageUrl" : "https://example.com/book_image1.jpg",
     "title" : "Effective Kotlin",
-    "updatedAt" : "2024-12-20T16:32:33.911402",
+    "updatedAt" : "2024-12-22T16:27:59.468095",
     "studyGroup" : {
       "id" : 1,
       "name" : "Study Group 1",
@@ -1445,7 +1445,7 @@ Content-Length: 504
     "id" : 2,
     "bookImageUrl" : "https://example.com/book_image2.jpg",
     "title" : "Kotlin in Action",
-    "updatedAt" : "2024-12-17T16:32:33.911728",
+    "updatedAt" : "2024-12-19T16:27:59.468428",
     "studyGroup" : null
   } ]
 }</code></pre>
@@ -1522,7 +1522,7 @@ Content-Length: 504
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /book-quizzes/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1570,7 +1570,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-quizzes/1/explanation HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1614,7 +1614,7 @@ Content-Length: 417
   "id" : 1,
   "title" : "Sample Quiz Explanation",
   "description" : "This is a detailed explanation for a sample book quiz.",
-  "createdAt" : "2024-12-22T16:32:33.966236",
+  "createdAt" : "2024-12-24T16:27:59.522361",
   "creator" : {
     "id" : 101,
     "nickname" : "QuizMaster",

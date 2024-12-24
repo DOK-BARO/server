@@ -5,12 +5,15 @@ import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
+import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
+import kr.kro.dokbaro.server.core.bookquiz.domain.answerstyle.OXAnswer
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
 import kr.kro.dokbaro.server.core.member.domain.Email
@@ -27,6 +30,7 @@ import kr.kro.dokbaro.server.core.studygroup.domain.StudyMemberRole
 import kr.kro.dokbaro.server.fixture.domain.bookFixture
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
 import kr.kro.dokbaro.server.fixture.domain.memberFixture
+import kr.kro.dokbaro.server.fixture.domain.quizQuestionFixture
 import kr.kro.dokbaro.server.fixture.domain.studyGroupFixture
 import org.jooq.DSLContext
 
@@ -40,7 +44,7 @@ class SolvingQuizPersistenceQueryAdapterTest(
 		val bookQuizRepository = BookQuizRepository(dslContext, BookQuizMapper())
 		val studyGroupRepository = StudyGroupRepository(dslContext)
 
-		val solvingQuizRepository = SolvingQuizRepository(dslContext, SolvingQuizMapper())
+		val solvingQuizRepository = SolvingQuizRepository(dslContext)
 		val solvingQuizQueryRepository = SolvingQuizQueryRepository(dslContext, SolvingQuizMapper())
 
 		val adapter = SolvingQuizPersistenceQueryAdapter(solvingQuizQueryRepository)
@@ -149,5 +153,91 @@ class SolvingQuizPersistenceQueryAdapterTest(
 			adapter.countBy(CountSolvingQuizCondition(memberId)) shouldBe 2
 			adapter.countBy(CountSolvingQuizCondition(member2Id)) shouldBe 3
 			adapter.countBy(CountSolvingQuizCondition()) shouldBe 5
+		}
+
+		"스터디 그룹 내 퀴즈 시트를 조회한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val bookId = bookRepository.insertBook(bookFixture())
+			val studyGroupId =
+				studyGroupRepository.insert(
+					studyGroupFixture(
+						studyMembers = mutableSetOf(StudyMember(memberId, StudyMemberRole.LEADER)),
+					),
+				)
+			val quizId =
+				bookQuizRepository.insert(
+					bookQuizFixture(
+						title = "가",
+						creatorId = memberId,
+						bookId = bookId,
+						questions =
+							listOf(
+								quizQuestionFixture(answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+								quizQuestionFixture(answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+								quizQuestionFixture(answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+							),
+					),
+				)
+
+			val questions = bookQuizRepository.load(quizId)!!.questions.getQuestions()
+
+			solvingQuizRepository.insert(
+				SolvingQuiz(
+					playerId = memberId,
+					quizId = quizId,
+					sheets =
+						mutableMapOf(
+							questions[0].id to AnswerSheet(listOf("X")),
+							questions[1].id to AnswerSheet(listOf("X")),
+							questions[2].id to AnswerSheet(listOf("X")),
+						),
+				),
+			)
+
+			val result = adapter.findAllStudyGroupSolvingQuizSheets(studyGroupId, quizId)
+			result.keys.size shouldBe 1
+			result
+				.values
+				.first()!!
+				.getSheets()
+				.keys.size shouldBe 3
+		}
+
+		"id를 통한 푼 sovingQuiz 조회를 수행한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val bookId = bookRepository.insertBook(bookFixture())
+
+			val quizId =
+				bookQuizRepository.insert(
+					bookQuizFixture(
+						title = "가",
+						creatorId = memberId,
+						bookId = bookId,
+						questions =
+							listOf(
+								quizQuestionFixture(answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+								quizQuestionFixture(answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+								quizQuestionFixture(answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+							),
+					),
+				)
+
+			val questions = bookQuizRepository.load(quizId)!!.questions.getQuestions()
+
+			val id =
+				solvingQuizRepository.insert(
+					SolvingQuiz(
+						playerId = memberId,
+						quizId = quizId,
+						sheets =
+							mutableMapOf(
+								questions[0].id to AnswerSheet(listOf("X")),
+								questions[1].id to AnswerSheet(listOf("X")),
+								questions[2].id to AnswerSheet(listOf("X")),
+							),
+					),
+				)
+
+			adapter.findById(id) shouldNotBe null
 		}
 	})

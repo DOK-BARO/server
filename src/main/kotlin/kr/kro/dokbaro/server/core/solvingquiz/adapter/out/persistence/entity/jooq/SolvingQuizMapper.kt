@@ -7,10 +7,12 @@ import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
+import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupTotalGradeResult
 import org.jooq.Record
 import org.jooq.Result
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
+import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JSolvingQuiz
 import org.jooq.generated.tables.JSolvingQuizSheet
 import org.jooq.generated.tables.records.SolvingQuizRecord
@@ -22,6 +24,7 @@ class SolvingQuizMapper {
 		private val SOLVING_QUIZ_SHEET = JSolvingQuizSheet.SOLVING_QUIZ_SHEET
 		private val BOOK = JBook.BOOK
 		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
+		private val MEMBER = JMember.MEMBER
 	}
 
 	fun toSolvingQuiz(record: Map<SolvingQuizRecord, Result<Record>>): SolvingQuiz? =
@@ -128,4 +131,44 @@ class SolvingQuizMapper {
 					),
 			)
 		}
+
+	fun toStudyGroupSolvingQuizSheets(record: Result<out Record>): Map<StudyGroupTotalGradeResult.Member, SolvingQuiz?> =
+		record
+			.groupBy {
+				StudyGroupTotalGradeResult.Member(
+					id = it[MEMBER.ID],
+					nickname = it[MEMBER.NICKNAME],
+					profileImageUrl = it[MEMBER.PROFILE_IMAGE_URL],
+				)
+			}.mapValues { (_, values) ->
+
+				values
+					.filter { it[SOLVING_QUIZ.ID] != null }
+					.groupBy {
+						SolvingQuizGroup(
+							id = it[SOLVING_QUIZ.ID],
+							playerId = it[MEMBER.ID],
+							quizId = it[SOLVING_QUIZ.QUIZ_ID],
+						)
+					}.mapValues { (_, sheetRecords) ->
+						sheetRecords
+							.groupBy { it[SOLVING_QUIZ_SHEET.QUESTION_ID] }
+							.mapValues { (_, v) ->
+								AnswerSheet(v.map { it[SOLVING_QUIZ_SHEET.CONTENT] })
+							}.toMutableMap()
+					}.map { (group, sheets) ->
+						SolvingQuiz(
+							id = group.id,
+							playerId = group.playerId,
+							quizId = group.quizId,
+							sheets = sheets,
+						)
+					}.first()
+			}
 }
+
+private data class SolvingQuizGroup(
+	val id: Long,
+	val playerId: Long,
+	val quizId: Long,
+)

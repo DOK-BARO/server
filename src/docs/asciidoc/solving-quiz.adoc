@@ -60,3 +60,16 @@ include::{snippets}/solving-quiz/study-group-my-solved/path-parameters.adoc[]
 
 include::{snippets}/solving-quiz/study-group-my-solved/http-response.adoc[]
 include::{snippets}/solving-quiz/study-group-my-solved/response-fields.adoc[]
+
+
+=== 스터디 그룹에서 내가 푼 퀴즈 목록 보기 조회
+
+==== HTTP request
+
+include::{snippets}/solving-quiz/study-groups-grade-result/http-request.adoc[]
+include::{snippets}/solving-quiz/study-groups-grade-result/query-parameters.adoc[]
+
+==== HTTP response
+
+include::{snippets}/solving-quiz/study-groups-grade-result/http-response.adoc[]
+include::{snippets}/solving-quiz/study-groups-grade-result/response-fields.adoc[]

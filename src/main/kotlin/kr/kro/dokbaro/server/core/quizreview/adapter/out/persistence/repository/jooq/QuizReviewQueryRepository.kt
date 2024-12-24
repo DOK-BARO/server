@@ -80,6 +80,7 @@ class QuizReviewQueryRepository(
 		val query =
 			when (pageOption.sort) {
 				QuizReviewSummarySortKeyword.CREATED_AT -> QUIZ_REVIEW.CREATED_AT
+				QuizReviewSummarySortKeyword.UPDATED_AT -> QUIZ_REVIEW.UPDATED_AT
 				QuizReviewSummarySortKeyword.STAR_RATING -> QUIZ_REVIEW.STAR_RATING
 			}
 

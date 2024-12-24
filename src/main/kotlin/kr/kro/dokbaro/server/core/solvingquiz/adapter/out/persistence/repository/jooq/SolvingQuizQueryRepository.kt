@@ -4,8 +4,10 @@ import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.entity.jooq.SolvingQuizMapper
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.dto.CountSolvingQuizCondition
+import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
+import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupTotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
 import org.jooq.Condition
@@ -20,6 +22,8 @@ import org.jooq.generated.tables.JBookQuiz
 import org.jooq.generated.tables.JBookQuizContributor
 import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JSolvingQuiz
+import org.jooq.generated.tables.JSolvingQuizSheet
+import org.jooq.generated.tables.JStudyGroupMember
 import org.jooq.generated.tables.JStudyGroupQuiz
 import org.jooq.generated.tables.records.SolvingQuizRecord
 import org.jooq.impl.DSL
@@ -38,6 +42,8 @@ class SolvingQuizQueryRepository(
 		private val MEMBER = JMember.MEMBER
 		private val BOOK_QUIZ_CONTRIBUTOR = JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
 		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
+		private val SOLVING_QUIZ_SHEET = JSolvingQuizSheet.SOLVING_QUIZ_SHEET
+		private val STUDY_GROUP_MEMBER = JStudyGroupMember.STUDY_GROUP_MEMBER
 	}
 
 	fun findAllMySolveSummary(
@@ -181,4 +187,49 @@ class SolvingQuizQueryRepository(
 				)
 			},
 		)
+
+	fun findAllStudyGroupSolvingQuizSheets(
+		studyGroupId: Long,
+		quizId: Long,
+	): Map<StudyGroupTotalGradeResult.Member, SolvingQuiz?> {
+		val record: Result<out Record> =
+			dslContext
+				.select(
+					MEMBER.ID,
+					MEMBER.NICKNAME,
+					MEMBER.PROFILE_IMAGE_URL,
+					SOLVING_QUIZ.ID,
+					SOLVING_QUIZ.QUIZ_ID,
+					SOLVING_QUIZ_SHEET.ID,
+					SOLVING_QUIZ_SHEET.QUESTION_ID,
+					SOLVING_QUIZ_SHEET.CONTENT,
+				).from(MEMBER)
+				.leftJoin(SOLVING_QUIZ)
+				.on(SOLVING_QUIZ.MEMBER_ID.eq(MEMBER.ID).and(SOLVING_QUIZ.QUIZ_ID.eq(quizId)))
+				.leftJoin(SOLVING_QUIZ_SHEET)
+				.on(SOLVING_QUIZ_SHEET.SOLVING_QUIZ_ID.eq(SOLVING_QUIZ.ID))
+				.where(
+					MEMBER.ID.`in`(
+						select(STUDY_GROUP_MEMBER.MEMBER_ID).from(STUDY_GROUP_MEMBER).where(
+							STUDY_GROUP_MEMBER.STUDY_GROUP_ID.eq(studyGroupId),
+						),
+					),
+				).orderBy(SOLVING_QUIZ.CREATED_AT)
+				.fetch()
+
+		return solvingQuizMapper.toStudyGroupSolvingQuizSheets(record)
+	}
+
+	fun findById(solvingQuizId: Long): SolvingQuiz? {
+		val record: Map<SolvingQuizRecord, Result<Record>> =
+			dslContext
+				.select()
+				.from(SOLVING_QUIZ)
+				.leftJoin(SOLVING_QUIZ_SHEET)
+				.on(SOLVING_QUIZ_SHEET.SOLVING_QUIZ_ID.eq(SOLVING_QUIZ.ID))
+				.where(SOLVING_QUIZ.ID.eq(solvingQuizId))
+				.fetchGroups(SOLVING_QUIZ)
+
+		return solvingQuizMapper.toSolvingQuiz(record)
+	}
 }

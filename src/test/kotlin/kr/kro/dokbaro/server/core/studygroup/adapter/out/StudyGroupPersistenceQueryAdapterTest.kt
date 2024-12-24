@@ -77,6 +77,12 @@ class StudyGroupPersistenceQueryAdapterTest(
 			queryAdapter
 				.findAllByStudyMemberId(
 					members[0].id,
+					PageOption.of(sort = MyStudyGroupSortKeyword.JOINED_AT),
+				).size shouldBe
+				2
+			queryAdapter
+				.findAllByStudyMemberId(
+					members[0].id,
 					PageOption.of(direction = SortDirection.DESC),
 				).size shouldBe
 				2

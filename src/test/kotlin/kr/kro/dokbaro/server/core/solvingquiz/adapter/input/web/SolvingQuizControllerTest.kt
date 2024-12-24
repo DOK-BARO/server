@@ -10,11 +10,13 @@ import kr.kro.dokbaro.server.core.solvingquiz.adapter.input.web.dto.StartSolving
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMySolveSummaryUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllMyStudyGroupSolveSummaryUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllSolveResultUseCase
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.FindAllStudyGroupSolveResultUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.SolveQuestionUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.StartSolvingQuizUseCase
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.SolveResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
+import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupTotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
@@ -48,6 +50,9 @@ class SolvingQuizControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var findAllMyStudyGroupSolveSummaryUseCase: FindAllMyStudyGroupSolveSummaryUseCase
+
+	@MockkBean
+	lateinit var findAllStudyGroupSolveResultUseCase: FindAllStudyGroupSolveResultUseCase
 
 	init {
 		"퀴즈 풀기를 시작한다" {
@@ -120,7 +125,7 @@ class SolvingQuizControllerTest : RestDocsTest() {
 		}
 
 		"전체 채점 결과를 조회한다" {
-			every { findAllSolveResultUseCase.findAllBy(any()) } returns
+			every { findAllSolveResultUseCase.findAllGradeResultBy(any()) } returns
 				TotalGradeResult(1, 1, 1, 10, 8)
 
 			performGet(Path("/solving-quiz/{id}/grade-result", "1"))
@@ -305,6 +310,92 @@ class SolvingQuizControllerTest : RestDocsTest() {
 							fieldWithPath("data[].quiz.contributors[].profileImageUrl")
 								.description("퀴즈 기여자의 프로필 이미지 URL (optional)")
 								.optional(),
+						),
+					),
+				)
+		}
+		
+		"스터디 그룹 내 퀴즈 푼 내역을 조회한다" {
+			every { findAllStudyGroupSolveResultUseCase.findAllStudyGroupGradeResultBy(any(), any()) } returns
+				StudyGroupTotalGradeResult(
+					quizId = 1L,
+					studyGroupId = 100L,
+					totalQuestionCount = 10,
+					solvedMember =
+						listOf(
+							StudyGroupTotalGradeResult.SolvedMember(
+								member =
+									StudyGroupTotalGradeResult.Member(
+										id = 1001L,
+										nickname = "김철수",
+										profileImageUrl = "https://example.com/profile1.jpg",
+									),
+								solvingQuizId = 5001L,
+								correctCount = 8,
+							),
+							StudyGroupTotalGradeResult.SolvedMember(
+								member =
+									StudyGroupTotalGradeResult.Member(
+										id = 1002L,
+										nickname = "이영희",
+										profileImageUrl = null,
+									),
+								solvingQuizId = 5002L,
+								correctCount = 6,
+							),
+						),
+					unSolvedMember =
+						listOf(
+							StudyGroupTotalGradeResult.Member(
+								id = 1003L,
+								nickname = "박민수",
+								profileImageUrl = "https://example.com/profile3.jpg",
+							),
+							StudyGroupTotalGradeResult.Member(
+								id = 1004L,
+								nickname = "정지원",
+								profileImageUrl = null,
+							),
+						),
+				)
+			val param =
+				mapOf(
+					"studyGroupId" to "2",
+					"quizId" to "1",
+				)
+
+			performGet(Path("/solving-quiz/study-groups-grade-result"), param)
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"solving-quiz/study-groups-grade-result",
+						queryParameters(
+							parameterWithName("studyGroupId").description("스터디 그룹 ID"),
+							parameterWithName("quizId").description("퀴즈 ID"),
+						),
+						responseFields(
+							fieldWithPath("quizId").type(JsonFieldType.NUMBER).description("퀴즈 ID"),
+							fieldWithPath("studyGroupId").type(JsonFieldType.NUMBER).description("스터디 그룹 ID"),
+							fieldWithPath("totalQuestionCount").type(JsonFieldType.NUMBER).description("전체 문제 수"),
+							fieldWithPath("solvedMember").type(JsonFieldType.ARRAY).description("퀴즈를 푼 멤버 목록"),
+							fieldWithPath("solvedMember[].member").type(JsonFieldType.OBJECT).description("멤버 정보"),
+							fieldWithPath("solvedMember[].member.id").type(JsonFieldType.NUMBER).description("멤버 ID"),
+							fieldWithPath("solvedMember[].member.nickname").type(JsonFieldType.STRING).description("멤버 닉네임"),
+							fieldWithPath(
+								"solvedMember[].member.profileImageUrl",
+							).type(JsonFieldType.STRING)
+								.optional()
+								.description("멤버 프로필 이미지 URL"),
+							fieldWithPath("solvedMember[].solvingQuizId").type(JsonFieldType.NUMBER).description("풀이 퀴즈 ID"),
+							fieldWithPath("solvedMember[].correctCount").type(JsonFieldType.NUMBER).description("정답 개수"),
+							fieldWithPath("unSolvedMember").type(JsonFieldType.ARRAY).description("퀴즈를 풀지 않은 멤버 목록"),
+							fieldWithPath("unSolvedMember[].id").type(JsonFieldType.NUMBER).description("멤버 ID"),
+							fieldWithPath("unSolvedMember[].nickname").type(JsonFieldType.STRING).description("멤버 닉네임"),
+							fieldWithPath(
+								"unSolvedMember[].profileImageUrl",
+							).type(JsonFieldType.STRING)
+								.optional()
+								.description("멤버 프로필 이미지 URL"),
 						),
 					),
 				)

@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
+import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
@@ -108,5 +109,12 @@ class QuizReviewPersistenceQueryAdapterTest(
 					PageOption.of(sort = QuizReviewSummarySortKeyword.STAR_RATING, direction = SortDirection.DESC),
 				).toList()[0]
 				.starRating shouldBe 50
+
+			adapter
+				.findAllQuizReviewSummaryBy(
+					ReadQuizReviewSummaryCondition(bookQuizId),
+					PageOption.of(sort = QuizReviewSummarySortKeyword.UPDATED_AT),
+				).toList()
+				.shouldNotBeEmpty()
 		}
 	})

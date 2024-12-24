@@ -449,19 +449,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /books?_csrf=YJP4ivXgNmoS2HFicr4VK79bhwd3RxiCX-o31tOtbq0ShFx1WKDI78LYA1s_6kQASpMhHY45qj9PcS2vatMAtOaVVs8jtmoU HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /books?_csrf=THkA69QeAtgS0YPdV5_Dr7u2bcnUpHrTsSbNaDjEh6800GmqfR850uAsYbo_4OHrbrL3noPVQPGwx0n-hRH7UV7xsZcBs1jL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 368
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "isbn" : "9783161484100",
   "title" : "Effective Kotlin",
   "publisher" : "TechBooks",
-  "publishedAt" : "2024-12-22",
+  "publishedAt" : "2024-12-24",
   "price" : 45000,
   "description" : "A comprehensive guide to writing high-quality Kotlin code.",
-  "imageUrl" : "https://example.com/images/effective-kotlin.jpg",
+  "imageUrl" : "https://dokbaro.com/images/effective-kotlin.jpg",
   "categories" : [ 1, 2, 3 ],
   "authors" : [ "Marcin Moskala", "Igor Wojda" ]
 }</code></pre>
@@ -581,7 +581,7 @@ Content-Length: 14
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /books?page=1&amp;size=10&amp;sort=PUBLISHED_AT&amp;direction=ASC&amp;title=%EC%9D%B4%ED%8E%99%ED%8B%B0%EB%B8%8C+%EC%9E%90%EB%B0%94&amp;authorName=%EA%B9%80%EC%9A%B0%EA%B7%BC&amp;description=%EC%B1%85+%EC%84%A4%EB%AA%85&amp;category=4 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -728,7 +728,7 @@ Content-Length: 415
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /books/1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -874,10 +874,10 @@ Content-Length: 588
 <h4 id="_http_request_4">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-categories?_csrf=21JI236WF7UMgjywth74YGUHOyZkCe0RYAquMZ3LFnN3Cw_7uGd94hqhJ9Mh4F2GjzPMUAFmFh9VbdU8Bj6eAPiucEQWMjnI HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-categories?_csrf=eflKIzMtK1E662hLy5lrQUG6FTXITNxvjnAoqLA1awMA0AJsS8tzRVJPGWkX3Fp5qrRfdiLbOFT5LehCuxIQn4VUCDA5tGYP HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 78
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "koreanName" : "모바일",
@@ -970,7 +970,7 @@ Content-Length: 14
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-categories?targetId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1076,7 +1076,7 @@ Content-Length: 412
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /books/integrated?keyword=%EC%9E%90%EB%B0%94&amp;lastId=3&amp;size=10 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">

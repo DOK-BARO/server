@@ -1,48 +1,52 @@
 package kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repository.jooq
 
-import kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.entity.jooq.SolvingQuizMapper
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import org.jooq.DSLContext
-import org.jooq.Record
-import org.jooq.Result
 import org.jooq.generated.tables.JSolvingQuiz
 import org.jooq.generated.tables.JSolvingQuizSheet
-import org.jooq.generated.tables.records.SolvingQuizRecord
 import org.springframework.stereotype.Repository
 
 @Repository
 class SolvingQuizRepository(
 	private val dslContext: DSLContext,
-	private val solvingQuizMapper: SolvingQuizMapper,
 ) {
 	companion object {
 		private val SOLVING_QUIZ = JSolvingQuiz.SOLVING_QUIZ
 		private val SOLVING_QUIZ_SHEET = JSolvingQuizSheet.SOLVING_QUIZ_SHEET
 	}
 
-	fun insert(solvingQuiz: SolvingQuiz): Long =
-		dslContext
-			.insertInto(
-				SOLVING_QUIZ,
-				SOLVING_QUIZ.MEMBER_ID,
-				SOLVING_QUIZ.QUIZ_ID,
-			).values(
-				solvingQuiz.playerId,
-				solvingQuiz.quizId,
-			).returningResult(SOLVING_QUIZ.ID)
-			.fetchOneInto(Long::class.java)!!
-
-	fun findById(solvingQuizId: Long): SolvingQuiz? {
-		val record: Map<SolvingQuizRecord, Result<Record>> =
+	fun insert(solvingQuiz: SolvingQuiz): Long {
+		val savedSolvingQuizId =
 			dslContext
-				.select()
-				.from(SOLVING_QUIZ)
-				.leftJoin(SOLVING_QUIZ_SHEET)
-				.on(SOLVING_QUIZ_SHEET.SOLVING_QUIZ_ID.eq(SOLVING_QUIZ.ID))
-				.where(SOLVING_QUIZ.ID.eq(solvingQuizId))
-				.fetchGroups(SOLVING_QUIZ)
+				.insertInto(
+					SOLVING_QUIZ,
+					SOLVING_QUIZ.MEMBER_ID,
+					SOLVING_QUIZ.QUIZ_ID,
+				).values(
+					solvingQuiz.playerId,
+					solvingQuiz.quizId,
+				).returningResult(SOLVING_QUIZ.ID)
+				.fetchOneInto(Long::class.java)!!
 
-		return solvingQuizMapper.toSolvingQuiz(record)
+		solvingQuiz.getSheets().forEach { (questionId, sheet) ->
+			val query =
+				sheet.answer.map { sheetContent ->
+					dslContext
+						.insertInto(
+							SOLVING_QUIZ_SHEET,
+							SOLVING_QUIZ_SHEET.SOLVING_QUIZ_ID,
+							SOLVING_QUIZ_SHEET.QUESTION_ID,
+							SOLVING_QUIZ_SHEET.CONTENT,
+						).values(
+							savedSolvingQuizId,
+							questionId,
+							sheetContent,
+						)
+				}
+			dslContext.batch(query).execute()
+		}
+
+		return savedSolvingQuizId
 	}
 
 	fun update(solvingQuiz: SolvingQuiz) {
