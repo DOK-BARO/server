@@ -15,17 +15,39 @@ class SolvingQuizRepository(
 		private val SOLVING_QUIZ_SHEET = JSolvingQuizSheet.SOLVING_QUIZ_SHEET
 	}
 
-	fun insert(solvingQuiz: SolvingQuiz): Long =
-		dslContext
-			.insertInto(
-				SOLVING_QUIZ,
-				SOLVING_QUIZ.MEMBER_ID,
-				SOLVING_QUIZ.QUIZ_ID,
-			).values(
-				solvingQuiz.playerId,
-				solvingQuiz.quizId,
-			).returningResult(SOLVING_QUIZ.ID)
-			.fetchOneInto(Long::class.java)!!
+	fun insert(solvingQuiz: SolvingQuiz): Long {
+		val savedSolvingQuizId =
+			dslContext
+				.insertInto(
+					SOLVING_QUIZ,
+					SOLVING_QUIZ.MEMBER_ID,
+					SOLVING_QUIZ.QUIZ_ID,
+				).values(
+					solvingQuiz.playerId,
+					solvingQuiz.quizId,
+				).returningResult(SOLVING_QUIZ.ID)
+				.fetchOneInto(Long::class.java)!!
+
+		solvingQuiz.getSheets().forEach { (questionId, sheet) ->
+			val query =
+				sheet.answer.map { sheetContent ->
+					dslContext
+						.insertInto(
+							SOLVING_QUIZ_SHEET,
+							SOLVING_QUIZ_SHEET.SOLVING_QUIZ_ID,
+							SOLVING_QUIZ_SHEET.QUESTION_ID,
+							SOLVING_QUIZ_SHEET.CONTENT,
+						).values(
+							savedSolvingQuizId,
+							questionId,
+							sheetContent,
+						)
+				}
+			dslContext.batch(query).execute()
+		}
+
+		return savedSolvingQuizId
+	}
 
 	fun update(solvingQuiz: SolvingQuiz) {
 		dslContext

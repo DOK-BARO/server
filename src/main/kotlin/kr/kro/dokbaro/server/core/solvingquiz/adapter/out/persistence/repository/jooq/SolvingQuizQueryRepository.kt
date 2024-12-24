@@ -15,7 +15,6 @@ import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
 import org.jooq.Record1
-import org.jooq.Record3
 import org.jooq.Result
 import org.jooq.Table
 import org.jooq.generated.tables.JBook
@@ -26,9 +25,7 @@ import org.jooq.generated.tables.JSolvingQuiz
 import org.jooq.generated.tables.JSolvingQuizSheet
 import org.jooq.generated.tables.JStudyGroupMember
 import org.jooq.generated.tables.JStudyGroupQuiz
-import org.jooq.generated.tables.records.MemberRecord
 import org.jooq.generated.tables.records.SolvingQuizRecord
-import org.jooq.generated.tables.records.SolvingQuizSheetRecord
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.select
 import org.springframework.stereotype.Repository
@@ -195,14 +192,20 @@ class SolvingQuizQueryRepository(
 		studyGroupId: Long,
 		quizId: Long,
 	): Map<StudyGroupTotalGradeResult.Member, SolvingQuiz?> {
-		val record: Map<MemberRecord, Result<Record3<MemberRecord, SolvingQuizRecord, SolvingQuizSheetRecord>>> =
-			select(
-				MEMBER,
-				SOLVING_QUIZ,
-				SOLVING_QUIZ_SHEET,
-			).from(MEMBER)
+		val record: Result<out Record> =
+			dslContext
+				.select(
+					MEMBER.ID,
+					MEMBER.NICKNAME,
+					MEMBER.PROFILE_IMAGE_URL,
+					SOLVING_QUIZ.ID,
+					SOLVING_QUIZ.QUIZ_ID,
+					SOLVING_QUIZ_SHEET.ID,
+					SOLVING_QUIZ_SHEET.QUESTION_ID,
+					SOLVING_QUIZ_SHEET.CONTENT,
+				).from(MEMBER)
 				.leftJoin(SOLVING_QUIZ)
-				.on(SOLVING_QUIZ.QUIZ_ID.eq(quizId).and(SOLVING_QUIZ.MEMBER_ID.eq(MEMBER.ID)))
+				.on(SOLVING_QUIZ.MEMBER_ID.eq(MEMBER.ID).and(SOLVING_QUIZ.QUIZ_ID.eq(quizId)))
 				.leftJoin(SOLVING_QUIZ_SHEET)
 				.on(SOLVING_QUIZ_SHEET.SOLVING_QUIZ_ID.eq(SOLVING_QUIZ.ID))
 				.where(
@@ -211,7 +214,8 @@ class SolvingQuizQueryRepository(
 							STUDY_GROUP_MEMBER.STUDY_GROUP_ID.eq(studyGroupId),
 						),
 					),
-				).fetchGroups(MEMBER)
+				).orderBy(SOLVING_QUIZ.CREATED_AT)
+				.fetch()
 
 		return solvingQuizMapper.toStudyGroupSolvingQuizSheets(record)
 	}

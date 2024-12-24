@@ -9,15 +9,13 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupSolveSummary
 import kr.kro.dokbaro.server.core.solvingquiz.query.StudyGroupTotalGradeResult
 import org.jooq.Record
-import org.jooq.Record3
 import org.jooq.Result
 import org.jooq.generated.tables.JBook
 import org.jooq.generated.tables.JBookQuiz
+import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JSolvingQuiz
 import org.jooq.generated.tables.JSolvingQuizSheet
-import org.jooq.generated.tables.records.MemberRecord
 import org.jooq.generated.tables.records.SolvingQuizRecord
-import org.jooq.generated.tables.records.SolvingQuizSheetRecord
 
 @Mapper
 class SolvingQuizMapper {
@@ -26,6 +24,7 @@ class SolvingQuizMapper {
 		private val SOLVING_QUIZ_SHEET = JSolvingQuizSheet.SOLVING_QUIZ_SHEET
 		private val BOOK = JBook.BOOK
 		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
+		private val MEMBER = JMember.MEMBER
 	}
 
 	fun toSolvingQuiz(record: Map<SolvingQuizRecord, Result<Record>>): SolvingQuiz? =
@@ -133,34 +132,43 @@ class SolvingQuizMapper {
 			)
 		}
 
-	fun toStudyGroupSolvingQuizSheets(
-		record: Map<MemberRecord, Result<Record3<MemberRecord, SolvingQuizRecord, SolvingQuizSheetRecord>>>,
-	): Map<StudyGroupTotalGradeResult.Member, SolvingQuiz?> =
+	fun toStudyGroupSolvingQuizSheets(record: Result<out Record>): Map<StudyGroupTotalGradeResult.Member, SolvingQuiz?> =
 		record
-			.mapKeys { (member, _) ->
+			.groupBy {
 				StudyGroupTotalGradeResult.Member(
-					id = member.id,
-					nickname = member.nickname,
-					profileImageUrl = member.profileImageUrl,
+					id = it[MEMBER.ID],
+					nickname = it[MEMBER.NICKNAME],
+					profileImageUrl = it[MEMBER.PROFILE_IMAGE_URL],
 				)
 			}.mapValues { (_, values) ->
-				val solvingQuizAndSheetsMap: Map<SolvingQuizRecord, List<SolvingQuizSheetRecord>> =
-					values.groupBy { it.value2() }.mapValues { v -> v.value.map { it.value3() } }
 
-				solvingQuizAndSheetsMap
-					.map { (key, value) ->
-						SolvingQuiz(
-							playerId = key.memberId,
-							quizId = key.quizId,
-							id = key.id,
-							sheets =
-								value
-									.groupBy { it.questionId }
-									.mapValues { (_, v) ->
-										AnswerSheet(v.map { it.content })
-									}.filterKeys { it != null }
-									.toMutableMap(),
+				values
+					.filter { it[SOLVING_QUIZ.ID] != null }
+					.groupBy {
+						SolvingQuizGroup(
+							id = it[SOLVING_QUIZ.ID],
+							playerId = it[MEMBER.ID],
+							quizId = it[SOLVING_QUIZ.QUIZ_ID],
 						)
-					}.firstOrNull()
+					}.mapValues { (_, sheetRecords) ->
+						sheetRecords
+							.groupBy { it[SOLVING_QUIZ_SHEET.QUESTION_ID] }
+							.mapValues { (_, v) ->
+								AnswerSheet(v.map { it[SOLVING_QUIZ_SHEET.CONTENT] })
+							}.toMutableMap()
+					}.map { (group, sheets) ->
+						SolvingQuiz(
+							id = group.id,
+							playerId = group.playerId,
+							quizId = group.quizId,
+							sheets = sheets,
+						)
+					}.first()
 			}
 }
+
+private data class SolvingQuizGroup(
+	val id: Long,
+	val playerId: Long,
+	val quizId: Long,
+)
