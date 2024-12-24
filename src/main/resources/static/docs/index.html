@@ -579,16 +579,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request"><a class="link" href="#_http_request">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email?_csrf=9MUcO-OjoEBJ3NxSDF6CRBjmQnHAQJh1mDo-Bo7F46rVBdnJkvYoXdOSwnNkuOk0aXO2fSvQbxCmJK9Y_QsNMbv11Zi3Zuyr HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email?_csrf=wVj8m-SPvz6SLGIRZ3ejyn3zIhoE-MT2Z6p7-89gQtHlMl7RojmZr9W2iF2_T1R1AVqX-0WQD3g3mfLbApNIyPZTc-jRVj_p HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 161
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "email" : "example@example.com",
   "nickname" : "exampleNickname",
   "password" : "securePassword123",
-  "profileImage" : "https://example.com/profile.jpg"
+  "profileImage" : "https://dokbaro.com/profile.jpg"
 }</code></pre>
 </div>
 </div>
@@ -665,10 +665,10 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email/issue-temporary-password?_csrf=lROVUyczXMKTWaPE5GSzm8-S1--uGUZKKgvCAilqU7ng_28OrXHzZEYDZKO-bMX11EmH_fn0-tbPKnNnHTn0NBwLNoHSzgo7 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /accounts/email/issue-temporary-password?_csrf=PI6lBoMZ6KsU743n8RL2D7kOBZE13z9sJblz9PG1dQng3gwFWb2SM7B7jp852LvRxj_CPIhsKKhQ6wpBHNtFzZSGFG2Bvz03 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 37
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "email" : "example@example.com"
@@ -721,10 +721,10 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /accounts/email/password?_csrf=pGRto6k40-WY8EunlL32nkU0QQNtquNR36P08RemKqpB4ufLwlEJlJ0A4N21yCjGrZDCr3YDbDtez9R86JCQl3HDGp9109Gv HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /accounts/email/password?_csrf=85vb5K6xv9f4hCX_kHJqSzx-GlxLu6FVcdzvGf4MUCHp4iJakP3v0suIj7HVskCeqV9efgtJNz1y35V4F76MLsY8MhjYgEFj HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 57
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "oldPassword" : "before",
@@ -1028,10 +1028,10 @@ logout 시 쿠키는 자동 삭제됩니다
 <h4 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /books?_csrf=ZqoMt4LzyTyDsYT4l-u87gaSlGuj7biITJTENqqOGRCUX1E2AMxv0eHLrQ2ugbbO9caI2WCiuVKR1dmldPalApLrf3TyaDQB HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /books?_csrf=6yVQnmHhoi94mFEzUVaZIH3jNqhoVnET9L6CFa04Q9JNpUhl3UM2_1XRxhZV_GgHYnutFx7SG5BQb0A-x4q3dJlaIussxH5Q HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 368
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "isbn" : "9783161484100",
@@ -1040,7 +1040,7 @@ Host: localhost:8080
   "publishedAt" : "2024-12-24",
   "price" : 45000,
   "description" : "A comprehensive guide to writing high-quality Kotlin code.",
-  "imageUrl" : "https://example.com/images/effective-kotlin.jpg",
+  "imageUrl" : "https://dokbaro.com/images/effective-kotlin.jpg",
   "categories" : [ 1, 2, 3 ],
   "authors" : [ "Marcin Moskala", "Igor Wojda" ]
 }</code></pre>
@@ -1160,7 +1160,7 @@ Content-Length: 14
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /books?page=1&amp;size=10&amp;sort=PUBLISHED_AT&amp;direction=ASC&amp;title=%EC%9D%B4%ED%8E%99%ED%8B%B0%EB%B8%8C+%EC%9E%90%EB%B0%94&amp;authorName=%EA%B9%80%EC%9A%B0%EA%B7%BC&amp;description=%EC%B1%85+%EC%84%A4%EB%AA%85&amp;category=4 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1307,7 +1307,7 @@ Content-Length: 415
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /books/1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1453,10 +1453,10 @@ Content-Length: 588
 <h4 id="_http_request_10"><a class="link" href="#_http_request_10">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-categories?_csrf=oBCUHLNmwHsH2cgVUQZQBAkC7ZoBUKZ7ZeQqua43ybTjC3rrwSWnKIsH9Bkq6qt2YitkMj9jwPszNMVWXdIdi8sD-YSBPUrS HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-categories?_csrf=mQi3jJv3eF_3kwbu60ltNAAPrWYo7TdeYM6hGB-7jeu_nSD4_TmGvavFQDzao2Lc2WRZVjZpgF8cjwJzWKyUIX6Du4jdrkXP HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 78
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "koreanName" : "모바일",
@@ -1549,7 +1549,7 @@ Content-Length: 14
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-categories?targetId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1655,7 +1655,7 @@ Content-Length: 412
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /books/integrated?keyword=%EC%9E%90%EB%B0%94&amp;lastId=3&amp;size=10 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1771,10 +1771,10 @@ Content-Length: 309
 <h4 id="_http_request_13"><a class="link" href="#_http_request_13">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-quizzes?_csrf=DurRtMAy_rFarOm6NZoAyBgloH2Q0jVE1Dv02U6-vAkwCt0VPdrghPAHm4l3ld3cVLc0qSFGjR-j4VNp5AvA7Hnc2D8IbOwk HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /book-quizzes?_csrf=Q1ev2gD6c3UJKxjC2W4LUbOWtdoGLoj12f-a7rd92_qkxm0LJ2XMuTecQEIkHX736UM_N4P0mOJlS77Y7Mf7i45E6s6Spws5 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 907
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "title" : "헥사고날 1장 요약",
@@ -1936,7 +1936,7 @@ Content-Length: 14
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes/1/questions HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2064,10 +2064,10 @@ Content-Length: 344
 <h4 id="_http_request_15"><a class="link" href="#_http_request_15">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /book-quizzes/1?_csrf=tprJRe391EQuQsMT8XKyzUWts6cV4-YRfVozCVWIyFPid0g01K__J4-csSEDIKAhxl-GrnHMnsYi04A8Tm9WO2O--mHTQSxX HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /book-quizzes/1?_csrf=vxVHAjdT16LRMpxa147oBLks8Yy5ybH6pi_Ha2DMfIiyfdgGhyMmYVIy48b8Af5rtqPcYotI3LXYr9DXn03wU1X0HriFS75k HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 936
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "title" : "헥사고날 1장 요약",
@@ -2228,7 +2228,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes/answer?questionId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2314,7 +2314,7 @@ Content-Length: 114
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes?page=1&amp;size=10&amp;sort=STAR_RATING&amp;direction=ASC&amp;bookId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2491,7 +2491,7 @@ Content-Length: 961
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes/study-groups/1/unsolved?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2700,7 +2700,7 @@ Content-Length: 1458
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes/my?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2757,7 +2757,7 @@ Content-Length: 504
     "id" : 1,
     "bookImageUrl" : "https://example.com/book_image1.jpg",
     "title" : "Effective Kotlin",
-    "updatedAt" : "2024-12-22T15:32:57.042453",
+    "updatedAt" : "2024-12-22T15:59:05.342294",
     "studyGroup" : {
       "id" : 1,
       "name" : "Study Group 1",
@@ -2767,7 +2767,7 @@ Content-Length: 504
     "id" : 2,
     "bookImageUrl" : "https://example.com/book_image2.jpg",
     "title" : "Kotlin in Action",
-    "updatedAt" : "2024-12-19T15:32:57.042787",
+    "updatedAt" : "2024-12-19T15:59:05.342678",
     "studyGroup" : null
   } ]
 }</code></pre>
@@ -2844,7 +2844,7 @@ Content-Length: 504
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /book-quizzes/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2892,7 +2892,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /book-quizzes/1/explanation HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2936,7 +2936,7 @@ Content-Length: 417
   "id" : 1,
   "title" : "Sample Quiz Explanation",
   "description" : "This is a detailed explanation for a sample book quiz.",
-  "createdAt" : "2024-12-24T15:32:57.100703",
+  "createdAt" : "2024-12-24T15:59:05.401049",
   "creator" : {
     "id" : 101,
     "nickname" : "QuizMaster",
@@ -3039,10 +3039,10 @@ Content-Length: 417
 <h4 id="_http_request_22"><a class="link" href="#_http_request_22">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=hLQa1N6VgK2NGSfBWH3IoCl6Eng36e1KuRRU977xiKYkxYzrs4N74O33sJ6gfEP2blD8kxkbP0AE0IhniyFnlI3AsMUT8L-J HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications?_csrf=0uYk_5uoXOnzJDLJHM6VBYQa8JY57ZCC8oxyEffHhVhs1w9O49BBz6nObYjeR1P8feOhMbEr3fQOj_OvkO9AIpSj4DtctT0v HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "email" : "test@example.com"
@@ -3095,10 +3095,10 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_23"><a class="link" href="#_http_request_23">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=5akI0qPWtgjBG3ASgwJv3pwz19jAHcWhW4ZZl7w0jsR1rRrQ1M04t8Lk0DrsLEIgsi9bvfpX-rr2L_aMObc88ooG7fVClSO1 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/match-code?_csrf=QHPcFBYVdYjkJgNlEx_LxGMbOS8I7iD3FOBr0Xs4vFBC7b2SeBLoISYtE73JFGdWJDL_8AF5FE48jxbaJoFe5UINhDIh3YX0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 55
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "email" : "test@example.com",
@@ -3184,10 +3184,10 @@ Content-Length: 21
 <h4 id="_http_request_24"><a class="link" href="#_http_request_24">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=-lEgbgU1rnfIo8MXQigC3lXWimx9Ma0NoesIyDwgq_13J5e1zmNGXDVWnhPlmvV2JgU262K3pw0bB8wgk99s-QsRms9OFKPU HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /email-authentications/recreate?_csrf=dgZspa4rBApiJqTDGk0p6Tsf-TWG_HRF2ttM5cWZ-pz2qEsRRWBax8wTMW9PEpWmI2Adig4n1AyymEBo779_0qGum6XGzi8j HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 34
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "email" : "test@example.com"
@@ -3246,7 +3246,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /health-check HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3282,7 +3282,7 @@ Content-Length: 22
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /health-check HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3323,7 +3323,7 @@ Content-Length: 22
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /images/MEMBER_PROFILE HTTP/1.1
 Content-Type: multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
-Host: localhost:8080
+Host: dokbaro.com
 
 --6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm
 Content-Disposition: form-data; name=file
@@ -3405,10 +3405,10 @@ Content-Length: 64
 <h4 id="_http_request_28"><a class="link" href="#_http_request_28">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=mmwWYlZ3RtUpRPnVrVHZFrwQQHh4mxxK6F1NdMXFpEUEyQLZqlokBmERJbMEJ8Hlm3ztIIVxbUFN-Xln2WssF6annHBg_jPs HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /members/login-user?_csrf=IzjCUP1yBJ2LzIh5V-2B4SiLoobTPa9qvzXoO-6wU2Xk7WSxRQ2gMcxLZ62m-ulKYcC12E64j77kD8tH2gHQDN_TalbV3VXQ HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 92
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "nickname" : "nickname",
@@ -3474,7 +3474,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /members/login-user HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3497,7 +3497,7 @@ Content-Length: 237
 
 {
   "id" : 12345,
-  "certificationId" : "8b57f58c-d433-4eae-9a01-3f63224daff1",
+  "certificationId" : "bd36db60-7691-432c-879f-4ab7d78d22f1",
   "nickname" : "CoolCoder",
   "email" : "coolcoder@example.com",
   "profileImage" : "https://example.com/profile-image.png",
@@ -3560,7 +3560,7 @@ Content-Length: 237
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /members/login-user HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3583,7 +3583,7 @@ Content-Length: 237
 
 {
   "id" : 12345,
-  "certificationId" : "8b57f58c-d433-4eae-9a01-3f63224daff1",
+  "certificationId" : "bd36db60-7691-432c-879f-4ab7d78d22f1",
   "nickname" : "CoolCoder",
   "email" : "coolcoder@example.com",
   "profileImage" : "https://example.com/profile-image.png",
@@ -3606,7 +3606,7 @@ Content-Length: 237
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /notifications/check HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3636,7 +3636,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /notifications/1/disable HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -3684,7 +3684,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /notifications HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -3712,7 +3712,7 @@ Content-Length: 467
   "imageUrl" : "http://example.com/image.png",
   "linkedId" : 1234,
   "checked" : false,
-  "createdAt" : "2024-12-24T15:33:00.97865"
+  "createdAt" : "2024-12-24T15:59:09.363478"
 }, {
   "id" : 0,
   "content" : "새로운 알림 내용입니다.",
@@ -3720,7 +3720,7 @@ Content-Length: 467
   "imageUrl" : "http://example.com/image.png",
   "linkedId" : 1234,
   "checked" : true,
-  "createdAt" : "2024-12-24T15:33:00.978669"
+  "createdAt" : "2024-12-24T15:59:09.363499"
 } ]</code></pre>
 </div>
 </div>
@@ -3793,10 +3793,10 @@ Content-Length: 467
 <h4 id="_http_request_34"><a class="link" href="#_http_request_34">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/start?_csrf=KpbGnxZyJ076ORiqG39dfPPsbI0r3Yt--fXwKaDZTUgyNcPWTqWkriVEEy_XCnyaLVJpS8bZQbUf6OlTnZDIHsLsLC0ABKXv HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/start?_csrf=AjPcp5ituUX1nCLmE870OyAmSYksn_iljj2BOvmnZQ7s_56dYwfql6vL2n3Y_kCDJ-PAXRMRZLEY-8qItgi0CMnBXD-OzPyu HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 18
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "quizId" : 1
@@ -3876,10 +3876,10 @@ Content-Length: 14
 <h4 id="_http_request_35"><a class="link" href="#_http_request_35">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/1/sheets?_csrf=l0C5l0yFHHmcJpoVv2NJEOe8Ghnx3g8dOPD9EC27odallvSY9ibfpXu0fxqxQ6Nxhk59dYKLNyCV7j4wAcObIEyKkbKRoJKq HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /solving-quiz/1/sheets?_csrf=VpldxPh4OMH-EJ4tIEjxRhG-29SEKJNdv7SNj1tZ7b3mxvROY_hu8ZpIDPbTcq8bRmXFJXeK9rW1Tqpwh4W6vWhs24_Xo5Z4 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 64
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "questionId" : 1,
@@ -4027,7 +4027,7 @@ Content-Length: 281
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/1/grade-result HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4126,7 +4126,7 @@ Content-Length: 105
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/my?page=1&amp;size=10&amp;sort=TITLE&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4259,7 +4259,7 @@ Content-Length: 408
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/study-groups/1/my?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4479,7 +4479,7 @@ Content-Length: 1471
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /solving-quiz/study-groups-grade-result?studyGroupId=2&amp;quizId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4654,10 +4654,10 @@ Content-Length: 673
 <h4 id="_http_request_40"><a class="link" href="#_http_request_40">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups?_csrf=REyllwOZYgoUUl5Wwzbk-t-Gde8cePSz6nXR56aD7q7VmRnaJn6ToDCuVm85ZTs0-xvQnOq_WNZ5HM2e2UGzg5e235rsqHu4 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups?_csrf=cKvkNwYQz3s6HSOijNRPj8B28qVOf-p74PsZi0AcvlgIRn-ARc7WUTMj_RkXLxuQ7_l77vJB35x2StJW0csp6XR632lpcxmz HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 125
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "name" : "자바 스터디",
@@ -4749,10 +4749,10 @@ Content-Length: 14
 <h4 id="_http_request_41"><a class="link" href="#_http_request_41">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/join?_csrf=XXzmZWBr_diWX__7JtqQSLUykepKlflZP-IEJUgOhqywkqTfPEvSBAYOyu67b5mYQvekf4wLvItz8Mt0Dts0HH1q5JqCopHu HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/join?_csrf=723zyuDZD_9ZF73WmuCBirf_MqOCvZ8uvpWmbU4coQL18CgA3F3Cr9S4P550IYjlo8217ICcH5rn3vsDiaXDVSolxGaUwk44 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 29
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "inviteCode" : "ABC123"
@@ -4806,7 +4806,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /study-groups/my?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -4955,7 +4955,7 @@ Content-Length: 599
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /study-groups/1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -5095,7 +5095,7 @@ Content-Length: 638
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /study-groups/invite-code/ABC123 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -5234,15 +5234,15 @@ Content-Length: 638
 <h4 id="_http_request_45"><a class="link" href="#_http_request_45">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /study-groups/1?_csrf=Yq7_Y4lawot9wBtPZFAAyVTV6wGPTbQF-gx6ENfgSexhYe85AJrHWrto8bNQ-SN5VH00rGfhxji_f4YozG0cIrbVLNpWVN0B HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /study-groups/1?_csrf=Dt9fRSIfn-LeWSgu4vyk7CmiCyRRyc-RkQrRQb4nvUUKFVMYPOY-dxYm_ofzOE5KhtGQ2EuXJkZi-v28qTKzc44ej3ZoIWMq HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 246
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "name" : "알고리즘 스터디",
   "introduction" : "매주 수요일 저녁 8시에 모여서 알고리즘 문제를 함께 풀어보는 스터디입니다.",
-  "profileImageUrl" : "https://example.com/images/algorithm-study-profile.jpg"
+  "profileImageUrl" : "https://dokbaro.com/images/algorithm-study-profile.jpg"
 }</code></pre>
 </div>
 </div>
@@ -5323,7 +5323,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /study-groups/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -5370,10 +5370,10 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_47"><a class="link" href="#_http_request_47">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/1/change-leader?_csrf=eZYOXzDFTcRqr0t8xXbfBDAnYDn10YI4kGWu0e2QccFFKPrYT6E5bFKhdPZHm3sd8VvrYlRETVuX57oVoATI4tmpF_AkS8i- HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/1/change-leader?_csrf=XacNAarBO3TCXjNO01x-JR2E7SptulrOI2f6nruvEMLVQv7CaME5YJz2DE3vbgV3sXFKEy2ywEtaijvjF1bOrt3LIqaxc8ej HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 23
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "newLeaderId" : 1
@@ -5445,10 +5445,10 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_48"><a class="link" href="#_http_request_48">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/1/withdraw?_csrf=zwe51nwkTt1ygTsfNaL7wbOrrYWb4GMZkbiuGVU7wa9x7MiZqWbcsk5HLLtfsAN7A4_P8oXNgLyvhFA0oIrNfzBZos5A2az8 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /study-groups/1/withdraw?_csrf=-Xek25TFGEDGJRLDeqEyk_YZQUa-0t2Y-rK-pQcw8FvL7_bwm0eU6aL2LXjrR3ehTIwG8sZ7bH7ct-21woHdlmYIxGP5is-W HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 20
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "memberId" : 1
@@ -5526,7 +5526,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -5618,7 +5618,7 @@ Content-Length: 462
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services/1/detail HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -5692,10 +5692,10 @@ Content-Length: 52
 <h4 id="_http_request_51"><a class="link" href="#_http_request_51">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /terms-of-services/agree?_csrf=iPuSbnzjWeNshSpu42MXaH0vJSrTCsmzwTqijk1bXfiRg9P3uJ_3WR6BaddBtBNc0k4jXU9NCBPrO6iepAOQuH09ap2otrHF HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /terms-of-services/agree?_csrf=bHUWPXAHpHVUcJhPVquc11baSD6kSRJ0V4P9oC_pghWZP10lD0ElXEg-nUV5R6l4Y4ao426_ZVyQeCBZNrSfkhfe5nP_W2wX HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 27
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "items" : [ 1, 2, 3 ]
@@ -5749,7 +5749,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /terms-of-services/member-agree/required HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 </div>
@@ -5809,10 +5809,10 @@ Content-Length: 23
 <h4 id="_http_request_53"><a class="link" href="#_http_request_53">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-question-reports?_csrf=s3fC3T4jvokgofquNebI77Kk3zy7dxnrDgdDkuidGwg63AaG0kCk5VpA274Nx5ycA8v8i9SQ8l3YQy7GOWZ6q9mrfTxZujOy HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-question-reports?_csrf=wqWoSFeCtu35SsWq7WlIXfrJq9ewoFPrOAcYpJXnDeeeMHGs88GfeDG01IjULPDL3kR8OcOvhrbVwTLGDGUrwvHfaYOsBxPP HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 67
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "questionId" : 1,
@@ -5903,10 +5903,10 @@ Content-Length: 14
 <h4 id="_http_request_54"><a class="link" href="#_http_request_54">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-reviews?_csrf=UNH-LZD3bo8BcKBwDkPAwhfgreiV701O5apV3BxN4q5Qvrh9ZubMHaPECrgsEZBJPm70pyKFgIqhin9jgJ5k6np418gzhtkc HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-reviews?_csrf=4E09H-EXX3qvH6JT_r5ntwNK_CcUxRJA3AN0_xtuFtikKGbe0nUOJ9UnPU2CLZpnnZNTgWUv0R8s8iFt6mBDySJaJO_CTgC8 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 100
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "starRating" : 1,
@@ -6005,7 +6005,7 @@ Content-Length: 14
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /quiz-reviews/total-score?quizId=1 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -6119,7 +6119,7 @@ Content-Length: 279
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /quiz-reviews?page=1&amp;size=10&amp;sort=CREATED_AT&amp;direction=ASC&amp;quizId=12345 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -6272,10 +6272,10 @@ Content-Length: 495
 <h4 id="_http_request_57"><a class="link" href="#_http_request_57">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /quiz-reviews/1?_csrf=UlYczHdnlgu4fyb_OAPu0v7n5MHtDJj_23VV9bsUv6IwiHNnYDAk9BEE8zyVTUTMAS7a5M3VyfmOaK7S6kRswYl22cQI6UZe HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /quiz-reviews/1?_csrf=BPBhZ3stO4jb4OFYvd2H6DB0edd-xvBbaq9d2mTIEs0Wiht1M5VUUx8fX7j20NBpivCz3gVHVO5MpJF2Wsw_vlz9If93vn5A HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 136
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "starRating" : 4,
@@ -6367,7 +6367,7 @@ X-Frame-Options: DENY</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /quiz-reviews/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</code></pre>
+Host: dokbaro.com</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -6419,10 +6419,10 @@ X-Frame-Options: DENY</code></pre>
 <h4 id="_http_request_59"><a class="link" href="#_http_request_59">HTTP request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-review-reports?_csrf=OGTwZ4_7JNjJ6q98nXi5ehKQMDyjG2VuNmGhGj9WtsEKKCupAFeSV7vIRenkicpI_lWNHCalHV7GKFJDDgOTL1wygfk6TRya HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /quiz-review-reports?_csrf=2DRPUJeXgDMDFkYTcpLEenEJbHtRYpN4ZxZ2e8FGPVssHU2G7Ax_YfagtAMuJCUrQb_wTBc_QUJhWqpVVnBOSfAkXD1KLHq0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 107
-Host: localhost:8080
+Host: dokbaro.com
 
 {
   "quizReviewId" : 123,
@@ -6508,7 +6508,7 @@ Content-Length: 14
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2024-12-16 15:16:49 +0900
+Last updated 2024-12-17 20:16:07 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
