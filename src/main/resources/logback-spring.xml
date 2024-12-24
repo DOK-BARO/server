@@ -36,6 +36,22 @@
 		</layout>
 	</appender>
 
+	<springProperty name="DISCORD_WEBHOOK_URL" source="logging.discord.webhook-url"/>
+	<appender name="DISCORD" class="com.github.napstr.logback.DiscordAppender">
+		<webhookUri>${DISCORD_WEBHOOK_URL}</webhookUri>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>${LOG_PATTERN}</Pattern>
+		</layout>
+		<username>server-error</username>
+		<tts>false</tts>
+	</appender>
+	<appender name="ASYNC_DISCORD" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="DISCORD"/>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+	</appender>
+
 	<springProfile name="local">
 		<root level="DEBUG">
 			<appender-ref ref="CONSOLE"/>
@@ -45,11 +61,13 @@
 		<root level="DEBUG">
 			<appender-ref ref="CONSOLE"/>
 			<appender-ref ref="LOKI-DEV"/>
+			<appender-ref ref="ASYNC_DISCORD"/>
 		</root>
 	</springProfile>
 	<springProfile name="prod">
 		<root level="INFO">
 			<appender-ref ref="LOKI-PROD"/>
+			<appender-ref ref="ASYNC_DISCORD"/>
 		</root>
 	</springProfile>
 </configuration>

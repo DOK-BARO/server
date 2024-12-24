@@ -14,7 +14,7 @@ val springMockkVersion: String by rootProject
 val logbackVersion: String by rootProject
 val kotlinLoggingVersion: String by rootProject
 val fixtureMonkeyVersion: String by rootProject
-
+val discordAppenderVersion: String by rootProject
 configurations {
 	create("asciidoctorExt")
 }
@@ -60,6 +60,7 @@ dependencies {
 	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	implementation("com.github.loki4j:loki-logback-appender:$logbackVersion")
 	implementation("io.github.oshai:kotlin-logging-jvm:$kotlinLoggingVersion")
+	implementation("com.github.napstr:logback-discord-appender:$discordAppenderVersion")
 
 	// jooq
 	implementation("org.springframework.boot:spring-boot-starter-jooq")
