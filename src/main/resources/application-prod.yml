@@ -22,3 +22,4 @@ spring:
             - classpath:/configuration/oauth2/github.yml
             - classpath:/configuration/smtp.yml
             - classpath:/configuration/local-storage.yml
+            - classpath:/configuration/discord-logging.yml
