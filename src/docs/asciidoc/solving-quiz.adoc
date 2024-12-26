@@ -2,6 +2,8 @@
 
 === 북 퀴즈 풀기 시작
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/solving-quiz/solving-quiz-start/http-request.adoc[]
@@ -13,6 +15,8 @@ include::{snippets}/solving-quiz/solving-quiz-start/http-response.adoc[]
 include::{snippets}/solving-quiz/solving-quiz-start/response-fields.adoc[]
 
 === 북 퀴즈 문제 풀기 제출
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
@@ -27,6 +31,8 @@ include::{snippets}/solving-quiz/submit-quiz-sheet/response-fields.adoc[]
 
 === 푼 퀴즈 결과 보기 조회
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/solving-quiz/grade-result/http-request.adoc[]
@@ -38,6 +44,8 @@ include::{snippets}/solving-quiz/grade-result/http-response.adoc[]
 include::{snippets}/solving-quiz/grade-result/response-fields.adoc[]
 
 === 내가 푼 퀴즈 목록 보기 조회
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
@@ -51,6 +59,8 @@ include::{snippets}/solving-quiz/my-solved/response-fields.adoc[]
 
 === 스터디 그룹에서 내가 푼 퀴즈 목록 조회
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/solving-quiz/study-group-my-solved/http-request.adoc[]
@@ -63,6 +73,8 @@ include::{snippets}/solving-quiz/study-group-my-solved/response-fields.adoc[]
 
 
 === 스터디 그룹 내 랭킹 조회
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 

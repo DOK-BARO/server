@@ -2,6 +2,8 @@
 
 === 이용약관 조회
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/terms-of-service/find-all/http-request.adoc[]
@@ -12,6 +14,8 @@ include::{snippets}/terms-of-service/find-all/http-response.adoc[]
 include::{snippets}/terms-of-service/find-all/response-fields.adoc[]
 
 === 이용약관 상세 내용 조회
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
@@ -25,6 +29,8 @@ include::{snippets}/terms-of-service/find-detail/response-fields.adoc[]
 
 === 이용약관 동의
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/terms-of-service/agree/http-request.adoc[]
@@ -35,6 +41,8 @@ include::{snippets}/terms-of-service/agree/request-fields.adoc[]
 include::{snippets}/terms-of-service/agree/http-response.adoc[]
 
 === 필수 동의 여부 전체 동의 여부 조회
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 

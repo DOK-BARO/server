@@ -2,6 +2,8 @@
 
 === 책 생성
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/book/create-book/http-request.adoc[]
@@ -13,6 +15,8 @@ include::{snippets}/book/create-book/http-response.adoc[]
 include::{snippets}/book/create-book/response-fields.adoc[]
 
 === 책 목록(필터링) 조회
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
@@ -26,6 +30,8 @@ include::{snippets}/book/find-book-collection/response-fields.adoc[]
 
 === 책 상세 조회
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/book/find-book/http-request.adoc[]
@@ -37,6 +43,8 @@ include::{snippets}/book/find-book/http-response.adoc[]
 include::{snippets}/book/find-book/response-fields.adoc[]
 
 === 책 카테고리 생성
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
@@ -50,6 +58,8 @@ include::{snippets}/book/create-book-category/response-fields.adoc[]
 
 === 책 카테고리 조회
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/book/find-book-category/http-request.adoc[]
@@ -61,6 +71,8 @@ include::{snippets}/book/find-book-category/http-response.adoc[]
 include::{snippets}/book/find-book-category/response-fields.adoc[]
 
 === 책 통합 조회
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 

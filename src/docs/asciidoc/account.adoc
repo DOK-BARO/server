@@ -2,6 +2,8 @@
 
 === EMAIL ACCOUNT 등록
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/account/register-email-account/http-request.adoc[]
@@ -15,6 +17,8 @@ NOTE: 회원가입 시 로그인이 자동 적용됩니다. 서비스 인증/인
 
 === 임시 비밀번호 발급
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/account/issue-temporary-password/http-request.adoc[]
@@ -25,6 +29,8 @@ include::{snippets}/account/issue-temporary-password/request-fields.adoc[]
 include::{snippets}/account/issue-temporary-password/http-response.adoc[]
 
 === 비밀번호 변경
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
