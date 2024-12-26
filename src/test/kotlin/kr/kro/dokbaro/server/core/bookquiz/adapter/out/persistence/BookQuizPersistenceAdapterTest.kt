@@ -140,4 +140,24 @@ class BookQuizPersistenceAdapterTest(
 
 			adapter.load(savedQuizId) shouldBe null
 		}
+
+		"study group 퀴즈를 생성한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val bookId = bookRepository.insertBook(bookFixture())
+
+			val studyGroupId =
+				studyGroupRepository.insert(
+					studyGroupFixture(
+						studyMembers = mutableSetOf(StudyMember(memberId, StudyMemberRole.LEADER)),
+					),
+				)
+			val savedQuizId: Long =
+				adapter.insert(
+					bookQuizFixture(bookId = bookId, creatorId = memberId, studyGroupId = studyGroupId),
+				)
+
+			val savedQuiz = adapter.load(savedQuizId)!!
+
+			savedQuiz.studyGroupId shouldBe studyGroupId
+		}
 	})

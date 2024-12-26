@@ -2,6 +2,8 @@
 
 === 알림 체크
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/notification/check-all/http-request.adoc[]
@@ -11,6 +13,8 @@ include::{snippets}/notification/check-all/http-request.adoc[]
 include::{snippets}/notification/check-all/http-response.adoc[]
 
 === 알림 비활성화
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
@@ -22,6 +26,8 @@ include::{snippets}/notification/disable/path-parameters.adoc[]
 include::{snippets}/notification/disable/http-response.adoc[]
 
 === 알림 목록 조회
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 

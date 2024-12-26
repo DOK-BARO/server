@@ -2,6 +2,8 @@
 
 === 스터디 그룹 생성
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/study-group/create/http-request.adoc[]
@@ -14,6 +16,8 @@ include::{snippets}/study-group/create/response-fields.adoc[]
 
 === 스터디 그룹 참여
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/study-group/join/http-request.adoc[]
@@ -24,6 +28,8 @@ include::{snippets}/study-group/join/request-fields.adoc[]
 include::{snippets}/study-group/join/http-response.adoc[]
 
 === 로그인한 사용자가 속한 스터디 그룹 목록
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
@@ -37,6 +43,8 @@ include::{snippets}/study-group/get-my-study-group-list/response-fields.adoc[]
 
 === 스터디 그룹 상세 조회
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/study-group/get-study-group-detail/http-request.adoc[]
@@ -48,6 +56,8 @@ include::{snippets}/study-group/get-study-group-detail/http-response.adoc[]
 include::{snippets}/study-group/get-study-group-detail/response-fields.adoc[]
 
 === 초대 코드를 통한 스터디 그룹 상세 조회
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
@@ -62,6 +72,8 @@ include::{snippets}/study-group/get-study-group-detail-by-invite-code/response-f
 
 === 스터디 그룹 수정
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/study-group/update/http-request.adoc[]
@@ -74,6 +86,8 @@ include::{snippets}/study-group/update/http-response.adoc[]
 
 === 스터디 그룹 삭제
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/study-group/delete/http-request.adoc[]
@@ -84,6 +98,8 @@ include::{snippets}/study-group/delete/path-parameters.adoc[]
 include::{snippets}/study-group/delete/http-response.adoc[]
 
 === 스터디 그룹 리더 변경
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
@@ -96,6 +112,8 @@ include::{snippets}/study-group/change-leader/request-fields.adoc[]
 include::{snippets}/study-group/change-leader/http-response.adoc[]
 
 === 스터디 탈퇴 (강제 탈퇴)
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 

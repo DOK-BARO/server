@@ -2,6 +2,8 @@
 
 === GET
 
+- last update: 24-12-26 23:30
+
 ==== HTTP request
 
 include::{snippets}/health-check/get/http-request.adoc[]
@@ -11,6 +13,8 @@ include::{snippets}/health-check/get/http-request.adoc[]
 include::{snippets}/health-check/get/http-response.adoc[]
 
 === POST
+
+- last update: 24-12-26 23:30
 
 ==== HTTP request
 
