@@ -71,6 +71,7 @@ class BookQuizController(
 					timeLimitSecond = body.timeLimitSecond,
 					viewScope = body.viewScope,
 					editScope = body.editScope,
+					studyGroupId = body.studyGroupId,
 				),
 				user,
 			),
