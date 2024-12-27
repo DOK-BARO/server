@@ -175,6 +175,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					1,
 					"java 정석 1차",
 					60,
+					10,
 					listOf(
 						BookQuizQuestions.Question(
 							1,
@@ -201,6 +202,10 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("timeLimitSecond")
 								.type(JsonFieldType.NUMBER)
 								.description("퀴즈의 시간 제한(초), null 가능")
+								.optional(),
+							fieldWithPath("studyGroupId")
+								.type(JsonFieldType.NUMBER)
+								.description("study group ID), null 가능")
 								.optional(),
 							fieldWithPath("questions").type(JsonFieldType.ARRAY).description("퀴즈에 포함된 질문 리스트"),
 							fieldWithPath("questions[].id").type(JsonFieldType.NUMBER).description("질문의 고유 식별자"),
