@@ -56,8 +56,11 @@ class StudyGroupQueryRepository(
 				).from(STUDY_GROUP)
 				// leader
 				.join(STUDY_GROUP_MEMBER)
-				.on(STUDY_GROUP_MEMBER.STUDY_GROUP_ID.eq(STUDY_GROUP.ID).and(STUDY_GROUP_MEMBER.MEMBER_ROLE.eq("LEADER")))
-				.join(MEMBER)
+				.on(
+					STUDY_GROUP_MEMBER.STUDY_GROUP_ID
+						.eq(STUDY_GROUP.ID)
+						.and(STUDY_GROUP_MEMBER.MEMBER_ROLE.eq("LEADER")),
+				).join(MEMBER)
 				.on(MEMBER.ID.eq(STUDY_GROUP_MEMBER.MEMBER_ID))
 				.where(
 					STUDY_GROUP.ID
@@ -149,7 +152,9 @@ class StudyGroupQueryRepository(
 		DSL.and(
 			condition.memberId?.let {
 				STUDY_GROUP.ID.`in`(
-					select(STUDY_GROUP_MEMBER.STUDY_GROUP_ID).from(STUDY_GROUP_MEMBER).where(STUDY_GROUP_MEMBER.MEMBER_ID.eq(it)),
+					select(STUDY_GROUP_MEMBER.STUDY_GROUP_ID)
+						.from(STUDY_GROUP_MEMBER)
+						.where(STUDY_GROUP_MEMBER.MEMBER_ID.eq(it)),
 				)
 			},
 		)

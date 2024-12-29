@@ -57,7 +57,8 @@ class StudyGroup(
 		val beforeLeader: StudyMember? = studyMembers.find { it.role == StudyMemberRole.LEADER }
 		beforeLeader?.role = StudyMemberRole.MEMBER
 
-		val newLeader: StudyMember = studyMembers.find { it.memberId == newLeaderId } ?: throw NotExistStudyMemberException()
+		val newLeader: StudyMember =
+			studyMembers.find { it.memberId == newLeaderId } ?: throw NotExistStudyMemberException()
 		newLeader.role = StudyMemberRole.LEADER
 	}
 

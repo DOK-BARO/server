@@ -63,7 +63,7 @@ class BookControllerTest : RestDocsTest() {
 							"category" to "4",
 						),
 				)
-			
+
 			performGet(Path("/books"), param)
 				.andExpect(status().isOk)
 				.andDo(

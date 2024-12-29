@@ -107,7 +107,8 @@ class BookQuizAuthorityCheckServiceTest :
 				bookQuizAuthorityCheckService.checkUpdateBookQuiz(dokbaroUserFixture(id = memberId), quiz)
 			}
 
-			val creatorOnlyQuiz = bookQuizFixture(studyGroupId = groupId, creatorId = 777, editScope = AccessScope.CREATOR)
+			val creatorOnlyQuiz =
+				bookQuizFixture(studyGroupId = groupId, creatorId = 777, editScope = AccessScope.CREATOR)
 			shouldThrow<DefaultForbiddenException> {
 				bookQuizAuthorityCheckService.checkUpdateBookQuiz(dokbaroUserFixture(id = memberId), creatorOnlyQuiz)
 			}

@@ -14,7 +14,8 @@ class AccountPasswordTest :
 			val afterPassword = "after"
 
 			val password =
-				AccountPassword.of(
+				EmailAccount.of(
+					email = "hello@example.com",
 					rawPassword = beforePassword,
 					memberId = 1,
 					encoder = encoder,
@@ -30,7 +31,8 @@ class AccountPasswordTest :
 			val passwordValue = "password"
 
 			val password =
-				AccountPassword.of(
+				EmailAccount.of(
+					email = "hello@example.com",
 					rawPassword = passwordValue,
 					memberId = 1,
 					encoder = encoder,

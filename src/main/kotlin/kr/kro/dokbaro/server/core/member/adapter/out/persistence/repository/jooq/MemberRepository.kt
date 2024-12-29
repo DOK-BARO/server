@@ -31,11 +31,13 @@ class MemberRepository(
 					MEMBER.NICKNAME,
 					MEMBER.EMAIL,
 					MEMBER.PROFILE_IMAGE_URL,
+					MEMBER.ACCOUNT_TYPE,
 				).values(
 					UUIDUtils.uuidToByteArray(member.certificationId),
 					member.nickname,
-					member.email.address,
+					member.email?.address,
 					member.profileImage,
+					member.accountType.name,
 				).returningResult(MEMBER.ID)
 				.fetchOneInto(Long::class.java)!!
 
@@ -81,7 +83,7 @@ class MemberRepository(
 		dslContext
 			.update(MEMBER)
 			.set(MEMBER.NICKNAME, member.nickname)
-			.set(MEMBER.EMAIL, member.email.address)
+			.set(MEMBER.EMAIL, member.email?.address)
 			.set(MEMBER.PROFILE_IMAGE_URL, member.profileImage)
 			.where(MEMBER.ID.eq(member.id))
 			.execute()

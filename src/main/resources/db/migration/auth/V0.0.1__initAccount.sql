@@ -15,9 +15,10 @@ CREATE TABLE oauth2_account
   COLLATE = utf8mb4_0900_ai_ci;
 
 
-create table account_password
+create table email_account
 (
 	id         bigint       NOT NULL AUTO_INCREMENT,
+	email      varchar(63)  NOT NULL,
 	password   varchar(255) NOT NULL,
 	member_id  bigint       NOT NULL,
 	created_at datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,

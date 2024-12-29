@@ -120,16 +120,32 @@ class StudyGroupAuthorityCheckServiceTest :
 				)
 
 			shouldThrow<DefaultForbiddenException> {
-				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 3), studyGroup, targetMemberId = 2)
+				studyGroupAuthorityCheckService.checkWithdrawMember(
+					dokbaroUserFixture(id = 3),
+					studyGroup,
+					targetMemberId = 2,
+				)
 			}
 			shouldThrow<DefaultForbiddenException> {
-				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 2), studyGroup, targetMemberId = 1)
+				studyGroupAuthorityCheckService.checkWithdrawMember(
+					dokbaroUserFixture(id = 2),
+					studyGroup,
+					targetMemberId = 1,
+				)
 			}
 			shouldNotThrow<DefaultForbiddenException> {
-				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 2), studyGroup, targetMemberId = 2)
+				studyGroupAuthorityCheckService.checkWithdrawMember(
+					dokbaroUserFixture(id = 2),
+					studyGroup,
+					targetMemberId = 2,
+				)
 			}
 			shouldNotThrow<DefaultForbiddenException> {
-				studyGroupAuthorityCheckService.checkWithdrawMember(dokbaroUserFixture(id = 1), studyGroup, targetMemberId = 2)
+				studyGroupAuthorityCheckService.checkWithdrawMember(
+					dokbaroUserFixture(id = 1),
+					studyGroup,
+					targetMemberId = 2,
+				)
 			}
 		}
 	})

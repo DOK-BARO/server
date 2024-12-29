@@ -8,6 +8,7 @@ import kr.kro.dokbaro.server.core.member.adapter.input.web.dto.ModifyMemberReque
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindMyAvatarUseCase
+import kr.kro.dokbaro.server.core.member.domain.AccountType
 import kr.kro.dokbaro.server.core.member.query.MyAvatar
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
@@ -70,6 +71,7 @@ class MemberControllerTest : RestDocsTest() {
 					email = "coolcoder@example.com",
 					profileImage = "https://example.com/profile-image.png",
 					role = listOf("USER", "ADMIN"),
+					accountType = AccountType.SOCIAL,
 				)
 
 			performGet(Path("/members/login-user"))
@@ -96,6 +98,9 @@ class MemberControllerTest : RestDocsTest() {
 							fieldWithPath("role")
 								.type(JsonFieldType.ARRAY)
 								.description("권한"),
+							fieldWithPath("accountType")
+								.type(JsonFieldType.STRING)
+								.description("계정 로그인 타입 (SOCIAL/EMAIL)"),
 						),
 					),
 				)

@@ -6,6 +6,9 @@ import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
+import kr.kro.dokbaro.server.core.account.adapter.out.persistence.repository.jooq.AccountRepository
+import kr.kro.dokbaro.server.core.account.domain.AuthProvider
+import kr.kro.dokbaro.server.core.account.domain.SocialAccount
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberQueryRepository
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
@@ -22,6 +25,7 @@ class MemberPersistenceQueryAdapterTest(
 
 		val memberRepository = MemberRepository(dslContext, MemberMapper())
 		val memberQueryRepository = MemberQueryRepository(dslContext, MemberMapper())
+		val accountRepository = AccountRepository(dslContext)
 
 		val queryAdapter = MemberPersistenceQueryAdapter(memberQueryRepository)
 
@@ -62,5 +66,22 @@ class MemberPersistenceQueryAdapterTest(
 
 			queryAdapter.findCertificationIdByEmail(email.address) shouldNotBe null
 			queryAdapter.findCertificationIdByEmail("no@no.com") shouldBe null
+		}
+
+		"social 계정을 통한 certificationId를 조회한다" {
+			val uuid = UUID.randomUUID()
+			val member = memberRepository.insert(memberFixture(certificationId = uuid))
+			val socialId = "socialId"
+			val provider = AuthProvider.KAKAO
+
+			accountRepository.insertSocialAccount(
+				SocialAccount(
+					socialId = socialId,
+					provider = provider,
+					memberId = member.id,
+				),
+			)
+
+			queryAdapter.findCertificationIdBySocial(socialId, provider) shouldBe uuid
 		}
 	})

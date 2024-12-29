@@ -3,18 +3,20 @@ package kr.kro.dokbaro.server.core.account.application.service
 import kr.kro.dokbaro.server.core.account.application.port.input.ChangePasswordUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.IssueTemporaryPasswordUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.RegisterEmailAccountUseCase
+import kr.kro.dokbaro.server.core.account.application.port.input.UpdateAccountEmailUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.ChangePasswordCommand
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterEmailAccountCommand
 import kr.kro.dokbaro.server.core.account.application.port.out.InsertAccountPasswordPort
 import kr.kro.dokbaro.server.core.account.application.port.out.LoadAccountPasswordPort
 import kr.kro.dokbaro.server.core.account.application.port.out.SendTemporaryPasswordPort
-import kr.kro.dokbaro.server.core.account.application.port.out.UpdateAccountPasswordPort
+import kr.kro.dokbaro.server.core.account.application.port.out.UpdateEmailAccountPort
 import kr.kro.dokbaro.server.core.account.application.service.exception.AccountNotFoundException
 import kr.kro.dokbaro.server.core.account.application.service.exception.PasswordNotMatchException
-import kr.kro.dokbaro.server.core.account.domain.AccountPassword
+import kr.kro.dokbaro.server.core.account.domain.EmailAccount
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.RegisterMemberCommand
+import kr.kro.dokbaro.server.core.member.domain.AccountType
 import kr.kro.dokbaro.server.core.member.domain.Member
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -28,11 +30,12 @@ class EmailAccountService(
 	private val useAuthenticatedEmailUseCase: UseAuthenticatedEmailUseCase,
 	private val temporaryPasswordGenerator: TemporaryPasswordGenerator,
 	private val loadAccountPasswordPort: LoadAccountPasswordPort,
-	private val updateAccountPasswordPort: UpdateAccountPasswordPort,
+	private val updateEmailAccountPort: UpdateEmailAccountPort,
 	private val sendTemporaryPasswordPort: SendTemporaryPasswordPort,
 ) : RegisterEmailAccountUseCase,
 	IssueTemporaryPasswordUseCase,
-	ChangePasswordUseCase {
+	ChangePasswordUseCase,
+	UpdateAccountEmailUseCase {
 	override fun registerEmailAccount(command: RegisterEmailAccountCommand): UUID {
 		useAuthenticatedEmailUseCase.useEmail(email = command.email)
 
@@ -42,11 +45,13 @@ class EmailAccountService(
 					nickname = command.nickname,
 					email = command.email,
 					profileImage = command.profileImage,
+					accountType = AccountType.EMAIL,
 				),
 			)
 
-		insertAccountPasswordPort.insertAccountPassword(
-			AccountPassword.of(
+		insertAccountPasswordPort.insertEmailAccount(
+			EmailAccount.of(
+				email = command.email,
 				rawPassword = command.password,
 				memberId = member.id,
 				encoder = passwordEncoder,
@@ -57,23 +62,23 @@ class EmailAccountService(
 	}
 
 	override fun issueTemporaryPassword(email: String) {
-		val accountPassword: AccountPassword = loadAccountPasswordPort.findByEmail(email) ?: throw AccountNotFoundException()
+		val emailAccount: EmailAccount = loadAccountPasswordPort.findByEmail(email) ?: throw AccountNotFoundException()
 		val newPassword: String = temporaryPasswordGenerator.generate()
 
-		accountPassword.changePassword(
+		emailAccount.changePassword(
 			newPassword = newPassword,
 			encoder = passwordEncoder,
 		)
 
-		updateAccountPasswordPort.updateAccountPassword(accountPassword)
+		updateEmailAccountPort.updateEmailAccount(emailAccount)
 		sendTemporaryPasswordPort.sendTemporaryPassword(email, newPassword)
 	}
 
 	override fun changePassword(command: ChangePasswordCommand) {
-		val accountPassword: AccountPassword =
+		val emailAccount: EmailAccount =
 			loadAccountPasswordPort.findByMemberId(command.memberId) ?: throw AccountNotFoundException()
 
-		if (!accountPassword.match(
+		if (!emailAccount.match(
 				rawPassword = command.oldPassword,
 				encoder = passwordEncoder,
 			)
@@ -81,11 +86,21 @@ class EmailAccountService(
 			throw PasswordNotMatchException()
 		}
 
-		accountPassword.changePassword(
+		emailAccount.changePassword(
 			newPassword = command.newPassword,
 			encoder = passwordEncoder,
 		)
 
-		updateAccountPasswordPort.updateAccountPassword(accountPassword)
+		updateEmailAccountPort.updateEmailAccount(emailAccount)
+	}
+
+	override fun updateEmail(
+		memberId: Long,
+		email: String,
+	) {
+		loadAccountPasswordPort.findByMemberId(memberId)?.let { account ->
+			account.changeEmail(email)
+			updateEmailAccountPort.updateEmailAccount(account)
+		}
 	}
 }
