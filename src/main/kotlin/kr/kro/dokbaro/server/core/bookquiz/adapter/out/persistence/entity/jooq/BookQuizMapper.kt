@@ -48,16 +48,18 @@ class BookQuizMapper {
 	fun toBookQuizQuestions(record: Result<out Record>): BookQuizQuestions? =
 		record
 			.groupBy {
-				Triple(
-					it[BOOK_QUIZ.ID],
-					it[BOOK_QUIZ.TITLE],
-					it[BOOK_QUIZ.TIME_LIMIT_SECOND],
+				BookQuizQuestionsBasic(
+					id = it[BOOK_QUIZ.ID],
+					title = it[BOOK_QUIZ.TITLE],
+					timeLimitSecond = it[BOOK_QUIZ.TIME_LIMIT_SECOND],
+					studyGroupId = it[STUDY_GROUP_QUIZ.STUDY_GROUP_ID],
 				)
-			}.map { (book, questions) ->
+			}.map { (quiz, questions) ->
 				BookQuizQuestions(
-					id = book.first,
-					title = book.second,
-					timeLimitSecond = book.third,
+					id = quiz.id,
+					title = quiz.title,
+					timeLimitSecond = quiz.timeLimitSecond,
+					studyGroupId = quiz.studyGroupId,
 					questions =
 						questions
 							.groupBy {
@@ -278,5 +280,12 @@ class BookQuizMapper {
 		val active: Boolean,
 		val answerExplanation: String,
 		val quizType: QuizType,
+	)
+
+	data class BookQuizQuestionsBasic(
+		val id: Long,
+		val title: String,
+		val timeLimitSecond: Int?,
+		val studyGroupId: Long?,
 	)
 }

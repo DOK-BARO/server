@@ -38,7 +38,8 @@ class StudyGroupQueryService(
 				CountStudyGroupCondition(memberId = memberId),
 			)
 
-		val data: Collection<StudyGroupSummary> = readStudyGroupCollectionPort.findAllByStudyMemberId(memberId, pageOption)
+		val data: Collection<StudyGroupSummary> =
+			readStudyGroupCollectionPort.findAllByStudyMemberId(memberId, pageOption)
 
 		return PageResponse.of(
 			totalElementCount = totalCount,

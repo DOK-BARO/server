@@ -50,6 +50,7 @@ class BookQuizQueryServiceTest :
 					1,
 					"java 정석 1차",
 					60,
+					null,
 					listOf(
 						BookQuizQuestions.Question(
 							1,

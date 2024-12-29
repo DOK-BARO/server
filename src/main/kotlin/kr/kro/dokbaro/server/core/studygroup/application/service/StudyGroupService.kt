@@ -103,7 +103,8 @@ class StudyGroupService(
 		user: DokbaroUser,
 	) {
 		val studyGroup: StudyGroup =
-			loadStudyGroupPort.findBy(FindStudyGroupCondition(id = command.studyGroupId)) ?: throw NotFoundStudyGroupException()
+			loadStudyGroupPort.findBy(FindStudyGroupCondition(id = command.studyGroupId))
+				?: throw NotFoundStudyGroupException()
 
 		studyGroupAuthorityCheckService.checkUpdateStudyGroup(user, studyGroup)
 
@@ -117,7 +118,8 @@ class StudyGroupService(
 		user: DokbaroUser,
 	) {
 		val studyGroup: StudyGroup =
-			loadStudyGroupPort.findBy(FindStudyGroupCondition(id = command.studyGroupId)) ?: throw NotFoundStudyGroupException()
+			loadStudyGroupPort.findBy(FindStudyGroupCondition(id = command.studyGroupId))
+				?: throw NotFoundStudyGroupException()
 
 		studyGroupAuthorityCheckService.checkWithdrawMember(user, studyGroup, command.memberId)
 

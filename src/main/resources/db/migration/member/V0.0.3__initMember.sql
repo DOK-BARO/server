@@ -3,15 +3,15 @@ CREATE TABLE member
 	id                bigint       NOT NULL AUTO_INCREMENT,
 	certification_id  binary(16)   NOT NULL,
 	nickname          varchar(127) NOT NULL,
-	email             varchar(63)  NOT NULL,
+	email             varchar(63)  NULL,
+	account_type      varchar(31)  NOT NULL,
 	profile_image_url varchar(255)          DEFAULT NULL,
 	withdraw          boolean      NOT NULL DEFAULT false,
 	created_at        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at        datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted           boolean      NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
-	UNIQUE KEY member_pk (certification_id),
-	UNIQUE KEY member_pk_2 (email)
+	UNIQUE KEY member_pk (certification_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
@@ -22,7 +22,7 @@ alter table oauth2_account
 		foreign key (member_id) references member (id)
 			on delete cascade;
 
-alter table account_password
+alter table email_account
 	add constraint account_password_id_fk
 		foreign key (member_id) references member (id)
 			on delete cascade;

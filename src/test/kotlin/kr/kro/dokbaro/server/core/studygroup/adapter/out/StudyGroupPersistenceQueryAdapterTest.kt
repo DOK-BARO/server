@@ -10,6 +10,7 @@ import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
+import kr.kro.dokbaro.server.core.member.domain.AccountType
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
@@ -135,6 +136,7 @@ class StudyGroupPersistenceQueryAdapterTest(
 						email = Email("www@gmail.com"),
 						profileImage = "aaa.png",
 						certificationId = UUID.randomUUID(),
+						accountType = AccountType.SOCIAL,
 					),
 				)
 			val targetCode = "ABC123"

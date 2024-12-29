@@ -71,7 +71,6 @@ include::{snippets}/solving-quiz/study-group-my-solved/path-parameters.adoc[]
 include::{snippets}/solving-quiz/study-group-my-solved/http-response.adoc[]
 include::{snippets}/solving-quiz/study-group-my-solved/response-fields.adoc[]
 
-
 === 스터디 그룹 내 랭킹 조회
 
 - last update: 24-12-26 23:30

@@ -58,9 +58,13 @@ class StudyGroupQueryControllerTest : RestDocsTest() {
 						responseFields(
 							endPageNumberFields(),
 							fieldWithPath("data[].name").type(JsonFieldType.STRING).description("스터디 그룹 명"),
-							fieldWithPath("data[].profileImageUrl").type(JsonFieldType.STRING).description("스터디 그룹 프로필 사진"),
+							fieldWithPath("data[].profileImageUrl")
+								.type(JsonFieldType.STRING)
+								.description("스터디 그룹 프로필 사진"),
 							fieldWithPath("data[].id").type(JsonFieldType.NUMBER).description("스터디 그룹 ID"),
-							fieldWithPath("data[].studyMemberCount").description("스터디 그룹 멤버 수").type(JsonFieldType.NUMBER),
+							fieldWithPath("data[].studyMemberCount")
+								.description("스터디 그룹 멤버 수")
+								.type(JsonFieldType.NUMBER),
 							fieldWithPath("data[].leader").optional().description("스터디 그룹 리더 정보"),
 							fieldWithPath("data[].leader.id").description("리더 ID").type(JsonFieldType.NUMBER),
 							fieldWithPath("data[].leader.nickname").description("리더 닉네임").type(JsonFieldType.STRING),

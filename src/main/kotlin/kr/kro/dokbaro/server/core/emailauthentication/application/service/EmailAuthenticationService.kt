@@ -14,7 +14,7 @@ import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.dto.S
 import kr.kro.dokbaro.server.core.emailauthentication.application.service.exception.AlreadySignUpException
 import kr.kro.dokbaro.server.core.emailauthentication.application.service.exception.NotFoundEmailAuthenticationException
 import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdByEmailUserCase
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdByEmailUseCase
 import org.springframework.stereotype.Service
 
 @Service
@@ -25,14 +25,14 @@ class EmailAuthenticationService(
 	private val updateEmailAuthenticationPort: UpdateEmailAuthenticationPort,
 	private val emailCodeGenerator: EmailCodeGenerator,
 	private val sendEmailAuthenticationCodePort: SendEmailAuthenticationCodePort,
-	private val findCertificationIdByEmailUserCase: FindCertificationIdByEmailUserCase,
+	private val findCertificationIdByEmailUseCase: FindCertificationIdByEmailUseCase,
 ) : CreateEmailAuthenticationUseCase,
 	MatchCodeUseCase,
 	RecreateEmailAuthenticationUseCase,
 	UseAuthenticatedEmailUseCase {
 	override fun create(email: String) {
 		checkAlreadySignup(email)
-	
+
 		if (existEmailAuthenticationPort.existBy(
 				SearchEmailAuthenticationCondition(
 					address = email,
@@ -116,7 +116,7 @@ class EmailAuthenticationService(
 	}
 
 	private fun checkAlreadySignup(email: String) {
-		if (findCertificationIdByEmailUserCase.findCertificationIdByEmail(email) != null) {
+		if (findCertificationIdByEmailUseCase.findCertificationIdByEmail(email) != null) {
 			throw AlreadySignUpException()
 		}
 	}

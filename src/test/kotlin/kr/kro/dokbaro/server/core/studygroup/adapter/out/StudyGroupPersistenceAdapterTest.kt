@@ -8,6 +8,7 @@ import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
+import kr.kro.dokbaro.server.core.member.domain.AccountType
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.entity.jooq.StudyGroupMapper
@@ -48,6 +49,7 @@ class StudyGroupPersistenceAdapterTest(
 						email = Email("www@gmail.com"),
 						profileImage = "aaa.png",
 						certificationId = UUID.randomUUID(),
+						accountType = AccountType.SOCIAL,
 					),
 				)
 			val studyGroup =
@@ -68,6 +70,7 @@ class StudyGroupPersistenceAdapterTest(
 						email = Email("www@gmail.com"),
 						profileImage = "aaa.png",
 						certificationId = UUID.randomUUID(),
+						accountType = AccountType.SOCIAL,
 					),
 				)
 			val studyGroup =
@@ -82,6 +85,7 @@ class StudyGroupPersistenceAdapterTest(
 						email = Email("www2@gmail.com"),
 						profileImage = "aaa.png",
 						certificationId = UUID.randomUUID(),
+						accountType = AccountType.SOCIAL,
 					),
 				)
 			val newName = "new name"
@@ -135,6 +139,7 @@ class StudyGroupPersistenceAdapterTest(
 						email = Email("www@gmail.com"),
 						profileImage = "aaa.png",
 						certificationId = UUID.randomUUID(),
+						accountType = AccountType.SOCIAL,
 					),
 				)
 			val studyGroup =

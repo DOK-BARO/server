@@ -7,6 +7,7 @@ data class BookQuizQuestions(
 	val id: Long,
 	val title: String,
 	val timeLimitSecond: Int? = null,
+	val studyGroupId: Long? = null,
 	val questions: Collection<Question>,
 ) {
 	data class Question(

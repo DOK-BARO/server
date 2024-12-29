@@ -16,7 +16,7 @@ include::{snippets}/book-quiz/create-book-quiz/response-fields.adoc[]
 
 === 북 퀴즈 질문 조회
 
-- last update: 24-12-26 23:30
+- last update: 24-12-27 17:20
 
 ==== HTTP request
 

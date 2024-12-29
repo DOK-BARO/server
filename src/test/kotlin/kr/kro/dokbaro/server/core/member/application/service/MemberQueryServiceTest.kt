@@ -6,9 +6,11 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
+import kr.kro.dokbaro.server.core.account.domain.AuthProvider
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
 import kr.kro.dokbaro.server.core.member.application.port.out.ReadCertificatedMemberPort
 import kr.kro.dokbaro.server.core.member.application.port.out.ReadCertificationIdByEmailPort
+import kr.kro.dokbaro.server.core.member.application.port.out.ReadCertificationIdBySocialPort
 import kr.kro.dokbaro.server.core.member.application.port.out.ReadEmailAuthenticationMemberPort
 import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundCertificationMemberException
 import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundMemberException
@@ -22,6 +24,7 @@ class MemberQueryServiceTest :
 		val readCertificatedMemberPort = mockk<ReadCertificatedMemberPort>()
 		val readCertificationIdByEmailPort = mockk<ReadCertificationIdByEmailPort>()
 		val loadMemberByCertificationIdPort = mockk<LoadMemberByCertificationIdPort>()
+		val readCertificationIdBySocialPort: ReadCertificationIdBySocialPort = mockk()
 
 		val memberQueryService =
 			MemberQueryService(
@@ -29,6 +32,7 @@ class MemberQueryServiceTest :
 				readCertificatedMemberPort,
 				readCertificationIdByEmailPort,
 				loadMemberByCertificationIdPort,
+				readCertificationIdBySocialPort,
 			)
 
 		"EmailAuthenticationMember 를 조회한다" {
@@ -73,5 +77,14 @@ class MemberQueryServiceTest :
 			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns memberFixture()
 
 			memberQueryService.findMyAvatar(UUID.randomUUID()) shouldNotBe null
+			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns memberFixture(email = null)
+
+			memberQueryService.findMyAvatar(UUID.randomUUID()) shouldNotBe null
+		}
+
+		"소셜 계정을 통한 certificationId를 조회한다" {
+			every { readCertificationIdBySocialPort.findCertificationIdBySocial(any(), any()) } returns UUID.randomUUID()
+
+			memberQueryService.findCertificationIdBySocial("hello", AuthProvider.KAKAO) shouldNotBe null
 		}
 	})

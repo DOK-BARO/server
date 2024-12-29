@@ -14,6 +14,7 @@ class MemberTest :
 					email = Email("asdf@example.com"),
 					profileImage = "kk.png",
 					certificationId = UUID.randomUUID(),
+					accountType = AccountType.SOCIAL,
 				)
 
 			val newNickName = "newNickname"
@@ -41,6 +42,7 @@ class MemberTest :
 					email = beforeEmail,
 					profileImage = beforeImage,
 					certificationId = UUID.randomUUID(),
+					accountType = AccountType.SOCIAL,
 				)
 
 			member.modify(

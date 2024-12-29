@@ -175,6 +175,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					1,
 					"java 정석 1차",
 					60,
+					10,
 					listOf(
 						BookQuizQuestions.Question(
 							1,
@@ -201,6 +202,10 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("timeLimitSecond")
 								.type(JsonFieldType.NUMBER)
 								.description("퀴즈의 시간 제한(초), null 가능")
+								.optional(),
+							fieldWithPath("studyGroupId")
+								.type(JsonFieldType.NUMBER)
+								.description("study group ID), null 가능")
 								.optional(),
 							fieldWithPath("questions").type(JsonFieldType.ARRAY).description("퀴즈에 포함된 질문 리스트"),
 							fieldWithPath("questions[].id").type(JsonFieldType.NUMBER).description("질문의 고유 식별자"),
@@ -500,7 +505,7 @@ class BookQuizControllerTest : RestDocsTest() {
 				)
 
 			val params = pageRequestParams<UnsolvedGroupBookQuizSortKeyword>()
-			
+
 			performGet(Path("/book-quizzes/study-groups/{studyGroupId}/unsolved", "1"), params)
 				.andExpect(status().isOk)
 				.andDo(
@@ -552,7 +557,12 @@ class BookQuizControllerTest : RestDocsTest() {
 							bookImageUrl = "https://example.com/book_image1.jpg",
 							title = "Effective Kotlin",
 							updatedAt = LocalDateTime.now().minusDays(2),
-							studyGroup = MyBookQuizSummary.StudyGroup(1L, "Study Group 1", profileImageUrl = "hello.png"),
+							studyGroup =
+								MyBookQuizSummary.StudyGroup(
+									1L,
+									"Study Group 1",
+									profileImageUrl = "hello.png",
+								),
 						),
 						MyBookQuizSummary(
 							id = 2L,
@@ -580,7 +590,9 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("data[].studyGroup").optional().description("스터디 그룹 정보 (optional)"),
 							fieldWithPath("data[].studyGroup.id").description("스터디 그룹의 고유 식별자(ID)."),
 							fieldWithPath("data[].studyGroup.name").description("스터디 그룹의 이름."),
-							fieldWithPath("data[].studyGroup.profileImageUrl").optional().description("스터디 그룹의 프로필 이미지 URL. (optional)"),
+							fieldWithPath("data[].studyGroup.profileImageUrl")
+								.optional()
+								.description("스터디 그룹의 프로필 이미지 URL. (optional)"),
 						),
 					),
 				)

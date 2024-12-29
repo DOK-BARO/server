@@ -1,9 +1,9 @@
 package kr.kro.dokbaro.server.core.account.adapter.out.persistence.repository.jooq
 
-import kr.kro.dokbaro.server.core.account.domain.AccountPassword
+import kr.kro.dokbaro.server.core.account.domain.EmailAccount
 import kr.kro.dokbaro.server.core.account.domain.SocialAccount
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JAccountPassword
+import org.jooq.generated.tables.JEmailAccount
 import org.jooq.generated.tables.JOauth2Account
 import org.springframework.stereotype.Repository
 
@@ -13,7 +13,7 @@ class AccountRepository(
 ) {
 	companion object {
 		private val OAUTH2_ACCOUNT = JOauth2Account.OAUTH2_ACCOUNT
-		private val ACCOUNT_PASSWORD = JAccountPassword.ACCOUNT_PASSWORD
+		private val EMAIL_ACCOUNT = JEmailAccount.EMAIL_ACCOUNT
 	}
 
 	fun insertSocialAccount(socialAccount: SocialAccount) {
@@ -30,23 +30,26 @@ class AccountRepository(
 			).execute()
 	}
 
-	fun insertAccountPassword(accountPassword: AccountPassword) {
+	fun insertEmailAccount(emailAccount: EmailAccount) {
 		dslContext
 			.insertInto(
-				ACCOUNT_PASSWORD,
-				ACCOUNT_PASSWORD.PASSWORD,
-				ACCOUNT_PASSWORD.MEMBER_ID,
+				EMAIL_ACCOUNT,
+				EMAIL_ACCOUNT.EMAIL,
+				EMAIL_ACCOUNT.PASSWORD,
+				EMAIL_ACCOUNT.MEMBER_ID,
 			).values(
-				accountPassword.password,
-				accountPassword.memberId,
+				emailAccount.email,
+				emailAccount.password,
+				emailAccount.memberId,
 			).execute()
 	}
 
-	fun updateAccountPassword(accountPassword: AccountPassword) {
+	fun updateEmailAccount(emailAccount: EmailAccount) {
 		dslContext
-			.update(ACCOUNT_PASSWORD)
-			.set(ACCOUNT_PASSWORD.PASSWORD, accountPassword.password)
-			.where(ACCOUNT_PASSWORD.ID.eq(accountPassword.id))
+			.update(EMAIL_ACCOUNT)
+			.set(EMAIL_ACCOUNT.EMAIL, emailAccount.email)
+			.set(EMAIL_ACCOUNT.PASSWORD, emailAccount.password)
+			.where(EMAIL_ACCOUNT.ID.eq(emailAccount.id))
 			.execute()
 	}
 }

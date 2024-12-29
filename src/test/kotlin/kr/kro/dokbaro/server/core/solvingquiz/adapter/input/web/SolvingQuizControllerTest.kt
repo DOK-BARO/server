@@ -187,7 +187,9 @@ class SolvingQuizControllerTest : RestDocsTest() {
 							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),
 							fieldWithPath("data[].id").description("문제 풀이 요약의 고유 식별자"),
 							fieldWithPath("data[].solvedAt").description("문제를 푼 날짜와 시간"),
-							fieldWithPath("data[].bookImageUrl").description("퀴즈와 관련된 책 이미지의 URL (optional)").optional(),
+							fieldWithPath("data[].bookImageUrl")
+								.description("퀴즈와 관련된 책 이미지의 URL (optional)")
+								.optional(),
 							fieldWithPath("data[].quiz").description("푼 퀴즈에 대한 요약 정보"),
 							fieldWithPath("data[].quiz.id").description("퀴즈의 고유 식별자"),
 							fieldWithPath("data[].quiz.title").description("퀴즈 제목"),
@@ -197,7 +199,13 @@ class SolvingQuizControllerTest : RestDocsTest() {
 		}
 
 		"그룹 내 내가 푼 퀴즈 목록을 조회한다" {
-			every { findAllMyStudyGroupSolveSummaryUseCase.findAllMyStudyGroupSolveSummary(any(), any(), any()) } returns
+			every {
+				findAllMyStudyGroupSolveSummaryUseCase.findAllMyStudyGroupSolveSummary(
+					any(),
+					any(),
+					any(),
+				)
+			} returns
 				PageResponse.of(
 					1000,
 					10,
@@ -314,7 +322,7 @@ class SolvingQuizControllerTest : RestDocsTest() {
 					),
 				)
 		}
-		
+
 		"스터디 그룹 내 퀴즈 푼 내역을 조회한다" {
 			every { findAllStudyGroupSolveResultUseCase.findAllStudyGroupGradeResultBy(any(), any()) } returns
 				StudyGroupTotalGradeResult(
@@ -380,14 +388,20 @@ class SolvingQuizControllerTest : RestDocsTest() {
 							fieldWithPath("solvedMember").type(JsonFieldType.ARRAY).description("퀴즈를 푼 멤버 목록"),
 							fieldWithPath("solvedMember[].member").type(JsonFieldType.OBJECT).description("멤버 정보"),
 							fieldWithPath("solvedMember[].member.id").type(JsonFieldType.NUMBER).description("멤버 ID"),
-							fieldWithPath("solvedMember[].member.nickname").type(JsonFieldType.STRING).description("멤버 닉네임"),
+							fieldWithPath("solvedMember[].member.nickname")
+								.type(JsonFieldType.STRING)
+								.description("멤버 닉네임"),
 							fieldWithPath(
 								"solvedMember[].member.profileImageUrl",
 							).type(JsonFieldType.STRING)
 								.optional()
 								.description("멤버 프로필 이미지 URL"),
-							fieldWithPath("solvedMember[].solvingQuizId").type(JsonFieldType.NUMBER).description("풀이 퀴즈 ID"),
-							fieldWithPath("solvedMember[].correctCount").type(JsonFieldType.NUMBER).description("정답 개수"),
+							fieldWithPath("solvedMember[].solvingQuizId")
+								.type(JsonFieldType.NUMBER)
+								.description("풀이 퀴즈 ID"),
+							fieldWithPath("solvedMember[].correctCount")
+								.type(JsonFieldType.NUMBER)
+								.description("정답 개수"),
 							fieldWithPath("unSolvedMember").type(JsonFieldType.ARRAY).description("퀴즈를 풀지 않은 멤버 목록"),
 							fieldWithPath("unSolvedMember[].id").type(JsonFieldType.NUMBER).description("멤버 ID"),
 							fieldWithPath("unSolvedMember[].nickname").type(JsonFieldType.STRING).description("멤버 닉네임"),

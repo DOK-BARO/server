@@ -6,10 +6,11 @@ import java.util.UUID
 data class Member(
 	val id: Long = Constants.UNSAVED_ID,
 	var nickname: String,
-	var email: Email,
+	var email: Email? = null,
 	var profileImage: String?,
 	val certificationId: UUID,
 	val roles: Set<Role> = setOf(Role.GUEST),
+	val accountType: AccountType,
 	var withdraw: Boolean = false,
 ) {
 	fun modify(

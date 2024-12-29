@@ -1,12 +1,15 @@
 package kr.kro.dokbaro.server.core.member.application.service
 
+import kr.kro.dokbaro.server.core.account.domain.AuthProvider
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificatedMemberUseCase
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdByEmailUserCase
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdByEmailUseCase
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdBySocialUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindEmailAuthenticationMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.query.FindMyAvatarUseCase
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
 import kr.kro.dokbaro.server.core.member.application.port.out.ReadCertificatedMemberPort
 import kr.kro.dokbaro.server.core.member.application.port.out.ReadCertificationIdByEmailPort
+import kr.kro.dokbaro.server.core.member.application.port.out.ReadCertificationIdBySocialPort
 import kr.kro.dokbaro.server.core.member.application.port.out.ReadEmailAuthenticationMemberPort
 import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundCertificationMemberException
 import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundMemberException
@@ -22,10 +25,12 @@ class MemberQueryService(
 	private val readCertificatedMemberPort: ReadCertificatedMemberPort,
 	private val readCertificationIdByEmailPort: ReadCertificationIdByEmailPort,
 	private val loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
+	private val readCertificationIdBySocialPort: ReadCertificationIdBySocialPort,
 ) : FindEmailAuthenticationMemberUseCase,
 	FindCertificatedMemberUseCase,
-	FindCertificationIdByEmailUserCase,
-	FindMyAvatarUseCase {
+	FindCertificationIdByEmailUseCase,
+	FindMyAvatarUseCase,
+	FindCertificationIdBySocialUseCase {
 	override fun findEmailAuthenticationMember(email: String): EmailAuthenticationMember? =
 		readEmailAuthenticationMemberPort.findEmailAuthenticationMember(email)
 
@@ -45,9 +50,15 @@ class MemberQueryService(
 			id = member.id,
 			certificationId = member.certificationId,
 			nickname = member.nickname,
-			email = member.email.address,
+			email = member.email?.address,
 			profileImage = member.profileImage,
 			role = member.roles.map { it.name },
+			accountType = member.accountType,
 		)
 	}
+
+	override fun findCertificationIdBySocial(
+		id: String,
+		provider: AuthProvider,
+	): UUID? = readCertificationIdBySocialPort.findCertificationIdBySocial(id, provider)
 }

@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>이메일 인증</title>
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
-		/>
-	</head>
-	<body
-		style="
+<head>
+	<meta charset="UTF-8"/>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+	<title>이메일 인증</title>
+	<link
+		href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+		rel="stylesheet"
+	/>
+</head>
+<body
+	style="
 			font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
 				'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
 				'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
 			max-width: 850px;
 			margin: 0 auto;
 		"
-	>
-		<header style="margin-top: 70px">
-			<h1
-				style="
+>
+<header style="margin-top: 70px">
+	<h1
+		style="
 					position: absolute;
 					width: 1px;
 					height: 1px;
@@ -30,23 +30,23 @@
 					clip: rect(0, 0, 0, 0);
 					border: 0;
 				"
-			>
-				DOKBARO
-			</h1>
-			<img src="https://image.dokbaro.kro.kr/images/dokbaro/logo.png" width="210" alt="DOKBARO 로고" />
-		</header>
-		<main style="margin-top: 44.375px; line-height: 1.5; font-weight: 500; color: #000000">
-			<p class="instruction" style="font-size: 20px">
-				<span th:text="${email}"></span>님 안녕하세요.<br />
-				회원가입을 위해 인증코드를 가입페이지에 입력해 주세요.
-			</p>
-			<p class="code" th:text="${code}" style="margin-top: 47.5px; font-size: 30px"></p>
-		</main>
-		<footer>
-			<div class="line" style="margin-top: 50px; height: 4.375px; width: 100%; background-color: #9747ff"></div>
-			<p class="legal-notice" style="margin-top: 20.625px; font-size: 15px; color: #8e8e8e">
-				본 메일은 DOKBARO 서비스에 대한 광고가 아닙니다.
-			</p>
-		</footer>
-	</body>
+	>
+		DOKBARO
+	</h1>
+	<img alt="DOKBARO 로고" src="https://image.dokbaro.kro.kr/images/dokbaro/logo.png" width="210"/>
+</header>
+<main style="margin-top: 44.375px; line-height: 1.5; font-weight: 500; color: #000000">
+	<p class="instruction" style="font-size: 20px">
+		<span th:text="${email}"></span>님 안녕하세요.<br/>
+		회원가입을 위해 인증코드를 가입페이지에 입력해 주세요.
+	</p>
+	<p class="code" style="margin-top: 47.5px; font-size: 30px" th:text="${code}"></p>
+</main>
+<footer>
+	<div class="line" style="margin-top: 50px; height: 4.375px; width: 100%; background-color: #9747ff"></div>
+	<p class="legal-notice" style="margin-top: 20.625px; font-size: 15px; color: #8e8e8e">
+		본 메일은 DOKBARO 서비스에 대한 광고가 아닙니다.
+	</p>
+</footer>
+</body>
 </html>
