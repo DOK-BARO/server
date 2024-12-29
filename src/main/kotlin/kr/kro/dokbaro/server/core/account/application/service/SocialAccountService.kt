@@ -6,6 +6,7 @@ import kr.kro.dokbaro.server.core.account.application.port.out.InsertSocialAccou
 import kr.kro.dokbaro.server.core.account.domain.SocialAccount
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.RegisterMemberCommand
+import kr.kro.dokbaro.server.core.member.domain.AccountType
 import kr.kro.dokbaro.server.core.member.domain.Member
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -22,6 +23,7 @@ class SocialAccountService(
 					nickname = command.nickname,
 					email = command.email,
 					profileImage = command.profileImage,
+					accountType = AccountType.SOCIAL,
 				),
 			)
 

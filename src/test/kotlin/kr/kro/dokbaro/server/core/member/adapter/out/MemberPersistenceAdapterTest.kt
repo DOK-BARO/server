@@ -10,6 +10,7 @@ import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq.MemberMapper
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberRepository
+import kr.kro.dokbaro.server.core.member.domain.AccountType
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import org.jooq.Configuration
@@ -39,6 +40,7 @@ class MemberPersistenceAdapterTest(
 				email = Email(email),
 				profileImage = "image.png",
 				certificationId = uuid,
+				accountType = AccountType.SOCIAL,
 			)
 
 		"저장을 수행한다" {
@@ -47,7 +49,7 @@ class MemberPersistenceAdapterTest(
 			savedMember.id shouldNotBe null
 			savedMember.roles.shouldNotBeEmpty()
 			savedMember.nickname shouldBe member.nickname
-			savedMember.email.address shouldBe member.email.address
+			savedMember.email!!.address shouldBe member.email!!.address
 			savedMember.profileImage shouldBe member.profileImage
 			savedMember.certificationId shouldBe uuid
 		}
@@ -61,6 +63,7 @@ class MemberPersistenceAdapterTest(
 					profileImage = "new.png",
 					certificationId = savedMember.certificationId,
 					id = savedMember.id,
+					accountType = AccountType.SOCIAL,
 				)
 
 			adapter.update(targetMember)
@@ -69,5 +72,25 @@ class MemberPersistenceAdapterTest(
 
 			result.nickname shouldBe targetMember.nickname
 			UUIDUtils.byteArrayToUUID(result.certificationId) shouldBe targetMember.certificationId
+		}
+
+		"member에서 email은 null일 수 있다." {
+			val member =
+				Member(
+					nickname = "nickname",
+					profileImage = "image.png",
+					certificationId = uuid,
+					accountType = AccountType.SOCIAL,
+				)
+
+			val savedMember = adapter.insert(member)
+			savedMember.email shouldBe null
+
+			adapter.update(savedMember)
+
+			val result = memberDao.findById(savedMember.id)!!
+
+			result shouldNotBe null
+			result.email shouldBe null
 		}
 	})

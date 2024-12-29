@@ -2,6 +2,7 @@ package kr.kro.dokbaro.server.core.member.adapter.out.persistence.entity.jooq
 
 import kr.kro.dokbaro.server.common.annotation.Mapper
 import kr.kro.dokbaro.server.common.util.UUIDUtils
+import kr.kro.dokbaro.server.core.member.domain.AccountType
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
 import kr.kro.dokbaro.server.core.member.domain.Role
@@ -9,7 +10,7 @@ import kr.kro.dokbaro.server.core.member.query.CertificatedMember
 import kr.kro.dokbaro.server.core.member.query.EmailAuthenticationMember
 import org.jooq.Record
 import org.jooq.Result
-import org.jooq.generated.tables.JAccountPassword
+import org.jooq.generated.tables.JEmailAccount
 import org.jooq.generated.tables.JMember
 import org.jooq.generated.tables.JMemberRole
 import org.jooq.generated.tables.records.MemberRecord
@@ -18,7 +19,7 @@ import org.jooq.generated.tables.records.MemberRecord
 class MemberMapper {
 	companion object {
 		private val MEMBER = JMember.MEMBER
-		private val ACCOUNT_PASSWORD = JAccountPassword.ACCOUNT_PASSWORD
+		private val EMAIL_ACCOUNT = JEmailAccount.EMAIL_ACCOUNT
 		private val MEMBER_ROLE = JMemberRole.MEMBER_ROLE
 	}
 
@@ -28,10 +29,11 @@ class MemberMapper {
 				Member(
 					id = record.key.id,
 					nickname = record.key.nickname,
-					email = Email(record.key.email),
+					email = record.key.email?.let { Email(it) },
 					profileImage = record.key.profileImageUrl,
 					certificationId = UUIDUtils.byteArrayToUUID(record.key.certificationId),
 					roles = record.value.map { Role.valueOf(it.getValue(MEMBER_ROLE.NAME)) }.toSet(),
+					accountType = AccountType.valueOf(record.key.accountType),
 				)
 			}.firstOrNull()
 
@@ -56,7 +58,7 @@ class MemberMapper {
 					nickname = it[MEMBER.NICKNAME],
 					email = it[MEMBER.EMAIL],
 					role = record.map { v -> v[MEMBER_ROLE.NAME] },
-					password = it[ACCOUNT_PASSWORD.PASSWORD],
+					password = it[EMAIL_ACCOUNT.PASSWORD],
 				)
 			}.firstOrNull()
 }

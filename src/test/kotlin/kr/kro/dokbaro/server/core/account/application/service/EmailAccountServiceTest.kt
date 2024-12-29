@@ -2,6 +2,7 @@ package kr.kro.dokbaro.server.core.account.application.service
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
@@ -17,7 +18,7 @@ import kr.kro.dokbaro.server.core.account.application.service.exception.AccountN
 import kr.kro.dokbaro.server.core.account.application.service.exception.PasswordNotMatchException
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
-import kr.kro.dokbaro.server.fixture.domain.accountPasswordFixture
+import kr.kro.dokbaro.server.fixture.domain.emailAccountFixture
 import kr.kro.dokbaro.server.fixture.domain.memberFixture
 import org.springframework.security.crypto.password.NoOpPasswordEncoder
 
@@ -29,7 +30,7 @@ class EmailAccountServiceTest :
 		val useAuthenticatedEmailUseCase = mockk<UseAuthenticatedEmailUseCase>()
 		val temporaryPasswordGenerator = TemporaryPasswordGenerator()
 		val loadAccountPasswordPort = mockk<LoadAccountPasswordPort>()
-		val updateAccountPasswordPort = UpdateAccountPasswordPortMock()
+		val updateEmailAccountPort = UpdateEmailAccountPortMock()
 		val sendTemporaryPasswordPort = mockk<SendTemporaryPasswordPort>()
 
 		val emailAccountService =
@@ -40,19 +41,19 @@ class EmailAccountServiceTest :
 				useAuthenticatedEmailUseCase,
 				temporaryPasswordGenerator,
 				loadAccountPasswordPort,
-				updateAccountPasswordPort,
+				updateEmailAccountPort,
 				sendTemporaryPasswordPort,
 			)
 
 		afterEach {
 			clearAllMocks()
-			updateAccountPasswordPort.clear()
+			updateEmailAccountPort.clear()
 		}
 
 		"email 계정 등록을 수행한다" {
 			every { useAuthenticatedEmailUseCase.useEmail(any()) } returns Unit
 			every { registerMemberUseCase.register(any()) } returns memberFixture()
-			every { insertAccountPasswordPort.insertAccountPassword(any()) } returns Unit
+			every { insertAccountPasswordPort.insertEmailAccount(any()) } returns Unit
 
 			val command =
 				RegisterEmailAccountCommand(
@@ -64,16 +65,16 @@ class EmailAccountServiceTest :
 
 			emailAccountService.registerEmailAccount(command)
 
-			verify { insertAccountPasswordPort.insertAccountPassword(any()) }
+			verify { insertAccountPasswordPort.insertEmailAccount(any()) }
 		}
 
 		"임시 비밀번호를 생성한다" {
-			every { loadAccountPasswordPort.findByEmail(any()) } returns accountPasswordFixture()
+			every { loadAccountPasswordPort.findByEmail(any()) } returns emailAccountFixture()
 			every { sendTemporaryPasswordPort.sendTemporaryPassword(any(), any()) } returns Unit
 
 			emailAccountService.issueTemporaryPassword("hello@ex.com")
 
-			updateAccountPasswordPort.storage.shouldNotBeEmpty()
+			updateEmailAccountPort.storage.shouldNotBeEmpty()
 			verify { sendTemporaryPasswordPort.sendTemporaryPassword(any(), any()) }
 		}
 
@@ -100,7 +101,7 @@ class EmailAccountServiceTest :
 			val oldPassword = "old"
 			val newPassword = "new"
 			every { loadAccountPasswordPort.findByMemberId(any()) } returns
-				accountPasswordFixture(
+				emailAccountFixture(
 					password = passwordEncoder.encode(oldPassword),
 				)
 			emailAccountService.changePassword(
@@ -113,7 +114,7 @@ class EmailAccountServiceTest :
 
 			passwordEncoder.matches(
 				newPassword,
-				updateAccountPasswordPort.storage.first().password,
+				updateEmailAccountPort.storage.first().password,
 			) shouldBe true
 		}
 
@@ -121,7 +122,7 @@ class EmailAccountServiceTest :
 			val oldPassword = "old"
 			val newPassword = "new"
 			every { loadAccountPasswordPort.findByMemberId(any()) } returns
-				accountPasswordFixture(
+				emailAccountFixture(
 					password = passwordEncoder.encode(oldPassword),
 				)
 
@@ -134,5 +135,22 @@ class EmailAccountServiceTest :
 					),
 				)
 			}
+		}
+
+		"이메일을 수정한다" {
+			every { loadAccountPasswordPort.findByMemberId(any()) } returns emailAccountFixture()
+
+			val email = "hello@example.com"
+			emailAccountService.updateEmail(1, email)
+
+			updateEmailAccountPort.storage.first().email shouldBe email
+		}
+
+		"이메일 수정 시 해당하는 값이 없으면 업테이트를 진행하지 않는다" {
+			every { loadAccountPasswordPort.findByMemberId(any()) } returns null
+			val email = "hello@example.com"
+			emailAccountService.updateEmail(1, email)
+
+			updateEmailAccountPort.storage.shouldBeEmpty()
 		}
 	})

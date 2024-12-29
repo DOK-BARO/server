@@ -69,7 +69,6 @@ include::{snippets}/study-group/get-study-group-detail-by-invite-code/path-param
 include::{snippets}/study-group/get-study-group-detail-by-invite-code/http-response.adoc[]
 include::{snippets}/study-group/get-study-group-detail-by-invite-code/response-fields.adoc[]
 
-
 === 스터디 그룹 수정
 
 - last update: 24-12-26 23:30

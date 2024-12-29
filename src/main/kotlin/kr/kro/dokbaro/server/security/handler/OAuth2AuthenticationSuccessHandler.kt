@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import kr.kro.dokbaro.server.core.account.application.port.input.RegisterSocialAccountUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterSocialAccountCommand
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdByEmailUserCase
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdBySocialUseCase
 import kr.kro.dokbaro.server.security.SecurityConstants
 import kr.kro.dokbaro.server.security.jwt.JwtResponse
 import kr.kro.dokbaro.server.security.jwt.JwtTokenGenerator
@@ -22,7 +22,7 @@ class OAuth2AuthenticationSuccessHandler(
 	private val jwtTokenGenerator: JwtTokenGenerator,
 	private val registerSocialAccountUseCase: RegisterSocialAccountUseCase,
 	private val socialUserMapperManager: SocialUserMapperManager,
-	private val findCertificationIdByEmailUserCase: FindCertificationIdByEmailUserCase,
+	private val findCertificationIdBySocialUseCase: FindCertificationIdBySocialUseCase,
 	private val jwtHttpCookieInjector: JwtHttpCookieInjector,
 ) : AuthenticationSuccessHandler {
 	override fun onAuthenticationSuccess(
@@ -33,9 +33,10 @@ class OAuth2AuthenticationSuccessHandler(
 		val socialUser: SocialUser = socialUserMapperManager.toSocialUser(authentication as OAuth2AuthenticationToken)
 
 		val certificationId: UUID =
-			findCertificationIdByEmailUserCase
-				.findCertificationIdByEmail(
-					email = socialUser.email,
+			findCertificationIdBySocialUseCase
+				.findCertificationIdBySocial(
+					id = socialUser.id,
+					provider = socialUser.provider,
 				) ?: registerSocialAccountUseCase.registerSocialAccount(
 				RegisterSocialAccountCommand(
 					socialId = socialUser.id,

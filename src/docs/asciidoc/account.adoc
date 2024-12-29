@@ -13,7 +13,8 @@ include::{snippets}/account/register-email-account/request-fields.adoc[]
 
 include::{snippets}/account/register-email-account/http-response.adoc[]
 
-NOTE: 회원가입 시 로그인이 자동 적용됩니다. 서비스 인증/인가에 필요한 JWT를 cookie로 설정합니다.
+NOTE: 회원가입 시 로그인이 자동 적용됩니다.
+서비스 인증/인가에 필요한 JWT를 cookie로 설정합니다.
 
 === 임시 비밀번호 발급
 

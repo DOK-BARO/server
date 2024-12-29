@@ -11,7 +11,7 @@ import java.util.UUID
 class RefreshTokenGenerator(
 	private val clock: Clock,
 	private val refreshTokenRepository: RefreshTokenRepository,
-	@Value("\${jwt.limit-refresh-days}")private val limitRefreshDays: Long,
+	@Value("\${jwt.limit-refresh-days}") private val limitRefreshDays: Long,
 ) {
 	fun generate(certificationId: UUID): RefreshToken {
 		val refreshToken =

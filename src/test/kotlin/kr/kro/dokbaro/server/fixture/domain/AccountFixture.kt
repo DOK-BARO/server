@@ -1,16 +1,18 @@
 package kr.kro.dokbaro.server.fixture.domain
 
 import kr.kro.dokbaro.server.common.constant.Constants
-import kr.kro.dokbaro.server.core.account.domain.AccountPassword
+import kr.kro.dokbaro.server.core.account.domain.EmailAccount
 import kr.kro.dokbaro.server.security.details.DokbaroUser
 import java.util.UUID
 
-fun accountPasswordFixture(
+fun emailAccountFixture(
 	id: Long = Constants.UNSAVED_ID,
+	email: String = "example@hello.com",
 	password: String = "password",
 	memberId: Long = 1,
-) = AccountPassword(
+) = EmailAccount(
 	id,
+	email = email,
 	password,
 	memberId,
 )

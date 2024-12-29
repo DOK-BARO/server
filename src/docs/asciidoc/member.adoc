@@ -15,7 +15,7 @@ include::{snippets}/member/modify-login-user/http-response.adoc[]
 
 === get login member
 
-- last update: 24-12-26 23:30
+- last update: 24-12-29 16:50
 
 ==== HTTP request
 

@@ -15,7 +15,7 @@ import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.LoadE
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.SendEmailAuthenticationCodePort
 import kr.kro.dokbaro.server.core.emailauthentication.application.service.exception.AlreadySignUpException
 import kr.kro.dokbaro.server.core.emailauthentication.application.service.exception.NotFoundEmailAuthenticationException
-import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdByEmailUserCase
+import kr.kro.dokbaro.server.core.member.application.port.input.query.FindCertificationIdByEmailUseCase
 import kr.kro.dokbaro.server.fixture.domain.emailAuthenticationFixture
 import java.util.UUID
 
@@ -27,7 +27,7 @@ class EmailAuthenticationServiceTest :
 		val updateEmailAuthenticationPort = UpdateEmailAuthenticationPortMock()
 		val emailCodeGenerator = CodeGeneratorStub()
 		val sendEmailAuthenticationCodePort = mockk<SendEmailAuthenticationCodePort>()
-		val findCertificationIdByEmailUserCase = mockk<FindCertificationIdByEmailUserCase>()
+		val findCertificationIdByEmailUseCase = mockk<FindCertificationIdByEmailUseCase>()
 
 		val emailAuthenticationService =
 			EmailAuthenticationService(
@@ -37,7 +37,7 @@ class EmailAuthenticationServiceTest :
 				updateEmailAuthenticationPort,
 				emailCodeGenerator,
 				sendEmailAuthenticationCodePort,
-				findCertificationIdByEmailUserCase,
+				findCertificationIdByEmailUseCase,
 			)
 
 		afterEach {
@@ -50,7 +50,7 @@ class EmailAuthenticationServiceTest :
 			every { existEmailAuthenticationPort.existBy(any()) } returns false
 			every { insertEmailAuthenticationPort.insert(any()) } returns 1
 			every { sendEmailAuthenticationCodePort.sendEmail(any(), any()) } returns Unit
-			every { findCertificationIdByEmailUserCase.findCertificationIdByEmail(any()) } returns null
+			every { findCertificationIdByEmailUseCase.findCertificationIdByEmail(any()) } returns null
 
 			val email = "www@example.org"
 			emailAuthenticationService.create(email)
@@ -68,7 +68,7 @@ class EmailAuthenticationServiceTest :
 					address = email,
 					code = code,
 				)
-			every { findCertificationIdByEmailUserCase.findCertificationIdByEmail(any()) } returns null
+			every { findCertificationIdByEmailUseCase.findCertificationIdByEmail(any()) } returns null
 
 			emailAuthenticationService.create(email)
 
@@ -86,7 +86,7 @@ class EmailAuthenticationServiceTest :
 					address = email,
 					code = code,
 				)
-			every { findCertificationIdByEmailUserCase.findCertificationIdByEmail(any()) } returns null
+			every { findCertificationIdByEmailUseCase.findCertificationIdByEmail(any()) } returns null
 
 			val response: MatchResponse = emailAuthenticationService.match(email, code)
 
@@ -102,7 +102,7 @@ class EmailAuthenticationServiceTest :
 					address = email,
 					code = code,
 				)
-			every { findCertificationIdByEmailUserCase.findCertificationIdByEmail(any()) } returns null
+			every { findCertificationIdByEmailUseCase.findCertificationIdByEmail(any()) } returns null
 
 			val response: MatchResponse = emailAuthenticationService.match(email, "OTHER3")
 
@@ -112,7 +112,7 @@ class EmailAuthenticationServiceTest :
 
 		"인증코드 검증/재생성/사용 시 이메일 인증 데이터가 없다면 예외를 반환한다" {
 			every { loadEmailAuthenticationPort.findBy(any()) } returns null
-			every { findCertificationIdByEmailUserCase.findCertificationIdByEmail(any()) } returns null
+			every { findCertificationIdByEmailUseCase.findCertificationIdByEmail(any()) } returns null
 
 			val email = "www@example.com"
 
@@ -138,7 +138,7 @@ class EmailAuthenticationServiceTest :
 					code = beforeCode,
 				)
 			every { sendEmailAuthenticationCodePort.sendEmail(any(), any()) } returns Unit
-			every { findCertificationIdByEmailUserCase.findCertificationIdByEmail(any()) } returns null
+			every { findCertificationIdByEmailUseCase.findCertificationIdByEmail(any()) } returns null
 
 			emailAuthenticationService.recreate(email)
 
@@ -153,7 +153,7 @@ class EmailAuthenticationServiceTest :
 					address = email,
 					authenticated = true,
 				)
-			every { findCertificationIdByEmailUserCase.findCertificationIdByEmail(any()) } returns null
+			every { findCertificationIdByEmailUseCase.findCertificationIdByEmail(any()) } returns null
 
 			emailAuthenticationService.useEmail(email)
 
@@ -161,7 +161,7 @@ class EmailAuthenticationServiceTest :
 		}
 
 		"이메일 인증 로직 수행 시 이미 회원가입이 되어 있다면 예외를 반환한다" {
-			every { findCertificationIdByEmailUserCase.findCertificationIdByEmail(any()) } returns UUID.randomUUID()
+			every { findCertificationIdByEmailUseCase.findCertificationIdByEmail(any()) } returns UUID.randomUUID()
 			val email = "www@example.org"
 
 			shouldThrow<AlreadySignUpException> {
