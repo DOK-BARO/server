@@ -7,7 +7,6 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.core.account.application.port.input.UpdateAccountEmailUseCase
-import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.RegisterMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
@@ -29,7 +28,6 @@ class MemberServiceTest :
 		val updateMemberPort = UpdateMemberPortMock()
 		val existMemberEmailPort = mockk<ExistMemberByEmailPort>()
 		val loadMemberByCertificationIdPort = mockk<LoadMemberByCertificationIdPort>()
-		val useAuthenticatedEmailUseCase: UseAuthenticatedEmailUseCase = mockk()
 		val updateAccountEmailUseCase: UpdateAccountEmailUseCase = mockk()
 
 		val memberService =
@@ -38,7 +36,6 @@ class MemberServiceTest :
 				updateMemberPort,
 				existMemberEmailPort,
 				loadMemberByCertificationIdPort,
-				useAuthenticatedEmailUseCase,
 				updateAccountEmailUseCase,
 			)
 
@@ -92,7 +89,6 @@ class MemberServiceTest :
 			val resentEmail = Email("dasf@kkk.com")
 			every { loadMemberByCertificationIdPort.findMemberByCertificationId(any()) } returns
 				memberFixture(certificationId = targetUUID, email = resentEmail)
-			every { useAuthenticatedEmailUseCase.useEmail(any()) } returns Unit
 			every { updateAccountEmailUseCase.updateEmail(any(), any()) } returns Unit
 
 			val command =
