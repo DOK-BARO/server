@@ -14,7 +14,7 @@ data class PageResponse<T>(
 			data: Collection<T>,
 		): PageResponse<T> =
 			PageResponse(
-				endPageNumber = totalElementCount / pageSize + 1,
+				endPageNumber = (totalElementCount - 1) / pageSize + 1,
 				data = data,
 			)
 	}
