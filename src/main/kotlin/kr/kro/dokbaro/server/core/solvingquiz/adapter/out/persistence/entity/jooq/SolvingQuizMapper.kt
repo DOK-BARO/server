@@ -141,7 +141,6 @@ class SolvingQuizMapper {
 					profileImageUrl = it[MEMBER.PROFILE_IMAGE_URL],
 				)
 			}.mapValues { (_, values) ->
-
 				values
 					.filter { it[SOLVING_QUIZ.ID] != null }
 					.groupBy {
@@ -152,6 +151,7 @@ class SolvingQuizMapper {
 						)
 					}.mapValues { (_, sheetRecords) ->
 						sheetRecords
+							.filter { it[SOLVING_QUIZ_SHEET.QUESTION_ID] != null }
 							.groupBy { it[SOLVING_QUIZ_SHEET.QUESTION_ID] }
 							.mapValues { (_, v) ->
 								AnswerSheet(v.map { it[SOLVING_QUIZ_SHEET.CONTENT] })

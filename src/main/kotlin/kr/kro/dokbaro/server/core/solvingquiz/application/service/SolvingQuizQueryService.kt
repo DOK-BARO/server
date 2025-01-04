@@ -105,7 +105,7 @@ class SolvingQuizQueryService(
 			loadStudyGroupSolvingQuizPort.findAllStudyGroupSolvingQuizSheets(studyGroupId, quizId)
 
 		val solvedMembers: Collection<StudyGroupTotalGradeResult.SolvedMember> =
-			memberSheets.filterValues { it != null }.map { (member, solvingQuiz) ->
+			memberSheets.filterValues { it != null && it.getSheets().isNotEmpty() }.map { (member, solvingQuiz) ->
 				val correctCount: Int = quiz.gradeAll(solvingQuiz!!.getSheets()).count { (_, v) -> v.correct }
 				StudyGroupTotalGradeResult.SolvedMember(
 					member = member,
@@ -119,7 +119,7 @@ class SolvingQuizQueryService(
 			studyGroupId = studyGroupId,
 			totalQuestionCount = quiz.getQuestionCount(),
 			solvedMember = solvedMembers.sortedByDescending { it.correctCount },
-			unSolvedMember = memberSheets.filterValues { it == null }.keys,
+			unSolvedMember = memberSheets.filterValues { it == null || it.getSheets().isEmpty() }.keys,
 		)
 	}
 }
