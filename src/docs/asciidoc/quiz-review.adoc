@@ -16,7 +16,7 @@ include::{snippets}/quiz-review/create/response-fields.adoc[]
 
 === 퀴즈 리뷰 총평(별점, 난이도) 조회
 
-- last update: 24-12-26 23:30
+- last update: 25-01-05 13:05
 
 ==== HTTP request
 

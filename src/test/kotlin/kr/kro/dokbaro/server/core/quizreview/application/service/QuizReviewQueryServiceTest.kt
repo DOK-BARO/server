@@ -1,17 +1,17 @@
 package kr.kro.dokbaro.server.core.quizreview.application.service
 
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import kr.kro.dokbaro.server.common.dto.option.PageOption
-import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.FindQuizReviewSummaryCommand
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.CountQuizReviewPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewSummaryPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewTotalScorePort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.QuizReviewTotalScoreElement
+import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
 
 class QuizReviewQueryServiceTest :
 	StringSpec({
@@ -34,12 +34,15 @@ class QuizReviewQueryServiceTest :
 			quizReviewQueryService.findTotalScoreBy(1) shouldNotBe null
 		}
 
-		"퀴즈 총 점수 조회 시 quiz id에 해당하는 quiz가 없으면 예외를 반환한다" {
+		"퀴즈 총 점수 조회 시 quiz id에 해당하는 quiz가 없으면 난이도 및 별점에 null을 반환한다" {
 			every { readQuizReviewTotalScorePort.findBy(any()) } returns emptyList()
 
-			shouldThrow<NotFoundQuizException> {
-				quizReviewQueryService.findTotalScoreBy(1)
-			}
+			quizReviewQueryService.findTotalScoreBy(1) shouldBe
+				QuizReviewTotalScore(
+					quizId = 1,
+					averageStarRating = null,
+					difficulty = null,
+				)
 		}
 
 		"요약본을 조회한다" {
