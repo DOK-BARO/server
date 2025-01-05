@@ -22,7 +22,7 @@ class AccountPersistenceQueryAdapterTest(
 		val memberRepository = MemberRepository(dslContext, MemberMapper())
 		val accountRepository = AccountRepository(dslContext)
 
-		val queryAdapter = AccountPersistenceQueryAdapter(AccountQueryRepository(dslContext))
+		val queryAdapter = EmailAccountPersistenceQueryAdapter(AccountQueryRepository(dslContext))
 
 		"member id 혹은 email을 통한 password 조회를 수행한다" {
 			val member = memberRepository.insert(memberFixture())

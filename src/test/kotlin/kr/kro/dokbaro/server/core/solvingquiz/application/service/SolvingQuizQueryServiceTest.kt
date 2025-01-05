@@ -286,4 +286,75 @@ class SolvingQuizQueryServiceTest :
 				.last()
 				.member.id shouldBe 1
 		}
+
+		"스터디 그룹 퀴즈 조회 시 푼 내역이 없으면 푼 사람에 카운팅하지 않는다" {
+			val quizId = 1L
+			every { findBookQuizUseCase.findBy(quizId) } returns
+				bookQuizFixture(
+					id = quizId,
+					questions =
+						listOf(
+							quizQuestionFixture(id = 1, answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+							quizQuestionFixture(id = 2, answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+							quizQuestionFixture(id = 3, answer = OXAnswer.from(AnswerSheet(listOf("O")))),
+						),
+				)
+			every { loadStudyGroupSolvingQuizPort.findAllStudyGroupSolvingQuizSheets(any(), quizId) } returns
+				mapOf(
+					StudyGroupTotalGradeResult.Member(
+						id = 1L,
+						nickname = "코딩마스터",
+						profileImageUrl = "https://example.com/images/profile1.jpg",
+					) to
+						SolvingQuiz(
+							id = 1,
+							playerId = 1,
+							quizId = quizId,
+							sheets =
+								mutableMapOf(
+									1L to AnswerSheet(listOf("X")),
+									2L to AnswerSheet(listOf("X")),
+									3L to AnswerSheet(listOf("X")),
+								),
+						),
+					StudyGroupTotalGradeResult.Member(
+						id = 2L,
+						nickname = "알고리즘왕",
+						profileImageUrl = null,
+					) to
+						SolvingQuiz(
+							id = 2,
+							playerId = 2,
+							quizId = quizId,
+							sheets =
+								mutableMapOf(
+									1L to AnswerSheet(listOf("X")),
+									2L to AnswerSheet(listOf("X")),
+									3L to AnswerSheet(listOf("O")),
+								),
+						),
+					StudyGroupTotalGradeResult.Member(
+						id = 3L,
+						nickname = "알왕",
+						profileImageUrl = null,
+					) to
+						SolvingQuiz(
+							id = 3,
+							playerId = 3,
+							quizId = quizId,
+						),
+					StudyGroupTotalGradeResult.Member(
+						id = 4L,
+						nickname = "왕",
+						profileImageUrl = null,
+					) to null,
+				)
+
+			val result = solvingQuizQueryService.findAllStudyGroupGradeResultBy(1, quizId)
+
+			result.quizId shouldBe quizId
+			result.totalQuestionCount shouldBe 3
+			result.solvedMember.size shouldBe 2
+			result.unSolvedMember.size shouldBe 2
+		}
 	})

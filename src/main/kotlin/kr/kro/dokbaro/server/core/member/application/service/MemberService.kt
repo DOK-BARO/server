@@ -1,7 +1,6 @@
 package kr.kro.dokbaro.server.core.member.application.service
 
 import kr.kro.dokbaro.server.core.account.application.port.input.UpdateAccountEmailUseCase
-import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.ModifyMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
@@ -24,7 +23,6 @@ class MemberService(
 	private val updateMemberPort: UpdateMemberPort,
 	private val existMemberByEmailPort: ExistMemberByEmailPort,
 	private val loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
-	private val useAuthenticatedEmailUseCase: UseAuthenticatedEmailUseCase,
 	private val updateAccountEmailUseCase: UpdateAccountEmailUseCase,
 ) : RegisterMemberUseCase,
 	ModifyMemberUseCase,
@@ -53,7 +51,6 @@ class MemberService(
 				?: throw NotFoundMemberException()
 
 		command.email?.let {
-			useAuthenticatedEmailUseCase.useEmail(email = command.email)
 			updateAccountEmailUseCase.updateEmail(member.id, command.email)
 		}
 

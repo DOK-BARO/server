@@ -2,7 +2,6 @@ package kr.kro.dokbaro.server.core.account.application.service
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
@@ -12,7 +11,7 @@ import io.mockk.verify
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.ChangePasswordCommand
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterEmailAccountCommand
 import kr.kro.dokbaro.server.core.account.application.port.out.InsertAccountPasswordPort
-import kr.kro.dokbaro.server.core.account.application.port.out.LoadAccountPasswordPort
+import kr.kro.dokbaro.server.core.account.application.port.out.LoadEmailAccountPort
 import kr.kro.dokbaro.server.core.account.application.port.out.SendTemporaryPasswordPort
 import kr.kro.dokbaro.server.core.account.application.service.exception.AccountNotFoundException
 import kr.kro.dokbaro.server.core.account.application.service.exception.PasswordNotMatchException
@@ -29,7 +28,7 @@ class EmailAccountServiceTest :
 		val passwordEncoder = NoOpPasswordEncoder.getInstance()
 		val useAuthenticatedEmailUseCase = mockk<UseAuthenticatedEmailUseCase>()
 		val temporaryPasswordGenerator = TemporaryPasswordGenerator()
-		val loadAccountPasswordPort = mockk<LoadAccountPasswordPort>()
+		val loadEmailAccountPort = mockk<LoadEmailAccountPort>()
 		val updateEmailAccountPort = UpdateEmailAccountPortMock()
 		val sendTemporaryPasswordPort = mockk<SendTemporaryPasswordPort>()
 
@@ -40,7 +39,7 @@ class EmailAccountServiceTest :
 				passwordEncoder,
 				useAuthenticatedEmailUseCase,
 				temporaryPasswordGenerator,
-				loadAccountPasswordPort,
+				loadEmailAccountPort,
 				updateEmailAccountPort,
 				sendTemporaryPasswordPort,
 			)
@@ -69,7 +68,7 @@ class EmailAccountServiceTest :
 		}
 
 		"임시 비밀번호를 생성한다" {
-			every { loadAccountPasswordPort.findByEmail(any()) } returns emailAccountFixture()
+			every { loadEmailAccountPort.findByEmail(any()) } returns emailAccountFixture()
 			every { sendTemporaryPasswordPort.sendTemporaryPassword(any(), any()) } returns Unit
 
 			emailAccountService.issueTemporaryPassword("hello@ex.com")
@@ -79,8 +78,8 @@ class EmailAccountServiceTest :
 		}
 
 		"임시 비밀번호 생성 혹은 비밀번호 변경 시 email에 해당하는 계정이 없으면 예외를 반환한다" {
-			every { loadAccountPasswordPort.findByEmail(any()) } returns null
-			every { loadAccountPasswordPort.findByMemberId(any()) } returns null
+			every { loadEmailAccountPort.findByEmail(any()) } returns null
+			every { loadEmailAccountPort.findByMemberId(any()) } returns null
 
 			shouldThrow<AccountNotFoundException> {
 				emailAccountService.issueTemporaryPassword("hello@ex.com")
@@ -100,7 +99,7 @@ class EmailAccountServiceTest :
 		"password를 변경한다" {
 			val oldPassword = "old"
 			val newPassword = "new"
-			every { loadAccountPasswordPort.findByMemberId(any()) } returns
+			every { loadEmailAccountPort.findByMemberId(any()) } returns
 				emailAccountFixture(
 					password = passwordEncoder.encode(oldPassword),
 				)
@@ -121,7 +120,7 @@ class EmailAccountServiceTest :
 		"비밀번호 변경 시 기존 비밀번호가 일치하지 않으면 예외를 반환한다" {
 			val oldPassword = "old"
 			val newPassword = "new"
-			every { loadAccountPasswordPort.findByMemberId(any()) } returns
+			every { loadEmailAccountPort.findByMemberId(any()) } returns
 				emailAccountFixture(
 					password = passwordEncoder.encode(oldPassword),
 				)
@@ -135,22 +134,5 @@ class EmailAccountServiceTest :
 					),
 				)
 			}
-		}
-
-		"이메일을 수정한다" {
-			every { loadAccountPasswordPort.findByMemberId(any()) } returns emailAccountFixture()
-
-			val email = "hello@example.com"
-			emailAccountService.updateEmail(1, email)
-
-			updateEmailAccountPort.storage.first().email shouldBe email
-		}
-
-		"이메일 수정 시 해당하는 값이 없으면 업테이트를 진행하지 않는다" {
-			every { loadAccountPasswordPort.findByMemberId(any()) } returns null
-			val email = "hello@example.com"
-			emailAccountService.updateEmail(1, email)
-
-			updateEmailAccountPort.storage.shouldBeEmpty()
 		}
 	})

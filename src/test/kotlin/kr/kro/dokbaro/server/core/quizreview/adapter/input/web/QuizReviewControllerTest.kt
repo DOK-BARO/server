@@ -113,10 +113,12 @@ class QuizReviewControllerTest : RestDocsTest() {
 								.description("퀴즈의 ID."),
 							fieldWithPath("averageStarRating")
 								.type(JsonFieldType.NUMBER)
-								.description("퀴즈의 평균 점수."),
+								.description("퀴즈의 평균 점수. (optional)")
+								.optional(),
 							fieldWithPath("difficulty")
 								.type(JsonFieldType.OBJECT)
-								.description("난이도별 점수 총계를 포함한 맵."),
+								.description("난이도별 점수 총계를 포함한 맵.  (optional)")
+								.optional(),
 							fieldWithPath("difficulty.*")
 								.type(JsonFieldType.OBJECT)
 								.description("각 난이도에 대한 점수 정보. {개수, 비율}"),
