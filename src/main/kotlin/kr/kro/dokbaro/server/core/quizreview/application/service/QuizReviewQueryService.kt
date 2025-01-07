@@ -40,6 +40,12 @@ class QuizReviewQueryService(
 					it.difficultyLevel
 				}.groupBy { it }
 				.mapValues { (_, v) -> v.count() }
+				.toMutableMap()
+				.apply {
+					getOrPut(1) { 0 }
+					getOrPut(2) { 0 }
+					getOrPut(3) { 0 }
+				}
 
 		return QuizReviewTotalScore(
 			quizId = quizId,
