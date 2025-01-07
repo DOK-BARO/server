@@ -34,6 +34,21 @@ class QuizReviewQueryServiceTest :
 			quizReviewQueryService.findTotalScoreBy(1) shouldNotBe null
 		}
 
+		"퀴즈 총 점수 조회 시 선택한 난이도가 없으면 0개로 보여준다" {
+			every { readQuizReviewTotalScorePort.findBy(any()) } returns
+				listOf(QuizReviewTotalScoreElement(1, 3, 1))
+
+			quizReviewQueryService.findTotalScoreBy(1).difficulty!![2] shouldBe
+				QuizReviewTotalScore.DifficultyScore(selectCount = 0, selectRate = 0.0)
+			quizReviewQueryService.findTotalScoreBy(1).difficulty!![3] shouldBe
+				QuizReviewTotalScore.DifficultyScore(selectCount = 0, selectRate = 0.0)
+
+			every { readQuizReviewTotalScorePort.findBy(any()) } returns
+				listOf(QuizReviewTotalScoreElement(1, 3, 2))
+			quizReviewQueryService.findTotalScoreBy(1).difficulty!![1] shouldBe
+				QuizReviewTotalScore.DifficultyScore(selectCount = 0, selectRate = 0.0)
+		}
+
 		"퀴즈 총 점수 조회 시 quiz id에 해당하는 quiz가 없으면 난이도 및 별점에 null을 반환한다" {
 			every { readQuizReviewTotalScorePort.findBy(any()) } returns emptyList()
 
