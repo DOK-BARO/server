@@ -6,11 +6,9 @@ import kr.kro.dokbaro.server.core.member.application.port.input.command.Register
 import kr.kro.dokbaro.server.core.member.application.port.input.command.WithdrawMemberUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.RegisterMemberCommand
-import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
 import kr.kro.dokbaro.server.core.member.application.port.out.InsertMemberPort
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
 import kr.kro.dokbaro.server.core.member.application.port.out.UpdateMemberPort
-import kr.kro.dokbaro.server.core.member.application.service.exception.AlreadyRegisteredEmailException
 import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundMemberException
 import kr.kro.dokbaro.server.core.member.domain.Email
 import kr.kro.dokbaro.server.core.member.domain.Member
@@ -21,7 +19,6 @@ import java.util.UUID
 class MemberService(
 	private val insertMemberPort: InsertMemberPort,
 	private val updateMemberPort: UpdateMemberPort,
-	private val existMemberByEmailPort: ExistMemberByEmailPort,
 	private val loadMemberByCertificationIdPort: LoadMemberByCertificationIdPort,
 	private val updateAccountEmailUseCase: UpdateAccountEmailUseCase,
 ) : RegisterMemberUseCase,
@@ -29,10 +26,6 @@ class MemberService(
 	WithdrawMemberUseCase {
 	override fun register(command: RegisterMemberCommand): Member {
 		val certificationId = UUID.randomUUID()
-
-		if (existMemberByEmailPort.existByEmail(command.email)) {
-			throw AlreadyRegisteredEmailException(command.email)
-		}
 
 		return insertMemberPort.insert(
 			Member(
