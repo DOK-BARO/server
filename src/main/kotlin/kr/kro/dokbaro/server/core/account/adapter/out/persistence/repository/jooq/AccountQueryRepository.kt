@@ -40,4 +40,7 @@ class AccountQueryRepository(
 			.on(MEMBER.ID.eq(EMAIL_ACCOUNT.MEMBER_ID))
 			.where(MEMBER.EMAIL.eq(email))
 			.fetchOneInto(EmailAccount::class.java)
+
+	fun existsByEmail(email: String): Boolean =
+		dslContext.fetchExists(EMAIL_ACCOUNT.where(EMAIL_ACCOUNT.EMAIL.eq(email).and(EMAIL_ACCOUNT.DELETED.isFalse)))
 }
