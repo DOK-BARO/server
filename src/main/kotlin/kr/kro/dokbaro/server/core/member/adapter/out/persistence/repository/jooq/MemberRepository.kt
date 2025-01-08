@@ -85,6 +85,7 @@ class MemberRepository(
 			.set(MEMBER.NICKNAME, member.nickname)
 			.set(MEMBER.EMAIL, member.email?.address)
 			.set(MEMBER.PROFILE_IMAGE_URL, member.profileImage)
+			.set(MEMBER.WITHDRAW, member.withdraw)
 			.where(MEMBER.ID.eq(member.id))
 			.execute()
 
