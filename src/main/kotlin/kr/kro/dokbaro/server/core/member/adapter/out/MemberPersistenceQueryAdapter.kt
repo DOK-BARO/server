@@ -3,7 +3,6 @@ package kr.kro.dokbaro.server.core.member.adapter.out
 import kr.kro.dokbaro.server.common.annotation.PersistenceAdapter
 import kr.kro.dokbaro.server.core.account.domain.AuthProvider
 import kr.kro.dokbaro.server.core.member.adapter.out.persistence.repository.jooq.MemberQueryRepository
-import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
 import kr.kro.dokbaro.server.core.member.application.port.out.ReadCertificatedMemberPort
 import kr.kro.dokbaro.server.core.member.application.port.out.ReadCertificationIdByEmailPort
@@ -19,7 +18,6 @@ class MemberPersistenceQueryAdapter(
 	private val memberQueryRepository: MemberQueryRepository,
 ) : ReadEmailAuthenticationMemberPort,
 	ReadCertificatedMemberPort,
-	ExistMemberByEmailPort,
 	LoadMemberByCertificationIdPort,
 	ReadCertificationIdByEmailPort,
 	ReadCertificationIdBySocialPort {
@@ -28,8 +26,6 @@ class MemberPersistenceQueryAdapter(
 
 	override fun findCertificatedMember(certificationId: UUID): CertificatedMember? =
 		memberQueryRepository.findCertificatedMember(certificationId)
-
-	override fun existByEmail(email: String): Boolean = memberQueryRepository.existByEmail(email)
 
 	override fun findMemberByCertificationId(certificationId: UUID): Member? =
 		memberQueryRepository.findMemberByCertificationId(certificationId)

@@ -9,10 +9,8 @@ import io.mockk.mockk
 import kr.kro.dokbaro.server.core.account.application.port.input.UpdateAccountEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.ModifyMemberCommand
 import kr.kro.dokbaro.server.core.member.application.port.input.command.dto.RegisterMemberCommand
-import kr.kro.dokbaro.server.core.member.application.port.out.ExistMemberByEmailPort
 import kr.kro.dokbaro.server.core.member.application.port.out.InsertMemberPort
 import kr.kro.dokbaro.server.core.member.application.port.out.LoadMemberByCertificationIdPort
-import kr.kro.dokbaro.server.core.member.application.service.exception.AlreadyRegisteredEmailException
 import kr.kro.dokbaro.server.core.member.application.service.exception.NotFoundMemberException
 import kr.kro.dokbaro.server.core.member.domain.AccountType
 import kr.kro.dokbaro.server.core.member.domain.Email
@@ -26,7 +24,6 @@ class MemberServiceTest :
 	StringSpec({
 		val insertMemberPort = mockk<InsertMemberPort>()
 		val updateMemberPort = UpdateMemberPortMock()
-		val existMemberEmailPort = mockk<ExistMemberByEmailPort>()
 		val loadMemberByCertificationIdPort = mockk<LoadMemberByCertificationIdPort>()
 		val updateAccountEmailUseCase: UpdateAccountEmailUseCase = mockk()
 
@@ -34,7 +31,6 @@ class MemberServiceTest :
 			MemberService(
 				insertMemberPort,
 				updateMemberPort,
-				existMemberEmailPort,
 				loadMemberByCertificationIdPort,
 				updateAccountEmailUseCase,
 			)
@@ -64,24 +60,8 @@ class MemberServiceTest :
 				)
 
 			every { insertMemberPort.insert(any()) } returns member
-			every { existMemberEmailPort.existByEmail(command.email) } returns false
 
 			memberService.register(command) shouldBe member
-		}
-
-		"중복된 이메일로 저장 시 예외를 반환한다" {
-			val command =
-				RegisterMemberCommand(
-					nickname = "asdf",
-					email = "kkk@gmail.com",
-					profileImage = "profile.png",
-					accountType = AccountType.SOCIAL,
-				)
-			every { existMemberEmailPort.existByEmail(command.email) } returns true
-
-			shouldThrow<AlreadyRegisteredEmailException> {
-				memberService.register(command)
-			}
 		}
 
 		"수정을 수행한다" {

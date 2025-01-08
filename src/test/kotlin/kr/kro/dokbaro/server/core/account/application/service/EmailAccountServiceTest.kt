@@ -10,10 +10,12 @@ import io.mockk.mockk
 import io.mockk.verify
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.ChangePasswordCommand
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterEmailAccountCommand
+import kr.kro.dokbaro.server.core.account.application.port.out.ExistEmailAccountPort
 import kr.kro.dokbaro.server.core.account.application.port.out.InsertAccountPasswordPort
 import kr.kro.dokbaro.server.core.account.application.port.out.LoadEmailAccountPort
 import kr.kro.dokbaro.server.core.account.application.port.out.SendTemporaryPasswordPort
 import kr.kro.dokbaro.server.core.account.application.service.exception.AccountNotFoundException
+import kr.kro.dokbaro.server.core.account.application.service.exception.AlreadyRegisteredEmailException
 import kr.kro.dokbaro.server.core.account.application.service.exception.PasswordNotMatchException
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
 import kr.kro.dokbaro.server.core.member.application.port.input.command.RegisterMemberUseCase
@@ -31,6 +33,7 @@ class EmailAccountServiceTest :
 		val loadEmailAccountPort = mockk<LoadEmailAccountPort>()
 		val updateEmailAccountPort = UpdateEmailAccountPortMock()
 		val sendTemporaryPasswordPort = mockk<SendTemporaryPasswordPort>()
+		val existEmailAccountPort = mockk<ExistEmailAccountPort>()
 
 		val emailAccountService =
 			EmailAccountService(
@@ -42,6 +45,7 @@ class EmailAccountServiceTest :
 				loadEmailAccountPort,
 				updateEmailAccountPort,
 				sendTemporaryPasswordPort,
+				existEmailAccountPort,
 			)
 
 		afterEach {
@@ -53,6 +57,7 @@ class EmailAccountServiceTest :
 			every { useAuthenticatedEmailUseCase.useEmail(any()) } returns Unit
 			every { registerMemberUseCase.register(any()) } returns memberFixture()
 			every { insertAccountPasswordPort.insertEmailAccount(any()) } returns Unit
+			every { existEmailAccountPort.existsByEmail(any()) } returns false
 
 			val command =
 				RegisterEmailAccountCommand(
@@ -65,6 +70,25 @@ class EmailAccountServiceTest :
 			emailAccountService.registerEmailAccount(command)
 
 			verify { insertAccountPasswordPort.insertEmailAccount(any()) }
+		}
+
+		"이미 존재하는 이메일 계정이 있으면 예외를 반환한다" {
+			every { useAuthenticatedEmailUseCase.useEmail(any()) } returns Unit
+			every { registerMemberUseCase.register(any()) } returns memberFixture()
+			every { insertAccountPasswordPort.insertEmailAccount(any()) } returns Unit
+			every { existEmailAccountPort.existsByEmail(any()) } returns true
+
+			val command =
+				RegisterEmailAccountCommand(
+					email = "example@example.com",
+					nickname = "exampleNickname",
+					password = "securePassword123",
+					profileImage = "https://example.com/profile.jpg",
+				)
+
+			shouldThrow<AlreadyRegisteredEmailException> {
+				emailAccountService.registerEmailAccount(command)
+			}
 		}
 
 		"임시 비밀번호를 생성한다" {

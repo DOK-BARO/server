@@ -72,9 +72,6 @@ class MemberQueryRepository(
 		return memberMapper.toCertificatedMember(record)
 	}
 
-	fun existByEmail(email: String): Boolean =
-		dslContext.fetchExists(MEMBER.where(MEMBER.EMAIL.eq(email).and(MEMBER.WITHDRAW.isFalse.and(MEMBER.DELETED.isFalse))))
-
 	fun findMemberByCertificationId(certificationId: UUID): Member? {
 		val record: Map<MemberRecord, Result<Record>> =
 			dslContext
