@@ -44,7 +44,7 @@ class MemberQueryRepository(
 				.on(MEMBER_ROLE.MEMBER_ID.eq(MEMBER.ID))
 				.leftJoin(EMAIL_ACCOUNT)
 				.on(EMAIL_ACCOUNT.MEMBER_ID.eq(MEMBER.ID))
-				.where(MEMBER.EMAIL.eq(email))
+				.where(MEMBER.EMAIL.eq(email).and(MEMBER.WITHDRAW.isFalse.and(MEMBER.DELETED.isFalse)))
 				.fetch()
 
 		return memberMapper.toEmailAuthenticationMember(record)
@@ -62,13 +62,18 @@ class MemberQueryRepository(
 				).from(MEMBER)
 				.join(MEMBER_ROLE)
 				.on(MEMBER_ROLE.MEMBER_ID.eq(MEMBER.ID))
-				.where(MEMBER.CERTIFICATION_ID.eq(UUIDUtils.uuidToByteArray(certificationId)))
-				.fetch()
+				.where(
+					MEMBER.CERTIFICATION_ID
+						.eq(
+							UUIDUtils.uuidToByteArray(certificationId),
+						).and(MEMBER.WITHDRAW.isFalse.and(MEMBER.DELETED.isFalse)),
+				).fetch()
 
 		return memberMapper.toCertificatedMember(record)
 	}
 
-	fun existByEmail(email: String): Boolean = dslContext.fetchExists(MEMBER.where(MEMBER.EMAIL.eq(email)))
+	fun existByEmail(email: String): Boolean =
+		dslContext.fetchExists(MEMBER.where(MEMBER.EMAIL.eq(email).and(MEMBER.WITHDRAW.isFalse.and(MEMBER.DELETED.isFalse))))
 
 	fun findMemberByCertificationId(certificationId: UUID): Member? {
 		val record: Map<MemberRecord, Result<Record>> =
@@ -77,8 +82,12 @@ class MemberQueryRepository(
 				.from(MEMBER)
 				.join(MEMBER_ROLE)
 				.on(MEMBER_ROLE.MEMBER_ID.eq(MEMBER.ID))
-				.where(MEMBER.CERTIFICATION_ID.eq(UUIDUtils.uuidToByteArray(certificationId)))
-				.fetchGroups(MEMBER)
+				.where(
+					MEMBER.CERTIFICATION_ID
+						.eq(
+							UUIDUtils.uuidToByteArray(certificationId),
+						).and(MEMBER.WITHDRAW.isFalse.and(MEMBER.DELETED.isFalse)),
+				).fetchGroups(MEMBER)
 
 		return memberMapper.toMember(record)
 	}
@@ -87,7 +96,7 @@ class MemberQueryRepository(
 		dslContext
 			.select(MEMBER.CERTIFICATION_ID)
 			.from(MEMBER)
-			.where(MEMBER.EMAIL.eq(email))
+			.where(MEMBER.EMAIL.eq(email).and(MEMBER.WITHDRAW.isFalse.and(MEMBER.DELETED.isFalse)))
 			.fetchOne {
 				UUIDUtils.byteArrayToUUID(it.value1())
 			}
@@ -101,8 +110,13 @@ class MemberQueryRepository(
 			.from(MEMBER)
 			.join(OAUTH2_ACCOUNT)
 			.on(OAUTH2_ACCOUNT.MEMBER_ID.eq(MEMBER.ID))
-			.where(OAUTH2_ACCOUNT.SOCIAL_ID.eq(id).and(OAUTH2_ACCOUNT.PROVIDER.eq(provider.name)))
-			.fetchOne {
+			.where(
+				OAUTH2_ACCOUNT.SOCIAL_ID
+					.eq(
+						id,
+					).and(OAUTH2_ACCOUNT.PROVIDER.eq(provider.name))
+					.and(MEMBER.WITHDRAW.isFalse.and(MEMBER.DELETED.isFalse)),
+			).fetchOne {
 				UUIDUtils.byteArrayToUUID(it.value1())
 			}
 }
