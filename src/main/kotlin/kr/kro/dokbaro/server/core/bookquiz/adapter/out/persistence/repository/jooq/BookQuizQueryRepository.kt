@@ -81,7 +81,7 @@ class BookQuizQueryRepository(
 				.on(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
 				.leftJoin(STUDY_GROUP_QUIZ)
 				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
-				.where(BOOK_QUIZ.ID.eq(quizId).and(BOOK_QUIZ.DELETED.eq(false)))
+				.where(BOOK_QUIZ.ID.eq(quizId).and(BOOK_QUIZ.DELETED.isFalse))
 				.fetch()
 
 		return bookQuizMapper.toBookQuizQuestions(record)
@@ -109,7 +109,7 @@ class BookQuizQueryRepository(
 		dslContext
 			.selectCount()
 			.from(BOOK_QUIZ)
-			.where(buildCountCondition(condition).and(BOOK_QUIZ.DELETED.eq(false)))
+			.where(buildCountCondition(condition).and(BOOK_QUIZ.DELETED.isFalse))
 			.fetchOneInto(Long::class.java)!!
 
 	private fun buildCountCondition(condition: CountBookQuizCondition): Condition =
@@ -171,7 +171,7 @@ class BookQuizQueryRepository(
 				.on(BOOK_QUIZ.CREATOR_ID.eq(MEMBER.ID))
 				.leftJoin(QUIZ_REVIEW)
 				.on(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID))
-				.where(BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.eq(false)))
+				.where(BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.isFalse))
 				.groupBy(BOOK_QUIZ)
 				.orderBy(toBookQuizSummaryOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
@@ -220,7 +220,7 @@ class BookQuizQueryRepository(
 									.from(SOLVING_QUIZ)
 									.where(SOLVING_QUIZ.MEMBER_ID.eq(memberId)),
 							),
-						).and(BOOK_QUIZ.DELETED.eq(false)),
+						).and(BOOK_QUIZ.DELETED.isFalse),
 				).orderBy(toOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
@@ -294,7 +294,7 @@ class BookQuizQueryRepository(
 				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.leftJoin(STUDY_GROUP)
 				.on(STUDY_GROUP.ID.eq(STUDY_GROUP_QUIZ.STUDY_GROUP_ID))
-				.where(BOOK_QUIZ.CREATOR_ID.eq(memberId).and(BOOK_QUIZ.DELETED.eq(false)))
+				.where(BOOK_QUIZ.CREATOR_ID.eq(memberId).and(BOOK_QUIZ.DELETED.isFalse))
 				.orderBy(toMyBookQuizSummeryOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)

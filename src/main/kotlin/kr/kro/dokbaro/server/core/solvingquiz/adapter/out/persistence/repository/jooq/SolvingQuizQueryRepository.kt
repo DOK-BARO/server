@@ -60,7 +60,7 @@ class SolvingQuizQueryRepository(
 					BOOK_QUIZ.TITLE,
 				).from(SOLVING_QUIZ)
 				.join(BOOK_QUIZ)
-				.on(BOOK_QUIZ.ID.eq(SOLVING_QUIZ.QUIZ_ID))
+				.on(BOOK_QUIZ.ID.eq(SOLVING_QUIZ.QUIZ_ID).and(BOOK_QUIZ.DELETED.isFalse))
 				.join(BOOK)
 				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
 				.where(SOLVING_QUIZ.MEMBER_ID.eq(memberId))
@@ -96,7 +96,7 @@ class SolvingQuizQueryRepository(
 				.select(SOLVING_QUIZ.ID)
 				.from(SOLVING_QUIZ)
 				.join(BOOK_QUIZ)
-				.on(BOOK_QUIZ.ID.eq(SOLVING_QUIZ.QUIZ_ID))
+				.on(BOOK_QUIZ.ID.eq(SOLVING_QUIZ.QUIZ_ID).and(BOOK_QUIZ.DELETED.isFalse))
 				.where(
 					SOLVING_QUIZ.QUIZ_ID
 						.`in`(
@@ -142,14 +142,7 @@ class SolvingQuizQueryRepository(
 				.on(BOOK_QUIZ_CONTRIBUTOR.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.leftJoin(contributor)
 				.on(contributor.ID.eq(BOOK_QUIZ_CONTRIBUTOR.MEMBER_ID))
-				.where(
-					SOLVING_QUIZ.QUIZ_ID
-						.`in`(
-							select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
-								.from(STUDY_GROUP_QUIZ)
-								.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(studyGroupId)),
-						).and(SOLVING_QUIZ.MEMBER_ID.eq(memberId)),
-				).fetchGroups(SOLVING_QUIZ)
+				.fetchGroups(SOLVING_QUIZ)
 
 		return solvingQuizMapper.toMyStudyGroupSolveSummary(record)
 	}
@@ -173,7 +166,7 @@ class SolvingQuizQueryRepository(
 		dslContext
 			.selectCount()
 			.from(SOLVING_QUIZ)
-			.where(buildCountCondition(condition).and(SOLVING_QUIZ.DELETED.eq(false)))
+			.where(buildCountCondition(condition).and(SOLVING_QUIZ.DELETED.isFalse))
 			.fetchOneInto(Long::class.java)!!
 
 	private fun buildCountCondition(condition: CountSolvingQuizCondition): Condition =
