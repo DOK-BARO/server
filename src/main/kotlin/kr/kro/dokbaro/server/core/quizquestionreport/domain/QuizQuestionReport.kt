@@ -6,5 +6,5 @@ data class QuizQuestionReport(
 	val id: Long = Constants.UNSAVED_ID,
 	val questionId: Long,
 	val reporterId: Long,
-	val content: String,
+	val contents: Collection<String>,
 )

@@ -25,7 +25,7 @@ class QuizQuestionReportControllerTest : RestDocsTest() {
 			val body =
 				CreateQuizQuestionReportRequest(
 					questionId = 1,
-					content = "너무 글이 안멋져요.",
+					contents = listOf("너무 글이 안멋져요."),
 				)
 
 			performPost(Path("/quiz-question-reports"), body)
@@ -35,7 +35,7 @@ class QuizQuestionReportControllerTest : RestDocsTest() {
 						"quiz-question-report/create",
 						requestFields(
 							fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("신고할 퀴즈 문제의 ID"),
-							fieldWithPath("content").type(JsonFieldType.STRING).description("신고 내용"),
+							fieldWithPath("contents").type(JsonFieldType.ARRAY).description("신고 내용 목록"),
 						),
 						responseFields(
 							fieldWithPath("id").type(JsonFieldType.NUMBER).description("생성된 퀴즈 문제 신고의 ID"),

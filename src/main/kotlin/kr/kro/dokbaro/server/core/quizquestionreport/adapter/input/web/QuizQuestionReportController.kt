@@ -29,7 +29,7 @@ class QuizQuestionReportController(
 				CreateQuizQuestionReportCommand(
 					questionId = body.questionId,
 					reporterId = user.id,
-					content = body.content,
+					contents = body.contents,
 				),
 			),
 		)
