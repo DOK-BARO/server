@@ -3,7 +3,6 @@ CREATE TABLE quiz_question_report
 	id               bigint   NOT NULL AUTO_INCREMENT,
 	report_member_id bigint   NOT NULL,
 	quiz_question_id bigint   NOT NULL,
-	content          text     NOT NULL,
 	created_at       datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at       datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	deleted          boolean  NOT NULL DEFAULT false,
@@ -13,3 +12,18 @@ CREATE TABLE quiz_question_report
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
+CREATE TABLE quiz_question_report_content
+(
+	id                      bigint   NOT NULL AUTO_INCREMENT,
+	quiz_question_report_id bigint   NOT NULL,
+	content                 text     NOT NULL,
+	created_at              datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at              datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	deleted                 boolean  NOT NULL DEFAULT false,
+	PRIMARY KEY (id),
+	CONSTRAINT quiz_question_report_content_report_member_id_fk FOREIGN KEY (quiz_question_report_id) REFERENCES quiz_question_report (id) ON DELETE CASCADE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
