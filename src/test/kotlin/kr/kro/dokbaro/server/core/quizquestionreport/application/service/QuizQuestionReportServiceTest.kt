@@ -17,7 +17,7 @@ class QuizQuestionReportServiceTest :
 		"question 에 대해 신고한다" {
 			every { insertQuizQuestionReportPort.insert(any()) } returns 1
 
-			val command = CreateQuizQuestionReportCommand(1, 1, "hello")
+			val command = CreateQuizQuestionReportCommand(1, 1, listOf("hello"))
 
 			questionQuestionReportService.create(command) shouldNotBe null
 		}

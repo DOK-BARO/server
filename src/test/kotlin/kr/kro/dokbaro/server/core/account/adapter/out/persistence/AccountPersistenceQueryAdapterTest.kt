@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.account.adapter.out.persistence
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.account.adapter.out.persistence.repository.jooq.AccountQueryRepository
@@ -37,5 +38,21 @@ class AccountPersistenceQueryAdapterTest(
 
 			queryAdapter.findByEmail(member.email!!.address) shouldNotBe null
 			queryAdapter.findByMemberId(member.id) shouldNotBe null
+		}
+
+		"email 존재 여부를 확인한다" {
+			val member = memberRepository.insert(memberFixture())
+
+			val email = "email@gmail.com"
+			accountRepository.insertEmailAccount(
+				EmailAccount(
+					email = email,
+					password = "password",
+					memberId = member.id,
+				),
+			)
+
+			queryAdapter.existsByEmail(email) shouldBe true
+			queryAdapter.existsByEmail("other@gmail.com") shouldBe false
 		}
 	})

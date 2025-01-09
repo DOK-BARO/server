@@ -28,12 +28,12 @@ include::{snippets}/member/get-login-user/response-fields.adoc[]
 
 === withdraw member
 
-- last update: 24-12-26 23:30
+- last update: 25-01-08 12:35
 
 ==== HTTP request
 
-include::{snippets}/member/get-login-user/http-request.adoc[]
+include::{snippets}/member/withdraw/http-request.adoc[]
 
 ==== HTTP response
 
-include::{snippets}/member/get-login-user/http-response.adoc[]
+include::{snippets}/member/withdraw/http-response.adoc[]

@@ -58,7 +58,7 @@ class BookQueryRepository(
 				field(
 					selectCount()
 						.from(BOOK_QUIZ)
-						.where(BOOK_QUIZ.BOOK_ID.eq(BOOK.ID)),
+						.where(BOOK_QUIZ.BOOK_ID.eq(BOOK.ID).and(BOOK_QUIZ.DELETED.isFalse)),
 				).`as`(BookRecordFieldName.QUIZ_COUNT),
 			).from(BOOK)
 				.where(buildCondition(condition))

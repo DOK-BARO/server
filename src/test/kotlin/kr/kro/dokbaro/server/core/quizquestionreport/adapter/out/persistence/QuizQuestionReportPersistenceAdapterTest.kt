@@ -47,7 +47,7 @@ class QuizQuestionReportPersistenceAdapterTest(
 							.first()
 							.id,
 					reporterId = memberId,
-					content = "hello",
+					contents = listOf("hello"),
 				)
 
 			adapter.insert(quizQuestionReport) shouldNotBe null

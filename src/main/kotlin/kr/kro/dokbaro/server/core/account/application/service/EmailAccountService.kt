@@ -5,11 +5,13 @@ import kr.kro.dokbaro.server.core.account.application.port.input.IssueTemporaryP
 import kr.kro.dokbaro.server.core.account.application.port.input.RegisterEmailAccountUseCase
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.ChangePasswordCommand
 import kr.kro.dokbaro.server.core.account.application.port.input.dto.RegisterEmailAccountCommand
+import kr.kro.dokbaro.server.core.account.application.port.out.ExistEmailAccountPort
 import kr.kro.dokbaro.server.core.account.application.port.out.InsertAccountPasswordPort
 import kr.kro.dokbaro.server.core.account.application.port.out.LoadEmailAccountPort
 import kr.kro.dokbaro.server.core.account.application.port.out.SendTemporaryPasswordPort
 import kr.kro.dokbaro.server.core.account.application.port.out.UpdateEmailAccountPort
 import kr.kro.dokbaro.server.core.account.application.service.exception.AccountNotFoundException
+import kr.kro.dokbaro.server.core.account.application.service.exception.AlreadyRegisteredEmailException
 import kr.kro.dokbaro.server.core.account.application.service.exception.PasswordNotMatchException
 import kr.kro.dokbaro.server.core.account.domain.EmailAccount
 import kr.kro.dokbaro.server.core.emailauthentication.application.port.input.UseAuthenticatedEmailUseCase
@@ -31,11 +33,16 @@ class EmailAccountService(
 	private val loadEmailAccountPort: LoadEmailAccountPort,
 	private val updateEmailAccountPort: UpdateEmailAccountPort,
 	private val sendTemporaryPasswordPort: SendTemporaryPasswordPort,
+	private val existEmailAccountPort: ExistEmailAccountPort,
 ) : RegisterEmailAccountUseCase,
 	IssueTemporaryPasswordUseCase,
 	ChangePasswordUseCase {
 	override fun registerEmailAccount(command: RegisterEmailAccountCommand): UUID {
 		useAuthenticatedEmailUseCase.useEmail(email = command.email)
+
+		if (existEmailAccountPort.existsByEmail(command.email)) {
+			throw AlreadyRegisteredEmailException(command.email)
+		}
 
 		val member: Member =
 			registerMemberUseCase.register(

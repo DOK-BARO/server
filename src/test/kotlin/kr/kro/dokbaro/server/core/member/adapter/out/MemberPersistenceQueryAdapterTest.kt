@@ -45,14 +45,6 @@ class MemberPersistenceQueryAdapterTest(
 			queryAdapter.findCertificatedMember(certificationId)!!.certificationId shouldBe certificationId
 		}
 
-		"email 존재 여부를 확인한다" {
-			val email = Email("hello@example.com")
-			memberRepository.insert(memberFixture(email = email))
-
-			queryAdapter.existByEmail(email.address) shouldBe true
-			queryAdapter.existByEmail("false@gmail.com") shouldBe false
-		}
-
 		"certificationId를 통한 member 조회를 수행한다" {
 			val certificationId = UUID.randomUUID()
 			memberRepository.insert(memberFixture(certificationId = certificationId))
