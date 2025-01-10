@@ -10,7 +10,7 @@ data class DokbaroUser(
 	val id: Long,
 	val certificationId: UUID,
 	val nickname: String,
-	val email: String,
+	val email: String?,
 	val role: Collection<String>,
 	private val password: String? = null,
 ) : UserDetails {
@@ -18,7 +18,7 @@ data class DokbaroUser(
 
 	override fun getPassword(): String? = password
 
-	override fun getUsername(): String = email
+	override fun getUsername(): String? = email
 
 	fun hasRole(role: Role): Boolean = this.role.contains(role.name)
 }
