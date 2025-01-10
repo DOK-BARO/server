@@ -12,7 +12,7 @@ class GithubAttributeMapper : SocialUserMapper {
 
 		return SocialUser(
 			id = attributes["id"].toString(),
-			email = attributes["email"].toString(),
+			email = attributes["email"]?.toString(),
 			nickname = attributes["name"].toString(),
 			provider = provider(),
 			profileImage = attributes["avatar_url"].toString(),
