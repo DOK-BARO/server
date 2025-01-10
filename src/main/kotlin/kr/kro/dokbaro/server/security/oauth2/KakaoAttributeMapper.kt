@@ -14,7 +14,7 @@ class KakaoAttributeMapper : SocialUserMapper {
 
 		return SocialUser(
 			id = oAuth2User.attributes["id"].toString(),
-			email = kakaoAccount["email"].toString(),
+			email = kakaoAccount["email"]?.toString(),
 			nickname = properties["nickname"].toString(),
 			provider = provider(),
 			profileImage = properties["profile_image"].toString(),
