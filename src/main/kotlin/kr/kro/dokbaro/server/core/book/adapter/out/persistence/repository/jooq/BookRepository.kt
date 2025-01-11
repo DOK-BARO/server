@@ -3,23 +3,16 @@ package kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq
 import kr.kro.dokbaro.server.core.book.domain.Book
 import kr.kro.dokbaro.server.core.book.domain.BookCategory
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JBook
-import org.jooq.generated.tables.JBookAuthor
-import org.jooq.generated.tables.JBookCategory
-import org.jooq.generated.tables.JBookCategoryGroup
+import org.jooq.generated.tables.JBook.BOOK
+import org.jooq.generated.tables.JBookAuthor.BOOK_AUTHOR
+import org.jooq.generated.tables.JBookCategory.BOOK_CATEGORY
+import org.jooq.generated.tables.JBookCategoryGroup.BOOK_CATEGORY_GROUP
 import org.springframework.stereotype.Repository
 
 @Repository
 class BookRepository(
 	private val dslContext: DSLContext,
 ) {
-	companion object {
-		private val BOOK = JBook.BOOK
-		private val BOOK_AUTHOR = JBookAuthor.BOOK_AUTHOR
-		private val BOOK_CATEGORY_GROUP = JBookCategoryGroup.BOOK_CATEGORY_GROUP
-		private val BOOK_CATEGORY = JBookCategory.BOOK_CATEGORY
-	}
-
 	fun insertBook(book: Book): Long {
 		val savedId: Long =
 			dslContext

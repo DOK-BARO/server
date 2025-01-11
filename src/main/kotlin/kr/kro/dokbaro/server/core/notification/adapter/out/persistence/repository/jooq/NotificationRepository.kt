@@ -2,17 +2,13 @@ package kr.kro.dokbaro.server.core.notification.adapter.out.persistence.reposito
 
 import kr.kro.dokbaro.server.core.notification.domain.Notification
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JNotification
+import org.jooq.generated.tables.JNotification.NOTIFICATION
 import org.springframework.stereotype.Repository
 
 @Repository
 class NotificationRepository(
 	private val dslContext: DSLContext,
 ) {
-	companion object {
-		private val NOTIFICATION = JNotification.NOTIFICATION
-	}
-
 	fun insert(notification: Notification): Long =
 		dslContext
 			.insertInto(

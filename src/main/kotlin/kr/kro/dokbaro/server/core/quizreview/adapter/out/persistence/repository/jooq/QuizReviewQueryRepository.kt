@@ -13,8 +13,8 @@ import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
 import org.jooq.Result
-import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JQuizReview
+import org.jooq.generated.tables.JMember.MEMBER
+import org.jooq.generated.tables.JQuizReview.QUIZ_REVIEW
 import org.jooq.generated.tables.records.QuizReviewRecord
 import org.springframework.stereotype.Repository
 
@@ -23,11 +23,6 @@ class QuizReviewQueryRepository(
 	private val dslContext: DSLContext,
 	private val quizReviewMapper: QuizReviewMapper,
 ) {
-	companion object {
-		private val QUIZ_REVIEW = JQuizReview.QUIZ_REVIEW
-		private val MEMBER = JMember.MEMBER
-	}
-
 	fun findTotalScoreBy(quizId: Long): Collection<QuizReviewTotalScoreElement> {
 		val record: Result<QuizReviewRecord> =
 			dslContext

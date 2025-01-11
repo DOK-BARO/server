@@ -16,11 +16,11 @@ import org.jooq.OrderField
 import org.jooq.Record
 import org.jooq.Result
 import org.jooq.Table
-import org.jooq.generated.tables.JBook
-import org.jooq.generated.tables.JBookAuthor
-import org.jooq.generated.tables.JBookCategory
-import org.jooq.generated.tables.JBookCategoryGroup
-import org.jooq.generated.tables.JBookQuiz
+import org.jooq.generated.tables.JBook.BOOK
+import org.jooq.generated.tables.JBookAuthor.BOOK_AUTHOR
+import org.jooq.generated.tables.JBookCategory.BOOK_CATEGORY
+import org.jooq.generated.tables.JBookCategoryGroup.BOOK_CATEGORY_GROUP
+import org.jooq.generated.tables.JBookQuiz.BOOK_QUIZ
 import org.jooq.generated.tables.records.BookCategoryRecord
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.field
@@ -35,14 +35,6 @@ class BookQueryRepository(
 	private val dslContext: DSLContext,
 	private val bookMapper: BookMapper,
 ) {
-	companion object {
-		private val BOOK = JBook.BOOK
-		private val BOOK_AUTHOR = JBookAuthor.BOOK_AUTHOR
-		private val BOOK_CATEGORY = JBookCategory.BOOK_CATEGORY
-		private val BOOK_CATEGORY_GROUP = JBookCategoryGroup.BOOK_CATEGORY_GROUP
-		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
-	}
-
 	fun findAllBookBy(
 		condition: ReadBookCollectionCondition,
 		pageOption: PageOption<BookSummarySortKeyword>,

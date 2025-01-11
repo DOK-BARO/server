@@ -6,7 +6,7 @@ import kr.kro.dokbaro.server.core.notification.domain.NotificationVisibility
 import org.jooq.DSLContext
 import org.jooq.InsertValuesStep2
 import org.jooq.Result
-import org.jooq.generated.tables.JNotificationVisibility
+import org.jooq.generated.tables.JNotificationVisibility.NOTIFICATION_VISIBILITY
 import org.jooq.generated.tables.records.NotificationVisibilityRecord
 import org.springframework.stereotype.Repository
 
@@ -15,10 +15,6 @@ class NotificationVisibilityRepository(
 	private val dslContext: DSLContext,
 	private val notificationMapper: NotificationMapper,
 ) {
-	companion object {
-		private val NOTIFICATION_VISIBILITY = JNotificationVisibility.NOTIFICATION_VISIBILITY
-	}
-
 	fun insertAll(notificationVisibilities: Collection<NotificationVisibility>) {
 		val insertQuery: Collection<InsertValuesStep2<NotificationVisibilityRecord, Long, Long>> =
 			notificationVisibilities.map {

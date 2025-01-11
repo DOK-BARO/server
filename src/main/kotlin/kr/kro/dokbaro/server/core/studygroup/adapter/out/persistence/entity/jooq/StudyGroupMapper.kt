@@ -11,19 +11,13 @@ import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupMemberResult
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import org.jooq.Record
 import org.jooq.Result
-import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JStudyGroup
-import org.jooq.generated.tables.JStudyGroupMember
+import org.jooq.generated.tables.JMember.MEMBER
+import org.jooq.generated.tables.JStudyGroup.STUDY_GROUP
+import org.jooq.generated.tables.JStudyGroupMember.STUDY_GROUP_MEMBER
 import org.jooq.generated.tables.records.StudyGroupRecord
 
 @Mapper
 class StudyGroupMapper {
-	companion object {
-		private val STUDY_GROUP = JStudyGroup.STUDY_GROUP
-		private val STUDY_GROUP_MEMBER = JStudyGroupMember.STUDY_GROUP_MEMBER
-		private val MEMBER = JMember.MEMBER
-	}
-
 	fun recordToStudyGroup(record: Map<StudyGroupRecord, Result<Record>>): StudyGroup? =
 		record
 			.map { (group, members) ->

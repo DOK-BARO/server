@@ -4,7 +4,7 @@ import kr.kro.dokbaro.server.common.util.UUIDUtils
 import kr.kro.dokbaro.server.security.jwt.refresh.RefreshToken
 import kr.kro.dokbaro.server.security.jwt.refresh.RefreshTokenRepository
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JRefreshToken
+import org.jooq.generated.tables.JRefreshToken.REFRESH_TOKEN
 import org.jooq.generated.tables.records.RefreshTokenRecord
 import org.springframework.stereotype.Repository
 import java.util.UUID
@@ -14,10 +14,6 @@ class JooqRefreshTokenRepository(
 	private val dslContext: DSLContext,
 	private val refreshTokenMapper: RefreshTokenMapper,
 ) : RefreshTokenRepository {
-	companion object {
-		private val REFRESH_TOKEN = JRefreshToken.REFRESH_TOKEN
-	}
-
 	override fun insert(refreshToken: RefreshToken) {
 		dslContext
 			.insertInto(

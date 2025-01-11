@@ -2,19 +2,14 @@ package kr.kro.dokbaro.server.core.quizquestionreport.adapter.out.persistence.re
 
 import kr.kro.dokbaro.server.core.quizquestionreport.domain.QuizQuestionReport
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JQuizQuestionReport
-import org.jooq.generated.tables.JQuizQuestionReportContent
+import org.jooq.generated.tables.JQuizQuestionReport.QUIZ_QUESTION_REPORT
+import org.jooq.generated.tables.JQuizQuestionReportContent.QUIZ_QUESTION_REPORT_CONTENT
 import org.springframework.stereotype.Repository
 
 @Repository
 class QuizQuestionReportRepository(
 	private val dslContext: DSLContext,
 ) {
-	companion object {
-		private val QUIZ_QUESTION_REPORT = JQuizQuestionReport.QUIZ_QUESTION_REPORT
-		private val QUIZ_QUESTION_REPORT_CONTENT = JQuizQuestionReportContent.QUIZ_QUESTION_REPORT_CONTENT
-	}
-
 	fun insert(quizQuestionReport: QuizQuestionReport): Long {
 		val reportId: Long =
 			dslContext
