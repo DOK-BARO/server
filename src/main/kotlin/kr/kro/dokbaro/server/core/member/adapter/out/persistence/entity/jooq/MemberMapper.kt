@@ -10,19 +10,13 @@ import kr.kro.dokbaro.server.core.member.query.CertificatedMember
 import kr.kro.dokbaro.server.core.member.query.EmailAuthenticationMember
 import org.jooq.Record
 import org.jooq.Result
-import org.jooq.generated.tables.JEmailAccount
-import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JMemberRole
+import org.jooq.generated.tables.JEmailAccount.EMAIL_ACCOUNT
+import org.jooq.generated.tables.JMember.MEMBER
+import org.jooq.generated.tables.JMemberRole.MEMBER_ROLE
 import org.jooq.generated.tables.records.MemberRecord
 
 @Mapper
 class MemberMapper {
-	companion object {
-		private val MEMBER = JMember.MEMBER
-		private val EMAIL_ACCOUNT = JEmailAccount.EMAIL_ACCOUNT
-		private val MEMBER_ROLE = JMemberRole.MEMBER_ROLE
-	}
-
 	fun toMember(recordMap: Map<MemberRecord, Result<Record>>): Member? =
 		recordMap
 			.map { record ->

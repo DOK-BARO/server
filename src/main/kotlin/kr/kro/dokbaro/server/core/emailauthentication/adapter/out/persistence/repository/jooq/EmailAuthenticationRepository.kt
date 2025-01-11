@@ -2,17 +2,13 @@ package kr.kro.dokbaro.server.core.emailauthentication.adapter.out.persistence.r
 
 import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JEmailAuthentication
+import org.jooq.generated.tables.JEmailAuthentication.EMAIL_AUTHENTICATION
 import org.springframework.stereotype.Repository
 
 @Repository
 class EmailAuthenticationRepository(
 	private val dslContext: DSLContext,
 ) {
-	companion object {
-		private val EMAIL_AUTHENTICATION = JEmailAuthentication.EMAIL_AUTHENTICATION
-	}
-
 	fun insert(emailAuthentication: EmailAuthentication): Long =
 		dslContext
 			.insertInto(

@@ -3,19 +3,14 @@ package kr.kro.dokbaro.server.core.account.adapter.out.persistence.repository.jo
 import kr.kro.dokbaro.server.core.account.domain.EmailAccount
 import kr.kro.dokbaro.server.core.account.domain.SocialAccount
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JEmailAccount
-import org.jooq.generated.tables.JOauth2Account
+import org.jooq.generated.tables.JEmailAccount.EMAIL_ACCOUNT
+import org.jooq.generated.tables.JOauth2Account.OAUTH2_ACCOUNT
 import org.springframework.stereotype.Repository
 
 @Repository
 class AccountRepository(
 	private val dslContext: DSLContext,
 ) {
-	companion object {
-		private val OAUTH2_ACCOUNT = JOauth2Account.OAUTH2_ACCOUNT
-		private val EMAIL_ACCOUNT = JEmailAccount.EMAIL_ACCOUNT
-	}
-
 	fun insertSocialAccount(socialAccount: SocialAccount) {
 		dslContext
 			.insertInto(

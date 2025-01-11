@@ -2,19 +2,14 @@ package kr.kro.dokbaro.server.core.solvingquiz.adapter.out.persistence.repositor
 
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JSolvingQuiz
-import org.jooq.generated.tables.JSolvingQuizSheet
+import org.jooq.generated.tables.JSolvingQuiz.SOLVING_QUIZ
+import org.jooq.generated.tables.JSolvingQuizSheet.SOLVING_QUIZ_SHEET
 import org.springframework.stereotype.Repository
 
 @Repository
 class SolvingQuizRepository(
 	private val dslContext: DSLContext,
 ) {
-	companion object {
-		private val SOLVING_QUIZ = JSolvingQuiz.SOLVING_QUIZ
-		private val SOLVING_QUIZ_SHEET = JSolvingQuizSheet.SOLVING_QUIZ_SHEET
-	}
-
 	fun insert(solvingQuiz: SolvingQuiz): Long {
 		val savedSolvingQuizId =
 			dslContext

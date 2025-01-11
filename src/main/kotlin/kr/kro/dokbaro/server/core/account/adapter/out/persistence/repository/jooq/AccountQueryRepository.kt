@@ -2,19 +2,14 @@ package kr.kro.dokbaro.server.core.account.adapter.out.persistence.repository.jo
 
 import kr.kro.dokbaro.server.core.account.domain.EmailAccount
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JEmailAccount
-import org.jooq.generated.tables.JMember
+import org.jooq.generated.tables.JEmailAccount.EMAIL_ACCOUNT
+import org.jooq.generated.tables.JMember.MEMBER
 import org.springframework.stereotype.Repository
 
 @Repository
 class AccountQueryRepository(
 	private val dslContext: DSLContext,
 ) {
-	companion object {
-		private val EMAIL_ACCOUNT = JEmailAccount.EMAIL_ACCOUNT
-		private val MEMBER = JMember.MEMBER
-	}
-
 	fun findByMemberId(memberId: Long): EmailAccount? =
 		dslContext
 			.select(

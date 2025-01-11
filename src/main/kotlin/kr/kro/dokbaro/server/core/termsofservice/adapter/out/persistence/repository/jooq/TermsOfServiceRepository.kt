@@ -3,8 +3,8 @@ package kr.kro.dokbaro.server.core.termsofservice.adapter.out.persistence.reposi
 import kr.kro.dokbaro.server.core.termsofservice.domain.AgreeTermsOfService
 import kr.kro.dokbaro.server.core.termsofservice.query.TermsOfServiceDetail
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JAgreeTermsOfService
-import org.jooq.generated.tables.JTermsOfServiceDetail
+import org.jooq.generated.tables.JAgreeTermsOfService.AGREE_TERMS_OF_SERVICE
+import org.jooq.generated.tables.JTermsOfServiceDetail.TERMS_OF_SERVICE_DETAIL
 import org.jooq.generated.tables.records.TermsOfServiceDetailRecord
 import org.springframework.stereotype.Repository
 
@@ -12,11 +12,6 @@ import org.springframework.stereotype.Repository
 class TermsOfServiceRepository(
 	private val dslContext: DSLContext,
 ) {
-	companion object {
-		private val TERMS_OF_SERVICE_DETAIL = JTermsOfServiceDetail.TERMS_OF_SERVICE_DETAIL
-		private val AGREE_TERMS_OF_SERVICE = JAgreeTermsOfService.AGREE_TERMS_OF_SERVICE
-	}
-
 	fun getDetail(id: Long): TermsOfServiceDetail? {
 		val record: TermsOfServiceDetailRecord? =
 			dslContext

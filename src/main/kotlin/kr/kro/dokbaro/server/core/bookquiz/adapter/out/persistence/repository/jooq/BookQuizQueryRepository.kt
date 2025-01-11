@@ -20,18 +20,18 @@ import org.jooq.Record
 import org.jooq.Record1
 import org.jooq.Result
 import org.jooq.Table
-import org.jooq.generated.tables.JBook
-import org.jooq.generated.tables.JBookQuiz
-import org.jooq.generated.tables.JBookQuizAnswer
-import org.jooq.generated.tables.JBookQuizAnswerExplainImage
-import org.jooq.generated.tables.JBookQuizContributor
-import org.jooq.generated.tables.JBookQuizQuestion
-import org.jooq.generated.tables.JBookQuizSelectOption
-import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JQuizReview
-import org.jooq.generated.tables.JSolvingQuiz
-import org.jooq.generated.tables.JStudyGroup
-import org.jooq.generated.tables.JStudyGroupQuiz
+import org.jooq.generated.tables.JBook.BOOK
+import org.jooq.generated.tables.JBookQuiz.BOOK_QUIZ
+import org.jooq.generated.tables.JBookQuizAnswer.BOOK_QUIZ_ANSWER
+import org.jooq.generated.tables.JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
+import org.jooq.generated.tables.JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
+import org.jooq.generated.tables.JBookQuizQuestion.BOOK_QUIZ_QUESTION
+import org.jooq.generated.tables.JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
+import org.jooq.generated.tables.JMember.MEMBER
+import org.jooq.generated.tables.JQuizReview.QUIZ_REVIEW
+import org.jooq.generated.tables.JSolvingQuiz.SOLVING_QUIZ
+import org.jooq.generated.tables.JStudyGroup.STUDY_GROUP
+import org.jooq.generated.tables.JStudyGroupQuiz.STUDY_GROUP_QUIZ
 import org.jooq.generated.tables.records.BookQuizRecord
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.avg
@@ -45,21 +45,6 @@ class BookQuizQueryRepository(
 	private val dslContext: DSLContext,
 	private val bookQuizMapper: BookQuizMapper,
 ) {
-	companion object {
-		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
-		private val BOOK_QUIZ_QUESTION = JBookQuizQuestion.BOOK_QUIZ_QUESTION
-		private val BOOK_QUIZ_SELECT_OPTION = JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
-		private val BOOK_QUIZ_ANSWER = JBookQuizAnswer.BOOK_QUIZ_ANSWER
-		private val BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE = JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
-		private val MEMBER = JMember.MEMBER
-		private val QUIZ_REVIEW = JQuizReview.QUIZ_REVIEW
-		private val BOOK_QUIZ_CONTRIBUTOR = JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
-		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
-		private val BOOK = JBook.BOOK
-		private val SOLVING_QUIZ = JSolvingQuiz.SOLVING_QUIZ
-		private val STUDY_GROUP = JStudyGroup.STUDY_GROUP
-	}
-
 	fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? {
 		val record: Result<out Record> =
 			dslContext

@@ -10,17 +10,12 @@ import kr.kro.dokbaro.server.core.book.query.BookSummary
 import kr.kro.dokbaro.server.core.book.query.IntegratedBook
 import org.jooq.Record
 import org.jooq.Result
-import org.jooq.generated.tables.JBook
-import org.jooq.generated.tables.JBookAuthor
+import org.jooq.generated.tables.JBook.BOOK
+import org.jooq.generated.tables.JBookAuthor.BOOK_AUTHOR
 import org.jooq.generated.tables.records.BookCategoryRecord
 
 @Mapper
 class BookMapper {
-	companion object {
-		private val BOOK = JBook.BOOK
-		private val BOOK_AUTHOR = JBookAuthor.BOOK_AUTHOR
-	}
-
 	fun toSummaryCollection(record: Map<Long, Result<out Record>>): Collection<BookSummary> =
 		record.map {
 			BookSummary(

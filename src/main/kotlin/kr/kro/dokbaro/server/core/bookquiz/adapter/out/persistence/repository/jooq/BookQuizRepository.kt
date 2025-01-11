@@ -7,13 +7,13 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.QuizQuestion
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.jooq.Result
-import org.jooq.generated.tables.JBookQuiz
-import org.jooq.generated.tables.JBookQuizAnswer
-import org.jooq.generated.tables.JBookQuizAnswerExplainImage
-import org.jooq.generated.tables.JBookQuizContributor
-import org.jooq.generated.tables.JBookQuizQuestion
-import org.jooq.generated.tables.JBookQuizSelectOption
-import org.jooq.generated.tables.JStudyGroupQuiz
+import org.jooq.generated.tables.JBookQuiz.BOOK_QUIZ
+import org.jooq.generated.tables.JBookQuizAnswer.BOOK_QUIZ_ANSWER
+import org.jooq.generated.tables.JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
+import org.jooq.generated.tables.JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
+import org.jooq.generated.tables.JBookQuizQuestion.BOOK_QUIZ_QUESTION
+import org.jooq.generated.tables.JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
+import org.jooq.generated.tables.JStudyGroupQuiz.STUDY_GROUP_QUIZ
 import org.jooq.generated.tables.records.BookQuizRecord
 import org.jooq.impl.DSL.select
 import org.springframework.stereotype.Repository
@@ -23,16 +23,6 @@ class BookQuizRepository(
 	private val dslContext: DSLContext,
 	private val bookQuizMapper: BookQuizMapper,
 ) {
-	companion object {
-		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
-		private val BOOK_QUIZ_QUESTION = JBookQuizQuestion.BOOK_QUIZ_QUESTION
-		private val BOOK_QUIZ_ANSWER = JBookQuizAnswer.BOOK_QUIZ_ANSWER
-		private val BOOK_QUIZ_SELECT_OPTION = JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
-		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
-		private val BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE = JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
-		private val BOOK_QUIZ_CONTRIBUTOR = JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
-	}
-
 	fun insert(bookQuiz: BookQuiz): Long {
 		val bookQuizId: Long = insertBookQuiz(bookQuiz)
 
