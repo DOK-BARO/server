@@ -166,6 +166,8 @@ class SolvingQuizQueryRepository(
 		dslContext
 			.selectCount()
 			.from(SOLVING_QUIZ)
+			.join(BOOK_QUIZ)
+			.on(BOOK_QUIZ.ID.eq(SOLVING_QUIZ.QUIZ_ID).and(BOOK_QUIZ.DELETED.isFalse))
 			.where(buildCountCondition(condition).and(SOLVING_QUIZ.DELETED.isFalse))
 			.fetchOneInto(Long::class.java)!!
 
