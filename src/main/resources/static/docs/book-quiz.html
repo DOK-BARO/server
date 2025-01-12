@@ -456,7 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=xta2uqLmTfmVrbybpM6sCUQ1-ivyim4Cjv4tNtegoqcUCK-q9e-O3sTUKJq4z4r5leOYandT1xPAslYvup9JAeHFkJYnPM7M HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=Tblf35NQOnwOjVO-SQ85T95ztz-pYvPKo1p2bGCvRGdM5uaZLopr76dnDEsj7zKIfiINeLwWml2dUJfnwWhBDVSfdVN80tao HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 907
 Host: dokbaro.com
@@ -769,7 +769,7 @@ Content-Length: 367
 <h4 id="_http_request_3">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=Cvby4f9HjlN82Wu_7MHt6TKmnj1SzuKM9XkY3yFKxPP5M9YnOsHG2cp26GBR61qN1ezZ0AuVswRk_tChlhshu0Ry_MKcBLBE HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=Pz4oWhwMhM7pZ7HbZ1WHUMyHebfFtelth9E7XIC60Lz4AofOWlsRYig74fvEU4DoUHizZq6_VI_wgo1A4-JearGKttjLN-St HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 936
 Host: dokbaro.com
@@ -1032,7 +1032,7 @@ Content-Length: 114
 <h4 id="_http_request_5">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-quizzes?page=1&amp;size=10&amp;sort=STAR_RATING&amp;direction=ASC&amp;bookId=1 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /book-quizzes?page=1&amp;size=10&amp;sort=STAR_RATING&amp;direction=ASC&amp;bookId=1&amp;studyGroupAll=false&amp;studyGroupId=1 HTTP/1.1
 Host: dokbaro.com</code></pre>
 </div>
 </div>
@@ -1051,6 +1051,14 @@ Host: dokbaro.com</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>bookId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 목록을 조회할 책 ID.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyGroupAll</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 조회 활성화 (비활성화(false) 시 스터디 그룹 여부 상관 없이 모든 퀴즈 조회 )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyGroupId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 그룹 ID, studyGroupAll이 false일 때 사용 가능. studyGroupAll이 false이고 해당 값이 null인 경우, studyGroup이 null 인 quiz만 조회</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
@@ -1490,7 +1498,7 @@ Content-Length: 504
     "id" : 1,
     "bookImageUrl" : "https://example.com/book_image1.jpg",
     "title" : "Effective Kotlin",
-    "updatedAt" : "2025-01-07T12:57:12.910987",
+    "updatedAt" : "2025-01-10T16:50:17.364895",
     "studyGroup" : {
       "id" : 1,
       "name" : "Study Group 1",
@@ -1500,7 +1508,7 @@ Content-Length: 504
     "id" : 2,
     "bookImageUrl" : "https://example.com/book_image2.jpg",
     "title" : "Kotlin in Action",
-    "updatedAt" : "2025-01-04T12:57:12.911289",
+    "updatedAt" : "2025-01-07T16:50:17.365264",
     "studyGroup" : null
   } ]
 }</code></pre>
@@ -1683,7 +1691,7 @@ Content-Length: 417
   "id" : 1,
   "title" : "Sample Quiz Explanation",
   "description" : "This is a detailed explanation for a sample book quiz.",
-  "createdAt" : "2025-01-09T12:57:12.965164",
+  "createdAt" : "2025-01-12T16:50:17.420589",
   "creator" : {
     "id" : 101,
     "nickname" : "QuizMaster",
