@@ -8,6 +8,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQu
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindMyBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindUnsolvedGroupBookQuizUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.FindAllBookQuizSummaryCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.CountBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizAnswerPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizExplanationPort
@@ -16,6 +17,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizSumm
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadMyBookQuizSummaryPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadUnsolvedGroupBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.FindBookQuizCondition
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.NotFoundQuestionException
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
@@ -51,14 +53,25 @@ class BookQuizQueryService(
 		readBookQuizAnswerPort.findBookQuizAnswerBy(questionId) ?: throw NotFoundQuestionException(questionId)
 
 	override fun findAllBookQuizSummary(
-		bookId: Long,
+		command: FindAllBookQuizSummaryCommand,
 		pageOption: PageOption<BookQuizSummarySortKeyword>,
 	): PageResponse<BookQuizSummary> {
-		val count: Long = countBookQuizPort.countBookQuizBy(CountBookQuizCondition(bookId = bookId))
+		val count: Long =
+			countBookQuizPort.countBookQuizBy(
+				CountBookQuizCondition(bookId = command.bookId),
+			)
 		val data: Collection<BookQuizSummary> =
 			readBookQuizSummaryPort
 				.findAllBookQuizSummary(
-					bookId = bookId,
+					condition =
+						FindBookQuizCondition(
+							bookId = command.bookId,
+							studyGroup =
+								FindBookQuizCondition.StudyGroup(
+									all = command.studyGroup.all,
+									id = command.studyGroup.id,
+								),
+						),
 					pageOption = pageOption,
 				)
 
@@ -77,7 +90,7 @@ class BookQuizQueryService(
 		val totalCount: Long =
 			countBookQuizPort.countBookQuizBy(
 				CountBookQuizCondition(
-					studyGroupId = studyGroupId,
+					studyGroup = CountBookQuizCondition.StudyGroup(all = false, id = studyGroupId),
 					solved =
 						CountBookQuizCondition.Solved(
 							memberId = memberId,
