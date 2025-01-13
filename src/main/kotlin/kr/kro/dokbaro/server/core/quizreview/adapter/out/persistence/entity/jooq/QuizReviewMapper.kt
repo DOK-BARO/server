@@ -7,17 +7,12 @@ import kr.kro.dokbaro.server.core.quizreview.domain.QuizReview
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import org.jooq.Record
 import org.jooq.Result
-import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JQuizReview
+import org.jooq.generated.tables.JMember.MEMBER
+import org.jooq.generated.tables.JQuizReview.QUIZ_REVIEW
 import org.jooq.generated.tables.records.QuizReviewRecord
 
 @Mapper
 class QuizReviewMapper {
-	companion object {
-		private val QUIZ_REVIEW = JQuizReview.QUIZ_REVIEW
-		private val MEMBER = JMember.MEMBER
-	}
-
 	fun recordToQuizReviewTotalScoreElement(record: Result<QuizReviewRecord>): Collection<QuizReviewTotalScoreElement> =
 		record.map {
 			QuizReviewTotalScoreElement(

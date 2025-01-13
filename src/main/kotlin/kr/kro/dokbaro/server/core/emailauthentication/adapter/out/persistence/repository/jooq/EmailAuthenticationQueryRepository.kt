@@ -5,7 +5,7 @@ import kr.kro.dokbaro.server.core.emailauthentication.application.port.out.dto.S
 import kr.kro.dokbaro.server.core.emailauthentication.domain.EmailAuthentication
 import org.jooq.Condition
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JEmailAuthentication
+import org.jooq.generated.tables.JEmailAuthentication.EMAIL_AUTHENTICATION
 import org.jooq.generated.tables.records.EmailAuthenticationRecord
 import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
@@ -15,10 +15,6 @@ class EmailAuthenticationQueryRepository(
 	private val dslContext: DSLContext,
 	private val emailAuthenticationMapper: EmailAuthenticationMapper,
 ) {
-	companion object {
-		private val EMAIL_AUTHENTICATION = JEmailAuthentication.EMAIL_AUTHENTICATION
-	}
-
 	fun existBy(condition: SearchEmailAuthenticationCondition): Boolean =
 		dslContext.fetchExists(EMAIL_AUTHENTICATION.where(buildCondition(condition)))
 

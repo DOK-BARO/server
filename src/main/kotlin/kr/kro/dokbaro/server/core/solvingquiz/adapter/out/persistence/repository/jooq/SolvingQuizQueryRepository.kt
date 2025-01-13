@@ -17,14 +17,14 @@ import org.jooq.Record
 import org.jooq.Record1
 import org.jooq.Result
 import org.jooq.Table
-import org.jooq.generated.tables.JBook
-import org.jooq.generated.tables.JBookQuiz
-import org.jooq.generated.tables.JBookQuizContributor
-import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JSolvingQuiz
-import org.jooq.generated.tables.JSolvingQuizSheet
-import org.jooq.generated.tables.JStudyGroupMember
-import org.jooq.generated.tables.JStudyGroupQuiz
+import org.jooq.generated.tables.JBook.BOOK
+import org.jooq.generated.tables.JBookQuiz.BOOK_QUIZ
+import org.jooq.generated.tables.JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
+import org.jooq.generated.tables.JMember.MEMBER
+import org.jooq.generated.tables.JSolvingQuiz.SOLVING_QUIZ
+import org.jooq.generated.tables.JSolvingQuizSheet.SOLVING_QUIZ_SHEET
+import org.jooq.generated.tables.JStudyGroupMember.STUDY_GROUP_MEMBER
+import org.jooq.generated.tables.JStudyGroupQuiz.STUDY_GROUP_QUIZ
 import org.jooq.generated.tables.records.SolvingQuizRecord
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.select
@@ -35,17 +35,6 @@ class SolvingQuizQueryRepository(
 	private val dslContext: DSLContext,
 	private val solvingQuizMapper: SolvingQuizMapper,
 ) {
-	companion object {
-		private val SOLVING_QUIZ = JSolvingQuiz.SOLVING_QUIZ
-		private val BOOK = JBook.BOOK
-		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
-		private val MEMBER = JMember.MEMBER
-		private val BOOK_QUIZ_CONTRIBUTOR = JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
-		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
-		private val SOLVING_QUIZ_SHEET = JSolvingQuizSheet.SOLVING_QUIZ_SHEET
-		private val STUDY_GROUP_MEMBER = JStudyGroupMember.STUDY_GROUP_MEMBER
-	}
-
 	fun findAllMySolveSummary(
 		memberId: Long,
 		pageOption: PageOption<MySolvingQuizSortKeyword>,
@@ -166,6 +155,8 @@ class SolvingQuizQueryRepository(
 		dslContext
 			.selectCount()
 			.from(SOLVING_QUIZ)
+			.join(BOOK_QUIZ)
+			.on(BOOK_QUIZ.ID.eq(SOLVING_QUIZ.QUIZ_ID).and(BOOK_QUIZ.DELETED.isFalse))
 			.where(buildCountCondition(condition).and(SOLVING_QUIZ.DELETED.isFalse))
 			.fetchOneInto(Long::class.java)!!
 

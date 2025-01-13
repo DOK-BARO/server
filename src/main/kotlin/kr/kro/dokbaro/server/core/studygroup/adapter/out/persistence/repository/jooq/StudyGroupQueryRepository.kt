@@ -15,9 +15,9 @@ import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
 import org.jooq.Result
-import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JStudyGroup
-import org.jooq.generated.tables.JStudyGroupMember
+import org.jooq.generated.tables.JMember.MEMBER
+import org.jooq.generated.tables.JStudyGroup.STUDY_GROUP
+import org.jooq.generated.tables.JStudyGroupMember.STUDY_GROUP_MEMBER
 import org.jooq.generated.tables.records.StudyGroupRecord
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.field
@@ -29,12 +29,6 @@ class StudyGroupQueryRepository(
 	private val dslContext: DSLContext,
 	private val studyGroupMapper: StudyGroupMapper,
 ) {
-	companion object {
-		private val STUDY_GROUP = JStudyGroup.STUDY_GROUP
-		private val STUDY_GROUP_MEMBER = JStudyGroupMember.STUDY_GROUP_MEMBER
-		private val MEMBER = JMember.MEMBER
-	}
-
 	fun findAllByStudyMemberId(
 		memberId: Long,
 		pageOption: PageOption<MyStudyGroupSortKeyword>,

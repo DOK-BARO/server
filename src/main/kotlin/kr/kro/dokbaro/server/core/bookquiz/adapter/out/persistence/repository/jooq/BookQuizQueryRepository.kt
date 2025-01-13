@@ -4,6 +4,7 @@ import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.FindBookQuizCondition
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
@@ -20,18 +21,18 @@ import org.jooq.Record
 import org.jooq.Record1
 import org.jooq.Result
 import org.jooq.Table
-import org.jooq.generated.tables.JBook
-import org.jooq.generated.tables.JBookQuiz
-import org.jooq.generated.tables.JBookQuizAnswer
-import org.jooq.generated.tables.JBookQuizAnswerExplainImage
-import org.jooq.generated.tables.JBookQuizContributor
-import org.jooq.generated.tables.JBookQuizQuestion
-import org.jooq.generated.tables.JBookQuizSelectOption
-import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JQuizReview
-import org.jooq.generated.tables.JSolvingQuiz
-import org.jooq.generated.tables.JStudyGroup
-import org.jooq.generated.tables.JStudyGroupQuiz
+import org.jooq.generated.tables.JBook.BOOK
+import org.jooq.generated.tables.JBookQuiz.BOOK_QUIZ
+import org.jooq.generated.tables.JBookQuizAnswer.BOOK_QUIZ_ANSWER
+import org.jooq.generated.tables.JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
+import org.jooq.generated.tables.JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
+import org.jooq.generated.tables.JBookQuizQuestion.BOOK_QUIZ_QUESTION
+import org.jooq.generated.tables.JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
+import org.jooq.generated.tables.JMember.MEMBER
+import org.jooq.generated.tables.JQuizReview.QUIZ_REVIEW
+import org.jooq.generated.tables.JSolvingQuiz.SOLVING_QUIZ
+import org.jooq.generated.tables.JStudyGroup.STUDY_GROUP
+import org.jooq.generated.tables.JStudyGroupQuiz.STUDY_GROUP_QUIZ
 import org.jooq.generated.tables.records.BookQuizRecord
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.avg
@@ -45,21 +46,6 @@ class BookQuizQueryRepository(
 	private val dslContext: DSLContext,
 	private val bookQuizMapper: BookQuizMapper,
 ) {
-	companion object {
-		private val BOOK_QUIZ = JBookQuiz.BOOK_QUIZ
-		private val BOOK_QUIZ_QUESTION = JBookQuizQuestion.BOOK_QUIZ_QUESTION
-		private val BOOK_QUIZ_SELECT_OPTION = JBookQuizSelectOption.BOOK_QUIZ_SELECT_OPTION
-		private val BOOK_QUIZ_ANSWER = JBookQuizAnswer.BOOK_QUIZ_ANSWER
-		private val BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE = JBookQuizAnswerExplainImage.BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE
-		private val MEMBER = JMember.MEMBER
-		private val QUIZ_REVIEW = JQuizReview.QUIZ_REVIEW
-		private val BOOK_QUIZ_CONTRIBUTOR = JBookQuizContributor.BOOK_QUIZ_CONTRIBUTOR
-		private val STUDY_GROUP_QUIZ = JStudyGroupQuiz.STUDY_GROUP_QUIZ
-		private val BOOK = JBook.BOOK
-		private val SOLVING_QUIZ = JSolvingQuiz.SOLVING_QUIZ
-		private val STUDY_GROUP = JStudyGroup.STUDY_GROUP
-	}
-
 	fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? {
 		val record: Result<out Record> =
 			dslContext
@@ -109,40 +95,45 @@ class BookQuizQueryRepository(
 		dslContext
 			.selectCount()
 			.from(BOOK_QUIZ)
+			.leftJoin(STUDY_GROUP_QUIZ)
+			.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
 			.where(buildCountCondition(condition).and(BOOK_QUIZ.DELETED.isFalse))
 			.fetchOneInto(Long::class.java)!!
 
-	private fun buildCountCondition(condition: CountBookQuizCondition): Condition =
-		DSL.and(
-			condition.bookId?.let { BOOK_QUIZ.BOOK_ID.eq(it) },
-			condition.creatorId?.let { BOOK_QUIZ.CREATOR_ID.eq(it) },
-			condition.studyGroupId?.let {
-				BOOK_QUIZ.ID
-					.`in`(
-						select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
-							.from(STUDY_GROUP_QUIZ)
-							.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(it)),
-					)
-			},
-			condition.solved?.let {
-				if (it.solved) {
-					BOOK_QUIZ.ID.`in`(
-						select(SOLVING_QUIZ.QUIZ_ID)
-							.from(SOLVING_QUIZ)
-							.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
-					)
-				} else {
-					BOOK_QUIZ.ID.notIn(
-						select(SOLVING_QUIZ.QUIZ_ID)
-							.from(SOLVING_QUIZ)
-							.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
-					)
-				}
-			},
-		)
+	private fun buildCountCondition(condition: CountBookQuizCondition): Condition {
+		var result: Condition =
+			DSL.and(
+				condition.bookId?.let { BOOK_QUIZ.BOOK_ID.eq(it) },
+				condition.creatorId?.let { BOOK_QUIZ.CREATOR_ID.eq(it) },
+				condition.solved?.let {
+					if (it.solved) {
+						BOOK_QUIZ.ID.`in`(
+							select(SOLVING_QUIZ.QUIZ_ID)
+								.from(SOLVING_QUIZ)
+								.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
+						)
+					} else {
+						BOOK_QUIZ.ID.notIn(
+							select(SOLVING_QUIZ.QUIZ_ID)
+								.from(SOLVING_QUIZ)
+								.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
+						)
+					}
+				},
+			)
+
+		if (!condition.studyGroup.all) {
+			result =
+				result.and(
+					STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(condition.studyGroup.id),
+				)
+		}
+
+		return result
+	}
 
 	fun findAllBookQuizSummary(
-		bookId: Long,
+		condition: FindBookQuizCondition,
 		pageOption: PageOption<BookQuizSummarySortKeyword>,
 	): Collection<BookQuizSummary> {
 		val record =
@@ -171,7 +162,9 @@ class BookQuizQueryRepository(
 				.on(BOOK_QUIZ.CREATOR_ID.eq(MEMBER.ID))
 				.leftJoin(QUIZ_REVIEW)
 				.on(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID))
-				.where(BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.isFalse))
+				.leftJoin(STUDY_GROUP_QUIZ)
+				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.where(buildBookQuizSummaryCondition(condition).and(BOOK_QUIZ.DELETED.isFalse))
 				.groupBy(BOOK_QUIZ)
 				.orderBy(toBookQuizSummaryOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
@@ -179,6 +172,24 @@ class BookQuizQueryRepository(
 				.fetch()
 
 		return bookQuizMapper.toBookQuizSummary(record)
+	}
+
+	private fun buildBookQuizSummaryCondition(condition: FindBookQuizCondition): Condition {
+		var result: Condition =
+			DSL.and(
+				condition.bookId?.let {
+					BOOK_QUIZ.BOOK_ID.eq(it)
+				},
+			)
+
+		if (!condition.studyGroup.all) {
+			result =
+				result.and(
+					STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(condition.studyGroup.id),
+				)
+		}
+
+		return result
 	}
 
 	private fun toBookQuizSummaryOrderQuery(pageOption: PageOption<BookQuizSummarySortKeyword>): OrderField<out Any> {

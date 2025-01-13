@@ -7,8 +7,8 @@ import kr.kro.dokbaro.server.core.member.domain.Role
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.jooq.Result
-import org.jooq.generated.tables.JMember
-import org.jooq.generated.tables.JMemberRole
+import org.jooq.generated.tables.JMember.MEMBER
+import org.jooq.generated.tables.JMemberRole.MEMBER_ROLE
 import org.jooq.generated.tables.records.MemberRecord
 import org.springframework.stereotype.Repository
 
@@ -17,11 +17,6 @@ class MemberRepository(
 	private val dslContext: DSLContext,
 	private val memberMapper: MemberMapper,
 ) {
-	companion object {
-		private val MEMBER = JMember.MEMBER
-		private val MEMBER_ROLE = JMemberRole.MEMBER_ROLE
-	}
-
 	fun insert(member: Member): Member {
 		val memberId: Long =
 			dslContext

@@ -2,19 +2,14 @@ package kr.kro.dokbaro.server.core.studygroup.adapter.out.persistence.repository
 
 import kr.kro.dokbaro.server.core.studygroup.domain.StudyGroup
 import org.jooq.DSLContext
-import org.jooq.generated.tables.JStudyGroup
-import org.jooq.generated.tables.JStudyGroupMember
+import org.jooq.generated.tables.JStudyGroup.STUDY_GROUP
+import org.jooq.generated.tables.JStudyGroupMember.STUDY_GROUP_MEMBER
 import org.springframework.stereotype.Repository
 
 @Repository
 class StudyGroupRepository(
 	private val dslContext: DSLContext,
 ) {
-	companion object {
-		private val STUDY_GROUP = JStudyGroup.STUDY_GROUP
-		private val STUDY_GROUP_MEMBER = JStudyGroupMember.STUDY_GROUP_MEMBER
-	}
-
 	fun insert(studyGroup: StudyGroup): Long {
 		val studyGroupId: Long =
 			dslContext

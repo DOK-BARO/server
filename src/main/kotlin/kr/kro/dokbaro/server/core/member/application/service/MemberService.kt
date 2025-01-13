@@ -30,7 +30,7 @@ class MemberService(
 		return insertMemberPort.insert(
 			Member(
 				nickname = command.nickname,
-				email = Email(command.email),
+				email = command.email?.let { Email(it) },
 				profileImage = command.profileImage,
 				certificationId = certificationId,
 				accountType = command.accountType,

@@ -52,7 +52,7 @@ class MemberServiceTest :
 			val member =
 				Member(
 					nickname = command.nickname,
-					email = Email(command.email),
+					email = Email(command.email!!),
 					profileImage = command.profileImage,
 					certificationId = UUID.randomUUID(),
 					id = Random.nextLong(),
@@ -62,6 +62,15 @@ class MemberServiceTest :
 			every { insertMemberPort.insert(any()) } returns member
 
 			memberService.register(command) shouldBe member
+
+			val command2 =
+				RegisterMemberCommand(
+					nickname = "asdf",
+					email = null,
+					profileImage = "profile.png",
+					accountType = AccountType.SOCIAL,
+				)
+			memberService.register(command2) shouldBe member
 		}
 
 		"수정을 수행한다" {
