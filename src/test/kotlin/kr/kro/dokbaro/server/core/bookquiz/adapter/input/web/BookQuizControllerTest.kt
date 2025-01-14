@@ -396,15 +396,7 @@ class BookQuizControllerTest : RestDocsTest() {
 						),
 				)
 
-			val params =
-				pageRequestParams<BookQuizSummarySortKeyword>(
-					etc =
-						mapOf(
-							"bookId" to "1",
-							"studyGroupAll" to "false",
-							"studyGroupId" to "1",
-						),
-				)
+			val params = pageRequestParams<BookQuizSummarySortKeyword>(etc = mapOf("bookId" to "1"))
 
 			performGet(Path("/book-quizzes"), params)
 				.andExpect(status().isOk)
@@ -413,13 +405,6 @@ class BookQuizControllerTest : RestDocsTest() {
 						"book-quiz/get-summary",
 						queryParameters(
 							parameterWithName("bookId").description("퀴즈 목록을 조회할 책 ID."),
-							parameterWithName("studyGroupAll")
-								.description("스터디 그룹 조회 활성화 (비활성화(false) 시 스터디 그룹 여부 상관 없이 모든 퀴즈 조회 )"),
-							parameterWithName(
-								"studyGroupId",
-							).description(
-								"스터디 그룹 ID, studyGroupAll이 false일 때 사용 가능. studyGroupAll이 false이고 해당 값이 null인 경우, studyGroup이 null 인 quiz만 조회",
-							),
 							*pageQueryParameters<BookQuizSummarySortKeyword>(),
 						),
 						responseFields(
