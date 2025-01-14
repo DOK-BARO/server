@@ -18,7 +18,7 @@ data class DokbaroUser(
 
 	override fun getPassword(): String? = password
 
-	override fun getUsername(): String? = email
+	override fun getUsername(): String = email ?: certificationId.toString()
 
 	fun hasRole(role: Role): Boolean = this.role.contains(role.name)
 }
