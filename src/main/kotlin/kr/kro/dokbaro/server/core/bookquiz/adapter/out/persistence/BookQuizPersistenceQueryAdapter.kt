@@ -11,7 +11,6 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadBookQuizSumm
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadMyBookQuizSummaryPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadUnsolvedGroupBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
-import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.FindBookQuizCondition
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
@@ -42,11 +41,11 @@ class BookQuizPersistenceQueryAdapter(
 		bookQuizQueryRepository.countBookQuizBy(condition)
 
 	override fun findAllBookQuizSummary(
-		condition: FindBookQuizCondition,
+		bookId: Long,
 		pageOption: PageOption<BookQuizSummarySortKeyword>,
 	): Collection<BookQuizSummary> =
 		bookQuizQueryRepository.findAllBookQuizSummary(
-			condition = condition,
+			bookId = bookId,
 			pageOption = pageOption,
 		)
 

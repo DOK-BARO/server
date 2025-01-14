@@ -16,7 +16,6 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindMyBookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindUnsolvedGroupBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
-import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.FindAllBookQuizSummaryCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
@@ -114,23 +113,14 @@ class BookQuizController(
 
 	@GetMapping
 	fun getBookQuizSummary(
-		@RequestParam bookId: Long?,
-		@RequestParam studyGroupAll: Boolean,
-		@RequestParam studyGroupId: Long?,
+		@RequestParam bookId: Long,
 		@RequestParam page: Long,
 		@RequestParam size: Long,
 		@RequestParam sort: BookQuizSummarySortKeyword,
 		@RequestParam direction: SortDirection,
 	): PageResponse<BookQuizSummary> =
 		findBookQuizSummaryUseCase.findAllBookQuizSummary(
-			FindAllBookQuizSummaryCommand(
-				bookId = bookId,
-				studyGroup =
-					FindAllBookQuizSummaryCommand.StudyGroup(
-						all = studyGroupAll,
-						id = studyGroupId,
-					),
-			),
+			bookId,
 			PageOption.of(
 				page = page,
 				size = size,

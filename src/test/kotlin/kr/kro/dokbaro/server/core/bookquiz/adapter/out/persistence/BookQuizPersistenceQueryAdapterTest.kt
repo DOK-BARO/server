@@ -14,7 +14,6 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.B
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
-import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.FindBookQuizCondition
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
@@ -131,13 +130,33 @@ class BookQuizPersistenceQueryAdapterTest(
 				)
 			}
 
-			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe target
-			adapter.countBookQuizBy(
-				CountBookQuizCondition(studyGroup = CountBookQuizCondition.StudyGroup(all = false, id = studyGroup)),
-			) shouldBe
-				target
+			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe 0
+			adapter.countBookQuizBy(CountBookQuizCondition(studyGroupId = studyGroup)) shouldBe target
 			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book2)) shouldBe target
-			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target * 2
+			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target
+		}
+
+		"개수 조회 시 스터디 그룹을 명시하지 않으면 스터디 그룹을 제외하고 카운팅한다" {
+			val member = memberRepository.insert(memberFixture()).id
+			val book = bookRepository.insertBook(bookFixture())
+			val book2 = bookRepository.insertBook(bookFixture(isbn = "444"))
+			val studyGroup =
+				studyGroupRepository.insert(
+					studyGroupFixture(studyMembers = mutableSetOf(StudyMember(member, StudyMemberRole.LEADER))),
+				)
+
+			val target = 10
+			(1..target).forEach {
+				bookQuizRepository.insert(
+					bookQuizFixture(creatorId = member, bookId = book, title = "hello$it", studyGroupId = studyGroup),
+				)
+				bookQuizRepository.insert(
+					bookQuizFixture(creatorId = member, bookId = book2, title = "hello$it"),
+				)
+			}
+
+			adapter.countBookQuizBy(CountBookQuizCondition(studyGroupId = studyGroup)) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition()) shouldBe target
 		}
 
 		"내가 푼 퀴즈 개수를 조회한다" {
@@ -167,37 +186,17 @@ class BookQuizPersistenceQueryAdapterTest(
 			val book = bookRepository.insertBook(bookFixture())
 			val book2 = bookRepository.insertBook(bookFixture(isbn = "444"))
 
-			val studyGroup =
-				studyGroupRepository.insert(
-					studyGroupFixture(studyMembers = mutableSetOf(StudyMember(member, StudyMemberRole.LEADER))),
-				)
-
-			val sizePerBook = 10
-			(1..sizePerBook).forEach {
+			val targetSize = 10
+			(1..targetSize).forEach {
 				bookQuizRepository.insert(
-					bookQuizFixture(creatorId = member, bookId = book, title = "hello$it", studyGroupId = studyGroup),
+					bookQuizFixture(creatorId = member, bookId = book, title = "hello$it"),
 				)
 				bookQuizRepository.insert(
 					bookQuizFixture(creatorId = member, bookId = book2, title = "hello$it"),
 				)
 			}
-			adapter
-				.findAllBookQuizSummary(
-					FindBookQuizCondition(),
-					PageOption.of(),
-				).size shouldBe sizePerBook * 2
 
-			adapter
-				.findAllBookQuizSummary(
-					FindBookQuizCondition(bookId = book),
-					PageOption.of(),
-				).size shouldBe sizePerBook
-
-			adapter
-				.findAllBookQuizSummary(
-					FindBookQuizCondition(studyGroup = FindBookQuizCondition.StudyGroup(all = false, id = studyGroup)),
-					PageOption.of(),
-				).size shouldBe sizePerBook
+			adapter.findAllBookQuizSummary(book, PageOption.of()).size shouldBe targetSize
 		}
 
 		"퀴즈 요약 목록을 정렬하여 조회한다" {
@@ -213,26 +212,26 @@ class BookQuizPersistenceQueryAdapterTest(
 
 			adapter
 				.findAllBookQuizSummary(
-					FindBookQuizCondition(bookId = book),
+					book,
 					PageOption.of(sort = BookQuizSummarySortKeyword.STAR_RATING),
 				).toList()[0]
 				.averageStarRating shouldBe 1.toDouble()
 
 			adapter
 				.findAllBookQuizSummary(
-					FindBookQuizCondition(bookId = book),
+					book,
 					PageOption.of(sort = BookQuizSummarySortKeyword.STAR_RATING, direction = SortDirection.DESC),
 				).toList()[0]
 				.averageStarRating shouldBe 10.toDouble()
 
 			adapter
 				.findAllBookQuizSummary(
-					FindBookQuizCondition(bookId = book),
+					book,
 					PageOption.of(sort = BookQuizSummarySortKeyword.CREATED_AT),
 				).shouldNotBeEmpty()
 			adapter
 				.findAllBookQuizSummary(
-					FindBookQuizCondition(bookId = book),
+					book,
 					PageOption.of(sort = BookQuizSummarySortKeyword.UPDATED_AT),
 				).shouldNotBeEmpty()
 		}
