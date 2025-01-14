@@ -21,6 +21,7 @@ import org.jooq.generated.tables.JBookAuthor.BOOK_AUTHOR
 import org.jooq.generated.tables.JBookCategory.BOOK_CATEGORY
 import org.jooq.generated.tables.JBookCategoryGroup.BOOK_CATEGORY_GROUP
 import org.jooq.generated.tables.JBookQuiz.BOOK_QUIZ
+import org.jooq.generated.tables.JStudyGroupQuiz.STUDY_GROUP_QUIZ
 import org.jooq.generated.tables.records.BookCategoryRecord
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.field
@@ -50,7 +51,11 @@ class BookQueryRepository(
 				field(
 					selectCount()
 						.from(BOOK_QUIZ)
-						.where(BOOK_QUIZ.BOOK_ID.eq(BOOK.ID).and(BOOK_QUIZ.DELETED.isFalse)),
+						.where(BOOK_QUIZ.BOOK_ID.eq(BOOK.ID).and(BOOK_QUIZ.DELETED.isFalse))
+						.and(
+							BOOK_QUIZ.ID
+								.notIn(select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID).from(STUDY_GROUP_QUIZ)),
+						),
 				).`as`(BookRecordFieldName.QUIZ_COUNT),
 			).from(BOOK)
 				.where(buildCondition(condition))
