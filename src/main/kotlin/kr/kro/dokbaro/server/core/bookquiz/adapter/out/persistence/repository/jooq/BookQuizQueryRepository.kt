@@ -101,12 +101,18 @@ class BookQuizQueryRepository(
 		DSL.and(
 			condition.bookId?.let { BOOK_QUIZ.BOOK_ID.eq(it) },
 			condition.creatorId?.let { BOOK_QUIZ.CREATOR_ID.eq(it) },
-			condition.studyGroupId?.let {
+			if (condition.studyGroupId != null) {
 				BOOK_QUIZ.ID
 					.`in`(
 						select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
 							.from(STUDY_GROUP_QUIZ)
-							.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(it)),
+							.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(condition.studyGroupId)),
+					)
+			} else {
+				BOOK_QUIZ.ID
+					.notIn(
+						select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
+							.from(STUDY_GROUP_QUIZ),
 					)
 			},
 			condition.solved?.let {
@@ -156,8 +162,15 @@ class BookQuizQueryRepository(
 				.on(BOOK_QUIZ.CREATOR_ID.eq(MEMBER.ID))
 				.leftJoin(QUIZ_REVIEW)
 				.on(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID))
-				.where(BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.isFalse))
-				.groupBy(BOOK_QUIZ)
+				.where(
+					BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.isFalse).and(
+						BOOK_QUIZ.ID
+							.notIn(
+								select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
+									.from(STUDY_GROUP_QUIZ),
+							),
+					),
+				).groupBy(BOOK_QUIZ)
 				.orderBy(toBookQuizSummaryOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)

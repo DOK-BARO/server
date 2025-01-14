@@ -130,10 +130,33 @@ class BookQuizPersistenceQueryAdapterTest(
 				)
 			}
 
-			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe 0
 			adapter.countBookQuizBy(CountBookQuizCondition(studyGroupId = studyGroup)) shouldBe target
 			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book2)) shouldBe target
-			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target * 2
+			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target
+		}
+
+		"개수 조회 시 스터디 그룹을 명시하지 않으면 스터디 그룹을 제외하고 카운팅한다" {
+			val member = memberRepository.insert(memberFixture()).id
+			val book = bookRepository.insertBook(bookFixture())
+			val book2 = bookRepository.insertBook(bookFixture(isbn = "444"))
+			val studyGroup =
+				studyGroupRepository.insert(
+					studyGroupFixture(studyMembers = mutableSetOf(StudyMember(member, StudyMemberRole.LEADER))),
+				)
+
+			val target = 10
+			(1..target).forEach {
+				bookQuizRepository.insert(
+					bookQuizFixture(creatorId = member, bookId = book, title = "hello$it", studyGroupId = studyGroup),
+				)
+				bookQuizRepository.insert(
+					bookQuizFixture(creatorId = member, bookId = book2, title = "hello$it"),
+				)
+			}
+
+			adapter.countBookQuizBy(CountBookQuizCondition(studyGroupId = studyGroup)) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition()) shouldBe target
 		}
 
 		"내가 푼 퀴즈 개수를 조회한다" {
