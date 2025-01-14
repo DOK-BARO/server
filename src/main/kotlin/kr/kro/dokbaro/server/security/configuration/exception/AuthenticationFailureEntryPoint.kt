@@ -5,7 +5,9 @@ import jakarta.servlet.http.HttpServletResponse
 import kr.kro.dokbaro.server.security.jwt.cookie.JwtHttpCookieRemover
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
+import org.springframework.stereotype.Component
 
+@Component
 class AuthenticationFailureEntryPoint(
 	private val cookieRemover: JwtHttpCookieRemover,
 ) : AuthenticationEntryPoint {

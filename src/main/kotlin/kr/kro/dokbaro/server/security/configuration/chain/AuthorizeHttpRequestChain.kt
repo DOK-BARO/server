@@ -29,6 +29,7 @@ class AuthorizeHttpRequestChain : SecurityChain {
 			"/health-check",
 			"/images/**",
 			"/accounts/**",
+			"/error/**",
 		)
 
 	private fun permitAllGetRequests() =
