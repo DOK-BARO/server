@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.j
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.BookQuizDetailQuestions
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
@@ -340,4 +341,62 @@ class BookQuizQueryRepository(
 
 		return bookQuizMapper.toBookQuizExplanation(record)
 	}
+
+	fun findBookQuizDetailBy(id: Long): BookQuizDetailQuestions? {
+		val record: Map<BookQuizRecord, Result<out Record>> =
+			dslContext
+				.select(
+					BOOK_QUIZ.ID,
+					BOOK_QUIZ.TITLE,
+					BOOK_QUIZ.DESCRIPTION,
+					BOOK_QUIZ.BOOK_ID,
+					STUDY_GROUP_QUIZ.STUDY_GROUP_ID,
+					BOOK_QUIZ.TIME_LIMIT_SECOND,
+					BOOK_QUIZ.VIEW_SCOPE,
+					BOOK_QUIZ.EDIT_SCOPE,
+					BOOK_QUIZ_QUESTION.ID,
+					BOOK_QUIZ_QUESTION.QUESTION_CONTENT,
+					BOOK_QUIZ_QUESTION.EXPLANATION,
+					BOOK_QUIZ_QUESTION.QUESTION_TYPE,
+				).from(BOOK_QUIZ)
+				.leftJoin(STUDY_GROUP_QUIZ)
+				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.join(BOOK_QUIZ_QUESTION)
+				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.where(BOOK_QUIZ.ID.eq(id))
+				.fetchGroups(BOOK_QUIZ)
+
+		return bookQuizMapper.toBookQuizDetailQuestions(record)
+	}
+
+	fun findSelectOptionBy(ids: Collection<Long>): Map<Long, Collection<String>> =
+		dslContext
+			.select(
+				BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID,
+				BOOK_QUIZ_SELECT_OPTION.CONTENT,
+			).from(BOOK_QUIZ_SELECT_OPTION)
+			.where(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID.`in`(ids))
+			.orderBy(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID, BOOK_QUIZ_SELECT_OPTION.SEQ)
+			.fetchGroups(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID)
+			.mapValues { (_, v) -> v.getValues(BOOK_QUIZ_SELECT_OPTION.CONTENT) }
+
+	fun findAnswerExplanationImageBy(ids: Collection<Long>): Map<Long, Collection<String>> =
+		dslContext
+			.select(
+				BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID,
+				BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL,
+			).from(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE)
+			.where(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID.`in`(ids))
+			.fetchGroups(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID)
+			.mapValues { (_, v) -> v.getValues(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.IMAGE_URL) }
+
+	fun findAnswerBy(ids: Collection<Long>): Map<Long, Collection<String>> =
+		dslContext
+			.select(
+				BOOK_QUIZ_ANSWER.BOOK_QUIZ_QUESTION_ID,
+				BOOK_QUIZ_ANSWER.CONTENT,
+			).from(BOOK_QUIZ_ANSWER)
+			.where(BOOK_QUIZ_ANSWER.BOOK_QUIZ_QUESTION_ID.`in`(ids))
+			.fetchGroups(BOOK_QUIZ_ANSWER.BOOK_QUIZ_QUESTION_ID)
+			.mapValues { (_, v) -> v.getValues(BOOK_QUIZ_ANSWER.CONTENT) }
 }

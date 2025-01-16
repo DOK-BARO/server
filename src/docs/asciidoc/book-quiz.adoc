@@ -124,3 +124,17 @@ include::{snippets}/book-quiz/explanation/path-parameters.adoc[]
 
 include::{snippets}/book-quiz/explanation/http-response.adoc[]
 include::{snippets}/book-quiz/explanation/response-fields.adoc[]
+
+=== 퀴즈 상세 조회 조회
+
+- last update: 25-01-16 14:43
+
+==== HTTP request
+
+include::{snippets}/book-quiz/detail/http-request.adoc[]
+include::{snippets}/book-quiz/detail/path-parameters.adoc[]
+
+==== HTTP response
+
+include::{snippets}/book-quiz/detail/http-response.adoc[]
+include::{snippets}/book-quiz/detail/response-fields.adoc[]

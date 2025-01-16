@@ -10,6 +10,7 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizR
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.DeleteBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizDetailUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizExplanationUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
@@ -21,6 +22,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBook
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.domain.SelectOption
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizDetail
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
@@ -72,6 +74,9 @@ class BookQuizControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var bookQuizExplanationUseCase: FindBookQuizExplanationUseCase
+
+	@MockkBean
+	lateinit var findBookQuizDetailUseCase: FindBookQuizDetailUseCase
 
 	init {
 		"북 퀴즈 생성을 수행한다" {
@@ -657,6 +662,75 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("book.id").description("책의 고유 ID"),
 							fieldWithPath("book.title").description("책의 제목"),
 							fieldWithPath("book.imageUrl").description("책의 이미지 URL (optional)").optional(),
+						),
+					),
+				)
+		}
+
+		"북 퀴즈를 상세 조회한다" {
+			every { findBookQuizDetailUseCase.findBookQuizDetailBy(any()) } returns
+				BookQuizDetail(
+					id = 1L,
+					title = "Introduction to Kotlin",
+					description = "A quiz based on the Kotlin programming book.",
+					bookId = 101L,
+					questions =
+						listOf(
+							BookQuizDetail.Question(
+								id = 1L,
+								content = "What is a data class in Kotlin?",
+								selectOptions =
+									listOf(
+										"A regular class",
+										"A class with extra features",
+										"A class that provides getters and setters",
+									),
+								answerExplanationContent = "A data class in Kotlin is a special class primarily used to hold data.",
+								answerExplanationImages = listOf("image1.png", "image2.png"),
+								answerType = QuizType.MULTIPLE_CHOICE_MULTIPLE_ANSWER,
+								answers = listOf("A class with extra features"),
+							),
+							BookQuizDetail.Question(
+								id = 2L,
+								content = "Which keyword is used to declare a variable in Kotlin?",
+								selectOptions = listOf("val", "var", "let"),
+								answerExplanationContent = "In Kotlin",
+								answerExplanationImages = listOf(),
+								answerType = QuizType.MULTIPLE_CHOICE_SINGLE_ANSWER,
+								answers = listOf("val", "var"),
+							),
+						),
+					studyGroupId = 201L,
+					timeLimitSecond = 3600,
+					viewScope = AccessScope.CREATOR,
+					editScope = AccessScope.CREATOR,
+				)
+
+			performGet(Path("/book-quizzes/{id}", "1"))
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"book-quiz/detail",
+						pathParameters(
+							parameterWithName("id").description("book quiz id"),
+						),
+						responseFields(
+							fieldWithPath("id").description("퀴즈의 고유 식별자."),
+							fieldWithPath("title").description("퀴즈의 제목."),
+							fieldWithPath("description").description("퀴즈에 대한 상세 설명."),
+							fieldWithPath("bookId").description("퀴즈와 연결된 책의 ID."),
+							fieldWithPath("questions").description("퀴즈에 포함된 질문 목록."),
+							fieldWithPath("questions[].id").description("질문의 고유 식별자."),
+							fieldWithPath("questions[].content").description("질문의 내용."),
+							fieldWithPath("questions[].selectOptions").description("질문의 선택 가능한 옵션들."),
+							fieldWithPath("questions[].answerExplanationContent").description("정답에 대한 설명."),
+							fieldWithPath("questions[].answerExplanationImages").description("정답 설명에 사용되는 이미지 URL 목록."),
+							fieldWithPath("questions[].answerType").description("질문의 유형"),
+							fieldWithPath("questions[].answers").description("질문의 정답 목록."),
+							fieldWithPath("studyGroupId").description("퀴즈와 연결된 스터디 그룹의 ID. (optional)"),
+							fieldWithPath("timeLimitSecond").description("퀴즈의 제한 시간(초 단위). (optional)"),
+							fieldWithPath("viewScope").description("퀴즈의 조회 접근 범위."),
+							fieldWithPath("editScope").description("퀴즈의 수정 접근 범위."),
 						),
 					),
 				)
