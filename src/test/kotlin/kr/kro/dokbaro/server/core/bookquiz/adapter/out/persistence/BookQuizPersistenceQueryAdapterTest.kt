@@ -369,4 +369,26 @@ class BookQuizPersistenceQueryAdapterTest(
 			result!!.book.id shouldBe bookId
 			result.creator.id shouldBe memberId
 		}
+
+		"bookQuiz 상세를 조회한다 " {
+			val member = memberRepository.insert(memberFixture()).id
+			val book = bookRepository.insertBook(bookFixture())
+			val bookQuiz = bookQuizFixture(creatorId = member, bookId = book)
+			val bookQuizId: Long = bookQuizRepository.insert(bookQuiz)
+
+			adapter.findBookQuizDetailBy(bookQuizId) shouldNotBe null
+		}
+
+		"bookQuiz question 요소들을 조회한다 " {
+			val member = memberRepository.insert(memberFixture()).id
+			val book = bookRepository.insertBook(bookFixture())
+			val bookQuiz = bookQuizFixture(creatorId = member, bookId = book)
+			val bookQuizId: Long = bookQuizRepository.insert(bookQuiz)
+
+			val questionIds = adapter.findBookQuizDetailBy(bookQuizId)!!.questions.map { it.id }
+
+			adapter.findSelectOptionBy(questionIds).values.shouldNotBeEmpty()
+			adapter.findAnswerExplanationImageBy(questionIds).values.shouldNotBeEmpty()
+			adapter.findAnswersBy(questionIds).values.shouldNotBeEmpty()
+		}
 	})

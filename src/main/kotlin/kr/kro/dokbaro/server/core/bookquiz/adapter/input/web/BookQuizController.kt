@@ -9,6 +9,7 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.input.web.dto.UpdateBookQuizR
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.CreateBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.DeleteBookQuizUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizAnswerUseCase
+import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizDetailUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizExplanationUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizQuestionUseCase
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.FindBookQuizSummaryUseCase
@@ -18,6 +19,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.input.UpdateBookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.CreateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.application.port.input.dto.UpdateBookQuizCommand
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
+import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizDetail
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
@@ -52,6 +54,7 @@ class BookQuizController(
 	private val findMyBookQuizUseCase: FindMyBookQuizUseCase,
 	private val deleteBookQuizUseCase: DeleteBookQuizUseCase,
 	private val findBookQuizExplanationUseCase: FindBookQuizExplanationUseCase,
+	private val findBookQuizDetailUseCase: FindBookQuizDetailUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -181,4 +184,9 @@ class BookQuizController(
 	fun getBookQuizExplanation(
 		@PathVariable id: Long,
 	): BookQuizExplanation = findBookQuizExplanationUseCase.findExplanationBy(id)
+
+	@GetMapping("/{id}")
+	fun getBookQuizDetail(
+		@PathVariable id: Long,
+	): BookQuizDetail = findBookQuizDetailUseCase.findBookQuizDetailBy(id)
 }
