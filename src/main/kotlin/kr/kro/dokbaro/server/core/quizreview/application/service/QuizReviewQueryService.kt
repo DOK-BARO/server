@@ -2,15 +2,18 @@ package kr.kro.dokbaro.server.core.quizreview.application.service
 
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.response.PageResponse
+import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindMyQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizReviewSummaryUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizReviewTotalScoreUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.FindQuizReviewSummaryCommand
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.CountQuizReviewPort
+import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadMyQuizReviewPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewSummaryPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewTotalScorePort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.CountQuizReviewCondition
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.QuizReviewTotalScoreElement
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.ReadQuizReviewSummaryCondition
+import kr.kro.dokbaro.server.core.quizreview.query.MyQuizReview
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
@@ -21,8 +24,10 @@ class QuizReviewQueryService(
 	private val readQuizReviewTotalScorePort: ReadQuizReviewTotalScorePort,
 	private val countQuizReviewPort: CountQuizReviewPort,
 	private val readQuizReviewSummaryPort: ReadQuizReviewSummaryPort,
+	private val readMyQuizReviewPort: ReadMyQuizReviewPort,
 ) : FindQuizReviewTotalScoreUseCase,
-	FindQuizReviewSummaryUseCase {
+	FindQuizReviewSummaryUseCase,
+	FindMyQuizReviewUseCase {
 	override fun findTotalScoreBy(quizId: Long): QuizReviewTotalScore {
 		val elements: Collection<QuizReviewTotalScoreElement> = readQuizReviewTotalScorePort.findBy(quizId)
 
@@ -73,4 +78,9 @@ class QuizReviewQueryService(
 				),
 		)
 	}
+
+	override fun findMyReviewBy(
+		quizId: Long,
+		memberId: Long,
+	): MyQuizReview? = readMyQuizReviewPort.findMyReviewBy(quizId, memberId)
 }

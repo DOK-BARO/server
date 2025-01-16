@@ -8,12 +8,14 @@ import kr.kro.dokbaro.server.core.quizreview.adapter.input.web.dto.CreateQuizRev
 import kr.kro.dokbaro.server.core.quizreview.adapter.input.web.dto.UpdateQuizReviewRequest
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.CreateQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.DeleteQuizReviewUseCase
+import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindMyQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizReviewSummaryUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizReviewTotalScoreUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.UpdateQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.CreateQuizReviewCommand
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.FindQuizReviewSummaryCommand
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.UpdateQuizReviewCommand
+import kr.kro.dokbaro.server.core.quizreview.query.MyQuizReview
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
@@ -39,6 +41,7 @@ class QuizReviewController(
 	private val findQuizReviewSummaryUseCase: FindQuizReviewSummaryUseCase,
 	private val updateQuizReviewUseCase: UpdateQuizReviewUseCase,
 	private val deleteQuizReviewUseCase: DeleteQuizReviewUseCase,
+	private val findMyQuizReviewUseCase: FindMyQuizReviewUseCase,
 ) {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -106,4 +109,10 @@ class QuizReviewController(
 				direction = direction,
 			),
 		)
+
+	@GetMapping("/my")
+	fun getMyReviewByQuizId(
+		@RequestParam quizId: Long,
+		@Login user: DokbaroUser,
+	): MyQuizReview? = findMyQuizReviewUseCase.findMyReviewBy(quizId = quizId, memberId = user.id)
 }
