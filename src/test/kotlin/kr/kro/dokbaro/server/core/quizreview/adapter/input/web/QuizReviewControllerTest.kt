@@ -8,9 +8,11 @@ import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
 import kr.kro.dokbaro.server.core.quizreview.adapter.input.web.dto.CreateQuizReviewRequest
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.CreateQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.DeleteQuizReviewUseCase
+import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindMyQuizReviewUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizReviewSummaryUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.FindQuizReviewTotalScoreUseCase
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.UpdateQuizReviewUseCase
+import kr.kro.dokbaro.server.core.quizreview.query.MyQuizReview
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
@@ -44,6 +46,9 @@ class QuizReviewControllerTest : RestDocsTest() {
 
 	@MockkBean
 	lateinit var deleteQuizReviewUseCase: DeleteQuizReviewUseCase
+
+	@MockkBean
+	lateinit var findMyQuizReviewUseCase: FindMyQuizReviewUseCase
 
 	init {
 		"퀴즈 후기를 생성한다" {
@@ -248,6 +253,36 @@ class QuizReviewControllerTest : RestDocsTest() {
 					print(
 						"quiz-review/delete",
 						pathParameters(parameterWithName("id").description("리뷰 ID")),
+					),
+				)
+		}
+
+		"내가 작성한 퀴즈 리뷰를 조회한다" {
+			every { findMyQuizReviewUseCase.findMyReviewBy(any(), any()) } returns
+				MyQuizReview(
+					id = 1L,
+					starRating = 5,
+					difficultyLevel = 3,
+					comment = "This quiz was well-designed and challenging!",
+					quizId = 101L,
+				)
+
+			val params = mapOf("quizId" to "1")
+			performGet(Path("/quiz-reviews/my"), params)
+				.andExpect(status().isOk)
+				.andDo(
+					print(
+						"quiz-review/get-my-review",
+						queryParameters(
+							parameterWithName("quizId").description("퀴즈 ID"),
+						),
+						responseFields(
+							fieldWithPath("id").description("리뷰의 고유 식별자."),
+							fieldWithPath("starRating").description("별점."),
+							fieldWithPath("difficultyLevel").description("퀴즈의 난이도"),
+							fieldWithPath("comment").description("리뷰에 대한 사용자 코멘트. (optional)").optional(),
+							fieldWithPath("quizId").description("리뷰가 연결된 퀴즈의 고유 식별자."),
+						),
 					),
 				)
 		}

@@ -68,3 +68,17 @@ include::{snippets}/quiz-review/delete/path-parameters.adoc[]
 ==== HTTP response
 
 include::{snippets}/quiz-review/delete/http-response.adoc[]
+
+=== 내가 작성한 퀴즈 리뷰 조회
+
+- last update: 25-01-16: 17:00
+
+==== HTTP request
+
+include::{snippets}/quiz-review/get-my-review/http-request.adoc[]
+include::{snippets}/quiz-review/get-my-review/query-parameters.adoc[]
+
+==== HTTP response
+
+include::{snippets}/quiz-review/get-my-review/http-response.adoc[]
+include::{snippets}/quiz-review/get-my-review/response-fields.adoc[]
