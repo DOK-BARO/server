@@ -147,6 +147,7 @@ class QuizReviewControllerTest : RestDocsTest() {
 							writerNickname = "user123",
 							comment = "This quiz was challenging but fun!",
 							createdAt = Instant.parse("2024-10-20T10:15:30Z"),
+							updatedAt = Instant.parse("2024-10-20T10:15:30Z"),
 						),
 						QuizReviewSummary(
 							id = 2L,
@@ -157,6 +158,7 @@ class QuizReviewControllerTest : RestDocsTest() {
 							writerNickname = "quizLover",
 							comment = null,
 							createdAt = Instant.parse("2024-10-21T14:20:00Z"),
+							updatedAt = Instant.parse("2024-10-21T14:20:00Z"),
 						),
 					),
 				)
@@ -202,6 +204,9 @@ class QuizReviewControllerTest : RestDocsTest() {
 							fieldWithPath("data[].createdAt")
 								.type(JsonFieldType.STRING)
 								.description("리뷰 작성 시간. ISO 8601 포맷."),
+							fieldWithPath("data[].updatedAt")
+								.type(JsonFieldType.STRING)
+								.description("리뷰 수정 시간. ISO 8601 포맷."),
 						),
 					),
 				)

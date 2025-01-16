@@ -56,6 +56,7 @@ class QuizReviewQueryRepository(
 					MEMBER.NICKNAME,
 					QUIZ_REVIEW.COMMENT,
 					QUIZ_REVIEW.CREATED_AT,
+					QUIZ_REVIEW.UPDATED_AT,
 				).from(QUIZ_REVIEW)
 				.join(MEMBER)
 				.on(QUIZ_REVIEW.MEMBER_ID.eq(MEMBER.ID))

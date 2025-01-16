@@ -11,4 +11,5 @@ data class QuizReviewSummary(
 	val writerNickname: String,
 	val comment: String?,
 	val createdAt: Instant,
+	val updatedAt: Instant,
 )
