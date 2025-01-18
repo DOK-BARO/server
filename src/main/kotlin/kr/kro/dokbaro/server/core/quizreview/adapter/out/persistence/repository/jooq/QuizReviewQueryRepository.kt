@@ -7,6 +7,7 @@ import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.CountQuizR
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.QuizReviewTotalScoreElement
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.ReadQuizReviewSummaryCondition
 import kr.kro.dokbaro.server.core.quizreview.domain.QuizReview
+import kr.kro.dokbaro.server.core.quizreview.query.MyQuizReview
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 import org.jooq.DSLContext
@@ -56,12 +57,13 @@ class QuizReviewQueryRepository(
 					MEMBER.NICKNAME,
 					QUIZ_REVIEW.COMMENT,
 					QUIZ_REVIEW.CREATED_AT,
+					QUIZ_REVIEW.UPDATED_AT,
 				).from(QUIZ_REVIEW)
 				.join(MEMBER)
 				.on(QUIZ_REVIEW.MEMBER_ID.eq(MEMBER.ID))
 				.where(
 					QUIZ_REVIEW.QUIZ_ID.eq(condition.quizId).and(
-						QUIZ_REVIEW.DELETED.eq(false),
+						QUIZ_REVIEW.DELETED.isFalse,
 					),
 				).orderBy(toOrderByQuery(pageOption), QUIZ_REVIEW.ID)
 				.limit(pageOption.limit)
@@ -97,9 +99,28 @@ class QuizReviewQueryRepository(
 					QUIZ_REVIEW.QUIZ_ID,
 					QUIZ_REVIEW.ID,
 				).from(QUIZ_REVIEW)
-				.where(QUIZ_REVIEW.ID.eq(id).and(QUIZ_REVIEW.DELETED.eq(false)))
+				.where(QUIZ_REVIEW.ID.eq(id).and(QUIZ_REVIEW.DELETED.isFalse))
 				.fetchOneInto(QUIZ_REVIEW)
 
 		return quizReviewMapper.toQuizReview(record)
 	}
+
+	fun findMyReviewBy(
+		quizId: Long,
+		memberId: Long,
+	): MyQuizReview? =
+		dslContext
+			.select(
+				QUIZ_REVIEW.STAR_RATING,
+				QUIZ_REVIEW.DIFFICULTY_LEVEL,
+				QUIZ_REVIEW.COMMENT,
+				QUIZ_REVIEW.QUIZ_ID,
+				QUIZ_REVIEW.ID,
+			).from(QUIZ_REVIEW)
+			.where(
+				QUIZ_REVIEW.QUIZ_ID
+					.eq(quizId)
+					.and(QUIZ_REVIEW.MEMBER_ID.eq(memberId))
+					.and(QUIZ_REVIEW.DELETED.eq(false)),
+			).fetchOneInto(MyQuizReview::class.java)
 }

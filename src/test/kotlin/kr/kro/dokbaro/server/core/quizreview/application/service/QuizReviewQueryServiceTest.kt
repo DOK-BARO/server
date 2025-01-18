@@ -8,9 +8,11 @@ import io.mockk.mockk
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.core.quizreview.application.port.input.dto.FindQuizReviewSummaryCommand
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.CountQuizReviewPort
+import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadMyQuizReviewPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewSummaryPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewTotalScorePort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.QuizReviewTotalScoreElement
+import kr.kro.dokbaro.server.core.quizreview.query.MyQuizReview
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
 
 class QuizReviewQueryServiceTest :
@@ -19,9 +21,15 @@ class QuizReviewQueryServiceTest :
 		val readQuizReviewTotalScorePort = mockk<ReadQuizReviewTotalScorePort>()
 		val countQuizReviewPort = mockk<CountQuizReviewPort>()
 		val readQuizReviewSummaryPort = mockk<ReadQuizReviewSummaryPort>()
+		val readMyQuizReviewPort = mockk<ReadMyQuizReviewPort>()
 
 		val quizReviewQueryService =
-			QuizReviewQueryService(readQuizReviewTotalScorePort, countQuizReviewPort, readQuizReviewSummaryPort)
+			QuizReviewQueryService(
+				readQuizReviewTotalScorePort,
+				countQuizReviewPort,
+				readQuizReviewSummaryPort,
+				readMyQuizReviewPort,
+			)
 
 		"퀴즈 총 점수를 조회한다" {
 			every { readQuizReviewTotalScorePort.findBy(any()) } returns
@@ -70,5 +78,18 @@ class QuizReviewQueryServiceTest :
 				),
 				PageOption.of(),
 			) shouldNotBe null
+		}
+
+		"내가 작성한 퀴즈 리뷰를 조회한다" {
+			every { readMyQuizReviewPort.findMyReviewBy(any(), any()) } returns
+				MyQuizReview(
+					id = 1L,
+					starRating = 5,
+					difficultyLevel = 3,
+					comment = "This quiz was well-designed and challenging!",
+					quizId = 101L,
+				)
+
+			quizReviewQueryService.findMyReviewBy(1, 1) shouldNotBe null
 		}
 	})

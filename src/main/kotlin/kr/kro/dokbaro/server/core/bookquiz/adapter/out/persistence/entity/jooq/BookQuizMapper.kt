@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq
 import kr.kro.dokbaro.server.common.annotation.Mapper
 import kr.kro.dokbaro.server.common.constant.Constants
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRecordFieldName
+import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.BookQuizDetailQuestions
 import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
@@ -259,6 +260,30 @@ class BookQuizMapper {
 							title = it[BOOK.TITLE],
 							imageUrl = it[BOOK.IMAGE_URL],
 						),
+				)
+			}.firstOrNull()
+
+	fun toBookQuizDetailQuestions(record: Map<BookQuizRecord, Result<out Record>>): BookQuizDetailQuestions? =
+		record
+			.map { (quiz, other) ->
+				BookQuizDetailQuestions(
+					id = quiz.id,
+					title = quiz.title,
+					description = quiz.description,
+					bookId = quiz.bookId,
+					questions =
+						other.map {
+							BookQuizDetailQuestions.Question(
+								id = it[BOOK_QUIZ_QUESTION.ID],
+								content = it[BOOK_QUIZ_QUESTION.QUESTION_CONTENT],
+								answerExplanationContent = it[BOOK_QUIZ_QUESTION.EXPLANATION],
+								answerType = QuizType.valueOf(it[BOOK_QUIZ_QUESTION.QUESTION_TYPE]),
+							)
+						},
+					studyGroupId = other.map { it[STUDY_GROUP_QUIZ.STUDY_GROUP_ID] }.firstOrNull(),
+					timeLimitSecond = quiz.timeLimitSecond,
+					viewScope = AccessScope.valueOf(quiz.viewScope),
+					editScope = AccessScope.valueOf(quiz.editScope),
 				)
 			}.firstOrNull()
 

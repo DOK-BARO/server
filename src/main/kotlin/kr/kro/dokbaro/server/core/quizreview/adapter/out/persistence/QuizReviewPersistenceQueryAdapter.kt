@@ -4,11 +4,13 @@ import kr.kro.dokbaro.server.common.annotation.PersistenceAdapter
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.core.quizreview.adapter.out.persistence.repository.jooq.QuizReviewQueryRepository
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.CountQuizReviewPort
+import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadMyQuizReviewPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewSummaryPort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.ReadQuizReviewTotalScorePort
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.CountQuizReviewCondition
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.QuizReviewTotalScoreElement
 import kr.kro.dokbaro.server.core.quizreview.application.port.out.dto.ReadQuizReviewSummaryCondition
+import kr.kro.dokbaro.server.core.quizreview.query.MyQuizReview
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 
@@ -17,7 +19,8 @@ class QuizReviewPersistenceQueryAdapter(
 	private val quizReviewQueryRepository: QuizReviewQueryRepository,
 ) : ReadQuizReviewTotalScorePort,
 	CountQuizReviewPort,
-	ReadQuizReviewSummaryPort {
+	ReadQuizReviewSummaryPort,
+	ReadMyQuizReviewPort {
 	override fun findBy(quizId: Long): Collection<QuizReviewTotalScoreElement> =
 		quizReviewQueryRepository.findTotalScoreBy(quizId)
 
@@ -31,4 +34,9 @@ class QuizReviewPersistenceQueryAdapter(
 			condition = condition,
 			pageOption = pageOption,
 		)
+
+	override fun findMyReviewBy(
+		quizId: Long,
+		memberId: Long,
+	): MyQuizReview? = quizReviewQueryRepository.findMyReviewBy(quizId, memberId)
 }

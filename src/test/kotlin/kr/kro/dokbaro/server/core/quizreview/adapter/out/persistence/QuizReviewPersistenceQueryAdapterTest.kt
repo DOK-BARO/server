@@ -5,6 +5,7 @@ import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.common.dto.option.PageOption
 import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
@@ -116,5 +117,17 @@ class QuizReviewPersistenceQueryAdapterTest(
 					PageOption.of(sort = QuizReviewSummarySortKeyword.UPDATED_AT),
 				).toList()
 				.shouldNotBeEmpty()
+		}
+
+		"내가 작성한 퀴즈 리뷰를 조회한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val bookId = bookRepository.insertBook(bookFixture())
+			val bookQuizId: Long = bookQuizRepository.insert(bookQuizFixture(creatorId = memberId, bookId = bookId))
+
+			quizReviewRepository.insert(quizReviewFixture(memberId = memberId, quizId = bookQuizId))
+
+			adapter.findMyReviewBy(bookQuizId, memberId) shouldNotBe null
+			adapter.findMyReviewBy(bookQuizId, memberId + 1) shouldBe null
+			adapter.findMyReviewBy(bookQuizId + 1, memberId) shouldBe null
 		}
 	})

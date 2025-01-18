@@ -33,6 +33,7 @@ class QuizReviewMapper {
 				writerNickname = it[MEMBER.NICKNAME],
 				comment = it[QUIZ_REVIEW.COMMENT],
 				createdAt = TimeUtils.timeToInstant(it[QUIZ_REVIEW.CREATED_AT]),
+				updatedAt = TimeUtils.timeToInstant(it[QUIZ_REVIEW.UPDATED_AT]),
 			)
 		}
 
