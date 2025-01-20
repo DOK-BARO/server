@@ -24,19 +24,34 @@
    | 스터디 그룹 | 스터디 그룹 별 퀴즈 관리 및 그룹원 별 학습 현황 확인 |
    | 퀴즈 후기 | 퀴즈 별 별점 및 텍스트 후기 작성 및 확인 |
 
-# 인프라 구조
-
 # 사용 기술
+![img.png](src/docs/readme/image/skills.png)
+- kotlin - Spring 기반 Application을 구성하였습니다.
+- sql query 프레임워크는 JOOQ를 사용하였습니다.
 
-# 아키텍처
-![img_2.png](img_2.png)
+# Infra Architecture
+![img_1.png](src/docs/readme/image/infra_arc.png)
+
+- 온프레미스 서버 기반으로 인프라를 구성하였습니다.
+- 각 요소는 Docker container 기반으로 구축하였습니다.
+
+# Application Architecture
+![img_2.png](src/docs/readme/image/application_arc.png)
+- application 내 도메인 로직과 외부 infra 로직을 분리하기 위해 port - adapter 패턴을 적용하였습니다.
+- 해당 아키텍처 개발에 대한 자세한 내용은 [여기](https://velog.io/@hyeonjunpark/토이프로젝트에-헥사고날을-적용해보았다)를 참고해주세요!
+
 # 컴포넌트 구조
-![img.png](img.png)
+![img.png](src/docs/readme/image/component.png)
 
 # ER Diagram
-![img_1.png](img_1.png)
+![img_1.png](src/docs/readme/image/erd.png)
 
 # 배포 파이프라인
-
+![img_2.png](src/docs/readme/image/cicd.png)
+- hotfix를 대응하기 위해 production 배포에서는 별도 테스트를 제외하고 배포를 진행하였습니다.
 # blog
+개발하면서 겪은 고민거리나 해결 방식을 블로그를 통해 게시하고 있습니다.
+
+- [토이 프로젝트에 헥사고날을 적용해보았다](https://velog.io/@hyeonjunpark/토이프로젝트에-헥사고날을-적용해보았다)  
+- [쿼리 분리 VS 카테시안곱 허용하기](https://velog.io/@hyeonjunpark/쿼리-분리-VS-카테시안-곱-허용하기)
 
