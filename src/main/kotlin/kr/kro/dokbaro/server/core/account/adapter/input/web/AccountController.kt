@@ -30,6 +30,9 @@ class AccountController(
 	private val issueTemporaryPasswordUseCase: IssueTemporaryPasswordUseCase,
 	private val changePasswordUseCase: ChangePasswordUseCase,
 ) {
+	/**
+	 * email 계정 회원가입 API
+	 */
 	@PostMapping("/email")
 	@ResponseStatus(HttpStatus.CREATED)
 	fun signUpEmail(
@@ -41,6 +44,9 @@ class AccountController(
 		jwtHttpCookieInjector.inject(response, jwtTokenGenerator.generate(certificationId))
 	}
 
+	/**
+	 * 이메일 계정 임시 비밀번호 발급 API
+	 */
 	@PostMapping("/email/issue-temporary-password")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	fun issueTemporaryPassword(
@@ -49,6 +55,9 @@ class AccountController(
 		issueTemporaryPasswordUseCase.issueTemporaryPassword(body.email)
 	}
 
+	/**
+	 * 이메일 계정 비밀번호 변경 API
+	 */
 	@PutMapping("/email/password")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	fun changePassword(

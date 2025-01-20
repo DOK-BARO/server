@@ -9,6 +9,10 @@ import org.springframework.stereotype.Component
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.context.Context
 
+/**
+ * SMTP 방식으로 임시 비밀번호를 전달합니다.
+ * ThymeLeaf template 를 통해 email 형식을 구성합니다.
+ */
 @Component
 class SMTPTemporaryPasswordSender(
 	private val javaMailSender: JavaMailSender,
@@ -25,7 +29,6 @@ class SMTPTemporaryPasswordSender(
 		mimeMessageHelper.setTo(email)
 		mimeMessageHelper.setSubject("[DOKBARO] 임시비밀번호 전송해드립니다.")
 		mimeMessageHelper.setText(toTemplate(email, password), true) // 메일 본문 내용, HTML 여부
-		// mimeMessageHelper.addInline("image", new ClassPathResource("static/img/dokbaro-logo.svg"));
 		javaMailSender.send(mimeMessage)
 	}
 
