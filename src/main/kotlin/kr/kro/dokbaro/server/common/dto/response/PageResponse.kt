@@ -8,6 +8,9 @@ data class PageResponse<T>(
 	val data: Collection<T>,
 ) {
 	companion object {
+		/**
+		 * 총 요소 개수 및 페이지 크기를 통해 마지막 페이지 번호를 계산압니다.
+		 */
 		fun <T> of(
 			totalElementCount: Long,
 			pageSize: Long,

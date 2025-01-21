@@ -38,12 +38,15 @@ class EmailAccountService(
 	IssueTemporaryPasswordUseCase,
 	ChangePasswordUseCase {
 	override fun registerEmailAccount(command: RegisterEmailAccountCommand): UUID {
+		// 인증된 이메일을 사용한다고 명시합니다.
 		useAuthenticatedEmailUseCase.useEmail(email = command.email)
 
+		// 만약 이미 이메일 계정이 등록되어있으면 예외를 반환합니다.
 		if (existEmailAccountPort.existsByEmail(command.email)) {
 			throw AlreadyRegisteredEmailException(command.email)
 		}
 
+		// member를 신규로 등록합니다.
 		val member: Member =
 			registerMemberUseCase.register(
 				RegisterMemberCommand(
@@ -54,6 +57,7 @@ class EmailAccountService(
 				),
 			)
 
+		// email 계정을 insert 합니다.
 		insertAccountPasswordPort.insertEmailAccount(
 			EmailAccount.of(
 				email = command.email,
