@@ -19,10 +19,10 @@ data class QuizQuestions(
 				if (target.quizType != resentQuestion.quizType) {
 					throw QuizTypeMissMatchException()
 				}
-
-				questions.clear()
-				questions.addAll(newQuestions)
 			}
+
+		questions.clear()
+		questions.addAll(newQuestions)
 	}
 
 	fun grade(
