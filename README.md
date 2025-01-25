@@ -28,7 +28,8 @@
 # 사용 기술
 ![img.png](src/docs/readme/image/skills.png)
 - kotlin - Spring 기반 Application을 구성하였습니다.
-- sql query 프레임워크는 JOOQ를 사용하였습니다.
+- sql query 프레임워크는 JOOQ를 사용하였습니다. 
+- JOOQ 사용에 대한 자세한 내용은 [여기](https://velog.io/@hyeonjunpark/나는-왜-jooq에-빠지게-됐을까)를 참고해주세요!
 
 # Infra Architecture
 ![img_1.png](src/docs/readme/image/infra_arc.png)
@@ -56,3 +57,4 @@
 - [토이 프로젝트에 헥사고날을 적용해보았다](https://velog.io/@hyeonjunpark/토이프로젝트에-헥사고날을-적용해보았다)  
 - [쿼리 분리 VS 카테시안곱 허용하기](https://velog.io/@hyeonjunpark/쿼리-분리-VS-카테시안-곱-허용하기)
 - [테스트 커버리지는 과유불급인가 다다익선인가](https://velog.io/@hyeonjunpark/테스트-커버리지는-과유불급過猶不及인가-다다익선多多益善인가)
+- [나는-왜-jooq에-빠지게-됐을까](https://velog.io/@hyeonjunpark/나는-왜-jooq에-빠지게-됐을까)

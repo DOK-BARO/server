@@ -155,7 +155,7 @@ class SolvingQuizMapper {
 							quizId = group.quizId,
 							sheets = sheets,
 						)
-					}.first()
+					}.firstOrNull()
 			}
 }
 
