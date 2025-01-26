@@ -61,6 +61,7 @@ class BookQuizRepository(
 				BOOK_QUIZ.TIME_LIMIT_SECOND,
 				BOOK_QUIZ.VIEW_SCOPE,
 				BOOK_QUIZ.EDIT_SCOPE,
+				BOOK_QUIZ.TEMPORARY,
 			).values(
 				bookQuiz.title,
 				bookQuiz.description,
@@ -69,6 +70,7 @@ class BookQuizRepository(
 				bookQuiz.timeLimitSecond,
 				bookQuiz.viewScope.name,
 				bookQuiz.editScope.name,
+				bookQuiz.temporary,
 			).returningResult(BOOK_QUIZ.ID)
 			.fetchOneInto(Long::class.java)!!
 
@@ -168,7 +170,7 @@ class BookQuizRepository(
 				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.leftJoin(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE)
 				.on(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
-				.where(BOOK_QUIZ.ID.eq(id).and(BOOK_QUIZ.DELETED.eq(false)))
+				.where(BOOK_QUIZ.ID.eq(id).and(BOOK_QUIZ.DELETED.isFalse))
 				.fetchGroups(BOOK_QUIZ)
 
 		return bookQuizMapper.toBookQuiz(record)
@@ -183,6 +185,7 @@ class BookQuizRepository(
 			.set(BOOK_QUIZ.TIME_LIMIT_SECOND, bookQuiz.timeLimitSecond)
 			.set(BOOK_QUIZ.VIEW_SCOPE, bookQuiz.viewScope.name)
 			.set(BOOK_QUIZ.EDIT_SCOPE, bookQuiz.editScope.name)
+			.set(BOOK_QUIZ.TEMPORARY, bookQuiz.temporary)
 			.where(BOOK_QUIZ.ID.eq(bookQuiz.id))
 			.execute()
 
