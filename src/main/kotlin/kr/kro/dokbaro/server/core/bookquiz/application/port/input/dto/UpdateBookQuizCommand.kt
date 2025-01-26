@@ -14,6 +14,7 @@ data class UpdateBookQuizCommand(
 	val studyGroupId: Long?,
 	val questions: Collection<Question>,
 	val modifierId: Long,
+	val temporary: Boolean,
 ) {
 	data class Question(
 		val id: Long? = null,

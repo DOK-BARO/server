@@ -157,6 +157,7 @@ class BookQuizMapper {
 						nickname = it[MEMBER.NICKNAME],
 						profileUrl = it[MEMBER.PROFILE_IMAGE_URL],
 					),
+				temporary = it[BOOK_QUIZ.TEMPORARY],
 			)
 		}
 
@@ -284,6 +285,7 @@ class BookQuizMapper {
 					timeLimitSecond = quiz.timeLimitSecond,
 					viewScope = AccessScope.valueOf(quiz.viewScope),
 					editScope = AccessScope.valueOf(quiz.editScope),
+					temporary = quiz.temporary,
 				)
 			}.firstOrNull()
 

@@ -13,6 +13,7 @@ data class BookQuizDetailQuestions(
 	val timeLimitSecond: Int?,
 	val viewScope: AccessScope,
 	val editScope: AccessScope,
+	val temporary: Boolean,
 ) {
 	data class Question(
 		val id: Long,
