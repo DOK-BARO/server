@@ -30,7 +30,7 @@ include::{snippets}/book-quiz/get-book-quiz-questions/response-fields.adoc[]
 
 === 북 퀴즈 수정
 
-- last update: 24-12-26 23:30
+- last update: 24-01-26 15:40
 
 ==== HTTP request
 
@@ -58,7 +58,7 @@ include::{snippets}/book-quiz/get-answer/response-fields.adoc[]
 
 === 퀴즈 목록 조회
 
-- last update: 25-01-16 16:30
+- last update: 24-01-26 15:40
 
 ==== HTTP request
 
@@ -86,7 +86,7 @@ include::{snippets}/book-quiz/get-unsolved-study-group-quiz/response-fields.adoc
 
 === 내가 만든 퀴즈 목록 조회
 
-- last update: 24-12-26 23:30
+- last update: 24-01-26 15:40
 
 ==== HTTP request
 
