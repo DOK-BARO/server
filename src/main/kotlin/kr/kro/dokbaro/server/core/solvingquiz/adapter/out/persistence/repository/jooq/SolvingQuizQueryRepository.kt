@@ -216,4 +216,13 @@ class SolvingQuizQueryRepository(
 
 		return solvingQuizMapper.toSolvingQuiz(record)
 	}
+
+	fun findAllGroupMemberIdsByQuizId(quizId: Long): Collection<Long> =
+		dslContext
+			.select(STUDY_GROUP_MEMBER.MEMBER_ID)
+			.from(STUDY_GROUP_MEMBER)
+			.leftJoin(STUDY_GROUP_QUIZ)
+			.on(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(STUDY_GROUP_MEMBER.STUDY_GROUP_ID))
+			.where(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(quizId))
+			.fetchInto(Long::class.java)
 }
