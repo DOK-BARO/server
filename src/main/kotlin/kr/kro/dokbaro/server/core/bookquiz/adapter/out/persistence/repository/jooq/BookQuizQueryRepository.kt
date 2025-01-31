@@ -5,6 +5,7 @@ import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.BookQuizDetailQuestions
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
+import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
@@ -131,6 +132,7 @@ class BookQuizQueryRepository(
 					)
 				}
 			},
+			condition.viewScope?.let { BOOK_QUIZ.VIEW_SCOPE.eq(it.name) },
 		)
 
 	fun findAllBookQuizSummary(
@@ -165,13 +167,18 @@ class BookQuizQueryRepository(
 				.leftJoin(QUIZ_REVIEW)
 				.on(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.where(
-					BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.isFalse).and(
-						BOOK_QUIZ.ID
-							.notIn(
-								select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
-									.from(STUDY_GROUP_QUIZ),
-							),
-					),
+					BOOK_QUIZ.BOOK_ID
+						.eq(bookId)
+						.and(BOOK_QUIZ.DELETED.isFalse)
+						.and(
+							BOOK_QUIZ.ID
+								.notIn(
+									select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
+										.from(STUDY_GROUP_QUIZ),
+								),
+						).and(
+							BOOK_QUIZ.VIEW_SCOPE.eq(AccessScope.EVERYONE.name),
+						),
 				).groupBy(BOOK_QUIZ)
 				.orderBy(toBookQuizSummaryOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
