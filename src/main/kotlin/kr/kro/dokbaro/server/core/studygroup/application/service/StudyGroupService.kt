@@ -108,7 +108,7 @@ class StudyGroupService(
 
 		studyGroupAuthorityCheckService.checkUpdateStudyGroup(user, studyGroup)
 
-		studyGroup.changeStudyLeader(command.studyGroupId)
+		studyGroup.changeStudyLeader(command.newLeaderId)
 
 		updateStudyGroupPort.update(studyGroup)
 	}
