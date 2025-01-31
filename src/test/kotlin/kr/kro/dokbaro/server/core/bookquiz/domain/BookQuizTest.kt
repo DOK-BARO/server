@@ -66,6 +66,42 @@ class BookQuizTest :
 			bookQuiz.getAnswer(1) shouldNotBe null
 		}
 
+		"퀴즈 질문 수정을 진행한다." {
+			val bookQuiz =
+				bookQuizFixture(
+					questions =
+						listOf(
+							quizQuestionFixture(id = 1),
+						),
+				)
+
+			bookQuiz.updateQuestions(
+				listOf(
+					QuizQuestion(
+						content = "it.content",
+						selectOptions = listOf(),
+						answer =
+							QuestionAnswer(
+								explanationContent = "it.answerExplanationContent",
+								explanationImages = listOf(),
+								gradeSheet =
+									GradeSheetFactory.create(
+										type = QuizType.OX,
+										sheet = AnswerSheet(listOf("O")),
+									),
+							),
+					),
+				),
+				1,
+			)
+
+			bookQuiz.questions.getQuestions().size shouldBe 1
+			bookQuiz.questions
+				.getQuestions()
+				.first()
+				.answer.explanationImages
+				.shouldBeEmpty()
+		}
 		"설명 조회 시 question에 해당하는 ID가 없으면 예외를 반환한다" {
 			val bookQuiz = bookQuizFixture()
 
