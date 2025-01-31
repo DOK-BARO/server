@@ -13,6 +13,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.dto.StartSo
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.InsertSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.UpdateSolvingQuizPort
+import kr.kro.dokbaro.server.core.solvingquiz.application.service.auth.SolvingQuizAuthorityCheckService
 import kr.kro.dokbaro.server.core.solvingquiz.application.service.exception.NotFoundSolvingQuizException
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.fixture.domain.bookQuizFixture
@@ -23,12 +24,14 @@ class SolvingQuizServiceTest :
 		val loadSolvingQuizPort = mockk<LoadSolvingQuizPort>()
 		val updateSolvingQuizPort = mockk<UpdateSolvingQuizPort>()
 		val findBookQuizByQuestionIdUseCase = mockk<FindBookQuizByQuestionIdUseCase>()
+		val solvingQuizAuthorityCheckService = mockk<SolvingQuizAuthorityCheckService>()
 		val solvingQuizService =
 			SolvingQuizService(
 				insertSolvingQuizPort,
 				loadSolvingQuizPort,
 				updateSolvingQuizPort,
 				findBookQuizByQuestionIdUseCase,
+				solvingQuizAuthorityCheckService,
 			)
 		afterEach {
 			clearAllMocks()
@@ -36,6 +39,7 @@ class SolvingQuizServiceTest :
 
 		"퀴즈 풀기를 시작한다" {
 			every { insertSolvingQuizPort.insert(any()) } returns 1
+			every { solvingQuizAuthorityCheckService.checkSolvingQuiz(any(), any()) } returns Unit
 
 			solvingQuizService.start(
 				StartSolvingQuizCommand(
