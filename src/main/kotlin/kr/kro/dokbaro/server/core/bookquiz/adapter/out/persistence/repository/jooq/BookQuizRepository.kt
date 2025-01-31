@@ -159,7 +159,7 @@ class BookQuizRepository(
 				.select()
 				.from(BOOK_QUIZ)
 				.join(BOOK_QUIZ_QUESTION)
-				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID).and(BOOK_QUIZ_QUESTION.DELETED.eq(false)))
+				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID).and(BOOK_QUIZ_QUESTION.DELETED.isFalse))
 				.leftJoin(BOOK_QUIZ_SELECT_OPTION)
 				.on(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
 				.leftJoin(BOOK_QUIZ_ANSWER)
@@ -168,7 +168,7 @@ class BookQuizRepository(
 				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.leftJoin(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE)
 				.on(BOOK_QUIZ_ANSWER_EXPLAIN_IMAGE.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
-				.where(BOOK_QUIZ.ID.eq(id).and(BOOK_QUIZ.DELETED.eq(false)))
+				.where(BOOK_QUIZ.ID.eq(id).and(BOOK_QUIZ.DELETED.isFalse))
 				.fetchGroups(BOOK_QUIZ)
 
 		return bookQuizMapper.toBookQuiz(record)
