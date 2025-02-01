@@ -15,7 +15,7 @@ class SolvingQuizAuthorityCheckService(
 		val members: Collection<Long> =
 			readStudyGroupMemberIdsCollectionByQuizIdPort.findAllGroupMemberIdsByQuizId(quizId)
 
-		if (members.none { it == playerId }) {
+		if (members.isNotEmpty() && members.none { it == playerId }) {
 			throw StudyQuizForbiddenException()
 		}
 	}
