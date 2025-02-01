@@ -34,4 +34,13 @@ class SolvingQuizAuthorityCheckServiceTest :
 				solvingQuizAuthorityCheckService.checkSolvingQuiz(playerId = 2, quizId = 10)
 			}
 		}
+
+		"스터디 퀴즈가 아니면 누구나 풀 수 있다." {
+			every { readStudyGroupMemberIdsCollectionByQuizIdPort.findAllGroupMemberIdsByQuizId(any()) } returns
+				emptyList()
+
+			shouldNotThrow<StudyQuizForbiddenException> {
+				solvingQuizAuthorityCheckService.checkSolvingQuiz(playerId = 2, quizId = 10)
+			}
+		}
 	})
