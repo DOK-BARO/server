@@ -131,10 +131,13 @@ class BookQuizPersistenceQueryAdapterTest(
 				)
 			}
 
-			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe 0
-			adapter.countBookQuizBy(CountBookQuizCondition(studyGroupId = studyGroup)) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe target
+			adapter.countBookQuizBy(
+				CountBookQuizCondition(studyGroup = CountBookQuizCondition.StudyGroup.of(studyGroup)),
+			) shouldBe
+				target
 			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book2)) shouldBe target
-			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target * 2
 			adapter.countBookQuizBy(CountBookQuizCondition(viewScope = AccessScope.CREATOR)) shouldBe target
 		}
 
@@ -157,8 +160,11 @@ class BookQuizPersistenceQueryAdapterTest(
 				)
 			}
 
-			adapter.countBookQuizBy(CountBookQuizCondition(studyGroupId = studyGroup)) shouldBe target
-			adapter.countBookQuizBy(CountBookQuizCondition()) shouldBe target
+			adapter.countBookQuizBy(
+				CountBookQuizCondition(studyGroup = CountBookQuizCondition.StudyGroup.of(null)),
+			) shouldBe
+				target
+			adapter.countBookQuizBy(CountBookQuizCondition()) shouldBe target * 2
 		}
 
 		"내가 푼 퀴즈 개수를 조회한다" {
