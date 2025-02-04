@@ -84,7 +84,7 @@ class BookQuizQueryService(
 		val totalCount: Long =
 			countBookQuizPort.countBookQuizBy(
 				CountBookQuizCondition(
-					studyGroupId = studyGroupId,
+					studyGroup = CountBookQuizCondition.StudyGroup.of(studyGroupId),
 					solved =
 						CountBookQuizCondition.Solved(
 							memberId = memberId,
