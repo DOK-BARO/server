@@ -2848,7 +2848,7 @@ Content-Length: 1458
 <div class="ulist">
 <ul>
 <li>
-<p>last update: 24-01-26 15:40</p>
+<p>last update: 25-02-07 19:25</p>
 </li>
 </ul>
 </div>
@@ -2906,7 +2906,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 504
+Content-Length: 574
 
 {
   "endPageNumber" : 50,
@@ -2914,7 +2914,8 @@ Content-Length: 504
     "id" : 1,
     "bookImageUrl" : "https://example.com/book_image1.jpg",
     "title" : "Effective Kotlin",
-    "updatedAt" : "2025-02-05T18:57:09.587282",
+    "description" : "Description",
+    "updatedAt" : "2025-02-05T19:21:23.862166",
     "studyGroup" : {
       "id" : 1,
       "name" : "Study Group 1",
@@ -2924,7 +2925,8 @@ Content-Length: 504
     "id" : 2,
     "bookImageUrl" : "https://example.com/book_image2.jpg",
     "title" : "Kotlin in Action",
-    "updatedAt" : "2025-02-02T18:57:09.587614",
+    "description" : "Description",
+    "updatedAt" : "2025-02-02T19:21:23.862513",
     "studyGroup" : null
   } ]
 }</code></pre>
@@ -2962,7 +2964,12 @@ Content-Length: 504
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">책의 제목</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 타이틀</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 설명</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].updatedAt</code></p></td>
