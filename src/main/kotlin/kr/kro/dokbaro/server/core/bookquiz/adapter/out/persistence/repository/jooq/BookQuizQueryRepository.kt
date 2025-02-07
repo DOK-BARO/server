@@ -290,6 +290,7 @@ class BookQuizQueryRepository(
 					BOOK_QUIZ.ID,
 					BOOK.IMAGE_URL,
 					BOOK_QUIZ.TITLE,
+					BOOK_QUIZ.DESCRIPTION,
 					BOOK_QUIZ.UPDATED_AT,
 					STUDY_GROUP.ID,
 					STUDY_GROUP.NAME,
