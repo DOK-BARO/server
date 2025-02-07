@@ -161,6 +161,7 @@ class BookQuizQueryRepository(
 									.and(BOOK_QUIZ_QUESTION.DELETED.isFalse),
 							),
 					).`as`(BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT),
+					BOOK_QUIZ.TEMPORARY,
 				).from(BOOK_QUIZ)
 				.join(MEMBER)
 				.on(BOOK_QUIZ.CREATOR_ID.eq(MEMBER.ID))
@@ -362,6 +363,7 @@ class BookQuizQueryRepository(
 					BOOK_QUIZ.TIME_LIMIT_SECOND,
 					BOOK_QUIZ.VIEW_SCOPE,
 					BOOK_QUIZ.EDIT_SCOPE,
+					BOOK_QUIZ.TEMPORARY,
 					BOOK_QUIZ_QUESTION.ID,
 					BOOK_QUIZ_QUESTION.QUESTION_CONTENT,
 					BOOK_QUIZ_QUESTION.EXPLANATION,

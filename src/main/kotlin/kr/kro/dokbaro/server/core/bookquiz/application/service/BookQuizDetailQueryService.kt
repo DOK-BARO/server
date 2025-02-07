@@ -44,6 +44,7 @@ class BookQuizDetailQueryService(
 			timeLimitSecond = quizQuestions.timeLimitSecond,
 			viewScope = quizQuestions.viewScope,
 			editScope = quizQuestions.editScope,
+			temporary = quizQuestions.temporary,
 		)
 	}
 }

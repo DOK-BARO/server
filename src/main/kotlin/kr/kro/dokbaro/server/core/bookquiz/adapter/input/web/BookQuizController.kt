@@ -104,6 +104,7 @@ class BookQuizController(
 				studyGroupId = body.studyGroupId,
 				questions = body.questions,
 				modifierId = user.id,
+				temporary = body.temporary,
 			),
 			user,
 		)

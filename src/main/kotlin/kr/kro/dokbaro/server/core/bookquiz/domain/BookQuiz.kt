@@ -14,6 +14,7 @@ data class BookQuiz(
 	var timeLimitSecond: Int? = null,
 	var viewScope: AccessScope = AccessScope.EVERYONE,
 	var editScope: AccessScope = AccessScope.CREATOR,
+	var temporary: Boolean = true,
 ) {
 	fun updateBasicOption(
 		title: String = this.title,
@@ -23,6 +24,7 @@ data class BookQuiz(
 		timeLimitSecond: Int? = this.timeLimitSecond,
 		viewScope: AccessScope = this.viewScope,
 		editScope: AccessScope = this.editScope,
+		temporary: Boolean = this.temporary,
 	) {
 		this.title = title
 		this.description = description
@@ -31,6 +33,7 @@ data class BookQuiz(
 		this.timeLimitSecond = timeLimitSecond
 		this.viewScope = viewScope
 		this.editScope = editScope
+		this.temporary = temporary
 	}
 
 	fun updateQuestions(

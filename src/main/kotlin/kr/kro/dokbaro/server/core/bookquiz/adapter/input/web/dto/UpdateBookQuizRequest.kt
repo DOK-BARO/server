@@ -12,4 +12,5 @@ data class UpdateBookQuizRequest(
 	val editScope: AccessScope,
 	val studyGroupId: Long?,
 	val questions: Collection<UpdateBookQuizCommand.Question>,
+	val temporary: Boolean,
 )

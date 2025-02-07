@@ -51,6 +51,7 @@ class BookQuizDetailQueryServiceTest :
 					timeLimitSecond = 1800,
 					viewScope = AccessScope.EVERYONE,
 					editScope = AccessScope.EVERYONE,
+					temporary = true,
 				)
 		}
 

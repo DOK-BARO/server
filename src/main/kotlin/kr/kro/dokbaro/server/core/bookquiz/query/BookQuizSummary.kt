@@ -8,6 +8,7 @@ data class BookQuizSummary(
 	val questionCount: Int,
 	val reviewCount: Int,
 	val creator: Creator,
+	val temporary: Boolean,
 ) {
 	data class Creator(
 		val id: Long,
