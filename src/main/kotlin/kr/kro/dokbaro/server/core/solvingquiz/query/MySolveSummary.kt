@@ -11,5 +11,12 @@ data class MySolveSummary(
 	data class Quiz(
 		val id: Long,
 		val title: String,
+		val creator: QuizCreator,
+	)
+
+	data class QuizCreator(
+		val id: Long,
+		val nickname: String,
+		val profileImageUrl: String,
 	)
 }
