@@ -45,7 +45,7 @@ include::{snippets}/solving-quiz/grade-result/response-fields.adoc[]
 
 === 내가 푼 퀴즈 목록 보기 조회
 
-- last update: 24-12-26 23:30
+- last update: 25-02-07 19:00
 
 ==== HTTP request
 

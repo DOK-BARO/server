@@ -99,41 +99,49 @@ class BookQuizQueryRepository(
 			.where(buildCountCondition(condition).and(BOOK_QUIZ.DELETED.isFalse))
 			.fetchOneInto(Long::class.java)!!
 
-	private fun buildCountCondition(condition: CountBookQuizCondition): Condition =
-		DSL.and(
-			condition.bookId?.let { BOOK_QUIZ.BOOK_ID.eq(it) },
-			condition.creatorId?.let { BOOK_QUIZ.CREATOR_ID.eq(it) },
-			if (condition.studyGroupId != null) {
-				BOOK_QUIZ.ID
-					.`in`(
-						select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
-							.from(STUDY_GROUP_QUIZ)
-							.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(condition.studyGroupId)),
-					)
-			} else {
-				BOOK_QUIZ.ID
-					.notIn(
+	private fun buildCountCondition(condition: CountBookQuizCondition): Condition {
+		val result: Condition =
+			DSL.and(
+				condition.bookId?.let { BOOK_QUIZ.BOOK_ID.eq(it) },
+				condition.creatorId?.let { BOOK_QUIZ.CREATOR_ID.eq(it) },
+				condition.solved?.let {
+					if (it.solved) {
+						BOOK_QUIZ.ID.`in`(
+							select(SOLVING_QUIZ.QUIZ_ID)
+								.from(SOLVING_QUIZ)
+								.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
+						)
+					} else {
+						BOOK_QUIZ.ID.notIn(
+							select(SOLVING_QUIZ.QUIZ_ID)
+								.from(SOLVING_QUIZ)
+								.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
+						)
+					}
+				},
+				condition.viewScope?.let { BOOK_QUIZ.VIEW_SCOPE.eq(it.name) },
+			)
+
+		if (condition.studyGroup.active) {
+			if (condition.studyGroup.id == null) {
+				return result.and(
+					BOOK_QUIZ.ID.notIn(
 						select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
 							.from(STUDY_GROUP_QUIZ),
-					)
-			},
-			condition.solved?.let {
-				if (it.solved) {
-					BOOK_QUIZ.ID.`in`(
-						select(SOLVING_QUIZ.QUIZ_ID)
-							.from(SOLVING_QUIZ)
-							.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
-					)
-				} else {
-					BOOK_QUIZ.ID.notIn(
-						select(SOLVING_QUIZ.QUIZ_ID)
-							.from(SOLVING_QUIZ)
-							.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
-					)
-				}
-			},
-			condition.viewScope?.let { BOOK_QUIZ.VIEW_SCOPE.eq(it.name) },
-		)
+					),
+				)
+			}
+			return result.and(
+				BOOK_QUIZ.ID.`in`(
+					select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
+						.from(STUDY_GROUP_QUIZ)
+						.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(condition.studyGroup.id)),
+				),
+			)
+		}
+
+		return result
+	}
 
 	fun findAllBookQuizSummary(
 		bookId: Long,
@@ -290,6 +298,7 @@ class BookQuizQueryRepository(
 					BOOK_QUIZ.ID,
 					BOOK.IMAGE_URL,
 					BOOK_QUIZ.TITLE,
+					BOOK_QUIZ.DESCRIPTION,
 					BOOK_QUIZ.UPDATED_AT,
 					STUDY_GROUP.ID,
 					STUDY_GROUP.NAME,
