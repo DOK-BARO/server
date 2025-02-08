@@ -801,7 +801,7 @@ Content-Length: 105
 <div class="ulist">
 <ul>
 <li>
-<p>last update: 24-12-26 23:30</p>
+<p>last update: 25-02-07 19:00</p>
 </li>
 </ul>
 </div>
@@ -859,7 +859,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 408
+Content-Length: 694
 
 {
   "endPageNumber" : 25,
@@ -869,7 +869,12 @@ Content-Length: 408
     "bookImageUrl" : "https://example.com/book1.jpg",
     "quiz" : {
       "id" : 101,
-      "title" : "Math Quiz"
+      "title" : "Math Quiz",
+      "creator" : {
+        "id" : 102,
+        "nickname" : "Math Quiz",
+        "profileImageUrl" : "https://example.com/book2.jpg"
+      }
     }
   }, {
     "id" : 2,
@@ -877,7 +882,12 @@ Content-Length: 408
     "bookImageUrl" : "https://example.com/book2.jpg",
     "quiz" : {
       "id" : 102,
-      "title" : "Science Quiz"
+      "title" : "Science Quiz",
+      "creator" : {
+        "id" : 102,
+        "nickname" : "Math Quiz",
+        "profileImageUrl" : "https://example.com/book2.jpg"
+      }
     }
   } ]
 }</code></pre>
@@ -931,6 +941,21 @@ Content-Length: 408
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].quiz.title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].quiz.creator.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 작성자 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].quiz.creator.nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 작성자 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].quiz.creator.profileImageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 작성자 프로필 사진</p></td>
 </tr>
 </tbody>
 </table>
