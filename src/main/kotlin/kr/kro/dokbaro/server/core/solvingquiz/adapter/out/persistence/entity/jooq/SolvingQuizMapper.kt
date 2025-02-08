@@ -46,6 +46,12 @@ class SolvingQuizMapper {
 					MySolveSummary.Quiz(
 						id = it[BOOK_QUIZ.ID],
 						title = it[BOOK_QUIZ.TITLE],
+						creator =
+							MySolveSummary.QuizCreator(
+								id = it[MEMBER.ID],
+								nickname = it[MEMBER.NICKNAME],
+								profileImageUrl = it[MEMBER.PROFILE_IMAGE_URL],
+							),
 					),
 			)
 		}
