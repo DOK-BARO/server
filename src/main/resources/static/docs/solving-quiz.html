@@ -456,7 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /solving-quiz/start?_csrf=J2o7tVLy0zpQSzK9OtL898V9yAuuTAqucL4eTRc3df-kBiXaRAkPgTeR5Fl9cgCFCv_IlPFN5TLILjKDE9soLHEGTZqcY0G7 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /solving-quiz/start?_csrf=LcPXArLg6LpevXZaomg3Z3eVTFlY24-n0RMuUZgNfeAVw0GZH_W2ZtTU39hzjxdtm0UDVkL0YWA8ve6K5HdKYf08TdRx-nOs HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 18
 Host: dokbaro.com
@@ -546,7 +546,7 @@ Content-Length: 14
 <h4 id="_http_request_2">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /solving-quiz/1/sheets?_csrf=ew0tviPgna0zKrssNroNUXh8VvdVKNiA1B1DZzsfUjaaQjD-SGwfiRTTqMkeG9ocB5c5aUpLe5U2HbqtsHsnUVomM1P-JgPJ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /solving-quiz/1/sheets?_csrf=5xYN98H5XsAd3--oVVaywmlotP5TZ1Vn73QufHHBMzbQQV40hnc1zvPBbaUwvNqcZnuG-w9amcY1VTRKihAZRUWiBlezJzoA HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 64
 Host: dokbaro.com
@@ -859,7 +859,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 694
+Content-Length: 768
 
 {
   "endPageNumber" : 25,
@@ -874,7 +874,8 @@ Content-Length: 694
         "id" : 102,
         "nickname" : "Math Quiz",
         "profileImageUrl" : "https://example.com/book2.jpg"
-      }
+      },
+      "description" : "description"
     }
   }, {
     "id" : 2,
@@ -887,7 +888,8 @@ Content-Length: 694
         "id" : 102,
         "nickname" : "Math Quiz",
         "profileImageUrl" : "https://example.com/book2.jpg"
-      }
+      },
+      "description" : "description"
     }
   } ]
 }</code></pre>
@@ -941,6 +943,11 @@ Content-Length: 694
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].quiz.title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].quiz.description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈 설명</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].quiz.creator.id</code></p></td>
@@ -1372,7 +1379,7 @@ Content-Length: 673
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2025-02-07 19:07:55 +0900
+Last updated 2025-02-17 14:39:13 +0900
 </div>
 </div>
 </body>

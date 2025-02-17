@@ -46,6 +46,7 @@ class SolvingQuizMapper {
 					MySolveSummary.Quiz(
 						id = it[BOOK_QUIZ.ID],
 						title = it[BOOK_QUIZ.TITLE],
+						description = it[BOOK.DESCRIPTION],
 						creator =
 							MySolveSummary.QuizCreator(
 								id = it[MEMBER.ID],

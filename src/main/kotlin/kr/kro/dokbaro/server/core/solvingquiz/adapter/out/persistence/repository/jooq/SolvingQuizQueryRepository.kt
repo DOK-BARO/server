@@ -47,6 +47,7 @@ class SolvingQuizQueryRepository(
 					BOOK.IMAGE_URL,
 					BOOK_QUIZ.ID,
 					BOOK_QUIZ.TITLE,
+					BOOK_QUIZ.DESCRIPTION,
 					MEMBER.ID,
 					MEMBER.NICKNAME,
 					MEMBER.PROFILE_IMAGE_URL,
