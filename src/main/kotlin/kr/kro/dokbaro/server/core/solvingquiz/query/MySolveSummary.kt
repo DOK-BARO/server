@@ -18,6 +18,6 @@ data class MySolveSummary(
 	data class QuizCreator(
 		val id: Long,
 		val nickname: String,
-		val profileImageUrl: String,
+		val profileImageUrl: String?,
 	)
 }
