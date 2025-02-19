@@ -85,6 +85,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	testImplementation("org.springframework.security:spring-security-test")
 
+	// batch
+	implementation("org.springframework.boot:spring-boot-starter-batch")
+	testImplementation("org.springframework.batch:spring-batch-test")
+
 	// jwt
 	implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
