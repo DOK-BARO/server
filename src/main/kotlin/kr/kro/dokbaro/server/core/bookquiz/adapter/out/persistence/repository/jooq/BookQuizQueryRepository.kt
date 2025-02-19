@@ -380,8 +380,9 @@ class BookQuizQueryRepository(
 				).from(BOOK_QUIZ)
 				.leftJoin(STUDY_GROUP_QUIZ)
 				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
-				.join(BOOK_QUIZ_QUESTION)
-				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID).and(BOOK_QUIZ_QUESTION.DELETED.isFalse))
+				.leftJoin(BOOK_QUIZ_QUESTION)
+				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.and(BOOK_QUIZ_QUESTION.DELETED.isFalse)
 				.where(BOOK_QUIZ.ID.eq(id))
 				.fetchGroups(BOOK_QUIZ)
 
