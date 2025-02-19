@@ -274,7 +274,7 @@ class BookQuizMapper {
 					description = quiz.description,
 					bookId = quiz.bookId,
 					questions =
-						other.map {
+						other.filter { it[BOOK_QUIZ_QUESTION.ID] != null }.map {
 							BookQuizDetailQuestions.Question(
 								id = it[BOOK_QUIZ_QUESTION.ID],
 								content = it[BOOK_QUIZ_QUESTION.QUESTION_CONTENT],
