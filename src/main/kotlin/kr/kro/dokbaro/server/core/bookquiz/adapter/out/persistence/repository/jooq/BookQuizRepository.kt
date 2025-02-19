@@ -160,7 +160,7 @@ class BookQuizRepository(
 			dslContext
 				.select()
 				.from(BOOK_QUIZ)
-				.join(BOOK_QUIZ_QUESTION)
+				.leftJoin(BOOK_QUIZ_QUESTION)
 				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID).and(BOOK_QUIZ_QUESTION.DELETED.isFalse))
 				.leftJoin(BOOK_QUIZ_SELECT_OPTION)
 				.on(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
