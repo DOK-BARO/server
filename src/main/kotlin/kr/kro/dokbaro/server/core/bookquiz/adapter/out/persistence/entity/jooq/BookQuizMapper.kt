@@ -95,6 +95,7 @@ class BookQuizMapper {
 	private fun toQuestions(etc: Result<Record>): QuizQuestions =
 		QuizQuestions(
 			etc
+				.filter { it[BOOK_QUIZ_QUESTION.ID] != null }
 				.groupBy {
 					QuestionBasic(
 						id = it[BOOK_QUIZ_QUESTION.ID],
