@@ -122,6 +122,17 @@ class BookQuizPersistenceAdapterTest(
 			adapter.loadByQuestionId(anyQuestion.id)?.id shouldBe savedQuizId
 		}
 
+		"question 없이도 quiz 로딩이 가능하다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val bookId = bookRepository.insertBook(bookFixture())
+			val savedQuizId: Long =
+				adapter.insert(
+					bookQuizFixture(bookId = bookId, creatorId = memberId, questions = listOf()),
+				)
+
+			adapter.load(savedQuizId) shouldNotBe null
+		}
+
 		"삭제를 수행한다" {
 			val memberId = memberRepository.insert(memberFixture()).id
 			val bookId = bookRepository.insertBook(bookFixture())
