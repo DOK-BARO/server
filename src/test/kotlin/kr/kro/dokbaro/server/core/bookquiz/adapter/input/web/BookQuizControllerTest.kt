@@ -266,6 +266,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					timeLimitSecond = 60,
 					viewScope = AccessScope.EVERYONE,
 					editScope = AccessScope.CREATOR,
+					temporary = true,
 				)
 
 			performPut(Path("/book-quizzes/{id}", "1"), body)
@@ -320,6 +321,9 @@ class BookQuizControllerTest : RestDocsTest() {
 								.type(JsonFieldType.NUMBER)
 								.description("연관 Study group ID (optional)")
 								.optional(),
+							fieldWithPath("temporary")
+								.type(JsonFieldType.BOOLEAN)
+								.description("임시 저장 여부"),
 						),
 					),
 				)
@@ -369,6 +373,7 @@ class BookQuizControllerTest : RestDocsTest() {
 										nickname = "quizMaster01",
 										profileUrl = "https://example.com/profiles/quizMaster01",
 									),
+								temporary = true,
 							),
 							BookQuizSummary(
 								id = 102L,
@@ -383,6 +388,7 @@ class BookQuizControllerTest : RestDocsTest() {
 										nickname = "javaExpert99",
 										profileUrl = "https://example.com/profiles/javaExpert99",
 									),
+								temporary = true,
 							),
 							BookQuizSummary(
 								id = 103L,
@@ -397,6 +403,7 @@ class BookQuizControllerTest : RestDocsTest() {
 										nickname = "pythonGuru",
 										profileUrl = null,
 									),
+								temporary = true,
 							),
 						),
 				)
@@ -432,6 +439,9 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath(
 								"data[].creator.profileUrl",
 							).type(JsonFieldType.STRING).optional().description("생성자의 프로필 URL. (optional)"),
+							fieldWithPath("data[].temporary")
+								.type(JsonFieldType.BOOLEAN)
+								.description("임시 저장 여부"),
 						),
 					),
 				)
@@ -707,6 +717,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					timeLimitSecond = 3600,
 					viewScope = AccessScope.CREATOR,
 					editScope = AccessScope.CREATOR,
+					temporary = true,
 				)
 
 			performGet(Path("/book-quizzes/{id}", "1"))
@@ -734,6 +745,9 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("timeLimitSecond").description("퀴즈의 제한 시간(초 단위). (optional)"),
 							fieldWithPath("viewScope").description("퀴즈의 조회 접근 범위."),
 							fieldWithPath("editScope").description("퀴즈의 수정 접근 범위."),
+							fieldWithPath("temporary")
+								.type(JsonFieldType.BOOLEAN)
+								.description("임시 저장 여부"),
 						),
 					),
 				)

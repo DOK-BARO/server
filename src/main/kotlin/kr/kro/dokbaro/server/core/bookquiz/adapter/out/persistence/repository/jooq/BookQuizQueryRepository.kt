@@ -169,6 +169,7 @@ class BookQuizQueryRepository(
 									.and(BOOK_QUIZ_QUESTION.DELETED.isFalse),
 							),
 					).`as`(BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT),
+					BOOK_QUIZ.TEMPORARY,
 				).from(BOOK_QUIZ)
 				.join(MEMBER)
 				.on(BOOK_QUIZ.CREATOR_ID.eq(MEMBER.ID))
@@ -371,6 +372,7 @@ class BookQuizQueryRepository(
 					BOOK_QUIZ.TIME_LIMIT_SECOND,
 					BOOK_QUIZ.VIEW_SCOPE,
 					BOOK_QUIZ.EDIT_SCOPE,
+					BOOK_QUIZ.TEMPORARY,
 					BOOK_QUIZ_QUESTION.ID,
 					BOOK_QUIZ_QUESTION.QUESTION_CONTENT,
 					BOOK_QUIZ_QUESTION.EXPLANATION,
@@ -378,8 +380,9 @@ class BookQuizQueryRepository(
 				).from(BOOK_QUIZ)
 				.leftJoin(STUDY_GROUP_QUIZ)
 				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
-				.join(BOOK_QUIZ_QUESTION)
-				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID).and(BOOK_QUIZ_QUESTION.DELETED.isFalse))
+				.leftJoin(BOOK_QUIZ_QUESTION)
+				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.and(BOOK_QUIZ_QUESTION.DELETED.isFalse)
 				.where(BOOK_QUIZ.ID.eq(id))
 				.fetchGroups(BOOK_QUIZ)
 

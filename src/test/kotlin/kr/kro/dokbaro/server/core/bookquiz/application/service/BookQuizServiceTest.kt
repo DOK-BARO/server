@@ -109,6 +109,7 @@ class BookQuizServiceTest :
 							),
 						),
 					modifierId = 1,
+					temporary = true,
 				),
 				dokbaroUserFixture(),
 			)
@@ -142,6 +143,7 @@ class BookQuizServiceTest :
 								),
 							),
 						modifierId = 1,
+						temporary = true,
 					),
 					dokbaroUserFixture(),
 				)
@@ -173,6 +175,7 @@ class BookQuizServiceTest :
 							),
 						),
 					modifierId = 1,
+					temporary = true,
 				),
 				dokbaroUserFixture(),
 			)
