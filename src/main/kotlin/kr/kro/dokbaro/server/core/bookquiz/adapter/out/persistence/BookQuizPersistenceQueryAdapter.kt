@@ -20,6 +20,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.condition.MyBookQuizSummaryFilterCondition
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
@@ -68,7 +69,8 @@ class BookQuizPersistenceQueryAdapter(
 	override fun findAllMyBookQuiz(
 		memberId: Long,
 		pageOption: PageOption<MyBookQuizSummarySortKeyword>,
-	): Collection<MyBookQuizSummary> = bookQuizQueryRepository.findAllMyBookQuizzes(memberId, pageOption)
+		condition: MyBookQuizSummaryFilterCondition,
+	): Collection<MyBookQuizSummary> = bookQuizQueryRepository.findAllMyBookQuizzes(memberId, pageOption, condition)
 
 	override fun findExplanationBy(id: Long): BookQuizExplanation? = bookQuizQueryRepository.findBookQuizExplanationBy(id)
 

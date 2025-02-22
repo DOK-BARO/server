@@ -7,6 +7,7 @@ import io.kotest.matchers.shouldNotBe
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
+import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizConditionBuilder
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
@@ -30,7 +31,7 @@ class SolvingQuizPersistenceAdapterTest(
 		val memberRepository = MemberRepository(dslContext, MemberMapper())
 		val bookRepository = BookRepository(dslContext)
 		val bookQuizRepository = BookQuizRepository(dslContext, BookQuizMapper())
-		val bookQuizQueryRepository = BookQuizQueryRepository(dslContext, BookQuizMapper())
+		val bookQuizQueryRepository = BookQuizQueryRepository(dslContext, BookQuizMapper(), BookQuizConditionBuilder())
 
 		val solvingQuizRepository = SolvingQuizRepository(dslContext)
 		val solvingQuizQueryRepository = SolvingQuizQueryRepository(dslContext, SolvingQuizMapper())

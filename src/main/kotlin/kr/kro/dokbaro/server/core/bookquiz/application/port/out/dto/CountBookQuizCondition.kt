@@ -7,19 +7,17 @@ data class CountBookQuizCondition(
 	val creatorId: Long? = null,
 	val studyGroup: StudyGroup = StudyGroup(),
 	val solved: Solved? = null,
+	val temporary: Boolean = false,
 	val viewScope: AccessScope? = null,
 ) {
-	data class StudyGroup(
-		val active: Boolean = false,
-		val id: Long? = null,
-	) {
-		companion object {
-			fun of(id: Long?): StudyGroup = StudyGroup(active = true, id = id)
-		}
-	}
-
 	data class Solved(
 		val memberId: Long,
 		val solved: Boolean,
+	)
+
+	data class StudyGroup(
+		val only: Boolean = false,
+		val exclude: Boolean = false,
+		val id: Long? = null,
 	)
 }

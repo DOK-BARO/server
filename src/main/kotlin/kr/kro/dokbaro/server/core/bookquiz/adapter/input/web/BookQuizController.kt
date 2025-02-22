@@ -25,6 +25,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.condition.MyBookQuizSummaryFilterCondition
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
@@ -33,6 +34,7 @@ import kr.kro.dokbaro.server.security.details.DokbaroUser
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -161,15 +163,18 @@ class BookQuizController(
 		@RequestParam size: Long,
 		@RequestParam sort: MyBookQuizSummarySortKeyword,
 		@RequestParam direction: SortDirection,
+		@ModelAttribute condition: MyBookQuizSummaryFilterCondition,
 	): PageResponse<MyBookQuizSummary> =
 		findMyBookQuizUseCase.findMyBookQuiz(
 			memberId = user.id,
-			PageOption.of(
-				page = page,
-				size = size,
-				sort = sort,
-				direction = direction,
-			),
+			pageOption =
+				PageOption.of(
+					page = page,
+					size = size,
+					sort = sort,
+					direction = direction,
+				),
+			condition = condition,
 		)
 
 	@DeleteMapping("/{id}")
