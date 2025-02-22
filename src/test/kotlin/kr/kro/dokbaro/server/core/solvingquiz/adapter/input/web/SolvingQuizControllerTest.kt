@@ -159,6 +159,13 @@ class SolvingQuizControllerTest : RestDocsTest() {
 								MySolveSummary.Quiz(
 									id = 101L,
 									title = "Math Quiz",
+									description = "description",
+									creator =
+										MySolveSummary.QuizCreator(
+											id = 102L,
+											nickname = "Math Quiz",
+											profileImageUrl = "https://example.com/book2.jpg",
+										),
 								),
 						),
 						MySolveSummary(
@@ -169,6 +176,13 @@ class SolvingQuizControllerTest : RestDocsTest() {
 								MySolveSummary.Quiz(
 									id = 102L,
 									title = "Science Quiz",
+									description = "description",
+									creator =
+										MySolveSummary.QuizCreator(
+											id = 102L,
+											nickname = "Math Quiz",
+											profileImageUrl = "https://example.com/book2.jpg",
+										),
 								),
 						),
 					),
@@ -193,6 +207,10 @@ class SolvingQuizControllerTest : RestDocsTest() {
 							fieldWithPath("data[].quiz").description("푼 퀴즈에 대한 요약 정보"),
 							fieldWithPath("data[].quiz.id").description("퀴즈의 고유 식별자"),
 							fieldWithPath("data[].quiz.title").description("퀴즈 제목"),
+							fieldWithPath("data[].quiz.description").description("퀴즈 설명"),
+							fieldWithPath("data[].quiz.creator.id").description("퀴즈 작성자 ID"),
+							fieldWithPath("data[].quiz.creator.nickname").description("퀴즈 작성자 닉네임"),
+							fieldWithPath("data[].quiz.creator.profileImageUrl").description("퀴즈 작성자 프로필 사진"),
 						),
 					),
 				)

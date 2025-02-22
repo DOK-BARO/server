@@ -14,6 +14,7 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.B
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
+import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
@@ -126,14 +127,18 @@ class BookQuizPersistenceQueryAdapterTest(
 					bookQuizFixture(creatorId = member, bookId = book, title = "hello$it", studyGroupId = studyGroup),
 				)
 				bookQuizRepository.insert(
-					bookQuizFixture(creatorId = member, bookId = book2, title = "hello$it"),
+					bookQuizFixture(creatorId = member, bookId = book2, title = "hello$it", viewScope = AccessScope.CREATOR),
 				)
 			}
 
-			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe 0
-			adapter.countBookQuizBy(CountBookQuizCondition(studyGroupId = studyGroup)) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe target
+			adapter.countBookQuizBy(
+				CountBookQuizCondition(studyGroup = CountBookQuizCondition.StudyGroup.of(studyGroup)),
+			) shouldBe
+				target
 			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book2)) shouldBe target
-			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target
+			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target * 2
+			adapter.countBookQuizBy(CountBookQuizCondition(viewScope = AccessScope.CREATOR)) shouldBe target
 		}
 
 		"개수 조회 시 스터디 그룹을 명시하지 않으면 스터디 그룹을 제외하고 카운팅한다" {
@@ -155,8 +160,11 @@ class BookQuizPersistenceQueryAdapterTest(
 				)
 			}
 
-			adapter.countBookQuizBy(CountBookQuizCondition(studyGroupId = studyGroup)) shouldBe target
-			adapter.countBookQuizBy(CountBookQuizCondition()) shouldBe target
+			adapter.countBookQuizBy(
+				CountBookQuizCondition(studyGroup = CountBookQuizCondition.StudyGroup.of(null)),
+			) shouldBe
+				target
+			adapter.countBookQuizBy(CountBookQuizCondition()) shouldBe target * 2
 		}
 
 		"내가 푼 퀴즈 개수를 조회한다" {
@@ -175,6 +183,11 @@ class BookQuizPersistenceQueryAdapterTest(
 				CountBookQuizCondition(solved = CountBookQuizCondition.Solved(memberId = member, solved = true)),
 			) shouldBe
 				1
+			adapter.countBookQuizBy(
+				CountBookQuizCondition(solved = CountBookQuizCondition.Solved(memberId = member, solved = false)),
+			) shouldBe
+				2
+
 			adapter.countBookQuizBy(
 				CountBookQuizCondition(solved = CountBookQuizCondition.Solved(memberId = member, solved = false)),
 			) shouldBe

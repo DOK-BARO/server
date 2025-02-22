@@ -47,9 +47,15 @@ class SolvingQuizQueryRepository(
 					BOOK.IMAGE_URL,
 					BOOK_QUIZ.ID,
 					BOOK_QUIZ.TITLE,
+					BOOK_QUIZ.DESCRIPTION,
+					MEMBER.ID,
+					MEMBER.NICKNAME,
+					MEMBER.PROFILE_IMAGE_URL,
 				).from(SOLVING_QUIZ)
 				.join(BOOK_QUIZ)
 				.on(BOOK_QUIZ.ID.eq(SOLVING_QUIZ.QUIZ_ID).and(BOOK_QUIZ.DELETED.isFalse))
+				.join(MEMBER)
+				.on(MEMBER.ID.eq(BOOK_QUIZ.CREATOR_ID))
 				.join(BOOK)
 				.on(BOOK.ID.eq(BOOK_QUIZ.BOOK_ID))
 				.where(SOLVING_QUIZ.MEMBER_ID.eq(memberId))
@@ -216,4 +222,13 @@ class SolvingQuizQueryRepository(
 
 		return solvingQuizMapper.toSolvingQuiz(record)
 	}
+
+	fun findAllGroupMemberIdsByQuizId(quizId: Long): Collection<Long> =
+		dslContext
+			.select(STUDY_GROUP_MEMBER.MEMBER_ID)
+			.from(STUDY_GROUP_MEMBER)
+			.leftJoin(STUDY_GROUP_QUIZ)
+			.on(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(STUDY_GROUP_MEMBER.STUDY_GROUP_ID))
+			.where(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(quizId))
+			.fetchInto(Long::class.java)
 }
