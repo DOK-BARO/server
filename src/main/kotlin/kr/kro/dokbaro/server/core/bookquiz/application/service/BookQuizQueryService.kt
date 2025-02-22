@@ -24,6 +24,7 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.condition.MyBookQuizSummaryFilterCondition
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
@@ -77,7 +78,7 @@ class BookQuizQueryService(
 		val totalCount: Long =
 			countBookQuizPort.countBookQuizBy(
 				CountBookQuizCondition(
-					studyGroupId = studyGroupId,
+					studyGroup = CountBookQuizCondition.StudyGroup(id = studyGroupId),
 					solved =
 						CountBookQuizCondition.Solved(
 							memberId = memberId,
@@ -103,12 +104,25 @@ class BookQuizQueryService(
 	override fun findMyBookQuiz(
 		memberId: Long,
 		pageOption: PageOption<MyBookQuizSummarySortKeyword>,
+		condition: MyBookQuizSummaryFilterCondition,
 	): PageResponse<MyBookQuizSummary> {
-		val totalCount: Long = countBookQuizPort.countBookQuizBy(CountBookQuizCondition(creatorId = memberId))
+		val totalCount: Long =
+			countBookQuizPort.countBookQuizBy(
+				CountBookQuizCondition(
+					creatorId = memberId,
+					temporary = condition.temporary,
+					viewScope = condition.viewScope,
+					studyGroup =
+						CountBookQuizCondition.StudyGroup(
+							id = condition.studyGroup.id,
+						),
+				),
+			)
 
 		val data: Collection<MyBookQuizSummary> =
 			readMyBookQuizSummaryPort.findAllMyBookQuiz(
 				memberId = memberId,
+				condition = condition,
 				pageOption = pageOption,
 			)
 

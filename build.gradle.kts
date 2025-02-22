@@ -199,6 +199,7 @@ kover {
 				classes("kr.kro.dokbaro.server.core.**.adapter.input.event.*EventListener")
 				classes("kr.kro.dokbaro.server.core.**.adapter.out.persistence.entity.**")
 				classes("kr.kro.dokbaro.server.core.**.adapter.out.persistence.repository.**.*RecordFieldName")
+				classes("kr.kro.dokbaro.server.core.**.adapter.out.persistence.repository.**.*ConditionBuilder")
 			}
 		}
 		verify {

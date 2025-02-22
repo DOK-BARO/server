@@ -239,6 +239,7 @@ class BookQuizMapper {
 							profileImageUrl = it[STUDY_GROUP.PROFILE_IMAGE_URL],
 						)
 					},
+				temporary = it[BOOK_QUIZ.TEMPORARY],
 			)
 		}
 
