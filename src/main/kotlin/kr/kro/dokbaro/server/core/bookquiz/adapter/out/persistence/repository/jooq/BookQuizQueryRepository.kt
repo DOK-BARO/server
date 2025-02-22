@@ -5,6 +5,7 @@ import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.BookQuizDetailQuestions
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
+import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
@@ -62,7 +63,7 @@ class BookQuizQueryRepository(
 					STUDY_GROUP_QUIZ.STUDY_GROUP_ID,
 				).from(BOOK_QUIZ)
 				.join(BOOK_QUIZ_QUESTION)
-				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID).and(BOOK_QUIZ_QUESTION.DELETED.isFalse))
 				.leftJoin(BOOK_QUIZ_SELECT_OPTION)
 				.on(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
 				.leftJoin(STUDY_GROUP_QUIZ)
@@ -120,7 +121,8 @@ class BookQuizQueryRepository(
 							.from(BOOK_QUIZ_QUESTION)
 							.where(
 								BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID
-									.eq(BOOK_QUIZ.ID),
+									.eq(BOOK_QUIZ.ID)
+									.and(BOOK_QUIZ_QUESTION.DELETED.isFalse),
 							),
 					).`as`(BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT),
 					BOOK_QUIZ.TEMPORARY,
@@ -130,13 +132,18 @@ class BookQuizQueryRepository(
 				.leftJoin(QUIZ_REVIEW)
 				.on(QUIZ_REVIEW.QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.where(
-					BOOK_QUIZ.BOOK_ID.eq(bookId).and(BOOK_QUIZ.DELETED.isFalse).and(
-						BOOK_QUIZ.ID
-							.notIn(
-								select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
-									.from(STUDY_GROUP_QUIZ),
-							),
-					),
+					BOOK_QUIZ.BOOK_ID
+						.eq(bookId)
+						.and(BOOK_QUIZ.DELETED.isFalse)
+						.and(
+							BOOK_QUIZ.ID
+								.notIn(
+									select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
+										.from(STUDY_GROUP_QUIZ),
+								),
+						).and(
+							BOOK_QUIZ.VIEW_SCOPE.eq(AccessScope.EVERYONE.name),
+						),
 				).groupBy(BOOK_QUIZ)
 				.orderBy(toBookQuizSummaryOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
@@ -249,6 +256,7 @@ class BookQuizQueryRepository(
 					BOOK_QUIZ.ID,
 					BOOK.IMAGE_URL,
 					BOOK_QUIZ.TITLE,
+					BOOK_QUIZ.DESCRIPTION,
 					BOOK_QUIZ.UPDATED_AT,
 					BOOK_QUIZ.TEMPORARY,
 					STUDY_GROUP.ID,

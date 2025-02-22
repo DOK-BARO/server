@@ -46,6 +46,13 @@ class SolvingQuizMapper {
 					MySolveSummary.Quiz(
 						id = it[BOOK_QUIZ.ID],
 						title = it[BOOK_QUIZ.TITLE],
+						description = it[BOOK.DESCRIPTION],
+						creator =
+							MySolveSummary.QuizCreator(
+								id = it[MEMBER.ID],
+								nickname = it[MEMBER.NICKNAME],
+								profileImageUrl = it[MEMBER.PROFILE_IMAGE_URL],
+							),
 					),
 			)
 		}
@@ -155,7 +162,7 @@ class SolvingQuizMapper {
 							quizId = group.quizId,
 							sheets = sheets,
 						)
-					}.first()
+					}.firstOrNull()
 			}
 }
 

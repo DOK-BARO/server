@@ -8,6 +8,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadSolvingQu
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadStudyGroupSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMySolveSummaryPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadMyStudyGroupSolveSummaryPort
+import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.ReadStudyGroupMemberIdsCollectionByQuizIdPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.dto.CountSolvingQuizCondition
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.solvingquiz.query.MySolveSummary
@@ -23,7 +24,8 @@ class SolvingQuizPersistenceQueryAdapter(
 	ReadMyStudyGroupSolveSummaryPort,
 	CountSolvingQuizPort,
 	LoadStudyGroupSolvingQuizPort,
-	LoadSolvingQuizPort {
+	LoadSolvingQuizPort,
+	ReadStudyGroupMemberIdsCollectionByQuizIdPort {
 	override fun findAllMySolveSummary(
 		memberId: Long,
 		pageOption: PageOption<MySolvingQuizSortKeyword>,
@@ -48,4 +50,7 @@ class SolvingQuizPersistenceQueryAdapter(
 		)
 
 	override fun findById(solvingQuizId: Long): SolvingQuiz? = solvingQuizQueryRepository.findById(solvingQuizId)
+
+	override fun findAllGroupMemberIdsByQuizId(quizId: Long): Collection<Long> =
+		solvingQuizQueryRepository.findAllGroupMemberIdsByQuizId(quizId)
 }

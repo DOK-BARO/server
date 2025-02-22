@@ -6,6 +6,7 @@ data class MyBookQuizSummary(
 	val id: Long,
 	val bookImageUrl: String?,
 	val title: String,
+	val description: String,
 	val updatedAt: LocalDateTime,
 	val studyGroup: StudyGroup? = null,
 	val temporary: Boolean,

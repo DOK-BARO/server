@@ -3,6 +3,7 @@ package kr.kro.dokbaro.server.core.solvingquiz.adapter.out
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringTestExtension
 import io.kotest.extensions.spring.SpringTestLifecycleMode
+import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -239,5 +240,34 @@ class SolvingQuizPersistenceQueryAdapterTest(
 				)
 
 			adapter.findById(id) shouldNotBe null
+		}
+
+		"quizId를 통해 studyGroupMember 목록을 조회한다" {
+			val memberId = memberRepository.insert(memberFixture()).id
+			val memberId2 = memberRepository.insert(memberFixture(email = Email("hello@gmail.com"))).id
+			val bookId = bookRepository.insertBook(bookFixture())
+			val studyGroupId =
+				studyGroupRepository.insert(
+					studyGroupFixture(
+						studyMembers =
+							mutableSetOf(
+								StudyMember(memberId, StudyMemberRole.LEADER),
+								StudyMember(memberId2, StudyMemberRole.MEMBER),
+							),
+					),
+				)
+			val bookQuizId =
+				bookQuizRepository.insert(
+					bookQuizFixture(
+						creatorId = memberId,
+						bookId = bookId,
+						studyGroupId = studyGroupId,
+					),
+				)
+
+			solvingQuizRepository.insert(SolvingQuiz(playerId = memberId, quizId = bookQuizId))
+
+			adapter.findAllGroupMemberIdsByQuizId(bookQuizId).size shouldBe 2
+			adapter.findAllGroupMemberIdsByQuizId(bookQuizId) shouldContainAll listOf(memberId, memberId2)
 		}
 	})

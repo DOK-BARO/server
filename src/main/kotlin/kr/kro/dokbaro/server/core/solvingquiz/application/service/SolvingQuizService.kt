@@ -12,6 +12,7 @@ import kr.kro.dokbaro.server.core.solvingquiz.application.port.input.dto.StartSo
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.InsertSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.LoadSolvingQuizPort
 import kr.kro.dokbaro.server.core.solvingquiz.application.port.out.UpdateSolvingQuizPort
+import kr.kro.dokbaro.server.core.solvingquiz.application.service.auth.SolvingQuizAuthorityCheckService
 import kr.kro.dokbaro.server.core.solvingquiz.application.service.exception.NotFoundSolvingQuizException
 import kr.kro.dokbaro.server.core.solvingquiz.domain.SolvingQuiz
 import kr.kro.dokbaro.server.core.solvingquiz.query.SolveResult
@@ -23,15 +24,22 @@ class SolvingQuizService(
 	private val loadSolvingQuizPort: LoadSolvingQuizPort,
 	private val updateSolvingQuizPort: UpdateSolvingQuizPort,
 	private val findBookQuizByQuestionIdUseCase: FindBookQuizByQuestionIdUseCase,
+	private val solvingQuizAuthorityCheckService: SolvingQuizAuthorityCheckService,
 ) : StartSolvingQuizUseCase,
 	SolveQuestionUseCase {
-	override fun start(command: StartSolvingQuizCommand): Long =
-		insertSolvingQuizPort.insert(
+	override fun start(command: StartSolvingQuizCommand): Long {
+		solvingQuizAuthorityCheckService.checkSolvingQuiz(
+			playerId = command.memberId,
+			quizId = command.quizId,
+		)
+
+		return insertSolvingQuizPort.insert(
 			SolvingQuiz(
 				playerId = command.memberId,
 				quizId = command.quizId,
 			),
 		)
+	}
 
 	override fun solve(command: SolveQuestionCommand): SolveResult {
 		val solvingQuiz: SolvingQuiz =

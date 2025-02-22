@@ -15,6 +15,7 @@ import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jo
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
+import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.AnswerSheet
 import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
@@ -128,7 +129,7 @@ class BookQuizPersistenceQueryAdapterTest(
 					bookQuizFixture(creatorId = member, bookId = book, title = "hello$it", studyGroupId = studyGroup),
 				)
 				bookQuizRepository.insert(
-					bookQuizFixture(creatorId = member, bookId = book2, title = "hello$it"),
+					bookQuizFixture(creatorId = member, bookId = book2, title = "hello$it", viewScope = AccessScope.CREATOR),
 				)
 			}
 
@@ -183,6 +184,11 @@ class BookQuizPersistenceQueryAdapterTest(
 				CountBookQuizCondition(solved = CountBookQuizCondition.Solved(memberId = member, solved = true)),
 			) shouldBe
 				1
+			adapter.countBookQuizBy(
+				CountBookQuizCondition(solved = CountBookQuizCondition.Solved(memberId = member, solved = false)),
+			) shouldBe
+				2
+
 			adapter.countBookQuizBy(
 				CountBookQuizCondition(solved = CountBookQuizCondition.Solved(memberId = member, solved = false)),
 			) shouldBe

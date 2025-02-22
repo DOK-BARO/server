@@ -114,6 +114,7 @@ class BookQuizQueryServiceTest :
 						id = 1L,
 						bookImageUrl = "https://example.com/book_image.jpg",
 						title = "Effective Kotlin",
+						description = "Description",
 						updatedAt = LocalDateTime.now(),
 						temporary = true,
 					),

@@ -231,6 +231,7 @@ class BookQuizMapper {
 				bookImageUrl = it[BOOK.IMAGE_URL],
 				title = it[BOOK_QUIZ.TITLE],
 				updatedAt = it[BOOK_QUIZ.UPDATED_AT],
+				description = it[BOOK.DESCRIPTION],
 				studyGroup =
 					it[STUDY_GROUP.ID]?.let { id ->
 						MyBookQuizSummary.StudyGroup(

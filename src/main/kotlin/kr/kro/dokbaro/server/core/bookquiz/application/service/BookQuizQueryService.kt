@@ -17,6 +17,7 @@ import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadMyBookQuizSu
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.ReadUnsolvedGroupBookQuizPort
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
 import kr.kro.dokbaro.server.core.bookquiz.application.service.exception.NotFoundQuizException
+import kr.kro.dokbaro.server.core.bookquiz.domain.AccessScope
 import kr.kro.dokbaro.server.core.bookquiz.domain.exception.NotFoundQuestionException
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizAnswer
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
@@ -55,7 +56,13 @@ class BookQuizQueryService(
 		bookId: Long,
 		pageOption: PageOption<BookQuizSummarySortKeyword>,
 	): PageResponse<BookQuizSummary> {
-		val count: Long = countBookQuizPort.countBookQuizBy(CountBookQuizCondition(bookId = bookId))
+		val count: Long =
+			countBookQuizPort.countBookQuizBy(
+				CountBookQuizCondition(
+					bookId = bookId,
+					viewScope = AccessScope.EVERYONE,
+				),
+			)
 		val data: Collection<BookQuizSummary> =
 			readBookQuizSummaryPort
 				.findAllBookQuizSummary(

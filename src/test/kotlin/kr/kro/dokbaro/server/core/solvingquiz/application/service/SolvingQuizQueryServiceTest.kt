@@ -99,6 +99,13 @@ class SolvingQuizQueryServiceTest :
 							MySolveSummary.Quiz(
 								id = 101L,
 								title = "Math Quiz",
+								description = "Math Quiz",
+								creator =
+									MySolveSummary.QuizCreator(
+										id = 102L,
+										nickname = "Math Quiz",
+										profileImageUrl = "https://example.com/book2.jpg",
+									),
 							),
 					),
 					MySolveSummary(
@@ -109,6 +116,13 @@ class SolvingQuizQueryServiceTest :
 							MySolveSummary.Quiz(
 								id = 102L,
 								title = "Science Quiz",
+								description = "Math Quiz",
+								creator =
+									MySolveSummary.QuizCreator(
+										id = 102L,
+										nickname = "Math Quiz",
+										profileImageUrl = "https://example.com/book2.jpg",
+									),
 							),
 					),
 				)
