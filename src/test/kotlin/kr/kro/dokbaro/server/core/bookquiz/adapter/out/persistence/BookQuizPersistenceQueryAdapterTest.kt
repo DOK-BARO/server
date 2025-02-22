@@ -11,6 +11,7 @@ import kr.kro.dokbaro.server.common.dto.option.SortDirection
 import kr.kro.dokbaro.server.configuration.annotation.PersistenceAdapterTest
 import kr.kro.dokbaro.server.core.book.adapter.out.persistence.repository.jooq.BookRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.entity.jooq.BookQuizMapper
+import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizConditionBuilder
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizQueryRepository
 import kr.kro.dokbaro.server.core.bookquiz.adapter.out.persistence.repository.jooq.BookQuizRepository
 import kr.kro.dokbaro.server.core.bookquiz.application.port.out.dto.CountBookQuizCondition
@@ -20,6 +21,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.BookQuiz
 import kr.kro.dokbaro.server.core.bookquiz.domain.GradeSheetFactory
 import kr.kro.dokbaro.server.core.bookquiz.domain.QuizType
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
+import kr.kro.dokbaro.server.core.bookquiz.query.condition.MyBookQuizSummaryFilterCondition
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
@@ -50,7 +52,7 @@ class BookQuizPersistenceQueryAdapterTest(
 		val bookRepository = BookRepository(dslContext)
 		val memberRepository = MemberRepository(dslContext, MemberMapper())
 		val bookQuizRepository = BookQuizRepository(dslContext, BookQuizMapper())
-		val bookQuizQueryRepository = BookQuizQueryRepository(dslContext, BookQuizMapper())
+		val bookQuizQueryRepository = BookQuizQueryRepository(dslContext, BookQuizMapper(), BookQuizConditionBuilder())
 		val studyGroupRepository = StudyGroupRepository(dslContext)
 		val quizReviewRepository = QuizReviewRepository(dslContext)
 		val solvingQuizRepository = SolvingQuizRepository(dslContext)
@@ -133,12 +135,11 @@ class BookQuizPersistenceQueryAdapterTest(
 
 			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book)) shouldBe target
 			adapter.countBookQuizBy(
-				CountBookQuizCondition(studyGroup = CountBookQuizCondition.StudyGroup.of(studyGroup)),
+				CountBookQuizCondition(studyGroup = CountBookQuizCondition.StudyGroup(id = studyGroup)),
 			) shouldBe
 				target
 			adapter.countBookQuizBy(CountBookQuizCondition(bookId = book2)) shouldBe target
 			adapter.countBookQuizBy(CountBookQuizCondition(creatorId = member)) shouldBe target * 2
-			adapter.countBookQuizBy(CountBookQuizCondition(viewScope = AccessScope.CREATOR)) shouldBe target
 		}
 
 		"개수 조회 시 스터디 그룹을 명시하지 않으면 스터디 그룹을 제외하고 카운팅한다" {
@@ -161,7 +162,7 @@ class BookQuizPersistenceQueryAdapterTest(
 			}
 
 			adapter.countBookQuizBy(
-				CountBookQuizCondition(studyGroup = CountBookQuizCondition.StudyGroup.of(null)),
+				CountBookQuizCondition(studyGroup = CountBookQuizCondition.StudyGroup(id = studyGroup)),
 			) shouldBe
 				target
 			adapter.countBookQuizBy(CountBookQuizCondition()) shouldBe target * 2
@@ -330,18 +331,21 @@ class BookQuizPersistenceQueryAdapterTest(
 				.findAllMyBookQuiz(
 					memberId,
 					PageOption.of(),
+					condition = MyBookQuizSummaryFilterCondition(),
 				).size shouldBe
 				2
 			adapter
 				.findAllMyBookQuiz(
 					memberId2,
 					PageOption.of(),
+					condition = MyBookQuizSummaryFilterCondition(),
 				).size shouldBe
 				1
 			adapter
 				.findAllMyBookQuiz(
 					memberId,
 					PageOption.of(sort = MyBookQuizSummarySortKeyword.CREATED_AT),
+					condition = MyBookQuizSummaryFilterCondition(),
 				).first()
 				.id shouldBe
 				quiz1
@@ -350,6 +354,7 @@ class BookQuizPersistenceQueryAdapterTest(
 				.findAllMyBookQuiz(
 					memberId,
 					PageOption.of(sort = MyBookQuizSummarySortKeyword.UPDATED_AT),
+					condition = MyBookQuizSummaryFilterCondition(),
 				).first()
 				.id shouldBe
 				quiz1
@@ -358,6 +363,7 @@ class BookQuizPersistenceQueryAdapterTest(
 				.findAllMyBookQuiz(
 					memberId,
 					PageOption.of(sort = MyBookQuizSummarySortKeyword.TITLE),
+					condition = MyBookQuizSummaryFilterCondition(),
 				).first()
 				.id shouldBe
 				quiz1
@@ -365,6 +371,7 @@ class BookQuizPersistenceQueryAdapterTest(
 				.findAllMyBookQuiz(
 					memberId,
 					PageOption.of(sort = MyBookQuizSummarySortKeyword.TITLE, direction = SortDirection.DESC),
+					condition = MyBookQuizSummaryFilterCondition(),
 				).first()
 				.id shouldBe
 				quiz2

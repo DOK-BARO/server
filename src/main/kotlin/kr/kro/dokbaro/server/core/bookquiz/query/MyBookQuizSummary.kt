@@ -9,6 +9,7 @@ data class MyBookQuizSummary(
 	val description: String,
 	val updatedAt: LocalDateTime,
 	val studyGroup: StudyGroup? = null,
+	val temporary: Boolean,
 ) {
 	data class StudyGroup(
 		val id: Long,

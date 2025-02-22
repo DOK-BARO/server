@@ -24,6 +24,7 @@ fun bookQuizFixture(
 	studyGroupId: Long? = null,
 	viewScope: AccessScope = AccessScope.EVERYONE,
 	editScope: AccessScope = AccessScope.CREATOR,
+	temporary: Boolean = false,
 ) = BookQuiz(
 	id = id,
 	title = title,
@@ -35,6 +36,7 @@ fun bookQuizFixture(
 	studyGroupId = studyGroupId,
 	viewScope = viewScope,
 	editScope = editScope,
+	temporary = temporary,
 )
 
 fun quizQuestionFixture(

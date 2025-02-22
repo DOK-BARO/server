@@ -20,6 +20,7 @@ import kr.kro.dokbaro.server.core.bookquiz.domain.exception.NotFoundQuestionExce
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizExplanation
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.condition.MyBookQuizSummaryFilterCondition
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import java.time.LocalDateTime
 
@@ -107,7 +108,7 @@ class BookQuizQueryServiceTest :
 		}
 
 		"내가 제작한 퀴즈 목록을 조회한다" {
-			every { readMyBookQuizSummaryPort.findAllMyBookQuiz(any(), any()) } returns
+			every { readMyBookQuizSummaryPort.findAllMyBookQuiz(any(), any(), any()) } returns
 				listOf(
 					MyBookQuizSummary(
 						id = 1L,
@@ -115,12 +116,14 @@ class BookQuizQueryServiceTest :
 						title = "Effective Kotlin",
 						description = "Description",
 						updatedAt = LocalDateTime.now(),
+						temporary = true,
 					),
 				)
 
 			bookQuizQueryService.findMyBookQuiz(
 				1,
 				PageOption.of(),
+				MyBookQuizSummaryFilterCondition(),
 			) shouldNotBe
 				null
 		}
