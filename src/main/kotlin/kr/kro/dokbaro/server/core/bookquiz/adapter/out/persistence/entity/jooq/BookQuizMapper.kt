@@ -95,6 +95,7 @@ class BookQuizMapper {
 	private fun toQuestions(etc: Result<Record>): QuizQuestions =
 		QuizQuestions(
 			etc
+				.filter { it[BOOK_QUIZ_QUESTION.ID] != null }
 				.groupBy {
 					QuestionBasic(
 						id = it[BOOK_QUIZ_QUESTION.ID],
@@ -157,6 +158,7 @@ class BookQuizMapper {
 						nickname = it[MEMBER.NICKNAME],
 						profileUrl = it[MEMBER.PROFILE_IMAGE_URL],
 					),
+				temporary = it[BOOK_QUIZ.TEMPORARY],
 			)
 		}
 
@@ -238,6 +240,7 @@ class BookQuizMapper {
 							profileImageUrl = it[STUDY_GROUP.PROFILE_IMAGE_URL],
 						)
 					},
+				temporary = it[BOOK_QUIZ.TEMPORARY],
 			)
 		}
 
@@ -273,7 +276,7 @@ class BookQuizMapper {
 					description = quiz.description,
 					bookId = quiz.bookId,
 					questions =
-						other.map {
+						other.filter { it[BOOK_QUIZ_QUESTION.ID] != null }.map {
 							BookQuizDetailQuestions.Question(
 								id = it[BOOK_QUIZ_QUESTION.ID],
 								content = it[BOOK_QUIZ_QUESTION.QUESTION_CONTENT],
@@ -285,6 +288,7 @@ class BookQuizMapper {
 					timeLimitSecond = quiz.timeLimitSecond,
 					viewScope = AccessScope.valueOf(quiz.viewScope),
 					editScope = AccessScope.valueOf(quiz.editScope),
+					temporary = quiz.temporary,
 				)
 			}.firstOrNull()
 

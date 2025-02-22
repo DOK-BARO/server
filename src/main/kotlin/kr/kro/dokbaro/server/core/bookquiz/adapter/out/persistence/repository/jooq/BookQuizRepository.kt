@@ -61,6 +61,7 @@ class BookQuizRepository(
 				BOOK_QUIZ.TIME_LIMIT_SECOND,
 				BOOK_QUIZ.VIEW_SCOPE,
 				BOOK_QUIZ.EDIT_SCOPE,
+				BOOK_QUIZ.TEMPORARY,
 			).values(
 				bookQuiz.title,
 				bookQuiz.description,
@@ -69,6 +70,7 @@ class BookQuizRepository(
 				bookQuiz.timeLimitSecond,
 				bookQuiz.viewScope.name,
 				bookQuiz.editScope.name,
+				bookQuiz.temporary,
 			).returningResult(BOOK_QUIZ.ID)
 			.fetchOneInto(Long::class.java)!!
 
@@ -158,7 +160,7 @@ class BookQuizRepository(
 			dslContext
 				.select()
 				.from(BOOK_QUIZ)
-				.join(BOOK_QUIZ_QUESTION)
+				.leftJoin(BOOK_QUIZ_QUESTION)
 				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID).and(BOOK_QUIZ_QUESTION.DELETED.isFalse))
 				.leftJoin(BOOK_QUIZ_SELECT_OPTION)
 				.on(BOOK_QUIZ_SELECT_OPTION.BOOK_QUIZ_QUESTION_ID.eq(BOOK_QUIZ_QUESTION.ID))
@@ -183,6 +185,7 @@ class BookQuizRepository(
 			.set(BOOK_QUIZ.TIME_LIMIT_SECOND, bookQuiz.timeLimitSecond)
 			.set(BOOK_QUIZ.VIEW_SCOPE, bookQuiz.viewScope.name)
 			.set(BOOK_QUIZ.EDIT_SCOPE, bookQuiz.editScope.name)
+			.set(BOOK_QUIZ.TEMPORARY, bookQuiz.temporary)
 			.where(BOOK_QUIZ.ID.eq(bookQuiz.id))
 			.execute()
 

@@ -12,10 +12,10 @@ import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizQuestions
 import kr.kro.dokbaro.server.core.bookquiz.query.BookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.MyBookQuizSummary
 import kr.kro.dokbaro.server.core.bookquiz.query.UnsolvedGroupBookQuizSummary
+import kr.kro.dokbaro.server.core.bookquiz.query.condition.MyBookQuizSummaryFilterCondition
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
-import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.OrderField
 import org.jooq.Record
@@ -35,7 +35,6 @@ import org.jooq.generated.tables.JSolvingQuiz.SOLVING_QUIZ
 import org.jooq.generated.tables.JStudyGroup.STUDY_GROUP
 import org.jooq.generated.tables.JStudyGroupQuiz.STUDY_GROUP_QUIZ
 import org.jooq.generated.tables.records.BookQuizRecord
-import org.jooq.impl.DSL
 import org.jooq.impl.DSL.avg
 import org.jooq.impl.DSL.field
 import org.jooq.impl.DSL.select
@@ -46,6 +45,7 @@ import org.springframework.stereotype.Repository
 class BookQuizQueryRepository(
 	private val dslContext: DSLContext,
 	private val bookQuizMapper: BookQuizMapper,
+	private val bookQuizConditionBuilder: BookQuizConditionBuilder,
 ) {
 	fun findBookQuizQuestionsBy(quizId: Long): BookQuizQuestions? {
 		val record: Result<out Record> =
@@ -96,52 +96,8 @@ class BookQuizQueryRepository(
 		dslContext
 			.selectCount()
 			.from(BOOK_QUIZ)
-			.where(buildCountCondition(condition).and(BOOK_QUIZ.DELETED.isFalse))
+			.where(bookQuizConditionBuilder.buildCountCondition(condition).and(BOOK_QUIZ.DELETED.isFalse))
 			.fetchOneInto(Long::class.java)!!
-
-	private fun buildCountCondition(condition: CountBookQuizCondition): Condition {
-		val result: Condition =
-			DSL.and(
-				condition.bookId?.let { BOOK_QUIZ.BOOK_ID.eq(it) },
-				condition.creatorId?.let { BOOK_QUIZ.CREATOR_ID.eq(it) },
-				condition.solved?.let {
-					if (it.solved) {
-						BOOK_QUIZ.ID.`in`(
-							select(SOLVING_QUIZ.QUIZ_ID)
-								.from(SOLVING_QUIZ)
-								.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
-						)
-					} else {
-						BOOK_QUIZ.ID.notIn(
-							select(SOLVING_QUIZ.QUIZ_ID)
-								.from(SOLVING_QUIZ)
-								.where(SOLVING_QUIZ.MEMBER_ID.eq(it.memberId)),
-						)
-					}
-				},
-				condition.viewScope?.let { BOOK_QUIZ.VIEW_SCOPE.eq(it.name) },
-			)
-
-		if (condition.studyGroup.active) {
-			if (condition.studyGroup.id == null) {
-				return result.and(
-					BOOK_QUIZ.ID.notIn(
-						select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
-							.from(STUDY_GROUP_QUIZ),
-					),
-				)
-			}
-			return result.and(
-				BOOK_QUIZ.ID.`in`(
-					select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID)
-						.from(STUDY_GROUP_QUIZ)
-						.where(STUDY_GROUP_QUIZ.STUDY_GROUP_ID.eq(condition.studyGroup.id)),
-				),
-			)
-		}
-
-		return result
-	}
 
 	fun findAllBookQuizSummary(
 		bookId: Long,
@@ -169,6 +125,7 @@ class BookQuizQueryRepository(
 									.and(BOOK_QUIZ_QUESTION.DELETED.isFalse),
 							),
 					).`as`(BookQuizRecordFieldName.BOOK_QUIZ_QUESTION_COUNT),
+					BOOK_QUIZ.TEMPORARY,
 				).from(BOOK_QUIZ)
 				.join(MEMBER)
 				.on(BOOK_QUIZ.CREATOR_ID.eq(MEMBER.ID))
@@ -291,6 +248,7 @@ class BookQuizQueryRepository(
 	fun findAllMyBookQuizzes(
 		memberId: Long,
 		pageOption: PageOption<MyBookQuizSummarySortKeyword>,
+		condition: MyBookQuizSummaryFilterCondition,
 	): Collection<MyBookQuizSummary> {
 		val record: Result<out Record> =
 			dslContext
@@ -300,6 +258,7 @@ class BookQuizQueryRepository(
 					BOOK_QUIZ.TITLE,
 					BOOK_QUIZ.DESCRIPTION,
 					BOOK_QUIZ.UPDATED_AT,
+					BOOK_QUIZ.TEMPORARY,
 					STUDY_GROUP.ID,
 					STUDY_GROUP.NAME,
 					STUDY_GROUP.PROFILE_IMAGE_URL,
@@ -310,8 +269,12 @@ class BookQuizQueryRepository(
 				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
 				.leftJoin(STUDY_GROUP)
 				.on(STUDY_GROUP.ID.eq(STUDY_GROUP_QUIZ.STUDY_GROUP_ID))
-				.where(BOOK_QUIZ.CREATOR_ID.eq(memberId).and(BOOK_QUIZ.DELETED.isFalse))
-				.orderBy(toMyBookQuizSummeryOrderQuery(pageOption), BOOK_QUIZ.ID)
+				.where(
+					BOOK_QUIZ.CREATOR_ID
+						.eq(memberId)
+						.and(bookQuizConditionBuilder.buildMyBookQuizCondition(condition))
+						.and(BOOK_QUIZ.DELETED.isFalse),
+				).orderBy(toMyBookQuizSummeryOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
 				.offset(pageOption.offset)
 				.fetch()
@@ -371,6 +334,7 @@ class BookQuizQueryRepository(
 					BOOK_QUIZ.TIME_LIMIT_SECOND,
 					BOOK_QUIZ.VIEW_SCOPE,
 					BOOK_QUIZ.EDIT_SCOPE,
+					BOOK_QUIZ.TEMPORARY,
 					BOOK_QUIZ_QUESTION.ID,
 					BOOK_QUIZ_QUESTION.QUESTION_CONTENT,
 					BOOK_QUIZ_QUESTION.EXPLANATION,
@@ -378,8 +342,9 @@ class BookQuizQueryRepository(
 				).from(BOOK_QUIZ)
 				.leftJoin(STUDY_GROUP_QUIZ)
 				.on(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
-				.join(BOOK_QUIZ_QUESTION)
-				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID).and(BOOK_QUIZ_QUESTION.DELETED.isFalse))
+				.leftJoin(BOOK_QUIZ_QUESTION)
+				.on(BOOK_QUIZ_QUESTION.BOOK_QUIZ_ID.eq(BOOK_QUIZ.ID))
+				.and(BOOK_QUIZ_QUESTION.DELETED.isFalse)
 				.where(BOOK_QUIZ.ID.eq(id))
 				.fetchGroups(BOOK_QUIZ)
 

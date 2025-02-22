@@ -456,7 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=dP58nXNuJ2LLdSHsrOfEh8yDYIb_O__9T1teotWvgbf08RisRpgf_EFdRFLmTBLZlMrw4aq7TeebApnQfG4_wObKuYOWlH6d HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /book-quizzes?_csrf=eiWiKhe1jwWr6YLrCp6g40xthbvwYkuLM-hRQfJIWs_1Ew8kQ0aRG3XU6WCGi-CIMrOU035ZqNrIW3-mBdxgdJN_bf3EIjgX HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 907
 Host: dokbaro.com
@@ -761,7 +761,7 @@ Content-Length: 367
 <div class="ulist">
 <ul>
 <li>
-<p>last update: 24-12-26 23:30</p>
+<p>last update: 24-01-26 15:40</p>
 </li>
 </ul>
 </div>
@@ -769,9 +769,9 @@ Content-Length: 367
 <h4 id="_http_request_3">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=XmeJV-jCQV49O1Mah3swvl_ywpKZj66_6yrKKd1Pd6EUc07NbgS8Z4v2cjsQCWAjslYEiW3F76qot8ySihr_HOgqRJksRniv HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /book-quizzes/1?_csrf=VLqzryem21hOYm16JHF2Ccf8jZhJOG6GNeJFmWJN5rc2Sdg6NoKAmkaUuWBjVl0cEVxCa6afoPp-WVarB9Jx_FZ_0tUFe7wL HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 936
+Content-Length: 958
 Host: dokbaro.com
 
 {
@@ -798,7 +798,8 @@ Host: dokbaro.com
     "answerExplanationImages" : [ ],
     "answerType" : "OX",
     "answers" : [ "X" ]
-  } ]
+  } ],
+  "temporary" : true
 }</code></pre>
 </div>
 </div>
@@ -904,6 +905,11 @@ Host: dokbaro.com
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyGroupId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">연관 Study group ID (optional)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>temporary</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">임시 저장 여부</p></td>
 </tr>
 </tbody>
 </table>
@@ -1024,7 +1030,7 @@ Content-Length: 114
 <div class="ulist">
 <ul>
 <li>
-<p>last update: 25-01-16 16:30</p>
+<p>last update: 24-01-26 15:40</p>
 </li>
 </ul>
 </div>
@@ -1086,7 +1092,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 961
+Content-Length: 1033
 
 {
   "endPageNumber" : 5,
@@ -1101,7 +1107,8 @@ Content-Length: 961
       "id" : 1001,
       "nickname" : "quizMaster01",
       "profileUrl" : "https://example.com/profiles/quizMaster01"
-    }
+    },
+    "temporary" : true
   }, {
     "id" : 102,
     "title" : "Advanced Java Concepts",
@@ -1113,7 +1120,8 @@ Content-Length: 961
       "id" : 1002,
       "nickname" : "javaExpert99",
       "profileUrl" : "https://example.com/profiles/javaExpert99"
-    }
+    },
+    "temporary" : true
   }, {
     "id" : 103,
     "title" : "Python for Beginners",
@@ -1125,7 +1133,8 @@ Content-Length: 961
       "id" : 1003,
       "nickname" : "pythonGuru",
       "profileUrl" : null
-    }
+    },
+    "temporary" : true
   } ]
 }</code></pre>
 </div>
@@ -1198,6 +1207,11 @@ Content-Length: 961
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].creator.profileUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">생성자의 프로필 URL. (optional)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].temporary</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">임시 저장 여부</p></td>
 </tr>
 </tbody>
 </table>
@@ -1424,7 +1438,7 @@ Content-Length: 1458
 <div class="ulist">
 <ul>
 <li>
-<p>last update: 25-02-07 19:25</p>
+<p>last update: 24-01-26 15:40</p>
 </li>
 </ul>
 </div>
@@ -1490,8 +1504,7 @@ Content-Length: 574
     "id" : 1,
     "bookImageUrl" : "https://example.com/book_image1.jpg",
     "title" : "Effective Kotlin",
-    "description" : "Description",
-    "updatedAt" : "2025-02-15T14:45:35.474495",
+    "updatedAt" : "2025-01-24T15:23:47.114963",
     "studyGroup" : {
       "id" : 1,
       "name" : "Study Group 1",
@@ -1501,8 +1514,7 @@ Content-Length: 574
     "id" : 2,
     "bookImageUrl" : "https://example.com/book_image2.jpg",
     "title" : "Kotlin in Action",
-    "description" : "Description",
-    "updatedAt" : "2025-02-12T14:45:35.474983",
+    "updatedAt" : "2025-01-21T15:23:47.116643",
     "studyGroup" : null
   } ]
 }</code></pre>
@@ -1684,13 +1696,13 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 417
+Content-Length: 416
 
 {
   "id" : 1,
   "title" : "Sample Quiz Explanation",
   "description" : "This is a detailed explanation for a sample book quiz.",
-  "createdAt" : "2025-02-17T14:45:35.542737",
+  "createdAt" : "2025-01-26T15:23:47.18971",
   "creator" : {
     "id" : 101,
     "nickname" : "QuizMaster",
@@ -1834,7 +1846,7 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1040
+Content-Length: 1062
 
 {
   "id" : 1,
@@ -1861,7 +1873,8 @@ Content-Length: 1040
   "studyGroupId" : 201,
   "timeLimitSecond" : 3600,
   "viewScope" : "CREATOR",
-  "editScope" : "CREATOR"
+  "editScope" : "CREATOR",
+  "temporary" : true
 }</code></pre>
 </div>
 </div>
@@ -1959,6 +1972,11 @@ Content-Length: 1040
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">퀴즈의 수정 접근 범위.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>temporary</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">임시 저장 여부</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1969,7 +1987,7 @@ Content-Length: 1040
 <div id="footer">
 <div id="footer-text">
 Version 3.19.5<br>
-Last updated 2025-02-17 14:39:13 +0900
+Last updated 2025-01-26 15:19:14 +0900
 </div>
 </div>
 </body>

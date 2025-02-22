@@ -266,6 +266,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					timeLimitSecond = 60,
 					viewScope = AccessScope.EVERYONE,
 					editScope = AccessScope.CREATOR,
+					temporary = true,
 				)
 
 			performPut(Path("/book-quizzes/{id}", "1"), body)
@@ -320,6 +321,9 @@ class BookQuizControllerTest : RestDocsTest() {
 								.type(JsonFieldType.NUMBER)
 								.description("연관 Study group ID (optional)")
 								.optional(),
+							fieldWithPath("temporary")
+								.type(JsonFieldType.BOOLEAN)
+								.description("임시 저장 여부"),
 						),
 					),
 				)
@@ -369,6 +373,7 @@ class BookQuizControllerTest : RestDocsTest() {
 										nickname = "quizMaster01",
 										profileUrl = "https://example.com/profiles/quizMaster01",
 									),
+								temporary = true,
 							),
 							BookQuizSummary(
 								id = 102L,
@@ -383,6 +388,7 @@ class BookQuizControllerTest : RestDocsTest() {
 										nickname = "javaExpert99",
 										profileUrl = "https://example.com/profiles/javaExpert99",
 									),
+								temporary = true,
 							),
 							BookQuizSummary(
 								id = 103L,
@@ -397,6 +403,7 @@ class BookQuizControllerTest : RestDocsTest() {
 										nickname = "pythonGuru",
 										profileUrl = null,
 									),
+								temporary = true,
 							),
 						),
 				)
@@ -432,6 +439,9 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath(
 								"data[].creator.profileUrl",
 							).type(JsonFieldType.STRING).optional().description("생성자의 프로필 URL. (optional)"),
+							fieldWithPath("data[].temporary")
+								.type(JsonFieldType.BOOLEAN)
+								.description("임시 저장 여부"),
 						),
 					),
 				)
@@ -552,7 +562,7 @@ class BookQuizControllerTest : RestDocsTest() {
 		}
 
 		"내가 작성한 퀴즈 목록을 조회한다" {
-			every { findMyBookQuizUseCase.findMyBookQuiz(any(), any()) } returns
+			every { findMyBookQuizUseCase.findMyBookQuiz(any(), any(), any()) } returns
 				PageResponse.of(
 					1000,
 					20,
@@ -569,6 +579,7 @@ class BookQuizControllerTest : RestDocsTest() {
 									"Study Group 1",
 									profileImageUrl = "hello.png",
 								),
+							temporary = false,
 						),
 						MyBookQuizSummary(
 							id = 2L,
@@ -576,10 +587,21 @@ class BookQuizControllerTest : RestDocsTest() {
 							title = "Kotlin in Action",
 							description = "Description",
 							updatedAt = LocalDateTime.now().minusDays(5),
+							temporary = false,
 						),
 					),
 				)
-			val params = pageRequestParams<MyBookQuizSummarySortKeyword>()
+			val params =
+				pageRequestParams<MyBookQuizSummarySortKeyword>(
+					etc =
+						mapOf(
+							"temporary" to "false",
+							"viewScope" to "EVERYONE",
+							"studyGroup.only" to "false",
+							"studyGroup.exclude" to "false",
+							"studyGroup.id" to "1",
+						),
+				)
 			performGet(Path("/book-quizzes/my"), params)
 				.andExpect(status().isOk)
 				.andDo(
@@ -587,6 +609,13 @@ class BookQuizControllerTest : RestDocsTest() {
 						"book-quiz/get-my-quiz",
 						queryParameters(
 							*pageQueryParameters<MyBookQuizSummarySortKeyword>(),
+							parameterWithName("temporary")
+								.description("임시 저장 여부 (default false)"),
+							parameterWithName("viewScope")
+								.description("보기 접근 권한 (optional) [${AccessScope.entries.joinToString(", ") { it.name }}]"),
+							parameterWithName("studyGroup.only").description("스터디 그룹 퀴즈만 조회 (default false)"),
+							parameterWithName("studyGroup.exclude").description("스터디 그룹 퀴즈 제외하고 조회 (default false)"),
+							parameterWithName("studyGroup.id").description("스터디 그룹 ID (optional)"),
 						),
 						responseFields(
 							endPageNumberFields(),
@@ -595,6 +624,7 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("data[].title").description("퀴즈 타이틀"),
 							fieldWithPath("data[].description").description("퀴즈 설명"),
 							fieldWithPath("data[].updatedAt").description("마지막으로 업데이트된 시간 (ISO 8601 형식)"),
+							fieldWithPath("data[].temporary").description("임시저장 여부"),
 							fieldWithPath("data[].studyGroup").optional().description("스터디 그룹 정보 (optional)"),
 							fieldWithPath("data[].studyGroup.id").description("스터디 그룹의 고유 식별자(ID)."),
 							fieldWithPath("data[].studyGroup.name").description("스터디 그룹의 이름."),
@@ -707,6 +737,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					timeLimitSecond = 3600,
 					viewScope = AccessScope.CREATOR,
 					editScope = AccessScope.CREATOR,
+					temporary = true,
 				)
 
 			performGet(Path("/book-quizzes/{id}", "1"))
@@ -734,6 +765,9 @@ class BookQuizControllerTest : RestDocsTest() {
 							fieldWithPath("timeLimitSecond").description("퀴즈의 제한 시간(초 단위). (optional)"),
 							fieldWithPath("viewScope").description("퀴즈의 조회 접근 범위."),
 							fieldWithPath("editScope").description("퀴즈의 수정 접근 범위."),
+							fieldWithPath("temporary")
+								.type(JsonFieldType.BOOLEAN)
+								.description("임시 저장 여부"),
 						),
 					),
 				)
