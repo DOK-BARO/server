@@ -107,6 +107,7 @@ class BookQuizService(
 			timeLimitSecond = command.timeLimitSecond,
 			viewScope = command.viewScope,
 			editScope = command.editScope,
+			temporary = command.temporary,
 		)
 
 		bookQuiz.updateQuestions(
