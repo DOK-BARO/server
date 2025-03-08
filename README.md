@@ -58,3 +58,5 @@
 - [쿼리 분리 VS 카테시안곱 허용하기](https://velog.io/@hyeonjunpark/쿼리-분리-VS-카테시안-곱-허용하기)
 - [테스트 커버리지는 과유불급인가 다다익선인가](https://velog.io/@hyeonjunpark/테스트-커버리지는-과유불급過猶不及인가-다다익선多多益善인가)
 - [나는-왜-jooq에-빠지게-됐을까](https://velog.io/@hyeonjunpark/나는-왜-jooq에-빠지게-됐을까)
+- [독바로는-어떻게-서버-모니터링을-진행할까](https://velog.io/@hyeonjunpark/독바로는-어떻게-서버-모니터링을-진행할까)
+- [스프링-시큐리티-쓸-때-왜-다들-필터에-몰빵하는거야](https://velog.io/@hyeonjunpark/스프링-시큐리티-쓸-때-왜-다들-필터에-몰빵하는거야)
