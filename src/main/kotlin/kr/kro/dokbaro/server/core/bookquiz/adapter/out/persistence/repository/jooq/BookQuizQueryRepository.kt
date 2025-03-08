@@ -143,7 +143,7 @@ class BookQuizQueryRepository(
 								),
 						).and(
 							BOOK_QUIZ.VIEW_SCOPE.eq(AccessScope.EVERYONE.name),
-						),
+						).and(BOOK_QUIZ.TEMPORARY.isFalse),
 				).groupBy(BOOK_QUIZ)
 				.orderBy(toBookQuizSummaryOrderQuery(pageOption), BOOK_QUIZ.ID)
 				.limit(pageOption.limit)
