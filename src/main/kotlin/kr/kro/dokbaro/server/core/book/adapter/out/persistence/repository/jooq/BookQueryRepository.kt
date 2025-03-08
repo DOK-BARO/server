@@ -51,10 +51,14 @@ class BookQueryRepository(
 				field(
 					selectCount()
 						.from(BOOK_QUIZ)
-						.where(BOOK_QUIZ.BOOK_ID.eq(BOOK.ID).and(BOOK_QUIZ.DELETED.isFalse))
-						.and(
-							BOOK_QUIZ.ID
-								.notIn(select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID).from(STUDY_GROUP_QUIZ)),
+						.where(
+							BOOK_QUIZ.BOOK_ID
+								.eq(BOOK.ID)
+								.and(BOOK_QUIZ.DELETED.isFalse)
+								.and(
+									BOOK_QUIZ.ID
+										.notIn(select(STUDY_GROUP_QUIZ.BOOK_QUIZ_ID).from(STUDY_GROUP_QUIZ)),
+								).and(BOOK_QUIZ.TEMPORARY.isFalse),
 						),
 				).`as`(BookRecordFieldName.QUIZ_COUNT),
 			).from(BOOK)
