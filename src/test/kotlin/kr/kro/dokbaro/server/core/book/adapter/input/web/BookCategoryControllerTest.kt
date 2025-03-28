@@ -1,25 +1,31 @@
 package kr.kro.dokbaro.server.core.book.adapter.input.web
 
 import com.ninjasquad.springmockk.MockkBean
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.extensions.spring.SpringExtension
 import io.mockk.every
+import kr.kro.dokbaro.server.configuration.annotation.RestDocsTest
+import kr.kro.dokbaro.server.configuration.docs.FieldType
 import kr.kro.dokbaro.server.configuration.docs.Path
-import kr.kro.dokbaro.server.configuration.docs.RestDocsTest
+import kr.kro.dokbaro.server.configuration.docs.RestDocsExecutor
 import kr.kro.dokbaro.server.core.book.application.port.input.CreateBookCategoryUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.FindAllBookCategoryUseCase
 import kr.kro.dokbaro.server.core.book.application.port.input.dto.CreateBookCategoryCommand
 import kr.kro.dokbaro.server.core.book.query.BookCategoryTree
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.restdocs.payload.JsonFieldType
-import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
-import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
-import org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath
-import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
-import org.springframework.restdocs.request.RequestDocumentation.queryParameters
+import org.springframework.http.HttpMethod
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+@RestDocsTest
 @WebMvcTest(BookCategoryController::class)
-class BookCategoryControllerTest : RestDocsTest() {
+class BookCategoryControllerTest : StringSpec() {
+	override fun extensions() = listOf(SpringExtension)
+
+	@Autowired
+	lateinit var mvc: MockMvc
+
 	@MockkBean
 	lateinit var createBookCategoryUseCase: CreateBookCategoryUseCase
 
@@ -46,45 +52,51 @@ class BookCategoryControllerTest : RestDocsTest() {
 					),
 				)
 
-			val param = mapOf("targetId" to "1")
-
-			performGet(Path("/book-categories"), param)
-				.andExpect(status().isOk)
-				.andDo(
-					print(
-						"book/find-book-category",
-						queryParameters(
-							parameterWithName("targetId").description("기준 ID (optional)").optional(),
-						),
-						responseFields(
-							fieldWithPath("id").type(JsonFieldType.NUMBER).description("ID"),
-							fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-							subsectionWithPath("details").type(JsonFieldType.ARRAY).description("세부 항목들"),
-						),
-					),
-				)
+			RestDocsExecutor(mvc, HttpMethod.GET, Path("/book-categories")) {
+				given {
+					parameters {
+						"targetId" to "1"
+					}
+				}
+				then {
+					expect { status().isOk }
+					queryParameters {
+						"targetId" means "기준 ID" optional true
+					}
+					responseFields {
+						"id" type FieldType.NUMBER means "ID"
+						"name" type FieldType.STRING means "이름"
+						"details" type FieldType.ARRAY(FieldType.OBJECT) means "세부 항목들"
+					}
+				}
+			}
 		}
 
 		"책 카테고리 생성을 수행한다" {
 			every { createBookCategoryUseCase.create(any(), any()) } returns 3
 
-			val command = CreateBookCategoryCommand("모바일", "mobile", 1)
-
-			performPost(Path("/book-categories"), command)
-				.andExpect(status().isCreated)
-				.andDo(
-					print(
-						"book/create-book-category",
-						requestFields(
-							fieldWithPath("koreanName").type(JsonFieldType.STRING).description("한국 이름"),
-							fieldWithPath("englishName").type(JsonFieldType.STRING).description("영어 이름"),
-							fieldWithPath("parentId").type(JsonFieldType.NUMBER).description("상위 카테고리 ID"),
-						),
-						responseFields(
-							fieldWithPath("id").type(JsonFieldType.NUMBER).description("saved ID"),
-						),
-					),
-				)
+			RestDocsExecutor(mvc, HttpMethod.POST, Path("/book-categories")) {
+				given {
+					body {
+						CreateBookCategoryCommand(
+							koreanName = "모바일",
+							englishName = "mobile",
+							parentId = 1,
+						)
+					}
+				}
+				then {
+					expect { status().isCreated }
+					requestFields {
+						"koreanName" type FieldType.STRING means "한국 이름"
+						"englishName" type FieldType.STRING means "영어 이름"
+						"parentId" type FieldType.NUMBER means "상위 카테고리 ID"
+					}
+					responseFields {
+						"id" type FieldType.NUMBER means "saved ID"
+					}
+				}
+			}
 		}
 	}
 }

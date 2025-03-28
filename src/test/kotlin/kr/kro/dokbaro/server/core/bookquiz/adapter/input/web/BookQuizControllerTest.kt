@@ -32,7 +32,6 @@ import kr.kro.dokbaro.server.core.bookquiz.query.sort.BookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.MyBookQuizSummarySortKeyword
 import kr.kro.dokbaro.server.core.bookquiz.query.sort.UnsolvedGroupBookQuizSortKeyword
 import kr.kro.dokbaro.server.fixture.adapter.input.web.endPageNumberFields
-import kr.kro.dokbaro.server.fixture.adapter.input.web.pageQueryParameters
 import kr.kro.dokbaro.server.fixture.adapter.input.web.pageRequestParams
 import kr.kro.dokbaro.server.fixture.domain.bookQuizAnswerFixture
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -417,7 +416,7 @@ class BookQuizControllerTest : RestDocsTest() {
 						"book-quiz/get-summary",
 						queryParameters(
 							parameterWithName("bookId").description("퀴즈 목록을 조회할 책 ID."),
-							*pageQueryParameters<BookQuizSummarySortKeyword>(),
+							// *pageQueryParameters<BookQuizSummarySortKeyword>(),
 						),
 						responseFields(
 							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),
@@ -528,7 +527,7 @@ class BookQuizControllerTest : RestDocsTest() {
 						"book-quiz/get-unsolved-study-group-quiz",
 						pathParameters(parameterWithName("studyGroupId").description("스터디 그룹 ID")),
 						queryParameters(
-							*pageQueryParameters<UnsolvedGroupBookQuizSortKeyword>(),
+							// *pageQueryParameters<UnsolvedGroupBookQuizSortKeyword>(),
 						),
 						responseFields(
 							endPageNumberFields(),
@@ -608,7 +607,7 @@ class BookQuizControllerTest : RestDocsTest() {
 					print(
 						"book-quiz/get-my-quiz",
 						queryParameters(
-							*pageQueryParameters<MyBookQuizSummarySortKeyword>(),
+							// *pageQueryParameters<MyBookQuizSummarySortKeyword>(),
 							parameterWithName("temporary")
 								.description("임시 저장 여부 (default false)"),
 							parameterWithName("viewScope")

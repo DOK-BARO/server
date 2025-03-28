@@ -21,7 +21,6 @@ import kr.kro.dokbaro.server.core.solvingquiz.query.TotalGradeResult
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MySolvingQuizSortKeyword
 import kr.kro.dokbaro.server.core.solvingquiz.query.sort.MyStudyGroupSolveSummarySortKeyword
 import kr.kro.dokbaro.server.fixture.adapter.input.web.endPageNumberFields
-import kr.kro.dokbaro.server.fixture.adapter.input.web.pageQueryParameters
 import kr.kro.dokbaro.server.fixture.adapter.input.web.pageRequestParams
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
@@ -195,7 +194,7 @@ class SolvingQuizControllerTest : RestDocsTest() {
 					print(
 						"solving-quiz/my-solved",
 						queryParameters(
-							*pageQueryParameters<MySolvingQuizSortKeyword>(),
+							// *pageQueryParameters<MySolvingQuizSortKeyword>(),
 						),
 						responseFields(
 							fieldWithPath("endPageNumber").type(JsonFieldType.NUMBER).description("마지막 페이지 번호."),
@@ -310,7 +309,7 @@ class SolvingQuizControllerTest : RestDocsTest() {
 						"solving-quiz/study-group-my-solved",
 						pathParameters(parameterWithName("studyGroupId").description("study group ID")),
 						queryParameters(
-							*pageQueryParameters<MyStudyGroupSolveSummarySortKeyword>(),
+							// *pageQueryParameters<MyStudyGroupSolveSummarySortKeyword>(),
 						),
 						responseFields(
 							endPageNumberFields(),

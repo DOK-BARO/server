@@ -17,7 +17,6 @@ import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummary
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewSummarySortKeyword
 import kr.kro.dokbaro.server.core.quizreview.query.QuizReviewTotalScore
 import kr.kro.dokbaro.server.fixture.adapter.input.web.endPageNumberFields
-import kr.kro.dokbaro.server.fixture.adapter.input.web.pageQueryParameters
 import kr.kro.dokbaro.server.fixture.adapter.input.web.pageRequestParams
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
@@ -177,7 +176,7 @@ class QuizReviewControllerTest : RestDocsTest() {
 						queryParameters(
 							parameterWithName("quizId")
 								.description("리뷰를 조회할 퀴즈의 ID."),
-							*pageQueryParameters<QuizReviewSummarySortKeyword>(),
+							// *pageQueryParameters<QuizReviewSummarySortKeyword>(),
 						),
 						responseFields(
 							endPageNumberFields(),

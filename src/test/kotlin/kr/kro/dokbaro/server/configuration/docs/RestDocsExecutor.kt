@@ -49,7 +49,7 @@ class RestDocsExecutor(
 		val action =
 			RestDocumentationRequestBuilders
 				.request(method, path.endPoint, *path.pathVariable)
-				.with(csrf())
+				.with(csrf().asHeader())
 				.contentType(givenBuilder.contentType)
 				.characterEncoding(givenBuilder.charset)
 				.apply {

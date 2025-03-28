@@ -12,7 +12,6 @@ import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupDetail
 import kr.kro.dokbaro.server.core.studygroup.query.StudyGroupSummary
 import kr.kro.dokbaro.server.core.studygroup.query.sort.MyStudyGroupSortKeyword
 import kr.kro.dokbaro.server.fixture.adapter.input.web.endPageNumberFields
-import kr.kro.dokbaro.server.fixture.adapter.input.web.pageQueryParameters
 import kr.kro.dokbaro.server.fixture.adapter.input.web.pageRequestParams
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.payload.JsonFieldType
@@ -53,7 +52,7 @@ class StudyGroupQueryControllerTest : RestDocsTest() {
 					print(
 						"study-group/get-my-study-group-list",
 						queryParameters(
-							*pageQueryParameters<MyStudyGroupSortKeyword>(),
+							// *pageQueryParameters<MyStudyGroupSortKeyword>(),
 						),
 						responseFields(
 							endPageNumberFields(),

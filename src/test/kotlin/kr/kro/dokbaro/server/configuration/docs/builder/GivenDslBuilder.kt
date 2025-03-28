@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets
 
 data class GivenDslBuilder(
 	var body: Any? = null,
-	var headers: StringPairDslBuilder = StringPairDslBuilder(),
+	val headers: StringPairDslBuilder = StringPairDslBuilder(),
 	val parameters: StringPairDslBuilder = StringPairDslBuilder(),
 	val cookies: StringPairDslBuilder = StringPairDslBuilder(),
 	var contentType: MediaType = MediaType.APPLICATION_JSON,
@@ -17,11 +17,20 @@ data class GivenDslBuilder(
 		return this
 	}
 
-	fun headers(block: StringPairDslBuilder.() -> Unit): GivenDslBuilder = this
+	fun headers(block: StringPairDslBuilder.() -> Unit): GivenDslBuilder {
+		headers.apply(block)
+		return this
+	}
 
-	fun parameters(block: StringPairDslBuilder.() -> Unit): GivenDslBuilder = this
+	fun parameters(block: StringPairDslBuilder.() -> Unit): GivenDslBuilder {
+		parameters.apply(block)
+		return this
+	}
 
-	fun cookies(block: StringPairDslBuilder.() -> Unit): GivenDslBuilder = this
+	fun cookies(block: StringPairDslBuilder.() -> Unit): GivenDslBuilder {
+		cookies.apply(block)
+		return this
+	}
 
 	fun contentType(block: () -> MediaType): GivenDslBuilder {
 		contentType = block.invoke()
